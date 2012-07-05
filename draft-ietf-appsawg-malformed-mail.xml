@@ -143,7 +143,7 @@
 			    best advised to adhere strictly to the relevant
 			    standards (including, but not limited to,
 			    <xref target="MAIL"/>, <xref target="MIME"/>,
-			    and <xref target="DKIM">), as well as observe
+			    and <xref target="DKIM"/>), as well as observe
 			    other industry best practices such as may be
 			    published either by the IETF or independently from
 			    time to time. </t>
