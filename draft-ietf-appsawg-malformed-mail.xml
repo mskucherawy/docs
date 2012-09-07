@@ -19,6 +19,7 @@
 
 	<author initials="M. S." surname="Kucherawy"
 	        fullname="Murray S. Kucherawy">
+<!-- GNS: Murray's contact info needs updating -->
 		<organization>Cloudmark, Inc.</organization>
 
 		<address>
@@ -61,15 +62,16 @@
 		    document is not to standardize malformations or otherwise
 		    encourage their proliferation.  The messages are
 		    manifestly malformed, and the code and culture that
-		    generates them needs to be fixed.  Nevertheless, many
-		    malformed messages from otherwise legitimate senders are
-		    in circulation and will be for some time, and,
-		    unfortunately, commercial reality shows that we
-		    cannot simply reject or discard them.  Accordingly,
-		    this document presents recommendations for dealing with
-		    them in ways that seem to do the least additional
-		    harm until the infrastructure is tightened up to match
-		    the standards. </t>
+		    generates them needs to be fixed.  Therefore, these
+		    messages should be rejected outright if at all possible.
+		    Nevertheless, many malformed messages from otherwise
+		    legitimate senders are in circulation and will be for
+		    some time, and, unfortunately, commercial reality shows
+		    that we cannot always simply reject or discard them.
+		    Accordingly, this document presents alternatives for
+		    dealing with them in ways that seem to do the least
+		    additional harm until the infrastructure is tightened up
+		    to match the standards. </t>
 	</abstract>
 </front>
 
@@ -145,8 +147,8 @@
 			    <xref target="MAIL"/>, <xref target="MIME"/>,
 			    and <xref target="DKIM"/>), as well as observe
 			    other industry best practices such as may be
-			    published either by the IETF or independently from
-			    time to time. </t>
+			    published from time to time either by the IETF or
+			    independently. </t>
 		</section>
 	</section>
 
@@ -217,7 +219,7 @@
 		    other agent alters the content for some reason.  The user,
 		    on viewing the delivered content, reports the message as
 		    abusive.  If the report is based on the set of properties
-		    recorded at ingress, then the compliant effectively
+		    recorded at ingress, then the complaint effectively
 		    references a message different from what the user saw,
 		    which could render the complaint inactionable.  Similarly,
 		    a message with properties that a filtering agent might use
@@ -312,7 +314,7 @@
 
 			<section anchor="angle"
 			         title="Excessive Angle Brackets">
-				<t> The following over-use of angle brackets:
+				<t> The following over-use of angle brackets, e.g.:
 
 				    <figure><artwork>
     To: &lt;&lt;&lt;user2@example.org&gt;&gt;&gt;
@@ -321,7 +323,7 @@
 				<t> should be interpreted as:
 
 				    <figure><artwork>
-    To: "&lt;&lt;" &lt;user2@example.org&gt;
+    To: &lt;user2@example.org&gt;
 				    </artwork></figure> </t>
 			</section>
 
@@ -370,7 +372,7 @@
 				    </artwork></figure> </t>
 
 				<t> should be interpreted as:
-
+<!-- GNS: Although sendmail does this today, is it the right interpretation? -->
 				    <figure><artwork>
     To: "Joe &lt;joe@example.com&gt;"@example.net
 				    </artwork></figure> </t>
@@ -448,9 +450,15 @@
 			    content to an end user, implements option 1 or 3,
 			    which has some undesirable effect. </t>
 
-			<t> The preferred implementation is to apply the
-			    following heuristic when this malformation is
-			    detected:
+			<t> It should be noted that a few implementations
+			    choose option 4 above since any reputable message
+			    generation program will get header folding right,
+			    and thus anything so blatant as this malformation
+			    is likely an error caused by a malefactor. </t>
+
+			<t> The preferred implementation if option 4 above is
+			    not employed is to apply the following heuristic
+			    when this malformation is detected:
 
 			    <list style="numbers">
 				<t> Search forward for an empty line.  If one
@@ -463,12 +471,6 @@
 				    found, then apply option 3 above to the
 				    anomalous line, and continue. </t>
 			    </list> </t>
-
-			<t> It should be noted that a few implementations
-			    choose option 4 above since any reputable message
-			    generation program will get header folding right,
-			    and thus anything so blatant as this malformation
-			    is likely an error caused by a malefactor. </t>
 		</section>
 
 		<section anchor="spacing" title="Unusual Spacing">
@@ -591,6 +593,7 @@
 				    output; </t>
 
 				<t> alter the name of any header field 
+<!-- GNS: The doc should say how it should be altered -->
 				    whose presence exceeds a limit prescribed
 				    in Section 3.6 of
 				    <xref target="MAIL"/> when generating its
@@ -635,6 +638,8 @@
 			    From.  Handling agents SHOULD add these for
 			    internal hanlding if they are missing, but MUST
 			    NOT add them to the external representation. </t>
+<!-- GNS: Message-Id: is another frequently missing one -->
+<!-- GNS: Should the doc give advice as to what to use for internal value for these (e.g., current date?  Date from first Received: header?  For From, envelope sender?) -->
 		</section>
 
 		<section anchor="8bit" title="Eight-Bit Data">
@@ -659,6 +664,7 @@
 			    null bytes that are not encoded in some standard
 			    way, and SHOULD reject other non-ASCII bytes that
 			    are similarly not encoded. </t>
+<!-- GNS: If they don't reject non-ASCII bytes, what do they do, pass on? encode? -->
 		</section>
 	</section>
 
@@ -704,6 +710,7 @@
 
 			<t> If rejection of such messages cannot be done,
 			    agents SHOULD treat line {7} as part of the
+<!-- GNS: MUST ? -->
 			    message's header block and not a MIME
 			    boundary. </t>
 		</section>
@@ -765,6 +772,7 @@
 			    example, breaking an oversized line such that a
 			    <xref target="URI"/> then spans two lines could
 			    prevent the proper identification of that URI. </t>
+<!-- GNS: Antoher alternative is to have the agent rewrite the MIME part (or entire message if not MIME) that contains the overly long line using a content encoding that breaks the line in the transmission but would still be rendered properly when viewed by an MUA.  E.g., change "...overly long line..." to quoted-printable "...overly lo=" <CRLF> "ng line..." -->
 		</section>
 	</section>
 
