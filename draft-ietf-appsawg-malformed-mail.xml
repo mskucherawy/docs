@@ -19,22 +19,13 @@
 
 	<author initials="M. S." surname="Kucherawy"
 	        fullname="Murray S. Kucherawy">
-<!-- GNS: Murray's contact info needs updating -->
-		<organization>Cloudmark, Inc.</organization>
 
 		<address>
-			<postal>
-				<street>128 King St., 2nd Floor</street>
-				<city>San Francisco</city>
-				<region>CA</region>
-				<code>94107</code>
-				<country>US</country>
-			</postal>
-
-			<phone>+1 415 946 3800</phone>
-			<email>msk@cloudmark.com</email>
+			<email>superuser@gmail.com</email>
 		</address>
 	</author>
+
+<!-- MSK: GNS needs to add himself as co-author -->
 
 	<date year="2012"/>
 
@@ -372,7 +363,6 @@
 				    </artwork></figure> </t>
 
 				<t> should be interpreted as:
-<!-- GNS: Although sendmail does this today, is it the right interpretation? -->
 				    <figure><artwork>
     To: "Joe &lt;joe@example.com&gt;"@example.net
 				    </artwork></figure> </t>
@@ -593,12 +583,15 @@
 				    output; </t>
 
 				<t> alter the name of any header field 
-<!-- GNS: The doc should say how it should be altered -->
 				    whose presence exceeds a limit prescribed
 				    in Section 3.6 of
 				    <xref target="MAIL"/> when generating its
 				    output so that later agents can produce a
-				    consistent result. </t>
+				    consistent result.  Any alteration likely
+				    to cause the field to be ignored by
+				    downstream agents is acceptable.  A common
+				    approach is to prefix the field names
+				    with a string such as "BAD-". </t>
 			    </list> </t>
 		</section>
 
@@ -637,9 +630,14 @@
 			    of fields that are required, most notably Date and 
 			    From.  Handling agents SHOULD add these for
 			    internal hanlding if they are missing, but MUST
-			    NOT add them to the external representation. </t>
-<!-- GNS: Message-Id: is another frequently missing one -->
-<!-- GNS: Should the doc give advice as to what to use for internal value for these (e.g., current date?  Date from first Received: header?  For From, envelope sender?) -->
+			    NOT add them to the external representation. 
+			    The synthesized fields SHOULD contain a best
+			    guess as to what should have been there; for From,
+			    the SMTP MAIL command's address can be used
+			    (if not null) or a placeholder address followed
+			    by an address literal (e.g., unknown@[192.0.2.1]);
+			    for Date, a date extracted from a Received field
+			    is a reasonable choice. </t>
 		</section>
 
 		<section anchor="8bit" title="Eight-Bit Data">
@@ -663,8 +661,10 @@
 			<t> Handling agents MUST reject messages containing
 			    null bytes that are not encoded in some standard
 			    way, and SHOULD reject other non-ASCII bytes that
-			    are similarly not encoded. </t>
-<!-- GNS: If they don't reject non-ASCII bytes, what do they do, pass on? encode? -->
+			    are similarly not encoded.  If rejection is not
+			    done, an ASCII-compatible encoding such as those
+			    defined in <xref target="MIME"/> SHOULD be
+			    used. </t>
 		</section>
 	</section>
 
@@ -704,13 +704,12 @@
 			    </artwork></figure> </t>
 
 			<t> One implementation could observe that line {7}
-			    is the beginning of the first MIME part while
-			    another considers it a part of the message's
+			    announces the beginning of the first MIME part
+			    while another considers it a part of the message's
 			    header. </t>
 
 			<t> If rejection of such messages cannot be done,
-			    agents SHOULD treat line {7} as part of the
-<!-- GNS: MUST ? -->
+			    agents MUST treat line {7} as part of the
 			    message's header block and not a MIME
 			    boundary. </t>
 		</section>
@@ -766,13 +765,28 @@
 			    and reject them, or rewrite the oversized line
 			    such that the message is compliant. </t>
 
-			<t> Handling agents MUST break such lines into
-			    multiple lines at a position that does not change
-			    the semantics of the text being thus altered.  For
-			    example, breaking an oversized line such that a
-			    <xref target="URI"/> then spans two lines could
-			    prevent the proper identification of that URI. </t>
-<!-- GNS: Antoher alternative is to have the agent rewrite the MIME part (or entire message if not MIME) that contains the overly long line using a content encoding that breaks the line in the transmission but would still be rendered properly when viewed by an MUA.  E.g., change "...overly long line..." to quoted-printable "...overly lo=" <CRLF> "ng line..." -->
+			<t> Handling agents MUST take one of the following
+			    actions:
+
+			    <list style="numbers">
+				<t> Break such lines into multiple lines at
+				    a position that does not change the
+				    semantics of the text being thus altered.
+				    For example, breaking an oversized line
+				    such that a <xref target="URI"/> then
+				    spans two lines could inhibit the proper
+				    identification of that URI. </t>
+
+				<t> Rewrite the MIME part (or the entire
+				    message if not MIME) that contains the
+				    excessively long line using a content
+				    encoding that breaks the line in the
+				    transmission but would still result in
+				    the line being intact on decoding for
+				    presentation to the user.  Both of the
+				    encodings declared in <xref target="MIME"/>
+				    can accomplish this. </t>
+			    </list> </t>
 		</section>
 	</section>
 
@@ -780,8 +794,9 @@
 		<t> The discussions of the anomalies above and their
 		    prescribed solutions are themselves security
 		    considerations.  The practises enumerated in this memo
-		    are generally perceived to resolve security considerations
-		    that already exist rather than introducing new ones. </t>
+		    are generally perceived as attempts to resolve security
+		    considerations that already exist rather than introducing
+		    new ones. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
