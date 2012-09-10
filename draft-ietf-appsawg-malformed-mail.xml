@@ -25,7 +25,13 @@
 		</address>
 	</author>
 
-<!-- MSK: GNS needs to add himself as co-author -->
+	<author initials="G. S." surname="Shapiro"
+	        fullname="Gregory N. Shapiro">
+
+		<address>
+			<email>gshapiro@sendmail.com</email>
+		</address>
+	</author>
 
 	<date year="2012"/>
 
