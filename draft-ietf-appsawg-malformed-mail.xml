@@ -652,7 +652,19 @@
 			    external rpresentation, since many deployed tools
 			    use the content of that field as a common unique
 			    message reference, so its absence inhibits
-			    correlation of message processing. </t>
+			    correlation of message processing. One possible
+			    synthesis would be based on based on an encoding of
+			    the current date/time and an internal MTA ID (e.g.,
+			    queue ID) followed by @ and the fully qualified
+			    hostname of the machine synthesizing the header value.
+			    For example:
+
+			    <figure><artwork>
+    tm = gmtime(&now);
+    (void) snprintf(buf, sizeof(buf), "%04d%02d%02d%02d%02d.%s@%s",
+                    tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
+                    tm->tm_hour, tm->tm_min, queueID, fqhn);
+			    </artwork></figure> </t>
 		</section>
 
 		<section anchor="8bit" title="Eight-Bit Data">
