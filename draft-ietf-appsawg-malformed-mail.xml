@@ -605,36 +605,21 @@
 			<t> Similar to the previous section, there are
 			    messages seen in the wild that lack certain
 			    required header fields.  For example,
-			    <xref target="MAIL"/> requires that a To field
-			    be present in all messages.  When presented with
-			    a message lacking a To field, some MTAs might do
-			    one of the following:
+			    <xref target="MAIL"/> requires that a From and
+			    Date field be present in all messages. </t>
+
+			<t> When presented with a message lacking these fields,
+			    the MTA might one of the following:
 
 			    <list style="numbers">
 				<t> Make no changes </t>
 
-				<t> Add a To field with a neutral value,
-				    such as "undisclosed-recipients:;" </t>
-
-				<t> Add a non-standard header field, such
-				    as Apparently-To, that contains the list
-				    of <xref target="SMTP"/> recipients </t>
-
-				<t> Add a To field that contains the list
-				    of <xref target="SMTP"/> recipients </t>
+				<t> Add an instance of the missing field(s)
+				    using synthesized content </t>
 			    </list> </t>
 
-			<t> Options 3 and 4 above risk exposing private
-			    information, such as blind carbon copy (Bcc)
-			    recipients.  Further, option 3 still leaves the
-			    message in a non-compliant state. </t>
-
 			<t> Option 2 is RECOMMENDED for handling this
-			    case. </t>
-
-			<t> Other missing field anomalies include the absence
-			    of fields that are required, most notably Date and 
-			    From.  Handling agents SHOULD add these for
+			    case  Handling agents SHOULD add these for
 			    internal hanlding if they are missing, but MUST
 			    NOT add them to the external representation. 
 			    The synthesized fields SHOULD contain a best
@@ -1108,7 +1093,7 @@
    		<t> The author wishes to acknowledge the following for their
 		    review and constructive criticism of this proposal:
 		    Tony Hansen, and
-		    Gregory Shapiro
+		    Franck Martin
                     </t>
 	</section>
 
