@@ -609,7 +609,7 @@
 			    Date field be present in all messages. </t>
 
 			<t> When presented with a message lacking these fields,
-			    the MTA might one of the following:
+			    the MTA might perform one of the following:
 
 			    <list style="numbers">
 				<t> Make no changes </t>
