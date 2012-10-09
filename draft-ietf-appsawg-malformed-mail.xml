@@ -622,7 +622,14 @@
 			    case.  Handling agents SHOULD add these for
 			    internal hanlding if they are missing, but MUST
 			    NOT add them to the external representation. 
-			    The synthesized fields SHOULD contain a best
+			    The reason for this requirement is that there
+			    are some filter modules that would consider the
+			    absence of such fields to be a condition warranting
+			    special treatment (e.g., rejection), and thus the
+			    effectiveness of such modules would be stymied by
+			    an upstream filter adding them. </t>
+
+			<t> The synthesized fields SHOULD contain a best
 			    guess as to what should have been there; for From,
 			    the SMTP MAIL command's address can be used
 			    (if not null) or a placeholder address followed
@@ -641,8 +648,8 @@
 			    synthesis would be based on based on an encoding of
 			    the current date/time and an internal MTA ID (e.g.,
 			    queue ID) followed by @ and the fully qualified
-			    hostname of the machine synthesizing the header value.
-			    For example:
+			    hostname of the machine synthesizing the header
+			    value.  For example:
 
 			    <figure><artwork>
     tm = gmtime(&now);
