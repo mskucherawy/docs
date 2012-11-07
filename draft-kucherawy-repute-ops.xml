@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<rfc ipr="trust200902" category="info"
+        docName="draft-kucherawy-repute-ops-00">
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc strict="no" ?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="Reputation Operations">
+		Operational Considerations Regarding Reputation Services
+	</title>
+
+	<author initials="M. S." surname="Kucherawy"
+	        fullname="Murray S. Kucherawy">
+
+		<address>
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<date year="2012"/>
+
+	<area>Applications</area>
+	<workgroup>REPUTE</workgroup>
+
+	<abstract>
+		<t> The use of reputation systems is has become a common tool
+		    in many applications that seek to apply collected
+		    intelligence about traffic sources.  Often this is done
+		    because it is common or even expected operator practice.
+		    It is therefore important to be aware of a number of
+		    considerations for both operators and consumers of the
+		    data.  </t>
+
+		<t> This document includes a collection of the best advice
+		    available regarding providers and consumers of reputation
+		    data, based on experience to date.  Much of this is based
+		    on experience with email reputation systems, but the
+		    concepts are generally applicable. </t>
+	</abstract>
+</front>
+
+<middle>
+	<section anchor="intro" title="Introduction">
+		<t> Reputation services involve collecting feedback from
+		    the community about sources of Internet traffic and
+		    aggregating that feedback into a rating of some kind.
+		    Common examples include feedback about traffic associated
+		    with specific email addresses, URIs or parts of URIs, IP
+		    addresses, etc.  The specific collection, analysis, and
+		    rating methods vary from one service to the next and one
+		    problem domain to the next, but several operational
+		    concepts appear to be common to all of these. </t>
+
+		<t> The promise of the protection reputation services offers
+		    can be enticing, and many users and operators alike
+		    typically engage those services merely because it is
+		    expected of them.  A critical notion, however, is that
+		    doing so implicitly involves a third party in the flow of
+		    data those parties receive.  This is often taken for
+		    granted, with potentially disastrous results. </t>
+
+		<t> This document highlights this and other considerations
+		    related to both operation of and consumption of reputation
+		    data services. </t>
+	</section>
+
+	<section anchor="background" title="Background">
+		<t> The community has historically focused on identifying
+		    sources that typically misbehave, i.e., that earn
+		    negative reputations.  The purpose here is to identify
+		    and filter traffi from bad actors.  This grew out of
+		    operational need.  As the Internet grew, so did the
+		    occurence of problematic traffic, especially in email.
+		    The pragmatics of email (i.e., the fact that the total
+		    IP address space is more constrained than the total
+		    email address space) drove the focus on using IP 
+		    addresses as the focus of reputation. </t>
+
+		<t> A specific example of a reputation service in common use
+		    in the email space is the DNS blacklist
+		    <xref target="DNSBL"/>.  This is a method of asking a
+		    database, whose interface is the Domain Name System
+		    <xref target="DNS"/>, whether an IP address (which is the
+		    source of an incoming email <xref target="SMTP"/>
+		    connection) should be allowed to relay email traffic
+		    based on previous observations and feedback.
+		    <xref target="DNSBL"/> includes several points in its
+		    Security Considerations document that are repeated and
+		    further developed here. </t>
+
+		<t> However, regardless of the identifier used as the focus
+		    of computing a reputation, bad actors can evade detection
+		    or the impacts of their observed behavior by changing
+		    identities (e.g., move to a new IP address, register a
+		    new domain name, use a sub-domain).  This makes the
+		    problem space effectively boundless, especially as IPv6
+		    rolls out. </t>
+	</section>
+
+	<section anchor="evolution" title="Evolution">
+		<t> More modern thinking is evolving in the direction of
+		    focusing instead on sources that can be identified as
+		    being good actors, and giving them preferential treatment.
+		    This drastically reduces the problem space: When comparing
+		    the number of observed IP addresses and email addresses
+		    that have sent desirable traffic versus those that have
+		    been used by bad actors, the latter is vastly larger than
+		    the former. </t>
+
+		<t> Moreover, good actors tend to be represented by stable
+		    names and addresses, allowing users to rely on these to
+		    identify and give preferential treatment to their
+		    traffic.  Good actors have no need to hop around to
+		    different addresses, and already work to keep their
+		    traffic clean. </t>
+
+		<t> This notion has only been tried to date using manually
+		    edited whitelists, but has shown promising results on
+		    that scale. </t>
+	</section>
+
+	<section anchor="clients" title="Reputation Clients">
+		<t> understand that you are granting a third party the
+		    ability to affect your incoming traffic, for better
+		    or worse </t>
+
+		<t> this is the point, of course, when everything works
+		    properly </t>
+
+		<t> some cases have occurred where a reputation service
+		    provider (RSP) shut down operation, and to encourage
+		    consumers to stop querying, it began reporting a maximal
+		    negative reputation about all subjects, causing rejection
+		    of all incoming traffic during the incident period </t>
+
+		<t> reputation providers will be the subject of attacks when
+		    it's understod that sucess doing so will allow malicious
+		    content to evade detection and filtering </t>
+
+		<t> understand that clients will try to game the service, which
+		    means that a reputation service is inherently fragile.  for
+		    operational clients, this should prompt balanced and
+		    comparative, rather than unilateral, use of the service </t>
+
+		<t> try to learn the following things about your RSP,
+		    to understand your exposure potential:
+		    <list style="symbols">
+	    		<t> their basis for listing or not listing
+			    particular subjects </t>
+	    		<t> how the provider collects data about subjects </t>
+		    	<t> how many data points are input to the reported
+			    reputation </t>
+		    	<t> is reputation based on a reliable identifier? </t>
+		    	<t> how it etablishes reliability and authenticity
+			    of those data </t>
+		    	<t> how data validity is maintained </t>
+		    	<t> how actively data validity is tracked (e.g., how
+			    changes are detected) </t>
+		    	<t> how disputed reputations are handled </t>
+		    	<t> how data expire </t>
+		    	<t> is older information more or less influential than
+			    newer? </t>
+		    	<t> is the reported reputation a scalar, a Boolean
+			    value, a collection of values, or something
+			    else? </t>
+		    	<t> when transitioning among RSPs, determine the
+			    differences between them among these above
+			    points; that is, does a particular score from
+			    one mean the same thing from the other? </t>
+		    </list> </t>
+
+		<t> ensure the capability of local overrides for cases where
+		    the client expects to disagree with the reported
+		    reputation </t>
+
+		<t> be able limit the impact of a negative reputation on
+		    content acceptance; for example, rather than rejecting
+		    content outright when a negative reputation is returned,
+		    simply subject it to additional local analyis  </t>
+
+		<t> have a sensible default to apply when the RSP is not
+		    available </t>
+
+		<t> consider tailoring operation to prefer or emphasize
+		    content whose sources have positive reputations; recall
+		    that negative reputations are easy to shed, and the
+		    universe of things that will earn and maintain positive
+		    reputations is relatively small </t>
+
+		<t> consider querying and cross-referencing multiple RSPs;
+		    this helps to detect which are reliable, and offsets
+		    the impact of anomalous replies </t>
+	</section>
+
+	<section anchor="servers" title="Reputation Service Providers">
+		<t> make the answers to the questions in
+		    <xref target="clients"/> available on demand to
+		    consumers </t>
+
+		<t> base reputations on reliable identifiers, i.e., something
+		    difficult to forge </t>
+
+		<t> it is important to have a transparent remediation process
+		    for disputes of computed reputations </t>
+
+		<t> provide details in the returned result about how the result
+		    was reached, allowing the client to decide if the result
+		    should be applied, such as:
+		    <list style="symbols">
+			<t> the result itself </t>
+
+			<t> the number of data points used to compute the
+			    result </t>
+
+			<t> the age range of the data </t>
+
+			<t> source diversity of the input data </t> 
+
+			<t> currency of the result (i.e., when it was
+			    computed) </t>
+
+			<t> basis of the result (i.e., which identifier was
+			    used) </t>
+		    </list> </t>
+
+		<t> harden systems and algorithms as much as practicable
+		    against gaming or data poisoning; larger source
+		    diversities are harder to overcome with poisoned
+		    input, but are expensive to build </t>
+
+		<t> systems based on positive reputations are promising since
+		    positive reputations, if made difficult to earm put a large
+		    cost on bad actors </t>
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+		<t> Several points are raised above that can be described
+		    as threats to the delivery of valid user data.  This
+		    document highlights and discusses those issues, but
+		    introduces no new security issues. </t>
+	</section>
+
+	<section anchor="iana" title="IANA Considerations">
+		<t> This memo contains no actions for IANA. </t>
+
+		<t> [RFC Editor: Please remove this section prior to
+		    publication.] </t>
+	</section>
+</middle>
+
+<back>
+	<references title="Informative References">
+		<reference anchor="DNS">
+			<front>
+				<title> Domain Names -- Concepts and Facilities
+				        </title>
+				<author initials="P." surname="Mockapetris"
+					fullname="P. Mockapetris">
+					<organization>
+						ISI
+					</organization>
+				</author>
+
+				<date month="November" year="1987" />
+			</front>
+
+			<seriesInfo name="RFC" value="1034" />
+		</reference>
+
+		<reference anchor="DNSBL">
+			<front>
+				<title> DNS Blacklists and Whitelists
+				        </title>
+				<author initials="J." surname="Levine"
+					fullname="J. Levine">
+					<organization>
+						Taughannock Networks
+					</organization>
+				</author>
+
+				<date month="February" year="2010" />
+			</front>
+
+			<seriesInfo name="RFC" value="5782" />
+		</reference>
+
+		<reference anchor="SMTP">
+			<front>
+				<title>Simple Mail Transfer Protocol</title>
+
+				<author
+					fullname="J. Klensin"
+					initials="J."
+					surname="Klensin">
+					<organization></organization>
+				</author>
+
+				<date month="October" year="2008"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="5321"></seriesInfo>
+		</reference>
+	</references>
+
+	<section anchor="thanks" title="Acknowledgements">
+   		<t> The author wishes to acknowledge the following for their
+		    review and constructive criticism of this proposal:
+		    (names)
+                    </t>
+	</section>
+
+</back>
+
+</rfc>
