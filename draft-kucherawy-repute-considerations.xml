@@ -36,13 +36,11 @@
 		    because it is common or even expected operator practice.
 		    It is therefore important to be aware of a number of
 		    considerations for both operators and consumers of the
-		    data.  </t>
-
-		<t> This document includes a collection of the best advice
-		    available regarding providers and consumers of reputation
-		    data, based on experience to date.  Much of this is based
-		    on experience with email reputation systems, but the
-		    concepts are generally applicable. </t>
+		    data.  This document includes a collection of the best
+		    advice available regarding providers and consumers of
+		    reputation data, based on experience to date.  Much of
+		    this is based on experience with email reputation systems,
+		    but the concepts are generally applicable. </t>
 	</abstract>
 </front>
 
@@ -58,61 +56,63 @@
 		    problem domain to the next, but several operational
 		    concepts appear to be common to all of these. </t>
 
-		<t> The promise of the protection reputation services offers
-		    can be enticing, and many users and operators alike
+		<t> The promise of the protection that reputation services
+		    offers can be enticing, and many users and operators alike
 		    typically engage those services merely because it is
 		    expected of them.  A critical notion, however, is that
-		    doing so implicitly involves a third party in the flow of
+		    doing so explicitly involves a third party in the flow of
 		    data those parties receive.  This is often taken for
 		    granted, with potentially disastrous results. </t>
 
 		<t> This document highlights this and other considerations
-		    related to both operation of and consumption of reputation
-		    data services. </t>
+		    in providing and consuming reputation data services. </t>
 	</section>
 
 	<section anchor="background" title="Background">
 		<t> The community has historically focused on identifying
-		    sources that typically misbehave, i.e., that earn
+		    sources that misbehave, i.e., that earn
 		    negative reputations.  The purpose here is to identify
-		    and filter traffi from bad actors.  This grew out of
+		    and filter traffic from bad actors.  This grew out of
 		    operational need.  As the Internet grew, so did the
 		    occurence of problematic traffic, especially in email.
 		    The pragmatics of email (i.e., the fact that the total
 		    IP address space is more constrained than the total
 		    email address space) drove the focus on using IP 
-		    addresses as the focus of reputation. </t>
+		    addresses as the focus of reputation, in addition to
+		    the fact that IP addresses have a degree of validation
+		    (via the TCP/IP infrastructure) where email addresses
+		    have had none. </t>
 
 		<t> A specific example of a reputation service in common use
 		    in the email space is the DNS blacklist
-		    <xref target="DNSBL"/>.  This is a method of asking a
-		    database, whose interface is the Domain Name System
-		    <xref target="DNS"/>, whether an IP address (which is the
-		    source of an incoming email <xref target="SMTP"/>
-		    connection) should be allowed to relay email traffic
-		    based on previous observations and feedback.
+		    <xref target="DNSBL"/>.  This is a method of querying a
+		    database as to whether a source of incoming 
+		    <xref target="SMTP"/> email traffic should be allowed to
+		    relay email, based on previous observations and feedback.
+		    The method uses the IP address of the source as the basis
+		    for a query to the database using the Domain Name System
+		    <xref target="DNS"/> as the interface.
 		    <xref target="DNSBL"/> includes several points in its
 		    Security Considerations document that are repeated and
 		    further developed here. </t>
 
-		<t> However, regardless of the identifier used as the focus
-		    of computing a reputation, bad actors can evade detection
-		    or the impacts of their observed behavior by changing
-		    identities (e.g., move to a new IP address, register a
+		<t> However, regardless of the identifier used as the
+		    identifier for a reputation, bad actors can evade detection
+		    or the effects of their observed behavior by changing
+		    identifiers (e.g., move to a new IP address, register a
 		    new domain name, use a sub-domain).  This makes the
 		    problem space effectively boundless, especially as IPv6
 		    rolls out. </t>
 	</section>
 
 	<section anchor="evolution" title="Evolution">
-		<t> More modern thinking is evolving in the direction of
-		    focusing instead on sources that can be identified as
-		    being good actors, and giving them preferential treatment.
-		    This drastically reduces the problem space: When comparing
-		    the number of observed IP addresses and email addresses
-		    that have sent desirable traffic versus those that have
-		    been used by bad actors, the latter is vastly larger than
-		    the former. </t>
+		<t> More modern thinking is evolving toward the identification
+		    of good actors rather than bad actors, and giving them
+		    preferential treatment.  This drastically reduces the
+		    problem space: There are vastly more IP addresses and email
+		    addresses used by bad actors to generate problematic
+		    traffic than are used by good actors to generate
+		    desirable traffic. </t>
 
 		<t> Moreover, good actors tend to be represented by stable
 		    names and addresses, allowing users to rely on these to
@@ -141,26 +141,32 @@
 		    of all incoming traffic during the incident period </t>
 
 		<t> reputation providers will be the subject of attacks when
-		    it's understod that sucess doing so will allow malicious
-		    content to evade detection and filtering </t>
+		    it's understood that sucess doing so will allow malicious
+		    content to evade detection and filtering; clients need
+		    to be aware of possible interruptions in service
+		    availability or quality </t>
 
-		<t> understand that clients will try to game the service, which
-		    means that a reputation service is inherently fragile.  for
-		    operational clients, this should prompt balanced and
-		    comparative, rather than unilateral, use of the service </t>
+		<t> understand that some actors will try to game the service,
+		    which means that a reputation service is inherently
+		    fragile; for operational clients, this should prompt
+		    balanced and comparative, rather than unilateral, use
+		    of the service </t>
 
 		<t> try to learn the following things about your RSP,
 		    to understand your exposure potential:
 		    <list style="symbols">
 	    		<t> their basis for listing or not listing
 			    particular subjects </t>
+			<t> if an RSP is paid by its listees, what are the
+			    rate and criteria for rejection? </t>
 	    		<t> how the provider collects data about subjects </t>
 		    	<t> how many data points are input to the reported
 			    reputation </t>
 		    	<t> is reputation based on a reliable identifier? </t>
 		    	<t> how it etablishes reliability and authenticity
 			    of those data </t>
-		    	<t> how data validity is maintained </t>
+		    	<t> how data validity is maintained (e.g., on-going
+			    monitoring of the reported data and sources) </t>
 		    	<t> how actively data validity is tracked (e.g., how
 			    changes are detected) </t>
 		    	<t> how disputed reputations are handled </t>
@@ -196,7 +202,7 @@
 
 		<t> consider querying and cross-referencing multiple RSPs;
 		    this helps to detect which are reliable, and offsets
-		    the impact of anomalous replies </t>
+		    the effect of anomalous replies </t>
 	</section>
 
 	<section anchor="servers" title="Reputation Service Providers">
@@ -204,15 +210,15 @@
 		    <xref target="clients"/> available on demand to
 		    consumers </t>
 
-		<t> base reputations on reliable identifiers, i.e., something
+		<t> base reputations on accurate identifiers, i.e., something
 		    difficult to forge </t>
 
 		<t> it is important to have a transparent remediation process
 		    for disputes of computed reputations </t>
 
-		<t> provide details in the returned result about how the result
-		    was reached, allowing the client to decide if the result
-		    should be applied, such as:
+		<t> provide the ability to request details in the returned
+		    result about how the result was reached, allowing the
+		    client to decide if the result should be applied, such as:
 		    <list style="symbols">
 			<t> the result itself </t>
 
