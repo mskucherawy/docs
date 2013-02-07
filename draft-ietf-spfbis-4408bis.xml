@@ -224,7 +224,7 @@
           can be as much as 30 days.
         </t>
       </section>
-      <section title="Checking Authorization">
+      <section title="Checking Authorization" anchor="checkauth">
         <t>
           A mail receiver can perform a set of SPF checks for each mail
           message it receives.  An SPF check tests the authorization of a
@@ -858,7 +858,7 @@ name             = ALPHA *( ALPHA / DIGIT / "-" / "_" / "." )
           syntactically invalid per <xref target="RFC1035"/>, such as names
           with empty labels (e.g., "foo..example.com") or overlong labels
           (more than 63 characters).  Some implementations choose to treat as
-          a no-match mechanisms, and ignore modifiers, with such names,
+          a no-match mechanisms, and ignore modifiers with such names,
           whereas others return a "permerror" exception. The outcome for an
           unexpected domain-spec without macros might even differ from that
           for an unexpected target-name after macro expansion.
@@ -1415,10 +1415,13 @@ explanation      = "exp" "=" domain-spec
       </section>
     </section>
     <section title="Macros" anchor="macros">
-      <section title="Macro Definitions">
         <t>
-          Many mechanisms and modifiers perform macro expansion on a term.
+          When evaluating an SPF policy record, certain character sequences
+	  are intended to be replaced by parameters of the message or of the
+	  connection.  These character sequences are referred to as "macros".
         </t>
+	<section title="Formal Specification">
+	<t> The ABNF description for a macro is as follows:
         <figure>
           <artwork type="abnf"><![CDATA[
 domain-spec      = macro-string domain-end
@@ -1426,8 +1429,6 @@ domain-end       = ( "." toplabel [ "." ] ) / macro-expand
 
 toplabel         = ( *alphanum ALPHA *alphanum ) /
                    ( 1*alphanum "-" *( alphanum / "-" ) alphanum )
-                   ; LDH rule plus additional TLD restrictions
-                   ; (see [RFC3696], Section 2 for background)
 alphanum         = ALPHA / DIGIT
 
 explain-string   = *( macro-string / SP )
@@ -1442,18 +1443,19 @@ macro-letter     = "s" / "l" / "o" / "d" / "i" / "p" / "h" /
 transformers     = *DIGIT [ "r" ]
 delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
 ]]></artwork>
-        </figure>
-        <t>
-          A literal "%" is expressed by "%%".
-        </t>
-        <t>
-          <list style="empty">
-            <t>
-              "%_" expands to a single " " space.<vspace/>
-              "%-" expands to a URL-encoded space, viz., "%20".
-            </t>
+        </figure> </t>
+	<t> The "toplabel" construction is subject to the LDH rule plus
+	    additional top-level domain (TLD) restrictions.  See
+	    Section 2 of <xref target="RFC3696"/> for background. </t>
+        <t> Some special cases:
+	  <list style="symbols">
+		<t> A literal "%" is expressed by "%%". </t>
+                <t> "%_" expands to a single " " space. </t>
+                <t> "%-" expands to a URL-encoded space, viz., "%20". </t>
           </list>
-        </t>
+	</t>
+	</section> <!-- Formal Specification -->
+        <section title="Macro Definitions">
         <t>The following macro letters are expanded in term arguments:</t>
         <t>
           <list style="empty">
@@ -1470,6 +1472,8 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
             </t>
           </list>
         </t>
+	<t> &lt;domain&gt;, &lt;sender&gt;, and &lt;ip&gt; are defined in
+	    <xref target="checkauth"/>. </t>
         <t>The following macro letters are allowed only in "exp" text:</t>
         <t>
           <list style="empty">
@@ -1480,18 +1484,20 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
             </t>
           </list>
         </t>
+	</section> <!-- Macro Definitions -->
+	<section title="Notes">
         <?rfc compact="yes"?>
         <t>
           A '%' character not followed by a '{', '%', '-', or '_' character
-          is a syntax error. So
-          <list style="empty">
-            <t>-exists:%(ir).sbl.spamhaus.example.org</t>
-          </list>
+          is a syntax error.  So:
+          <figure><artwork>
+  -exists:%(ir).sbl.spamhaus.example.org
+          </artwork></figure>
           is incorrect and will cause check_host() to yield a "permerror".
-          Instead, say 
-          <list style="empty">
-            <t>-exists:%{ir}.sbl.spamhaus.example.org</t>
-          </list>
+          Instead, the following is legal: 
+          <figure><artwork>
+  -exists:%{ir}.sbl.spamhaus.example.org
+          </artwork></figure>
         </t>
         <t>
           Optional transformers are the following:
@@ -1499,7 +1505,7 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
             <t>
               <list style="hanging" hangIndent="7">
                 <t hangText="*DIGIT">= zero or more digits</t>
-                <t hangText="'r'">
+                <t hangText="r">
                   = reverse value, splitting on dots by default
                 </t>
               </list>
@@ -1509,7 +1515,8 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
         <?rfc compact="no"?>
         <t>
           If transformers or delimiters are provided, the replacement value
-          for a macro letter is split into parts. After performing any
+          for a macro letter is split into parts separated by one or more of
+	  the specified delimiter characters. After performing any
           reversal operation and/or removal of left-hand parts, the parts are
           rejoined using "." and not the original splitting characters.
         </t>
@@ -1524,7 +1531,7 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           instead of ".".
         </t>
         <t>
-          The 'r' transformer indicates a reversal operation: if the client
+          The "r" transformer indicates a reversal operation: if the client
           IP address were 192.0.2.1, the macro %{i} would expand to
           "192.0.2.1" and the macro %{ir} would expand to "1.2.0.192".
         </t>
@@ -1570,6 +1577,12 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           <xref target="mech-ptr"/> for the discussion about why not.
         </t>
         <t>
+          The "h" macro expands to the parameter that was provided to the
+ 	  SMTP server via the HELO or EHLO SMTP verb.  For sessions where that
+	  verb was provide more than once, the most recent instance is
+	  used.
+	</t>
+        <t>
           The "r" macro expands to the name of the receiving MTA. This SHOULD
           be a fully qualified domain name, but if one does not exist (as
           when the checking is done by a MUA) or if policy restrictions
@@ -1593,7 +1606,7 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
         </t>
         <t>
           Uppercased macros expand exactly as their lowercased equivalents,
-          and are then URL escaped. URL escaping MUST be performed for
+          and are then URL escaped.  URL escaping MUST be performed for
           characters not in the "unreserved" set, which is defined in <xref
           target="RFC3986"/>.
         </t>
@@ -1618,7 +1631,7 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           alone for as long as the shortest Time To Live (TTL) of all the DNS
           records involved.
         </t>
-      </section>
+      </section> <!-- Notes -->
       <section title="Expansion Examples">
         <?rfc compact="yes"?>
         <t>
