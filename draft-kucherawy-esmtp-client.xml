@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<rfc ipr="trust200902" category="info"
+        docName="draft-kucherawy-esmtp-client-00">
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc strict="no" ?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="CLIENT SMTP Extension">
+		The CLIENT Extension to SMTP
+	</title>
+
+	<author initials="M. S." surname="Kucherawy"
+	        fullname="Murray S. Kucherawy">
+
+		<address>
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<author initials="N." surname="Freed"
+	        fullname="Ned Freed">
+
+		<organization> Oracle </organization>
+
+		<address>
+			<postal>
+				<street>800 Royal Oaks</street>
+				<city>Monrovia</city>
+				<region>CA</region>
+				<code>91016-6347</code>
+				<country>USA</country>
+			</postal>
+
+			<email>ned+ietf@mrochek.com</email>
+		</address>
+	</author>
+
+	<date year="2013"/>
+
+	<area>Applications</area>
+
+	<abstract>
+		<t> Rudimentary client authentication within the context
+		    of the Simple Mail Transfer Protocol (SMTP) is typically
+		    based on the apparent hostname and IP address of the
+		    client.  As SMTP is a store-and-forward protocol, these
+		    details can be lost when a message is relayed from one
+		    hop to the next.  The CLIENT extension to SMTP provides
+		    a means by which an authorized client can instruct a
+		    server to replace those data with parameters specified
+		    as part of the extension, allowing preservation of those
+		    details from one hop to the next. </t>
+	</abstract>
+</front>
+
+<middle>
+	<section anchor="intro" title="Introduction">
+		<t> The CLIENT SMTP extension addresses three problems,
+		    described below. </t>
+
+		<section anchor="intro_access" title="Access Control Tests">
+			<t> Upon receiving an Simple Mail Transfer Protocol
+			    <xref target="SMTP"/> client connection, a server
+			    is able to extract from the socket layer the IP
+			    address of that client.  Via the Domain Name System
+			    <xref target="DNS"/>, this can be translated into a
+			    hostname.  These two parameters are often used as a
+			    basic form of authentication and authorization when
+			    deciding how to classify the client and apply local
+			    policy.  Examples of this include, whether the
+			    client should be treated as trusted, whether it is
+			    a client internal to the ADministrative Management
+			    Domain (ADMD; <xref target="EMAIL-ARCH"/>),
+			    greylisting <xref target="GREYLISTING"/>, and
+			    DNS-based block lists <xref target="DNSBL"/>). </t>
+
+			<t> SMTP is a store-and-forward protocol.  This means a
+			    message can be relayed through an intermediary en
+			    route to its ultimate destination.  Such an
+			    intermediary may or may not be part of the ADMD
+			    that is the ultimate recipient of the message.
+			    When this occurs, an SMTP server that wishes
+			    to classify the client no longer has these original
+			    client details and thus make these classification
+			    choices since SMTP has no capability to tunnel
+			    these details through to the final
+			    destination. </t>
+
+			<t> The CLIENT extension described here permits an
+			    authorized client to instruct the server to
+			    replace derived SMTP session parameters with those
+			    specified by the client. </t>
+		</section>
+
+		<section anchor="intro_relay" title="Special Relays">
+			<t> Some clients are designed to download messages from
+			    an upstream SMTP server and injects it into a local
+			    Mail Transport Agent (MTA) via SMTP. </t>
+
+			<t> In order to take advantage of the local MTA's
+			    SMTP server access rules, the client software
+			    needs the ability to override the SMTP server's
+			    idea of the remote client name, client address,
+			    and other information.  Such information can
+			    typically be extracted from the up-stream mail
+			    server's Received: message header field, but this
+			    is not always reliable. </t>
+		</section>
+
+		<section anchor="intro_proxies" title="Transparent Proxies">
+			<t> With content filter applications that hook into
+			    MTAs,, the filter can be simplified if it
+			    can delegate decisions concerning mail relay
+			    and other access control to the MTA.  This is
+			    especially useful when the filter acts as a
+			    transparent proxy for SMTP commands.  This
+			    requires that the filter can override the MTA's
+			    notion of the SMTP client hostname, network
+			    address, and other information. </t>
+		</section>
+	</section>
+
+	<section anchor="deployment" title="Current Deployment">
+		<t> The CLIENT extension has been present in one common
+		    open source implementation for several years (there
+		    called "XCLIENT").  This document is therefore
+		    codifying a successful but not-yet-standard current
+		    industry practice. </t>
+	</section>
+
+	<section anchor="extension" title="CLIENT SMTP Extension">
+		<t> This section contians the formal definition of the CLIENT
+		    SMTP extension, as required by Section 2.2.2 of
+		    <xref target="SMTP"/>:
+
+		    <list style="numbers">
+			<t> The name of the SMTP service extension is
+			    "CLIENT". </t>
+
+			<t> The EHLO keyword value associated with this
+			    extension is "CLIENT". </t>
+
+			<t> The EHLO keyword value is followed by a 
+			    whitespace-separated list of CLIENT keywords whose
+			    presence indicates that the CLIENT verb (below)
+			    will accept those keywords. </t>
+
+			<t> A new SMTP verb "CLIENT" is supported by servers
+			    implementing this extension. </t>
+
+			<t> The "CLIENT" verb accepts one or more
+			    "name=value" pairs, separated by whitespace,
+			    where the "name" portion is one of the supported
+			    CLIENT keywords. </t>
+
+			<t> No existing SMTP verbs are modified in the presence
+			    of this extension.  There is no change to the
+			    maximum length of the MAIL and/or RCPT
+			    command. </t>
+
+			<t> <xref target="description"/> describes the changes
+			    in behavior to SMTP clients and servers. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="syntax" title="Extension Syntax">
+		<t> Using <xref target="ABNF"/>, the CLIENT verb syntax
+		    is as follows:
+
+		    <figure><artwork>
+    client-command = "CLIENT" 1*( SP attr-name "=" attr-value )
+
+    attr-name = "ADDR" / "NAME" / "HELO" / "LOGIN" / "PORT" / "PROTO"
+
+    attr-value = xtext
+		    </artwork></figure></t>
+
+		<t> "xtext" is defined in Section 4 of
+		    <xref target="DSN"/>. </t>
+	</section>
+
+	<section anchor="description" title="Description">
+		<t> Generally, the CLIENT verb instructs the server to replace
+		    its notion of certain client details that are provided by
+		    the TCP socket layer, the DNS, or other sources.  This
+		    capability is typically restricted to clients known
+		    to be trusted through means not specified yere. </t>
+
+		<t> In SMTP server EHLO replies, the keyword associated with
+		    this extension is CLIENT.  It is followed by the names of
+		    the attributes that the CLIENT implementation
+		    supports.  The list of possible attributes can be found
+		    in the definition of "attr-name" in
+		    <xref target="syntax"/>.  The order of the list is not
+		    significant. </t>
+
+		<t> The CLIENT verb can be sent at any time, except in the
+		    middle of a mail delivery transaction (i.e., between MAIL
+		    and the message-terminating dot sequence at the end of
+		    DATA, or between MAIL and RSET).  The CLIENT verb can be
+		    pipelined when the server supports the pipelining SMTP
+		    extension (see <xref target="PIPELINING"/>).  To avoid
+		    triggering mail filters that classify spam, the verb
+		    should be sent at the end of a verb group. </t>
+
+		<t> The supported attributes are as follows:
+
+		    <list style="hanging">
+			<t hangText="ADDR:"> Specifies an SMTP client
+				numerical IPv4 network address, an IPv6
+				address prefixed with the string "IPV6:", or
+				the string "[UNAVAILABLE]" when the address
+				information is unavailable.  Unlike
+				address literals in <xref target="SMTP"/>,
+				address information is not enclosed within
+				square brackets. </t>
+
+			<t hangText="HELO:"> Specifies an SMTP HELO parameter
+				value, or the string "[UNAVAILABLE]" when the
+				information is unavailable </t>
+
+			<t hangText="LOGIN:"> Specifies a <xref target="SASL"/>
+				login name, or the string "[UNAVAILABLE]" when
+				the information is unavailable.  </t>
+
+			<t hangText="NAME:"> Specifies an SMTP client hostname
+				(not an SMTP client address), or can be the
+				string "[UNAVAILABLE]" when the client
+				hostname lookup failed due to some
+				unrecoverable error, or "[TEMPUNAVAILABLE]"
+				if the lookup error condition appeared to be
+				transient. </t>
+
+			<t hangText="PORT:"> Specifies the SMTP client TCP
+				port number as a decimal number, or the string
+				"[UNAVAILABLE]" when the information is
+				unavailable. </t>
+
+			<t hangText="PROTO:"> Specifies either "SMTP" or
+				"ESMTP". </t>
+		    </list> </t>
+
+		<t> Note that syntactically valid NAME and HELO
+		    attr-value elements can be up to 255 characters long. 
+		    The client must adhere to the length limit for SMTP
+		    commands.  To avoid exceeding the limit the client
+		    should send the information in multiple CLIENT commands;
+		    for example, send NAME and ADDR first, then HELO and
+		    PROTO.  </t>
+
+		<t> The special tokens "IPV6:", "[UNAVAILABLE]" and
+		    "[TEMPUNAVAIL]" MUST be detected in a case-insensitive
+		    manner. </t>
+
+		<t>  Upon receipt of a correctly formatted CLIENT verb, the
+		     server resets state to the initial SMTP greeting protocol
+		     stage.  Depending on the outcome of optional access
+		     decisions, the server responds with a 220 greeting or
+		     a suitable rejection code. </t>
+
+		<t> For practical reasons it is not always possible to reset
+		    the complete server state to the initial SMTP greeting
+		    protocol stage.  For example, <xref target="STARTTLS"/>
+		    session information might not be reset, since turning off
+		    TLS leaves the connection in an undefined state.
+		    Consequently, the server might not announce STARTTLS when
+		    TLS is already active, and access decisions could be
+		    influenced by client certificate information that was
+		    received prior to the CLIENT command. </t>
+
+		<t> The SMTP server MUST NOT reset attributes that were
+		    received with the last CLIENT command.  This includes
+		    HELO or PROTO attributes. </t>
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+		<t> The CLIENT extension changes audit trails and/or SMTP
+		    client access permissions.  It is imperative that use of
+		    this extension be restricted to authorized SMTP
+		    clients.  </t>
+	</section>
+
+	<section anchor="iana" title="IANA Considerations">
+		<t> IANA is requested to register the SMTP extension as
+		    described in <xref target="extension"/>. </t>
+	</section>
+</middle>
+
+<back>
+	<references title="Normative References">
+		<reference anchor="ABNF">
+			<front>
+				<title>Augmented BNF for Syntax
+				       Specifications: ABNF</title>
+
+				<author
+					fullname="D. Crocker"
+					initials="D."
+					surname="Crocker"
+					role="editor">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
+				</author>
+
+				<author
+					fullname="P. Overell"
+					initials="P."
+					surname="Overell">
+					<organization>
+						THUS plc.
+					</organization>
+				</author>
+
+				<date month="January" year="2008"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="5234"></seriesInfo>
+		</reference>
+
+		<reference anchor="DSN">
+			<front>
+				<title> Simple Mail Transfer Protocol (SMTP)
+				        Service Extension for Delivery Status
+				        Notifications (DSNs) </title>
+
+				<author
+					fullname="K. Moore"
+					initials="K."
+					surname="Moore">
+					<organization>
+						University of Tennessee
+					</organization>
+				</author>
+
+				<date month="January" year="2003"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="3461"></seriesInfo>
+		</reference>
+
+		<reference anchor="SASL">
+			<front>
+				<title>Simple Authentication and Security
+				       Layer (SASL) </title>
+
+				<author
+					fullname="A. Melnikov"
+					initials="A."
+					surname="Melnikov"
+					role="editor">
+					<organization>
+						Isode Limited
+					</organization>
+				</author>
+
+				<author
+					fullname="K. Zeilenga"
+					initials="K."
+					surname="Zeilenga"
+					role="editor">
+					<organization>
+						OpenLDAP Foundation
+					</organization>
+				</author>
+
+				<date month="June" year="2006"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="4422"></seriesInfo>
+		</reference>
+
+		<reference anchor="SMTP">
+			<front>
+				<title>Simple Mail Transfer Protocol</title>
+
+				<author
+					fullname="J. Klensin"
+					initials="J."
+					surname="Klensin">
+					<organization></organization>
+				</author>
+
+				<date month="October" year="2008"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="5321"></seriesInfo>
+		</reference>
+	</references>
+
+	<references title="Informative References">
+		<reference anchor="DNS">
+			<front>
+				<title> Domain Names -- Concepts and Facilities
+				        </title>
+				<author initials="P." surname="Mockapetris"
+					fullname="P. Mockapetris">
+					<organization>
+						ISI
+					</organization>
+				</author>
+
+				<date month="November" year="1987" />
+			</front>
+
+			<seriesInfo name="RFC" value="1034" />
+		</reference>
+
+		<reference anchor="DNSBL">
+			<front>
+				<title> DNS Blacklists and Whitelists
+				        </title>
+				<author initials="J." surname="Levine"
+					fullname="J. Levine">
+					<organization>
+						Taughannock Networks
+					</organization>
+				</author>
+
+				<date month="February" year="2010" />
+			</front>
+
+			<seriesInfo name="RFC" value="5782" />
+		</reference>
+
+		<reference anchor="EMAIL-ARCH">
+			<front>
+				<title> Internet Mail Architecture </title>
+				<author initials="D." surname="Crocker"
+				        fullname="D. Crocker">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
+				</author>
+				<date month="July" year="2009" />
+			</front>
+			<seriesInfo name="RFC" value="5598" />
+		</reference>
+
+		<reference anchor="GREYLISTING">
+			<front>
+				<title> Email Greylisting: An Applicability
+					Statement for SMTP
+				        </title>
+
+				<author initials="M." surname="Kucherawy"
+					fullname="M. Kucherawy">
+					<organization>
+						Cloudmark
+					</organization>
+				</author>
+
+				<author initials="D." surname="Crocker"
+					fullname="D. Crocker">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
+				</author>
+
+				<date month="June" year="2012" />
+			</front>
+
+			<seriesInfo name="RFC" value="6647" />
+		</reference>
+
+		<reference anchor="PIPELINING">
+			<front>
+				<title> SMTP Service Extension for Command
+				        Pipelining
+				        </title>
+
+				<author initials="N." surname="Freed"
+					fullname="N. Freed">
+					<organization>
+						Innosoft
+					</organization>
+				</author>
+
+				<date month="September" year="2000" />
+			</front>
+
+			<seriesInfo name="RFC" value="2920" />
+		</reference>
+
+		<reference anchor="STARTTLS">
+			<front>
+				<title> SMTP Service Extension for Secure
+					SMTP over Transport Layer Security
+				        </title>
+
+				<author initials="P." surname="Hoffman"
+					fullname="P. Hoffman">
+					<organization>
+						Internet Mail Consortium
+					</organization>
+				</author>
+
+				<date month="February" year="2002" />
+			</front>
+
+			<seriesInfo name="RFC" value="3207" />
+		</reference>
+	</references>
+
+	<section anchor="example" title="Example">
+   		<t> In this example, the client impersonates an originating
+		    system by passing all SMTP client information via the
+		    CLIENT command.  "C:" denotes traffic sent by the client,
+		    and "S:" denotes traffic from the server.  Standard
+		    SMTP line terminations are not shown.
+
+		<figure><artwork>
+  [connection established]
+  S: 220 server.example.com ESMTP Postfix
+  C: EHLO client.example.com
+  S: 250-server.example.com
+  S: 250-PIPELINING
+  S: 250-SIZE 10240000
+  S: 250-VRFY
+  S: 250-ETRN
+  S: 250-CLIENT NAME ADDR PROTO HELO
+  S: 250 8BITMIME
+  C: CLIENT NAME=spike.example.org ADDR=192.0.2.1
+  S: 220 server.example.com ESMTP Postfix
+  C: EHLO spike.example.org
+  S: 250-server.example.com
+  S: 250-PIPELINING
+  S: 250-SIZE 10240000
+  S: 250-VRFY
+  S: 250-ETRN
+  S: 250-CLIENT NAME ADDR PROTO HELO
+  S: 250 8BITMIME
+  C: MAIL FROM:&lt;wietse@example.org&gt;
+  S: 250 Ok
+  C: RCPT TO:&lt;user@example.com&gt;
+  S: 250 Ok
+  C: DATA
+  S: 354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+  C: [message content here]
+  C: .
+  S: 250 Ok: queued as 763402AAE6
+  C: QUIT
+  S: 221 Bye
+  [disconnect]
+                </artwork></figure></t>
+	</section>
+
+	<section anchor="thanks" title="Acknowledgements">
+		<t> The proposal upon which this document was based is the
+		    XCLIENT extension to the Postfix MTA.  Wietse Venema
+		    contributed that specification. </t>
+
+   		<t> The authors wish to acknowledge the following for their
+		    review and constructive criticism of this proposal:
+		    (names)
+                    </t>
+	</section>
+
+</back>
+
+</rfc>
