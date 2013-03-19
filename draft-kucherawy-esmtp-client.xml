@@ -127,6 +127,13 @@
 		</section>
 	</section>
 
+	<section anchor="keywords" title="Key Words">
+		<t> The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
+		    "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",
+		    "MAY", and "OPTIONAL" in this document are to be
+		    interpreted as described in <xref target="KEYWORDS"/>. </t>
+	</section>
+
 	<section anchor="deployment" title="Current Deployment">
 		<t> The CLIENT extension has been present in one common
 		    open source implementation for several years (there
@@ -344,6 +351,29 @@
 			</front>
 
 			<seriesInfo name="RFC" value="3461"></seriesInfo>
+		</reference>
+
+		<reference anchor="KEYWORDS">
+			<front>
+				<title>
+					Key words for use in RFCs to
+					Indicate Requirement Levels
+				</title>
+
+				<author fullname="Scott Bradner"
+					initials="S."
+					surname="Bradner">
+
+					<organization>
+						Harvard University
+					</organization>
+				</author>
+
+				<date month="March" year="1997"/>
+			</front>
+
+			<seriesInfo name="BCP" value="14"/>
+			<seriesInfo name="RFC" value="2119"/>
 		</reference>
 
 		<reference anchor="SASL">
