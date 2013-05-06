@@ -3,7 +3,7 @@
 <!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.13 2012/05/22 06:55:50 msk Exp $ -->
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-malformed-mail-03">
+        docName="draft-ietf-appsawg-malformed-mail-04">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -33,7 +33,7 @@
 		</address>
 	</author>
 
-	<date year="2012"/>
+	<date year="2013"/>
 
 	<area>Applications</area>
 	<workgroup>APPSAWG</workgroup>
@@ -41,16 +41,29 @@
 	<keyword>SMTP</keyword>
 
 	<abstract>
-		<t> The email ecosystem has long had a very permissive set of
-		    common processing rules in place, despite increasingly
-		    rigid standards governing its components, ostensibly to
-		    improve the user experience.  The handling of these
-		    come at some cost, and various components are faced with
-		    decisions about whether or not to permit non-conforming
-		    messages to continue toward their destinations unaltered,
-		    adjust them to conform (possibly at the cost of losing
-		    some of the original message), or outright rejecting
-		    them. </t>
+		<t> Although Internet mail formats have been precisely defined
+		    since the 1970s, authoring and handling software often
+		    show only mild conformance to the specifications.  The
+		    distributed and non-interactive nature of email has often
+		    prompted adjustments to receiving software, to handle
+		    these variations, rather than trying to gain better
+		    conformance by senders, since the receiving operator is
+		    primarily driven by complaining recipient users and has no
+		    authority over the sending side of the system.  Processing
+		    with such flexibility comes at some cost, since mail
+		    software is faced with decisions about whether or not to
+		    permit non-conforming messages to continue toward their
+		    destinations unaltered, adjust them to conform (possibly
+		    at the cost of losing some of the original message), or
+		    outright rejecting them. </t>
+
+		<t> A core requirement for interoperability is that both sides
+		    of an exchange work from the same details and semantics.
+		    By having receivers be flexible, beyond the specifications,
+		    there can be -- and often has been -- a good chance that a
+		    message will not be fully interoperable.  Worse, a
+		    well-established pattern of tolerance for variations can
+		    sometimes be used as an attack vector. </t>
 
 		<t> This document includes a collection of the best advice
 		    available regarding a variety of common malformed mail
@@ -76,13 +89,25 @@
 	<section anchor="intro" title="Introduction">
 		<section anchor="for" title="The Purpose Of This Work">
 			<t> The history of email standards, going back to
-			    <xref target="RFC822"/> and beyond, contains a
+			    <xref target="RFC733"/> and beyond, contains a
 			    fairly rigid evolution of specifications.  But
 			    implementations within that culture have also
 			    long had an undercurrent known formally as the
 			    robustness principle, but also known informally
 			    as Postel's Law: "Be conservative in what you do,
 			    be liberal in what you accept from others." </t>
+
+			<t> Jon Postel's directive is often misinterpreted to
+			    mean that any deviance from a specification is
+			    acceptable.  Rather, it was intended only to
+			    account for legitimate variations in
+			    interpretation within specifications, as well as
+			    basic transit errors, like bit errors.  Taken to
+			    its unintended extreme, excessive tolerance would
+			    imply that there are no limits to the liberties
+			    that a sender might take, while presuming a burden
+			    on a receiver to guess "correctly" at the meaning
+			    of any such variation. </t>
 
 			<t> In general, this served the email ecosystem well
 			    by allowing a few errors in implementations
@@ -150,16 +175,6 @@
 	</section>
 
 	<section anchor="doc" title="Document Conventions">
-		<section anchor="keywords" title="Key Words">
-			<t> The key words "MUST", "MUST NOT", "REQUIRED",
-			    "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT",
-			    "RECOMMENDED", "MAY", and "OPTIONAL" in this
-			    document are to be interpreted as described in
-			    <xref target="KEYWORDS"/>.  However, they only
-			    have that meaning in this document when they are
-			    presented entirely in upper case. </t>
-		</section>
-
 		<section anchor="examples" title="Examples">
 			<t> Examples of message content include a number
 			    within braces at the end of each line.  These
@@ -177,7 +192,7 @@
 		    about the overall email architecture.  Of particular
 		    interest is the Internet Message Format, detailed in
 		    <xref target="MAIL"/>.  Throughout this document, the
-		    use of the term "messsage" should be assumed to mean
+		    use of the term "message" should be assumed to mean
 		    a block of text conforming to the Internet Message
 		    Format. </t>
 	</section>
@@ -196,113 +211,124 @@
 		    modifications to remove malicious content, etc. </t>
 
 		<t> In some cases, advice is provided only for internal
-		    representations.  However, there is often occasion to
-		    mandate changes to the output as well. </t>
+		    representations.  However, it is sometimes necessary
+		    to make changes between the input and output versions
+		    as well. </t>
 	</section>
 
-	<section anchor="constant" title="Invariate Content">
-		<t> Experience has shown that it is beneficial to ensure
-		    that, from the first analysis agent at ingress into the
-		    destination Administrative Management Domain (ADMD; see
-		    <xref target="EMAIL-ARCH"/>) to the agent that actually
-		    affects delivery to the end user, the message each
-		    agent sees is identical.  Absent this, it can be impossible
-		    for different agents in the chain to make assertions
-		    about the content that correlate. </t>
+	<section anchor="constant" title="Invariant Content">
+		<t> An especially interesting handling sequence occurs within
+		    the destination Administrative Management Domain
+		    (ADMD; see <xref target="EMAIL-ARCH"/>).  From ingress to
+		    the ADMD, through the boundary agent, until delivery to
+		    the end user, it is beneficial to ensure that each agent
+		    sees an identical form for the message.  Absent this,
+		    it can be impossible for different agents in the chain
+		    to make consistent assertions about the content. </t>
 
 		<t> For example, suppose a handling agent records that a
 		    message had some specific set of properties at ingress
 		    to the ADMD, then permitted it to continue inbound.  Some
 		    other agent alters the content for some reason.  The user,
 		    on viewing the delivered content, reports the message as
-		    abusive.  If the report is based on the set of properties
-		    recorded at ingress, then the complaint effectively
-		    references a message different from what the user saw,
-		    which could render the complaint inactionable.  Similarly,
-		    a message with properties that a filtering agent might use
-		    to reject an abusive message could be allowed to reach
-		    the user if an intermediate agent altered the message in
-		    a manner that alters one of those properties, thwarting
-		    detection of the abuse. </t>
+		    abuse.  However, report processing often takes place at, or
+		    close to, the original point of ingress and is likely to
+		    be based on the set of properties recorded there, rather
+		    at the end user's system.  This could render the
+		    complaint inactionable.  Similarly, a message that
+		    originally had properties a filtering agent would use to
+		    reject an might not be rejected, and thus reach an end
+		    user, if an intermediate agent altered the message in
+		    a manner that alters one of those properties. </t>
 
-		<t> Therefore, agents comprising an inbound message processing
-		    environment SHOULD ensure that each agent sees the same
-		    content, and the message reaches the end user unmodified.
-		    An exception to this is content that is identitfied
-		    as certainly harmful, such as some kind of malicious
-		    executable software included in the message. </t>
+		<t> Therefore, agents within an integrated message processing
+		    environment will simplify operational concerns by ensuring
+		    that each agent receives the same content -- except for
+		    the usual handling agent trace information additions --
+		    and that this is what reaches the end user, unmodified.
+		    Various policies, such as special handling for detected
+		    message abuse, will make exceptions appropriate. </t>
 	</section>
 
 	<section anchor="msa" title="Mail Submission Agents">
 		<t> Within the email context, the single most influential
 		    component that can reduce the presence of malformed
-		    items in the email system is the Mail Submission
-		    Agent (MSA).  This is the component that is essentially
-		    the interface between end users that create content and
-		    the mail stream. </t>
+		    items in the email system is the Mail Handling Service
+		    (MHS; see <xref target="EMAIL-ARCH"/>).  This is the
+		    component that is essentially the interface between end
+		    users that create content and the mail stream. </t>
 
-		<t> The lax processing described earlier in the document
-		    creates a high support and security cost overall.  Thus,
-		    MSAs MUST evolve to become more strict about enforcement
+		<t> MHSes need to become more strict about enforcement
 		    of all relevant email standards, especially
 		    <xref target="MAIL"/> and the <xref target="MIME"/>
 		    family of documents. </t>
 
-		<t> Relay Mail Transport Agents (MTAs) SHOULD also be more
-		    strict; although preventing the dissemination of malformed
-		    messages is desirable, the rejection of such mail already
-		    in transit also has a support cost, namely the creation
-		    of a <xref target="DSN"/> that many end users might not
-		    understand. </t>
+		<t> More strict conformance by relaying MTAs will also be
+		    helpful.  although preventing the dissemination of
+		    malformed messages is desirable, the rejection of such
+		    mail already in transit also has a support cost, namely
+		    the creation of a <xref target="DSN"/> that many end
+		    users might not understand. </t>
 	</section>
 
 	<section anchor="lines" title="Line Terminaton">
-		<t> The only valid line separation sequence in messaging is
+		<t> For interoperable Internet Mail messages, the only
+		    valid line separation sequence in messaging is
 		    ASCII 0x0D ("carriage return", or CR) followed by ASCII
 		    0x0A ("line feed", or LF), commonly referred to as CRLF.
 		    Common UNIX user tools, however, typically only use LF
-		    for line termination.  This means the protocol has to
-		    convert LF to CRLF before transporting a message. </t>
+		    for internal line termination.  This means that a protocol
+		    engine, which converts between UNIX and Internet Mail
+		    formats, has to convert between these two end-of-line
+		    representations before transmitting a message or after
+		    receiving it. </t>
 
-		<t> Naive implementations can cause messages to be transmitted
-		    with a mix of line terminations, such as LF everywhere
-		    except CRLF only at the end of the message.  According
-		    to <xref target="SMTP"/>, this means the entire message
-		    actually exists on a single line. </t>
+		<t> Non-compliant implementations can cause messages to be
+		    transmitted with a mix of line terminations, such as LF
+		    everywhere except CRLF only at the end of the message.
+		    According to <xref target="SMTP"/> and
+		    <xref target="MAIL"/>, this means the entire
+		    message actually exists on a single line. </t>
 
-		<t> A "naked" CR or LF in a message has no reasonable
-		    justification, and furthermore <xref target="MIME"/>
-		    presents mechanisms for encoding content that actually
-		    does need to contain such an unusual character
-		    sequence. </t>
+		<t> Within modern Internet Mail it is highly unlikely that
+		    an isolated CR or LF is valid in common ASCII text.
+		    Furthermore <xref target="MIME"/> presents mechanisms for
+		    encoding content that actually does need to contain such
+		    an unusual character sequence. </t>
 
-		<t> Thus, handling agents MUST treat naked CRs and LFs as
-		    CRLFs when interpreting the message. </t>
+		<t> Thus, it will typically be safe and helpful to treat a
+		    naked CR or LF as equivalent to a CRLF when parsing
+		    a message. </t>
 	</section>
 
 	<section anchor="header" title="Header Anomalies">
 		<t> This section covers common syntactical and semantic
-		    anomalies found in headers of messages, and presents
+		    anomalies found in a message header, and presents
 		    preferred mitigations. </t>
 
 		<section anchor="obsolete"
 		         title="Converting Obsolete and Invalid Syntaxes">
-			<t> There are numerous cases of obsolete header
-			    syntaxes that can be applied to confound
-			    agents with variable processing.  This section
-			    presents some examples of these.  Messages
-			    including them SHOULD be rejected; where this
-			    is not possible, RECOMMENDED internal
-			    interpretations are provided. </t>
+			<t> A message using an obsolete header syntax might
+			    confound an agent that is attempting to be robust
+			    in its handling of syntax variations.  A bad
+			    actor could exploit such a weakness in order to
+			    get abuse or malicious content through a filter.
+			    This section presents some examples of such
+			    variations.  Messages including them ought be
+			    rejected; where this is not possible, recommended
+			    internal interpretations are provided. </t>
 
 			<section anchor="hostaddr" title="Host-Address Syntax">
-				<t> The following obsolete syntax:
+				<t> The following obsolete syntax attempts
+				    to specify source routing:
 
 				    <figure><artwork>
     To: &lt;@example.net:fran@example.com&gt;
 				    </artwork></figure> </t>
 
-				<t> should be interpreted as:
+				<t> This means "send to fran@example.com via
+				    the mail service at example.net".  It
+				    can safely be interpreted as:
 
 				    <figure><artwork>
     To: &lt;fran@example.com&gt;
@@ -317,7 +343,7 @@
     To: &lt;&lt;&lt;user2@example.org&gt;&gt;&gt;
 				    </artwork></figure> </t>
 
-				<t> should be interpreted as:
+				<t> can safely be interpreted as:
 
 				    <figure><artwork>
     To: &lt;user2@example.org&gt;
@@ -334,7 +360,7 @@
     To: second@example.org&gt;
 				    </artwork></figure> </t>
 
-				<t> should be interpreted as:
+				<t> can usually be treated as:
 
 				    <figure><artwork>
     To: &lt;another@example.net&gt;
@@ -380,7 +406,7 @@
 		</section>
 
 		<section anchor="non-headers" title="Non-Header Lines">
-			<t> It has been observed that some messages contain
+			<t> Some messages contain
 			    a line of text in the header that is not a valid
 			    message header field of any kind.  For example:
 
@@ -494,18 +520,19 @@
 			    header-specific processing algorithms as described
 			    in the previous section. </t>
 
-			<t> Ideally, this case simply ought not to be
-			    generated. </t>
+			<t> This example was legal in earlier versions of the
+			    Internet Mail format standard. </t>
 
-			<t> Message handling agents receiving a message bearing
-			    this anomaly MUST behave as if line {4} was
-			    not present on the message, and SHOULD emit
-			    a version in which line {4} has been removed. </t>
+			<t> The best handling of this example is for a
+			    message parsing engine to behave as if line {4}
+			    was not present in the message and for a message
+			    creation engine to emit the message with line {4}
+			    removed. </t>
 		</section>
 
 		<section anchor="malformations" title="Header Malformations">
-			<t> There are various malformations that exist.
-			    A common one is insertion of whitespace at
+			<t> Among the many possible malformations, a
+			    common one is insertion of whitespace at
 			    unusual locations, such as:
 
 			    <figure><artwork>
@@ -529,11 +556,10 @@
 			    implementations prefers to remove that whitespace.
 			    There is no perceived change to the semantics of
 			    the header field being altered as the whitespace
-			    is itself semantically meaningless.  Thus, a module
-			    compliant with this memo MUST remove all whitespace
-			    after the field name but before the colon, and
-			    MUST emit that version of that field on
-			    output. </t>
+			    is itself semantically meaningless.  Therefore,
+			    it is best to remove all whitespace after the
+			    field name but before the colon and to emit the
+			    field in this modified form. </t>
 		</section>
 
 		<section anchor="counts" title="Header Field Counts">
@@ -542,38 +568,35 @@
 			    message.  Few agents actually enforce these
 			    in the sense that a message whose header contents
 			    exceed one or more limits set there are generally
-			    allowed to pass; they may add any required
+			    allowed to pass; they typically add any required
 			    fields that are missing, however.  </t>
 
 			<t> Also, few agents that use messages as input,
 			    including Mail User Agents (MUAs) that actually
 			    display messages to users, verify that the input
-			    is valid before proceeding.  Two popular open
-			    source filtering programs and two popular Mailing
-			    List Management (MLM) packages examined at the
-			    time this document was written select either the
+			    is valid before proceeding.  Some popular open
+			    source filtering programs and some popular Mailing
+			    List Management (MLM) packages select either the
 			    first or last instance of a particular field name,
 			    such as From, to decide who sent a message.  Absent
-			    enforcement of <xref target="MAIL"/>, an attacker
-			    can craft a message with multiple fields if that
-			    attacker knows the filter will make a decision
-			    based on one but the user will be shown the
-			    other. </t>
+			    strict enforcement of <xref target="MAIL"/>, an
+			    attacker can craft a message with multiple fields
+			    if that attacker knows the filter will make a
+			    decision based on one but the user will be shown
+			    the other. </t>
 
-			<t> This situation is exacerbated when a claim of
-			    message validity is inferred by something like
-			    a valid <xref target="DKIM"/> signature.  Such
-			    a signature might cover one instance of a
-			    constrained field but not another, and a naive
-			    consumer of DKIM's output, not realizing which
-			    one was covered by a valid signature, could presume
-			    the wrong one was the "good" one.  An MUA, for
-			    example could show the first of two From fields
-			    as "good" or "safe" while the DKIM signature
-			    actually only verified the second. </t>
+			<t> This situation is exacerbated when message validity
+			    is assessed, such as through enhanced
+			    authentication methods.  Such methods might cover
+			    one instance of a constrained field but not
+			    another, taking the wrong one as "good" or "safe". 
+			    An MUA, for example could show the first of two
+			    From fields to an end user as "good" or "safe"
+			    while an authentication method actually only
+			    verified the second. </t>
 
-			<t> Thus, an agent compliant with this specification
-			    MUST enact one of the following:
+			<t> In attempting to counter this exposure, one of
+			    the following can be enacted:
 
 			    <list style="numbers">
 				<t> reject outright or refuse to process
@@ -599,12 +622,17 @@
 				    approach is to prefix the field names
 				    with a string such as "BAD-". </t>
 			    </list> </t>
+
+			<t> Selecting a mitigation action from the above list,
+			    or some other action, must consider the needs
+			    of the operator making the decision, and the
+			    nature of its user base. </t>
 		</section>
 
 		<section anchor="missing" title="Missing Header Fields">
 			<t> Similar to the previous section, there are
 			    messages seen in the wild that lack certain
-			    required header fields.  For example,
+			    required header fields.  In particular,
 			    <xref target="MAIL"/> requires that a From and
 			    Date field be present in all messages. </t>
 
@@ -615,21 +643,24 @@
 				<t> Make no changes </t>
 
 				<t> Add an instance of the missing field(s)
-				    using synthesized content </t>
+				    using synthesized content based on
+				    data provided in other parts of the
+				    protocol </t>
 			    </list> </t>
 
-			<t> Option 2 is RECOMMENDED for handling this
-			    case.  Handling agents SHOULD add these for
-			    internal hanlding if they are missing, but MUST
-			    NOT add them to the external representation. 
-			    The reason for this requirement is that there
+			<t> Option 2 is recommended for handling this
+			    case.  Handling agents should add these for
+			    internal hanlding if they are missing, but should
+			    not add them to the external representation. 
+			    The reason for this advice is that there
 			    are some filter modules that would consider the
 			    absence of such fields to be a condition warranting
 			    special treatment (e.g., rejection), and thus the
 			    effectiveness of such modules would be stymied by
-			    an upstream filter adding them. </t>
+			    an upstream filter adding them in a way visible
+			    to other components. </t>
 
-			<t> The synthesized fields SHOULD contain a best
+			<t> The synthesized fields should contain a best
 			    guess as to what should have been there; for From,
 			    the SMTP MAIL command's address can be used
 			    (if not null) or a placeholder address followed
@@ -639,7 +670,7 @@
 
 			<t> One other important case to consider is a missing
 			    Message-Id field.  An MTA that encounters a message
-			    missing this field SHOULD synthesize a valid one
+			    missing this field should synthesize a valid one
 			    using techniques described above and add it to the
 			    external rpresentation, since many deployed tools
 			    use the content of that field as a common unique
@@ -660,14 +691,14 @@
 		</section>
 
 		<section anchor="8bit" title="Eight-Bit Data">
-			<t> Standards-compliant mail messages do not contain
-			    any non-ASCII data without indicating that
-			    such content is present by means of published
-			    <xref target="SMTP"/> extensions.  Absent that,
-			    <xref target="MIME"/> encodings are typically used
-			    to convert non-ASCII data to ASCII in a way that
-			    can be reversed by other handling agents or end
-			    users. </t>
+			<t> Standards-compliant mail messages that contain
+			    non-ASCII data are required to self-label this
+			    through the use of <xref target="MIME">/>.  If
+			    the representation of the non-ASCII data is in
+			    an 8-bit mode (rather than special encoding so
+			    that it retains a 7-bit base), then this must
+			    be signaled through the use of
+			    <xref target="SMTP"/> extensions. </t>
 
 			<t> Non-ASCII data otherwise found in messages
 			    can confound code that is used to analyze content.
@@ -688,7 +719,7 @@
 	</section>
 
 	<section anchor="mime" title="MIME Anomalies">
-		<t> <xref target="MIME"/>, et seq, define a mechanism of
+		<t> <xref target="MIME"/>, et seq, include a mechanism of
 		    message extensions for providing text in character sets
 		    other than ASCII, non-text attachments to messages,
 		    multi-part message bodies, and similar facilities. </t>
@@ -722,21 +753,24 @@
     Malicious-Content: muahaha {8}
 			    </artwork></figure> </t>
 
-			<t> One implementation could observe that line {7}
-			    announces the beginning of the first MIME part
-			    while another considers it a part of the message's
-			    header. </t>
+			<t> Note that there has been no blank line separating
+			    the header from the body yet, so the text at line
+			    {7} is not in the body and thus cannot be an
+			    active boundary marker.  Still, one implementation
+			    could observe that line {7} announces the
+			    beginning of the first MIME part while another
+			    considers it a part of the message's header. </t>
 
-			<t> If rejection of such messages cannot be done,
-			    agents MUST treat line {7} as part of the
-			    message's header block and not a MIME
-			    boundary. </t>
+			<t> If an agent detecting such an anomaly cannot
+			    enact rejection, the agent needs to treat line
+			    {7} as part of the message's header block and not
+			    a MIME boundary. </t>
 		</section>
 
 		<section anchor="no_version" title="Missing MIME-Version Field">
 			<t> Any message that uses <xref target="MIME"/>
 			    constructs is required to have a MIME-Version
-			    header field.  Without them, the Content-Type
+			    header field.  Without it, the Content-Type
 			    and associated fields have no semantic
 			    meaning. </t>
 
@@ -812,14 +846,16 @@
 	<section anchor="security" title="Security Considerations">
 		<t> The discussions of the anomalies above and their
 		    prescribed solutions are themselves security
-		    considerations.  The practises enumerated in this memo
+		    considerations.  The practises enumerated in this document
 		    are generally perceived as attempts to resolve security
 		    considerations that already exist rather than introducing
-		    new ones. </t>
+		    new ones.  However, some of the attacks described here
+		    may not have appeared in previous email
+		    specifications. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
-		<t> This memo contains no actions for IANA. </t>
+		<t> This document contains no actions for IANA. </t>
 
 		<t> [RFC Editor: Please remove this section prior to
 		    publication.] </t>
@@ -1036,19 +1072,38 @@
 			<seriesInfo name="RFC" value="2045" />
 		</reference>
 
-		<reference anchor="RFC822">
+		<reference anchor="RFC733">
 			<front>
 				<title> Standard for the Format of Internet
 				        Text Messages  </title>
 				<author initials="D. H." surname="Crocker"
 				        fullname="D. H. Crocker">
 					<organization>
-						University of Delaware
+						The Rand Corporation
 					</organization>
 				</author>
-				<date month="August" year="1982" />
+				<author initials="J. J." surname="Vittal"
+				        fullname="J. J. Vittal">
+					<organization>
+						Bolt Beranek and Newman, Inc.
+					</organization>
+				</author>
+				<author initials="K. T." surname="Pogran"
+				        fullname="K. T. Pogran">
+					<organization>
+						Massachusets Institute
+						of Technology
+					</organization>
+				</author>
+				<author initials="D. A." surname="Henderson, Jr."
+				        fullname="D. A. Henderson, Jr.">
+					<organization>
+						Bolt Beranek and Newman, Inc.
+					</organization>
+				</author>
+				<date month="November" year="1977" />
 			</front>
-			<seriesInfo name="RFC" value="822" />
+			<seriesInfo name="RFC" value="733" />
 		</reference>
 
 		<reference anchor="SMTP">
