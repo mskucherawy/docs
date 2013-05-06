@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-repute-considerations-00">
+        docName="draft-ietf-repute-considerations-01">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -24,7 +24,7 @@
 		</address>
 	</author>
 
-	<date year="2012"/>
+	<date year="2013"/>
 
 	<area>Applications</area>
 	<workgroup>REPUTE</workgroup>
@@ -127,129 +127,203 @@
 	</section>
 
 	<section anchor="clients" title="Reputation Clients">
-		<t> understand that you are granting a third party the
-		    ability to affect your incoming traffic, for better
-		    or worse </t>
+		<t> Operators that choose to make use of reputation services
+		    to influence content allowed to pass into or through their
+		    infrastructures need to understand that they are granting
+		    a third party (the reputation service provider, or RSP)
+		    the ability to affect incoming traffic, for better
+		    or worse.  Of course, this is the whole point of engaging
+		    an RSP when everything is working properly, but a number
+		    of issues are worthy of consideration before establishing
+		    such a relationship. </t>
 
-		<t> this is the point, of course, when everything works
-		    properly </t>
+		<t> Some cases have occurred where an RSP made the unilateral
+		    decision to terminate its service.  To encourage its
+		    clients to stop issuing queries, it began reporting a
+		    maximally negative reputation about all subjects, causing
+		    rejection of all incoming traffic during the incident
+		    period.  Although one would hope such incidents to be
+		    rare, automated means to detect such unfortunate returns
+		    (malicious or otherwise) and take remedial should be
+		    considered. </t>
 
-		<t> some cases have occurred where a reputation service
-		    provider (RSP) shut down operation, and to encourage
-		    consumers to stop querying, it began reporting a maximal
-		    negative reputation about all subjects, causing rejection
-		    of all incoming traffic during the incident period </t>
+		<t> RSPs will be the subject of attacks once it is understood
+		    that sucess in doing so will allow malicious content to
+		    evade detection and filtering.  Users of RSPs need to be
+		    aware of possible interruptions in service availability
+		    or quality. </t>
 
-		<t> reputation providers will be the subject of attacks when
-		    it's understood that sucess doing so will allow malicious
-		    content to evade detection and filtering; clients need
-		    to be aware of possible interruptions in service
-		    availability or quality </t>
+		<t> Similarly, some actors will try to "game" the service,
+		    which is to say that such actors will attempt to determine
+		    patterns of behavior that result in the reporting of
+		    favorable reputations, and in doing so, acquire artifically
+		    inflated reputations.  One could reasonably assume that a
+		    reputation service is inherently fragile.  For operational
+		    clients, this should prompt balanced and comparative,
+		    rather than unilateral, use of the service. </t>
 
-		<t> understand that some actors will try to game the service,
-		    which means that a reputation service is inherently
-		    fragile; for operational clients, this should prompt
-		    balanced and comparative, rather than unilateral, use
-		    of the service </t>
+		<t> It is suggested that, when engaging an RSP, an operator
+		    should try to learn the following things about the RSP in
+		    order to understand the exposure potential:
 
-		<t> try to learn the following things about your RSP,
-		    to understand your exposure potential:
 		    <list style="symbols">
-	    		<t> their basis for listing or not listing
-			    particular subjects </t>
-			<t> if an RSP is paid by its listees, what are the
-			    rate and criteria for rejection? </t>
-	    		<t> how the provider collects data about subjects </t>
+	    		<t> the RSP's basis for listing or not listing
+			    particular subjects; </t>
+
+			<t> if an RSP is paid by its listees, the rate and
+			    criteria for rejection from being listed; </t>
+
+	    		<t> how the RSP collects data about subjects; </t>
+
 		    	<t> how many data points are input to the reported
-			    reputation </t>
-		    	<t> is reputation based on a reliable identifier? </t>
-		    	<t> how it etablishes reliability and authenticity
-			    of those data </t>
+			    reputation; </t>
+
+		    	<t> whether reputation is based on a reliable
+			    identifier; </t>
+
+		    	<t> how the RSP establishes reliability and
+			    authenticity of those data; </t>
+
 		    	<t> how data validity is maintained (e.g., on-going
-			    monitoring of the reported data and sources) </t>
+			    monitoring of the reported data and sources); </t>
+
 		    	<t> how actively data validity is tracked (e.g., how
-			    changes are detected) </t>
-		    	<t> how disputed reputations are handled </t>
-		    	<t> how data expire </t>
-		    	<t> is older information more or less influential than
-			    newer? </t>
-		    	<t> is the reported reputation a scalar, a Boolean
+			    changes are detected); </t>
+
+		    	<t> how disputed reputations are handled; </t>
+
+		    	<t> how often input data expire; </t>
+
+		    	<t> whether older information more or less influential
+			    than newer; </t>
+
+		    	<t> whether the reported reputation a scalar, a Boolean
 			    value, a collection of values, or something
-			    else? </t>
-		    	<t> when transitioning among RSPs, determine the
+			    else; </t>
+
+		    	<t> when transitioning among RSPs, the
 			    differences between them among these above
-			    points; that is, does a particular score from
-			    one mean the same thing from the other? </t>
+			    points; that is, whether a particular score from
+			    one means the same thing from another. </t>
 		    </list> </t>
 
-		<t> ensure the capability of local overrides for cases where
+		<t> An operator using an RSP would be wise to ensure it has
+		    the capability to effect local overrides for cases where
 		    the client expects to disagree with the reported
-		    reputation </t>
+		    reputation. </t>
 
-		<t> be able limit the impact of a negative reputation on
-		    content acceptance; for example, rather than rejecting
-		    content outright when a negative reputation is returned,
-		    simply subject it to additional local analyis  </t>
+		<t> An operator should be able limit the impact of a negative
+		    reputation on content acceptance.  For example, rather
+		    than rejecting content outright when a negative
+		    reputation is returned, simply subject it to additional
+		    (i.e., more thorough) local analyis before permitting
+		    the traffic to pass. </t>
 
-		<t> have a sensible default to apply when the RSP is not
-		    available </t>
+		<t> A sensible default should apply when the RSP is not
+		    available.  This may also be a query to a different RSP
+		    known to be less robust than the primary one. </t>
 
-		<t> consider tailoring operation to prefer or emphasize
-		    content whose sources have positive reputations; recall
-		    that negative reputations are easy to shed, and the
-		    universe of things that will earn and maintain positive
-		    reputations is relatively small </t>
+		<t> Recent proposals have focused on tailoring operation to
+		    prefer or emphasize content whose sources have positive
+		    reputations.  As stated above, negative reputations are
+		    easy to shed, and the universe of things that will earn
+		    and maintain positive reputations is relatively small.
+		    Designing a filtering system that observes these notions
+		    is expected to be more lightweight to operate and
+		    harder to game.  </t>
 
-		<t> consider querying and cross-referencing multiple RSPs;
-		    this helps to detect which are reliable, and offsets
-		    the effect of anomalous replies </t>
+		<t> One choice is to query and cross-referencing multiple RSPs.
+		    This can help to detect which ones under comparison
+		    are reliable, and offsets the effect of anomalous
+		    replies. </t>
 	</section>
 
 	<section anchor="servers" title="Reputation Service Providers">
-		<t> make the answers to the questions in
-		    <xref target="clients"/> available on demand to
-		    consumers </t>
+		<t> Operators intending to provide a reptuation service
+		    need to consider that there are many flavors of clients.
+		    There will be clients that are prepared to make use of
+		    a reputation service blindly, while others will be
+		    interested in understanding more fully the nature of the
+		    service being provided.  An operator of an RSP should be
+		    prepared to answer as may of the questions identified in
+		    <xref target="clients"/> as possible, not only because
+		    wise clients will ask, but also because they reflect issues
+		    that have arisen over the years, and exploration of the
+		    points they raise will result in a more robust
+		    reputation service. </t>
 
-		<t> base reputations on accurate identifiers, i.e., something
-		    difficult to forge </t>
+		<t> Obviously, in computing reputations via traffic analysis,
+		    some private algorithms may come into play.  For some RSPs,
+		    such "secret sauce" comprises their competitive advantage
+		    over others in the same space.  This document is not
+		    suggesting that all private algorithms need to be exposed
+		    for a reputation service to be acceptable.  Instead,
+		    it is anticipated that enough of the above details need
+		    to be available to ensure consumers (and in some cases,
+		    industry or the general public) that the RSP can be
+		    trusted to influence key local policy decisions. </t>
+		     
+		<t> Reptuations should be based on accurate identifiers, i.e.,
+		    some property of the content under analysis that is 
+		    difficult to falsify.  For example, in the realm of email,
+		    the address found in the From: field of a message is
+		    typically not verifiable, while the domain name found in
+		    a validated domain-level signature is.  In this case,
+		    constructing a reputation system based on the domain name
+		    is more useful than one based on the From: field. </t>
 
-		<t> it is important to have a transparent remediation process
-		    for disputes of computed reputations </t>
+		<t> The biggest frustration with most RSPs to date has been
+		    the absence of a visible, accessible, and transparent
+		    process for remediating the errant addition of an
+		    identifier to a negative reputation list.  An RSP in
+		    widespread use is perceived to have enormous power when
+		    its results are used to reject traffic outright; when
+		    a "bad" entry is added referencing a good actor, it can
+		    have destructive effects, so an effective mechanism to fix
+		    such problems needs to exist. </t>
 
-		<t> provide the ability to request details in the returned
+		<t> To accommodate clients with varying sensitivities, it is
+		    advisable for the query mechanism used to access the RSP
+		    to provide the ability to request details in the returned
 		    result about how the result was reached, allowing the
-		    client to decide if the result should be applied, such as:
+		    client to decide if the result should be applied.  For
+		    example, it shoudl be possible for the reply to contain:
+
 		    <list style="symbols">
-			<t> the result itself </t>
+			<t> the result itself; </t>
 
 			<t> the number of data points used to compute the
-			    result </t>
+			    result; </t>
 
-			<t> the age range of the data </t>
+			<t> the age range of the data; </t>
 
-			<t> source diversity of the input data </t> 
+			<t> source diversity of the input data; </t> 
 
 			<t> currency of the result (i.e., when it was
-			    computed) </t>
+			    computed); </t>
 
 			<t> basis of the result (i.e., which identifier was
-			    used) </t>
+			    used). </t>
 		    </list> </t>
 
-		<t> harden systems and algorithms as much as practicable
-		    against gaming or data poisoning; larger source
-		    diversities are harder to overcome with poisoned
-		    input, but are expensive to build </t>
+		<t> The systems and algorithms used by the RSP to compute the
+		    reported reputation will need to be hardened as much as
+		    practicable against gaming or other forms of data
+		    poisoning.  Larger source diversities are harder to
+		    overcome with poisoned input, but are expensive to
+		    build in terms of both infrastructure and time. </t>
 
-		<t> systems based on positive reputations are promising since
-		    positive reputations, if made difficult to earm put a large
-		    cost on bad actors </t>
+		<t> Systems focused on assigning positive reputations rather
+		    than negtive ones are promising since positive
+		    reputations, if made difficult to earn, put a large
+		    cost on bad actors, which may be enough to dissuade them
+		    entirely. </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
 		<t> Several points are raised above that can be described
 		    as threats to the delivery of valid user data.  This
-		    document highlights and discusses those issues, but
+		    document highlights and discusses those matters, but
 		    introduces no new security issues. </t>
 	</section>
 
@@ -318,7 +392,7 @@
 	<section anchor="thanks" title="Acknowledgements">
    		<t> The author wishes to acknowledge the following for their
 		    review and constructive criticism of this proposal:
-		    (names)
+		    Chris Barton, Vincent Schonau
                     </t>
 	</section>
 
