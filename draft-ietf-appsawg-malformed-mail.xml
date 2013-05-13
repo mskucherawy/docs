@@ -107,7 +107,12 @@
 			    imply that there are no limits to the liberties
 			    that a sender might take, while presuming a burden
 			    on a receiver to guess "correctly" at the meaning
-			    of any such variation. </t>
+			    of any such variation.  These matters are further
+			    compounded by flawed receiver software -- the
+			    end users' mail readers -- which are also
+			    sometimes flawed, leaving senders to craft
+			    messages (sometimes bending the rules) to overcome
+			    those flaws. </t>
 
 			<t> In general, this served the email ecosystem well
 			    by allowing a few errors in implementations
@@ -171,6 +176,33 @@
 			    other industry best practices such as may be
 			    published from time to time either by the IETF or
 			    independently. </t>
+
+			<t> Receivers that haven't the luxury of strict
+			    enforcement of the standards on inbound messages
+			    are usually best served by observing the following
+			    guidelines for handling of malformed messages:
+
+			    <list style="numbers">
+				<t> Whenever possible, mitigation of syntactic
+				    malformations should be guided by an
+				    assessment of the most likely semantic
+				    intent.  For example, it is reasonable to
+				    conclude that multiple sets of angle
+				    brackets around an address are simply
+				    superflous and can be dropped. </t>
+
+				<t> When the intent is unclear, or
+				    when it is clear but also impractical to
+				    change the content to reflect that intent,
+				    mitigation should be limited to cases
+				    where not taking any corrective action
+				    would clearly lead to a worse outcome. </t>
+
+				<t> Security issues, when present, need to be
+				    addressed and may force mitigation
+				    strategies that are otherwise
+				    suboptimal. </t>
+			    </list> </t>
 		</section>
 	</section>
 
@@ -237,8 +269,8 @@
 		    at the end user's system.  This could render the
 		    complaint inactionable.  Similarly, a message that
 		    originally had properties a filtering agent would use to
-		    reject an might not be rejected, and thus reach an end
-		    user, if an intermediate agent altered the message in
+		    reject might not be rejected, and thus reach an end
+		    user, if an intermediate agent changed the message in
 		    a manner that alters one of those properties. </t>
 
 		<t> Therefore, agents within an integrated message processing
@@ -248,6 +280,17 @@
 		    and that this is what reaches the end user, unmodified.
 		    Various policies, such as special handling for detected
 		    message abuse, will make exceptions appropriate. </t>
+
+		<t> Note that some changes to a message alter syntax without
+		    changing semantics.  (Indeed, analyzing the semantics of
+		    malformations is the impetus for this work.)  For example,
+		    <xref target="malformations"/> describes a situation
+		    in which additional whitespace in a header is removed.
+		    This is a change in syntax without a change in semantics,
+		    though some systems (e.g., DKIM) are sensitive to such
+		    changes.  Care must be taken when developing message
+		    handling systems to be aware of the downstream impact
+		    of making either kind of change. </t>
 	</section>
 
 	<section anchor="msa" title="Mail Submission Agents">
@@ -386,6 +429,23 @@
 				    </artwork></figure> </t>
 			</section>
 
+			<section anchor="commas"
+			         title="Commas in Address Lists">
+				<t> This use of an errant comma:
+
+				    <figure><artwork>
+    To: &lt;third@example.net, fourth@example.net&gt;
+				    </artwork></figure> </t>
+
+				<t> can reasonably be interpreted as ending
+				    an address, so the above should really
+				    be interpreted as: 
+
+				    <figure><artwork>
+    To: third@example.net, fourth@example.net
+				    </artwork></figure> </t>
+			</section>
+
 			<section anchor="quotes" title="Unbalanced Quotes">
 				<t> The following use of unbalanced
 				    quotation marks:
@@ -394,14 +454,49 @@
     To: "Joe &lt;joe@example.com&gt;
 				    </artwork></figure> </t>
 
-				<t> should be interpreted as:
+				<t> leaves software with no obvious "good"
+				    interpretation.  If it is essential to
+				    extract an address from the above, one
+				    possible interpretation is:
 				    <figure><artwork>
     To: "Joe &lt;joe@example.com&gt;"@example.net
 				    </artwork></figure> </t>
 
 				<t> where "example.net" is the domain name
 				    or host name of the handling agent
-				    making the interpretation. </t>
+				    making the interpretation.  Another
+				    possible interpretation is simply: 
+				    <figure><artwork>
+    To: "Joe" &lt;joe@example.com&gt
+				    </artwork></figure> </t>
+			</section>
+
+			<section anchor="localpart" title="Naked Local-Parts">
+				<t> <xref target="MAIL"/> defines a local-part
+				    as the user portion of an email address,
+				    and the display-name as the "user-friendly"
+				    label that accompanies the address
+				    specification. </t>
+
+				<t> Some broken submission agents might
+				    introduce messages with only a local-part
+				    or only a display-name and no properly
+				    formed address.  For example:
+
+				    <figure><artwork>
+    To: Joe
+				    </artwork></figure> </t>
+
+				<t> A submission agent ought to reject this or,
+				    at a minimum, append "@" followed by its
+				    own host name or some other valid
+				    name likely to enable a reply to be
+				    delivered to the correct mailbox.  Where
+				    this is not done, an agent receiving 
+				    such a message will probably be successful
+				    by synthesizing a valid header field
+				    for evaluation using the techniques
+				    described in <xref target="missing"/>. </t>
 			</section>
 		</section>
 
@@ -611,6 +706,10 @@
 				    <xref target="MAIL"/> when generating its
 				    output; </t>
 
+				<t> where a field has a limited instance count,
+				    combine additional instances into a
+				    single compound instance; </t>
+
 				<t> alter the name of any header field 
 				    whose presence exceeds a limit prescribed
 				    in Section 3.6 of
@@ -693,7 +792,7 @@
 		<section anchor="8bit" title="Eight-Bit Data">
 			<t> Standards-compliant mail messages that contain
 			    non-ASCII data are required to self-label this
-			    through the use of <xref target="MIME">/>.  If
+			    through the use of <xref target="MIME"/>.  If
 			    the representation of the non-ASCII data is in
 			    an 8-bit mode (rather than special encoding so
 			    that it retains a 7-bit base), then this must
@@ -708,9 +807,9 @@
 			    which can be exploited to hide malicious content
 			    from analysis processes. </t>
 
-			<t> Handling agents MUST reject messages containing
+			<t> Handling agents need to reject messages containing
 			    null bytes that are not encoded in some standard
-			    way, and SHOULD reject other non-ASCII bytes that
+			    way, and should reject other non-ASCII bytes that
 			    are similarly not encoded.  If rejection is not
 			    done, an ASCII-compatible encoding such as those
 			    defined in <xref target="MIME"/> SHOULD be
@@ -728,45 +827,6 @@
 		    common.  This section discusses some of those and
 		    presents preferred mitigations. </t>
 
-		<section anchor="hdrnames" title="Header Field Names">
-			<t> <xref target="MAIL"/> permits header field names
-			    to begin with "--".  This means that a header
-			    field name can look like a <xref target="MIME"/>
-			    multipart boundary.  For example:
-
-			    <figure><artwork>
-  --foo:bar
-			    </artwork></figure> </t>
-
-			<t> This is a legal header field, whose name is
-			    "--foo" and whose value is "bar".  Thus, consider
-			    this header:
-
-			    <figure><artwork>
-    From: user@example.com {1}
-    To: userpal@example.net {2}
-    Subject: This is your reminder {3}
-    Date: Wed, 20 Oct 2010 20:53:35 -0400 {4}
-    MIME-Version: 1.0 {5}
-    Content-Type: multipart/mixed; boundary="foo:bar" {6}
-    --foo:bar {7}
-    Malicious-Content: muahaha {8}
-			    </artwork></figure> </t>
-
-			<t> Note that there has been no blank line separating
-			    the header from the body yet, so the text at line
-			    {7} is not in the body and thus cannot be an
-			    active boundary marker.  Still, one implementation
-			    could observe that line {7} announces the
-			    beginning of the first MIME part while another
-			    considers it a part of the message's header. </t>
-
-			<t> If an agent detecting such an anomaly cannot
-			    enact rejection, the agent needs to treat line
-			    {7} as part of the message's header block and not
-			    a MIME boundary. </t>
-		</section>
-
 		<section anchor="no_version" title="Missing MIME-Version Field">
 			<t> Any message that uses <xref target="MIME"/>
 			    constructs is required to have a MIME-Version
@@ -781,25 +841,15 @@
 			    <xref target="non-headers"/>, this is not expected
 			    from a reputable content generator and is often
 			    an indication of mass-produced spam or other
-			    undesirable messages. </t>
+			    undesirable messages.  Some filters reject
+			    such messages on this basis, even though the
+			    apparent intent of the message generator is
+			    fairly obvious. </t>
+		</section>
 
-			<t> Therefore, an agent compliant with this
-			    specification MUST internally enact one or more of
-			    the following in the absence of a MIME-Version
-			    header field:
-
-			    <list style="numbers">
-				<t> Ignore all other MIME-specific fields,
-				    even if they are syntactically valid,
-				    thus treating the entire message as a
-				    single-part message of type
-				    text/plain; </t>
-
-				<t> Remove all other MIME-specific fields,
-				    even if they are syntactically valid,
-				    both internally and when emitting the
-				    output version of the message; </t>
-			    </list> </t>
+		<section anchor="bad_encoding"
+		         title="Faulty Encodings">
+			<t> [TBD] </t>
 		</section>
 	</section>
 
@@ -864,71 +914,6 @@
 
 <back>
 	<references title="Normative References">
-		<reference anchor="KEYWORDS">
-			<front>
-				<title abbrev="RFC Key Words">Key words for
-				       use in RFCs to Indicate Requirement
-				       Levels</title>
-
-				<author initials="S." surname="Bradner"
-				        fullname="Scott Bradner">
-					<organization>Harvard University</organization>
-					<address>
-						<postal>
-							<street>1350 Mass. Ave.</street>
-							<street>Cambridge</street>
-							<street>MA 02138</street>
-						</postal>
-						<phone>- +1 617 495 3864</phone>
-						<email>sob@harvard.edu</email>
-					</address>
-				</author>
-
-				<date year="1997" month="March"/>
-
-				<area>General</area>
-				<keyword>keyword</keyword>
-
-				<abstract>
-					<t> In many standards track documents
-					    several words are used to signify
-					    the requirements in the
-					    specification.  These words are
-					    often capitalized.  This document
-					    defines these words as they
-					    should be interpreted in IETF
-					    documents.  Authors who follow
-					    these guidelines should
-					    incorporate this phrase near the
-					    beginning of their document:
-
-					<list> <t>
-						The key words "MUST", "MUST
-					        NOT", "REQUIRED", "SHALL",
-					        "SHALL NOT", "SHOULD", "SHOULD
-					        NOT", "RECOMMENDED",  "MAY",
-					        and "OPTIONAL" in this
-					        document are to be interpreted
-					        as described in RFC 2119.
-					        </t> </list> </t>
-
-					<t> Note that the force of these
-					    words is modified by the
-					    requirement level of the document
-					    in which they are used. </t>
-				</abstract>
-			</front>
-
-			<seriesInfo name="BCP" value="14"/>
-			<seriesInfo name="RFC" value="2119"/>
-			<format type="TXT" octets="4723"
-			        target="ftp://ftp.isi.edu/in-notes/rfc2119.txt"/>
-			<format type="HTML" octets="17491"
-			        target="http://xml.resource.org/public/rfc/html/rfc2119.html"/>
-			<format type="XML" octets="5777"
-			        target="http://xml.resource.org/public/rfc/xml/rfc2119.xml"/>
-		</reference>
-
 		<reference anchor="MAIL">
 			<front>
 				<title> Internet Message Format </title>
