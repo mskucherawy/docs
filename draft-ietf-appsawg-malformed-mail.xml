@@ -1139,8 +1139,11 @@
 	<section anchor="thanks" title="Acknowledgements">
    		<t> The author wishes to acknowledge the following for their
 		    review and constructive criticism of this proposal:
-		    Tony Hansen, and
-		    Franck Martin
+		    Dave Crocker,
+		    Ned Freed,
+		    Tony Hansen,
+		    Franck Martin, and
+		    Timo Serainen
                     </t>
 	</section>
 
