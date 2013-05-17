@@ -245,7 +245,10 @@
 		<t> In most cases, advice is provided only for internal
 		    representations.  However, it is sometimes necessary
 		    to make changes between the input and output versions
-		    as well. </t>
+		    as well.  For the most part, such advice is avoided here;
+		    the goal is to ensure consistency among a set of
+		    transport and analysis agents, not necessarily the
+		    presentation of a "cleaned" message to the end user. </t>
 	</section>
 
 	<section anchor="constant" title="Invariant Content">
