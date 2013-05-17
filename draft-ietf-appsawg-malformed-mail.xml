@@ -242,7 +242,7 @@
 		    such as added or reordered header fields, body
 		    modifications to remove malicious content, etc. </t>
 
-		<t> In some cases, advice is provided only for internal
+		<t> In most cases, advice is provided only for internal
 		    representations.  However, it is sometimes necessary
 		    to make changes between the input and output versions
 		    as well. </t>
