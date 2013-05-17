@@ -789,31 +789,122 @@
 			    </artwork></figure> </t>
 		</section>
 
+		<section anchor="charset"
+		         title="Missing or Incorrect Charset Information">
+			<t> MIME provides the means to include textual
+			    material employing charsets other than US-ASCII.
+ 			    Such material is required to have an identifiable
+			    charset.  Charset identification is done using a
+			    "charset" parameter in the Content-Type header
+			    field, a character set label within the MIME
+			    entity itself, or the character set may be
+			    implicitly specified by the Content-Type
+			    (see <xref target="CHARSET"/>). </t>
+		
+			<t> It is unfortunately fairly common for required
+			    character set information to be missing or
+			    incorrect in textual MIME entities.  As such,
+			    processing agents should perform basic sanity
+			    checks, e.g.:
+
+			    <list style="symbols">
+				<t> US-ASCII is 7bit only, so 8bit material
+				    is necessarily not US-ASCII. </t>
+				<t> UTF-8 has a very specific syntactic
+				    structure that other 8bit charsets are
+				    unlikely to follow. </t>
+				<t> Null bytes (ASCII 0x00) are not allowed
+				    in either 7bit or 8bit data. </t>
+				<t> Not all 7bit material is US-ASCII.  The
+				    presence of the various escape sequences
+				    used for character switching may be used
+				    as an indication of the various
+				    ISO-2022 charsets. </t>
+			    </list> </t>
+
+			<t> When a character set error is detected, processing
+			    agents should:
+
+			    <list style="letters">
+				<t> apply heuristics to determine the most
+				    likely character set and, if successful,
+				    proceed using that information; or </t>
+
+				<t> refuse to process the malformed MIME
+				    entity. </t>
+			    </list> </t>
+
+			<t> A null byte inside a textual MIME entity can
+			    cause typical string processing functions to
+			    mis-identify the end of a string, which can be
+			    exploited to hide malicious content from
+			    analysis processes.  Accordingly, null bytes
+			    require additional special handling. </t>
+
+			<t> A few null bytes in isolation is likely to be the
+			    result of poor message construction practices.
+			    Such nulls should be silently dropped. </t>
+
+			<t> Large numbers of null bytes are usually the result
+			    of binary material that is improperly encoded,
+			    improperly labeled, or both.  Such material is
+			    likely to be damaged beyond the hope of recovery,
+			    so the best course of action is to refuse to
+			    process it. </t>
+
+			<t> Finally, the presence of null bytes may be used
+			    as indication of possible malicious intent. </t>
+		</section>
+
 		<section anchor="8bit" title="Eight-Bit Data">
-			<t> Standards-compliant mail messages that contain
-			    non-ASCII data are required to self-label this
-			    through the use of <xref target="MIME"/>.  If
-			    the representation of the non-ASCII data is in
-			    an 8-bit mode (rather than special encoding so
-			    that it retains a 7-bit base), then this must
-			    be signaled through the use of
-			    <xref target="SMTP"/> extensions. </t>
+			<t> Standards-compliant email messages do not contain
+			    any non-ASCII data without indicating that such
+			    content is present by means of published SMTP
+			    extensions.  Absent that, MIME encodings are
+			    typically used to convert non-ASCII data to
+			    ASCII in a way that can be reversed by other
+			    handling agents or end users. </t>
 
-			<t> Non-ASCII data otherwise found in messages
-			    can confound code that is used to analyze content.
-			    For example, a null (ASCII 0x00) byte inside
-			    a message can cause typical string processing
-			    functions to mis-identify the end of a string,
-			    which can be exploited to hide malicious content
-			    from analysis processes. </t>
+			<t> The best way to handle non-compliant 8bit material
+			    depends on its location. </t>
 
-			<t> Handling agents need to reject messages containing
-			    null bytes that are not encoded in some standard
-			    way, and should reject other non-ASCII bytes that
-			    are similarly not encoded.  If rejection is not
-			    done, an ASCII-compatible encoding such as those
-			    defined in <xref target="MIME"/> SHOULD be
-			    used. </t>
+			<t> Non-compliant 8bit in MIME entity content should
+			    simply be processed as if the necessary SMTP
+			    extensions had been used to transfer the message.
+			    Note that improperly labeled 8bit material in
+			    textual MIME entities may require treatment as
+			    described in <xref target="charset"/>. </t>
+
+			<t> Non-compliant 8bit in message or MIME entity
+			    header fields can be handled as follows:
+
+			    <list style="symbols">
+				<t> Occurrences in unstructured text fields,
+				    comments, and phrases, can be converted
+				    into encoded-words (see
+				    <xref target="MIME3"/> if a likely
+				    character set can be determined.
+				    Alternatively, 8bit characters can be
+				    removed or replaced with some other
+				    character. </t>
+
+				<t> Occurrences in header fields whose syntax
+				    is unknown may be handled by dropping the
+				    field entirely or by removing/replacing
+				    the 8bit character as described above. </t>
+
+				<t> Occurrences in addresses are especially
+				    problematic.  Agents supporting
+				    <xref target="EAI"/> may, if the 8bit
+				    conforms to 8bit syntax, elect to treat
+				    the messages as an EAI message and
+				    process it accordingly.  Otherwise, it is
+				    in most cases best to exclude the address
+				    from any sort of processing -- which may
+				    mean dropping it entirely -- since any
+				    attempt to fix interpret it definitively
+				    is unlikely to be successful. </t>
+				</list> </t>
 		</section>
 	</section>
 
@@ -835,21 +926,39 @@
 			    meaning. </t>
 
 			<t> It is often observed that a message has complete
-			    MIME structure, yet lacks this header field. </t>
-
-			<t> As described at the end of
-			    <xref target="non-headers"/>, this is not expected
-			    from a reputable content generator and is often
-			    an indication of mass-produced spam or other
-			    undesirable messages.  Some filters reject
-			    such messages on this basis, even though the
-			    apparent intent of the message generator is
-			    fairly obvious. </t>
+			    MIME structure, yet lacks this header field.
+			    It is prudent to disregard this absence and
+			    conduct analysis of the message as if it were
+			    present, especially by agents attempting to
+			    identify malicious material. </t>
+			    
+			<t> Further, the absence of MIME-Version might be
+			    an indication of malicious intent, and extra
+			    scrutiny of the message may be warranted.  Such
+			    omissions are not expected from compliant
+			    message generators. </t>
 		</section>
 
 		<section anchor="bad_encoding"
 		         title="Faulty Encodings">
-			<t> [TBD] </t>
+			<t> There have been a few different specifications of
+			    base64 in the past.  The implemenation defined
+			    in <xref target="MIME"/> instructs decoders
+			    to discard characters that are not part of the
+			    base64 alphabet.  Other implementations consider
+			    an encoded body containing such characters to be
+			    completely invalid.  Very early specifications of
+			    base64 (see <xref target="PEM"/>, for example)
+			    allowed email-style comments within base64-encoded
+			    data. </t>
+
+			<t> The attack vector here involves constructing
+			    a base64 body whose meaning varies given different
+			    possible decodings.  If a security analysis
+			    module wishes to be thorough, it should consider
+			    scanning the possible outputs of the known
+			    decoding dialects in an attempt to anticipate how
+			    the MUA will interpret the data. </t>
 		</section>
 	</section>
 
@@ -930,6 +1039,28 @@
 	</references>
 
 	<references title="Informative References">
+		<reference anchor="CHARSET">
+			<front>
+				<title> Update to MIME regarding "charset"
+				        Parameter Handling in Textual Media
+				        Types </title>
+				<author initials="A." surname="Melnikov"
+					fullname="A. Melnikov">
+					<organization>
+						Isode Limited
+					</organization>
+				</author>
+				<author initials="J." surname="Reschke"
+					fullname="J. Reschke">
+					<organization>
+						greenbytes
+					</organization>
+				</author>
+				<date month="July" year="2012" />
+			</front>
+			<seriesInfo name="RFC" value="6657" />
+		</reference>
+
 		<reference anchor="DKIM">
 			<front>
 				<title>
@@ -1021,6 +1152,33 @@
 			<seriesInfo name="RFC" value="3464" />
 		</reference>
 
+		<reference anchor="EAI">
+			<front>
+				<title> Internationalized Email
+				        Headers </title>
+				<author initials="A." surname="Yang"
+					fullname="A. Yang">
+					<organization>
+						TWNIC
+					</organization>
+				</author>
+				<author initials="S." surname="Steele"
+					fullname="S. Steele">
+					<organization>
+						Microsoft
+					</organization>
+				</author>
+				<author initials="N." surname="Freed"
+					fullname="N. Freed">
+					<organization>
+						Oracle
+					</organization>
+				</author>
+				<date month="February" year="2012" />
+			</front>
+			<seriesInfo name="RFC" value="6532" />
+		</reference>
+
 		<reference anchor="EMAIL-ARCH">
 			<front>
 				<title> Internet Mail Architecture </title>
@@ -1055,6 +1213,39 @@
 				<date month="November" year="1996" />
 			</front>
 			<seriesInfo name="RFC" value="2045" />
+		</reference>
+
+		<reference anchor="MIME3">
+			<front>
+				<title> MIME (Multipurpose Internet Mail
+				        Extensions) Part Three: Message Header
+				        Extensions for Non-ASCII Text </title>
+				<author initials="K." surname="Moore"
+					fullname="K. Moore">
+					<organization>
+						University of Tennessee
+					</organization>
+				</author>
+				<date month="November" year="1996" />
+			</front>
+			<seriesInfo name="RFC" value="2047" />
+		</reference>
+
+		<reference anchor="PEM">
+			<front>
+				<title> Privacy Enhancement for Internet
+				       Electronic Mail: Part I -- Message
+				       Encipherment and Authentication
+				       Procedures </title>
+				<author initials="J." surname="Linn"
+				        fullname="J. Linn">
+					<organization>
+						DEC
+					</organization>
+				</author>
+				<date month="August" year="1989" />
+			</front>
+			<seriesInfo name="RFC" value="1113" />
 		</reference>
 
 		<reference anchor="RFC733">
