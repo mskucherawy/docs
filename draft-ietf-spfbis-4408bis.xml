@@ -4,9 +4,9 @@
   <!ENTITY rfc1034 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1034.xml">
   <!ENTITY rfc1035 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1035.xml">
   <!ENTITY rfc1123 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1123.xml">
+  <!ENTITY rfc1983 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1983.xml">
   <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
   <!ENTITY rfc2782 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2782.xml">
-  <!ENTITY rfc1983 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1983.xml">
   <!ENTITY rfc2308 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2308.xml">
   <!ENTITY rfc3463 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3463.xml">
   <!ENTITY rfc3464 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3464.xml">
@@ -28,14 +28,16 @@
   <!ENTITY rfc5451 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5451.xml">
   <!ENTITY rfc5598 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5598.xml">
   <!ENTITY rfc5751 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5751.xml">
+  <!ENTITY rfc5782 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5782.xml">
   <!ENTITY rfc5890 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5890.xml">
   <!ENTITY rfc6409 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6409.xml">
   <!ENTITY rfc6647 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6647.xml">
+  <!ENTITY rfc6648 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6648.xml">
   <!ENTITY rfc6652 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6652.xml">
   <!ENTITY rfc6686 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6686.xml">
 ]>
 
-<rfc category="std" ipr="pre5378Trust200902" docName="draft-ietf-spfbis-4408bis-10.txt" obsoletes="4408">
+<rfc category="std" ipr="pre5378Trust200902" docName="draft-ietf-spfbis-4408bis-15.txt" obsoletes="4408">
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
 <?rfc sortrefs="yes"?>
@@ -67,9 +69,10 @@
         particular, existing protocols place no restriction on what a sending
         host can use as the "MAIL FROM" of a message or the domain given on
         the SMTP HELO/EHLO commands.  This document describes version 1 of
-        the Sender Policy Framework (SPF) protocol, whereby an ADMD can
-        explicitly authorize the hosts that are allowed to use its domain
-        names, and a receiving host can check such authorization.
+        the Sender Policy Framework (SPF) protocol, whereby a ADMDs
+        (ADministrative Management Domains) can explicitly authorize the hosts
+        that are allowed to use its domain names, and a receiving host can
+        check such authorization.
       </t>
       <t>This document obsoletes RFC4408.
       </t>
@@ -84,10 +87,10 @@
         each of the various identifiers specified by <xref target="RFC5321"/>
         and <xref target="RFC5322"/>.  Although this feature is desirable in
         some circumstances, it is a major obstacle to reducing Unsolicited Bulk
-        Email (UBE, aka spam).  Furthermore, many domain owning ADMDs
-        (ADministrative Management Domains, see <xref target="RFC5598"/>) are
-        understandably concerned about the ease with which other entities can
-        make use of their domain names, often with malicious intent.
+        Email (UBE, aka spam).  Furthermore, many domain owning ADMDs (as
+        described in <xref target="RFC5598"/>) are understandably concerned
+        about the ease with which other entities can make use of their domain
+        names, often with malicious intent.
       </t>
       <t>
         This document defines a protocol by which ADMDs can authorize hosts to
@@ -104,7 +107,8 @@
         identity is verified, local policy decisions about the mail can be
         made based on the sender's domain, rather than the host's IP address.
         This is advantageous because reputation of domain names is likely to
-        be more accurate than reputation of host IP addresses.  Furthermore,
+        be more accurate than reputation of host IP addresses since domains
+        are likely to be more stable over a longer period.  Furthermore,
         if a claimed identity fails verification, local policy can take
         stronger action against such email, such as rejecting it.
       </t>
@@ -119,8 +123,8 @@
           </section>
           <section anchor="imports" title="Imported Definitions">
              <t>
-               The ABNF tokens "ALPHA", "DIGIT", and "SP" are defined in
-               <xref target="RFC5234"/>.
+               ABNF ABNF is defined in  <xref target="RFC5234"/>, as are the
+               tokens "ALPHA", "DIGIT", and "SP".
              </t>
              <t> 
                The token "local-part" is defined in <xref target="RFC5321"/>.
@@ -139,8 +143,8 @@
               casually, this document uses "MAIL FROM" for consistency.  This
               means the RFC5321.MailFrom as defined in <xref target="RFC5598"/>.
               Note that other terms that might superficially look like the
-              common terms, such as "reverse-path", are used only with the
-              defined meanings from normative documents.
+              common terms, such as 'reverse-path', are used only as they are
+              specified in their defining documents.
             </t>
           </section>
           <section title="HELO Definition" anchor="helo-def">
@@ -156,6 +160,16 @@
             </t>
           </section>
       </section>
+      <section title="check_host()" anchor="check_host-def">
+        <t>
+          <xref target="function"/> introduces an algorithm to evaluate an SPF
+          policy against an arriving email transaction.  In an early
+          implementation, this algorithm was encoded in a function called
+          check_host().  That name is used in this document as symbolic of the
+          SPF evaluation algorithm, but of course implementers are not required
+          to use this name.
+        </t>
+      </section>
     </section>
     <section title="Operational Overview">
       <section title="The &quot;HELO&quot; Identity" anchor="helo-ident">
@@ -165,24 +179,29 @@
           applying the check_host() function (<xref target="function"/>) to the
           "HELO" identity as the &lt;sender&gt;.  Checking
           "HELO" promotes consistency of results and can reduce DNS
-          resource usage.  Additionally, since SPF records published for
-          "HELO" identities refer to a single host, when available,
-          they are a very reliable source of host authorization status.
+          resource usage.  If a conclusive determination about the message can
+          be made based on a check of "HELO", then the use of DNS resources to
+          process the typically more complex "MAIL FROM" can be avoided.
+          Additionally, since SPF records published for "HELO" identities
+          refer to a single host, when available, they are a very reliable
+          source of host authorization status.  Checking "HELO" before "MAIL
+          FROM" is the RECOMMENDED sequence if both are checked.
         </t>
         <t>
           Note that requirements for the domain presented in the EHLO or HELO
           command are not always clear to the sending party, and SPF verifiers
-          MUST be prepared for the "HELO" identity to be malformed
-          or an IP address literal.  This SPF check can only be performed when
-          the "HELO" string is a valid fully qualified domain.
+          have to be prepared for is identity to be an IP address literal (see
+          <xref target="RFC5321"/> section 4.1.3), or simply be malformed.
+          This SPF check can only be performed when the "HELO" string is a
+          valid, multi-label domain name.
         </t>
       </section>
       <section title="The &quot;MAIL FROM&quot; Identity" anchor="mfrom-ident">
         <t>
-          SPF verifiers MUST check the ""MAIL FROM" identity if a completed
-          "HELO" check has not reached a definitive policy result by
-          applying the check_host() function to the "MAIL FROM" identity as
-          the &lt;sender&gt;.
+          SPF verifiers MUST check the "MAIL FROM" identity if a "HELO" check
+          has either not been performed or has not reached a definitive policy
+          result by applying the check_host() function to the "MAIL FROM"
+          identity as the &lt;sender&gt;.
         </t>
         <t>
           <xref target="RFC5321"/> allows the reverse-path to be null (see
@@ -197,31 +216,37 @@
       </section>
       <section title="Publishing Authorization">
         <t>
-          An SPF-compliant domain MUST have valid SPF records as
-          described in <xref target="records"/>.  These records authorize the
-          use of the relevant domain names in the "HELO" and "MAIL FROM"
-          identities by the MTAs specified therein.
+          An SPF-compliant domain publishes valid SPF records as described in
+          <xref target="records"/>.  These records authorize the use of the
+          relevant domain names in the "HELO" and "MAIL FROM" identities by
+          the MTAs specified therein.
         </t>
         <t>
           SPF results can be used to make both positive (source is authorized)
-          and negative (source is not authorized) determinations.  If domain
-          owners choose to publish SPF records and want to support receivers
-          making negative authorization determinations, then they MUST publish
-          records that end in "-all", or redirect to other records that do,
-          otherwise, no definitive determination of authorization can be made.
-          Potential issues and mitigations associated with negative
+          and negative (source is not authorized) determinations.  If ADMDs
+          choose to publish SPF records and want to support receivers making
+          negative authorization determinations, it is necessary for them to
+          publish records that end in "-all", or redirect to other records
+          that do, otherwise, no definitive determination of authorization can
+          be made.  Potential issues and mitigations associated with negative
           determinations are discussed in <xref target="implications"/>.
         </t>
         <t>
-          ADMDs can publish SPF records that explicitly authorize no
-          hosts for domain names that are neither used in the domain part of
-          email addresses nor expected to originate mail.
+          ADMDs that wish to declare that no hosts are authorized to use their
+          DNS domain names in the HELO or MAIL FROM commands during SMTP
+          sessions can publish SPF records that say so for domain names that
+          are neither used in the domain part of email addresses nor expected
+          to originate mail.
         </t>
         <t>
           When changing SPF records, care has to be taken to ensure that there
           is a transition period so that the old policy remains valid until
-          all legitimate email can reasonably expect to have been checked.  This
-          can be as much as 30 days.
+          all legitimate email can reasonably expect to have been checked.
+          <xref target="RFC5321"/> Section 4.5.4.1 discusses how long a message
+          might be in transit.  While offline checks are possible, the closer to
+          the original transmission time checks are performed, the more likely
+          they are to get an SPF result that matches the sending ADMD intent at
+          the time the message was sent.
         </t>
       </section>
       <section title="Checking Authorization" anchor="checkauth">
@@ -231,20 +256,18 @@
           client host to emit mail with a given identity.  Typically, such
           checks are done by a receiving MTA, but can be performed elsewhere
           in the mail processing chain so long as the required information is
-          available and reliable.  At least the "MAIL FROM" identity MUST be
-          checked, but it is RECOMMENDED that the "HELO" identity
-          also be checked beforehand. 
+          available and reliable.  The "MAIL FROM" and "HELO" identities are
+          checked as described in <xref target="mfrom-ident"/> and <xref
+          target="helo-ident"/> respectively. 
         </t>
         <t>
-          Without explicit approval of the domain owner, checking other
+          Without explicit approval of the publishing ADMD, checking other
           identities against SPF version 1 records is NOT RECOMMENDED because
           there are cases that are known to give incorrect results.  For
           example, almost all mailing lists rewrite the "MAIL FROM" identity
-          (see <xref target="mailing-lists"/>), but some do not change any
-          other identities in the message.  The scenario described in <xref
-          target="forwarding"/>, sub-section 1.2, is another example.
-          Documents that define other identities will have to define the method
-          for explicit approval.
+          (see <xref target="middle-lists"/>), but some do not change any
+          other identities in the message.  Documents that define other
+          identities will have to define the method for explicit approval.
         </t>
         <t>
           It is possible that mail receivers will use the SPF check as part
@@ -255,7 +278,7 @@
           mail from that host to be accepted.
         </t>
         <t>
-          When a mail receiver decides to perform an SPF check, it MUST use a
+          When a mail receiver decides to perform an SPF check, it has to use a
           correctly-implemented check_host() function (<xref
           target="function"/>) evaluated with the correct parameters.
           Although the test as a whole is optional, once it has been decided
@@ -264,23 +287,7 @@
         </t>
         <t>
           To make the test, the mail receiver MUST evaluate the check_host()
-          function with the arguments set as follows:
-        </t>
-        <t>
-          <?rfc compact="no"?>
-          <list style="hanging" hangIndent="9">
-            <t hangText="&lt;ip&gt;">
-              - the IP address of the SMTP client that is emitting the &nbsp;&nbsp;
-              &nbsp; mail, either IPv4 or IPv6.
-            </t>
-            <t hangText="&lt;domain&gt;">
-              - the domain portion of the "MAIL FROM" or "HELO" identity.
-            </t>
-            <t hangText="&lt;sender&gt;">
-              - the "MAIL FROM" or "HELO" identity.
-            </t>
-          </list>
-          <!-- <?rfc compact="yes"?> -->
+          function with the arguments described in <xref target="arguments"/>.
         </t>
         <t>
           Although invalid, malformed, or non-existent domains cause SPF
@@ -302,24 +309,27 @@
       <section title="Location of Checks" anchor="op-location">
         <t>
           The authorization check SHOULD be performed during the processing of
-          the SMTP transaction that sends the mail.  This reduces the
+          the SMTP transaction that recieves the mail.  This reduces the
           complexity of determining the correct IP address to use as an input
           to check_host() and allows errors to be returned directly to the
-          sending MTA by way of SMTP replies.
+          sending MTA by way of SMTP replies.  Appencix C of <xref
+          target="RFC5451"/> provides a more thorough discussion of this
+          topic.
         </t>
         <t>
-          Performing the authorization other than using the return-path and
-          client address at the time of the MAIL command during the SMTP
+          Performing the authorization check other than using the MAIL FROM
+          and client address at the time of the MAIL command during the SMTP
           transaction can cause problems, such as the following: (1) It might be
           difficult to accurately extract the required information from
           potentially deceptive headers; (2) legitimate email might fail because
           the sender's policy had since changed.
         </t>
         <t>
-          Generating non-delivery notifications to forged identities that
-          have failed the authorization check is a source of backscatter and
-          SHOULD be avoided.  Section 2 of <xref target="RFC3834"/> describes
-          backscatter and the problems it causes.
+          Generating non-delivery notifications to forged identities that have
+          failed the authorization check often constitutes backscatter, i.e.,
+          inactionable, nuisance rejection notices.  Operators are strongly
+          advised to avoid such practices. Section 2 of <xref
+          target="RFC3834"/> describes backscatter and the problems it causes.
         </t>
       </section>
       <section title="Results of Evaluation" anchor="op-result">
@@ -327,7 +337,7 @@
           <xref target="function"/> defines check_host(), a model function
           definition that uses the inputs defined above and the sender's policy
           published in the DNS to reach a conclusion about client authorization.
-          An SPF verifier implements something semantically identical to the
+          An SPF verifier implements something semantically equivalent to the
           function defined there.
         </t>
         <t>
@@ -345,7 +355,7 @@
         </section>
         <section title="Neutral" anchor="op-result-neutral">
           <t>
-            The domain owner has explicitly stated that it is not asserting
+            The ADMD has explicitly stated that it is not asserting
             whether the IP address is authorized.  This result MUST be treated
             exactly like the "none" result; the distinction exists only for
             informational purposes.
@@ -369,7 +379,7 @@
         </section>
         <section title="Softfail" anchor="op-result-softfail">
           <t>
-            The domain owner has published a weak statement that the host is
+            The ADMD has published a weak statement that the host is
             probably not authorized.  It has not published a stronger, more
             definitive policy that results in a "fail"
           </t>
@@ -384,7 +394,7 @@
           <t>
             A "permerror" result means the domain's published records could not
             be correctly interpreted.  This signals an error condition that
-            definitely requires manual intervention to be resolved.
+            definitely requires operator intervention to be resolved.
           </t>
         </section>
       </section>
@@ -397,9 +407,10 @@
         not-permitted sets (though some hosts might fall into neither category).
       </t>
       <t>
-        The SPF record is a single string of text.  The record format is
-        described below in <xref target="function"/>.  An example record is the
-        following:
+        The SPF record is expressed as a single string of text encoded in a
+        DNS TXT record.  The record format and the process for selecting
+        records is described below in <xref target="function"/>.  An example
+        record is the following:
       </t>
       <t>
         <list>
@@ -432,9 +443,9 @@
           ensure only SPF records are used for SPF processing.
         </t>
         <t>
-          ADMDs publishing SPF records SHOULD try to keep the number of
+          ADMDs publishing SPF records SHOULD keep the number of
           "include" mechanisms and chained "redirect" modifiers to a minimum.
-          ADMDs SHOULD also try to minimize the amount of other DNS
+          ADMDs SHOULD also minimize the amount of other DNS
           information needed to evaluate a record.  <xref target="eval-limits"/>
           and <xref target="sending-resources"/> provide some suggestions on how
           to achieve this.
@@ -443,7 +454,7 @@
           <t>
             SPF records MUST be published as a DNS TXT (type 16) Resource Record
             (RR) <xref target="RFC1035"/> only.  The character content of the
-            record is encoded as <xref target="US-ASCII"/>.  Use of alternate
+            record is encoded as <xref target="US-ASCII"/>.  Use of alternative
             DNS RR types was supported in SPF's experimental phase, but has been
             discontinued.  See Appendix A of <xref target="RFC6686"/> for
             further information.
@@ -469,7 +480,7 @@
               <t>IN TXT "v=spf1 .... first" "second string..."</t>
             </list>
           </t>
-          <t>MUST be treated as equivalent to:</t>
+          <t>is equivalent to:</t>
           <t>
             <list style="empty">
               <t>IN TXT "v=spf1 .... firstsecond string..."</t>
@@ -477,7 +488,7 @@
           </t>
           <t>
             TXT records containing multiple strings are useful in
-            constructing records that would exceed the 255-byte maximum
+            constructing records that would exceed the 255-octet maximum
             length of a character-string within a single TXT record.
           </t>
         </section>
@@ -542,13 +553,13 @@
       <t>
         This description is not an API (Application Program Interface)
         definition, but rather a function description used to illustrate the
-        algorithm.  A compliant SPF implementation MUST do something
+        algorithm.  A compliant SPF implementation MUST produce results
         semantically equivalent to this description.
       </t>
       <t>
         The check_host() function fetches SPF records, parses them, and
         evaluates them to determine whether a particular host is or is not
-        permitted to send mail with a given identity. Mail receivers that
+        permitted to send mail with a given identity. Receiving ADMDs that
         perform this check MUST correctly evaluate the check_host() function
         as described here.
       </t>
@@ -557,7 +568,7 @@
         algorithm defined here, so long as the results are the same in all
         cases.
       </t>
-      <section title="Arguments">
+      <section title="Arguments" anchor="arguments">
         <t>The check_host() function takes these arguments:</t>
         <t>
           <?rfc compact="no"?>
@@ -603,13 +614,12 @@
         <t>
           If the &lt;domain&gt; is malformed (e.g. label longer than 63
           characters, zero-length label not at the end, etc.) or is not a
-          fully qualified domain name, or if the DNS lookup returns "domain
+          multi-label domain name, or if the DNS lookup returns "domain
           does not exist" (RCODE 3), check_host() immediately returns the
-          result "none".  Properly formed domains are fully qualified email
-          domains as described in <xref target="RFC5321"/> Section 2.3.5.
+          result "none".  Properly formed domains are fully qualified
+          domains as defined in <xref target="RFC1983"/>.
           Internationalized domain names MUST be encoded as A-labels, as
-          described in Section 2.3 of <xref target="RFC5890"/>.on 2.3
-          of <xref target="RFC5890"/>.
+          described in Section 2.3 of <xref target="RFC5890"/>.
         </t>
         <t>
           If the &lt;sender&gt; has no local-part, substitute the string
@@ -623,18 +633,18 @@
           &lt;domain&gt; name, querying for type TXT only.
         </t>
         <t>
-          If all DNS lookups that are made return a server failure (RCODE 2),
-          or other error (RCODE other than 0 or 3), or time out, then
-          check_host() terminates immediately with the result "temperror".
-          Alternatively, for a server failure (RCODE 2) result, check_host() MAY
-          track failures and treat multiple failures within 24 hours for the
-          same domain as "permerror".
+          If the DNS lookup returns a server failure (RCODE 2), or other error
+          (RCODE other than 0 or 3), or time out, then check_host() terminates
+          immediately with the result "temperror".  Alternatively, for a
+          server failure (RCODE 2) result, check_host() MAY track failures and
+          treat multiple failures within 24 hours for the same domain as
+          "permerror".
         </t>
         <t>
           This alternative is intended to shorten the queue time of messages
           that cannot be accepted, by returning a permanent negative
           completion reply code to the client, instead of a transient one.
-          <xref target="RFC2308"/> suggests on an algorithm for doing such
+          <xref target="RFC2308"/> suggests an algorithm for doing such
           tracking and handling of server failure codes.
         </t>
       </section>
@@ -651,7 +661,7 @@ version          = "v=spf1"
           discard records that do not begin with a version section of exactly
           "v=spf1".  Note that the version section is terminated either by an
           SP character or the end of the record.  A record with a version
-          section of "v=spf10" does not match and MUST be discarded.
+          section of "v=spf10" does not match and is discarded.
         </t>
         <t>
           If the resultant record set includes no records, check_host() produces
@@ -661,15 +671,10 @@ version          = "v=spf1"
       </section>
       <section title="Record Evaluation">
         <t>
-          The check_host() function parses and interprets the SPF record to find
-          a result for the current test. If there are any syntax errors,
-          check_host() returns immediately with the result "permerror".
-        </t>
-        <t>
-          Implementations MAY choose to parse the entire record first and
-          return "permerror" if the record is not syntactically well formed.
-          However, in all cases, any syntax errors anywhere in the record
-          MUST be detected.
+          The check_host() function parses and interprets the SPF record to
+          find a result for the current test.  If there are any syntax errors
+          anywhere in the record, check_host() returns immediately with the
+          result "permerror", without further interpretation.
         </t>
         <section title="Term Evaluation">
           <t>
@@ -761,31 +766,36 @@ name             = ALPHA *( ALPHA / DIGIT / "-" / "_" / "." )
         </section>
         <section title="DNS Lookup Limits" anchor="eval-limits">
           <t>
-            SPF implementations MUST limit the number of mechanisms and
+            SPF implementations MUST limit the total number of mechanisms and
             modifiers ("terms") that cause any DNS query to at most 10 during
             SPF evaluation.  Specifically, the "include", "a", "mx", "ptr", and
             "exists" mechanisms as well as the "redirect" modifier count against
-            this limit.  The "all", "ip4", and "ip6" mechanisms do not count
-            against this limit.  If this number is exceeded during a check, a
-            permerror MUST be returned.  The "exp" modifier does not count
-            against this limit because the DNS lookup to fetch the explanation
-            string occurs after the SPF record evaluation has been completed.
+            this collective limit.  The "all", "ip4", and "ip6" mechanisms do
+            not count against this limit.  If this number is exceeded during a
+            check, a permerror MUST be returned.  The "exp" modifier does not
+            count against this limit because the DNS lookup to fetch the
+            explanation string occurs after the SPF record evaluation has been
+            completed.
           </t>
           <t>
-            When evaluating the "mx" mechanism, the number of MX resource records
-            queried MUST NOT exceed 10.  If the evaluation of an "mx" mechanism
-            results in more than 10 A resource records to be queried, the "mx"
-            mechanism MUST produce a "permerror" result.
+            When evaluating the "mx" mechanism, the number of "MX" resource
+            records queried is included in the overall limit of 10 mechanisms/
+            modifiers that cause DNS look ups described above.  The evaluation of each
+            "MX" record MUST NOT result in querying more than 10 "A" resource
+            records.  If this limit is exceeded, the "mx" mechanism MUST produce a
+            "permerror" result.
           </t>
           <t>
             When evaluating the "ptr" mechanism or the %{p} macro, the number of
-            PTR resource records queried MUST NOT exceed 10.  If the evaluation
-            of a "ptr" mechanism results in more than 10 hostnames returned to
-            be queried, all records other than the first 10 MUST be ignored.
+            "PTR" resource records queried is included in the overall limit of
+            10 mechanisms/modifiers that cause DNS look ups described above.
+            The evaluation of each "PTR" record MUST NOT result in querying more
+            than 10 "A" resource records.  If this limit is exceeded, all
+            records other than the first 10 MUST be ignored.
           </t>
           <t>
             The reason for the disparity is that the set of and contents of the
-            MX record are under control of the domain owner, while the set of
+            MX record are under control of the publishing ADMD, while the set of
             and contents of PTR records are under control of the owner of the IP
             address actually making the connection.
           </t>
@@ -799,6 +809,16 @@ name             = ALPHA *( ALPHA / DIGIT / "-" / "_" / "." )
             SHOULD allow at least 20 seconds. If such a limit is exceeded, the
             result of authorization SHOULD be "temperror".
           </t>
+          <t>
+            As described at the end of <xref target="security-processing"/>,
+            there may be cases where it is useful to limit the number of "terms"
+            for which DNS queries return either a positive answer (RCODE 0)
+            with an answer count of 0, or a no such record (RCODE 3) answer.
+            These are sometimes collectively referred to as "void lookups".  SPF
+            implementations SHOULD limit "void lookups" to two.  An
+            implementation MAY choose to make such a limit configurable.  In
+            this case, a default of two is RECOMMENDED.
+          </t>
         </section>
       </section>
       <section title="Default Result" anchor="default">
@@ -810,10 +830,10 @@ name             = ALPHA *( ALPHA / DIGIT / "-" / "_" / "." )
           target="mod-redirect"/>.
         </t>
         <t>
-          Note that records SHOULD always use either a "redirect" modifier or
-          an "all" mechanism to explicitly terminate processing.  Although the
-          latter has default (specifically "?all"), it aids debugging efforts if
-          it is explicitly included.
+          It is better to use either a "redirect" modifier or an "all"
+          mechanism to explicitly terminate processing.  Although the latter
+          has a default (specifically "?all"), it aids debugging efforts if it
+          is explicitly provided.
         </t>
         <t>For example:</t>
         <t>
@@ -846,22 +866,16 @@ name             = ALPHA *( ALPHA / DIGIT / "-" / "_" / "." )
           are used in DNS.
         </t>
         <t>
-          For several mechanisms, the &lt;domain-spec&gt; is optional. If it
-          is not provided, the &lt;domain&gt; is used as the
-          &lt;target-name&gt;.  Domain and domain-spec are syntactically
-          identical after macro expansion.  Domain is an input value for
-          check_host() while domain-spec is computed by check_host().
+          For several mechanisms, the domain-spec is optional.  If it is not
+          provided, the &lt;domain&gt; from the check_host() arguments (see
+          <xref target="arguments"/>) is used as the &lt;target-name&gt;.
+          "domain" and domain-spec are syntactically identical after macro
+          expansion.  "domain" is an input value for check_host() while
+          domain-spec is computed by check_host().
         </t>
         <t>
-          Note: Historically, this document has made no provisions for how to
-          handle domain-specs, or macro-expansions thereof, that are
-          syntactically invalid per <xref target="RFC1035"/>, such as names
-          with empty labels (e.g., "foo..example.com") or overlong labels
-          (more than 63 characters).  Some implementations choose to treat as
-          a no-match mechanisms, and ignore modifiers with such names,
-          whereas others return a "permerror" exception. The outcome for an
-          unexpected domain-spec without macros might even differ from that
-          for an unexpected target-name after macro expansion.
+          The result of evaluating check_host() with a syntactically invalid
+          domain is undefined.
         </t>
       </section>
     </section>
@@ -878,7 +892,7 @@ name             = ALPHA *( ALPHA / DIGIT / "-" / "_" / "." )
         </artwork>
       </figure>
       <t>
-        Designated sender mechanisms are used to designate a set of
+        Designated sender mechanisms are used to identify a set of
         &lt;ip&gt; addresses as being permitted or not permitted to use the
         &lt;domain&gt; for sending mail. 
       </t>
@@ -908,12 +922,11 @@ name             = ALPHA *( ALPHA / DIGIT / "-" / "_" / "." )
       </t>
       <t>
         When any mechanism fetches host addresses to compare with &lt;ip&gt;,
-        when &lt;ip&gt; is an IPv4 address, A records are fetched; when
-        &lt;ip&gt; is an IPv6 address, AAAA records are fetched.  Even if the
-        SMTP connection uses IPv6, an IPv4-mapped IPv6 IP address (see
-        <xref target="RFC4291"/>, Section 2.5.5) MUST still be considered an
-        IPv4 address and MUST be evaluated using IPv4 mechanisms (i.e. "ip4"
-        and "a").
+        when &lt;ip&gt; is an IPv4, "A" records are fetched; when &lt;ip&gt; is an
+        IPv6 address, "AAAA" records are fetched.  SPF implementations on IPv6
+        servers need to handle both "AAAA" and "A" records, for clients on IPv4
+        mapped IPv6 addresses <xref target="RFC4291"/>.  IPv4 &lt;ip&gt;
+        addresses are only listed in an SPF record using the "ip4" mechanism.
       </t>
       <t>
         Several mechanisms rely on information fetched from the DNS.  For these
@@ -963,7 +976,7 @@ include          = "include"  ":" domain-spec
                     The domain-spec is expanded as per <xref target="macros"/>.
                   </t>
                   <t>
-                    Check_host() is evaluated with the resulting string as the
+                    check_host() is evaluated with the resulting string as the
                     &lt;domain&gt;. The &lt;ip&gt; and &lt;sender&gt; arguments
                     remain the same as in the current evaluation of
                     check_host().
@@ -972,7 +985,7 @@ include          = "include"  ":" domain-spec
                     The recursive evaluation returns either match, not match,
                     or an error.  If it matches, then the appropriate result for
                     the include: mechanism is used (e.g. include or +include
-                    gives a "pass" result and -include gives "fail).
+                    gives a "pass" result and -include gives "fail").
                   </t>
                   <t>
                     If there is no match, the parent check_host() resumes
@@ -1029,9 +1042,7 @@ include          = "include"  ":" domain-spec
           The "include" mechanism is intended for crossing administrative
           boundaries.  For example, if example.com and example.org were managed
           by the same entity, and if the permitted set of hosts for both domains
-          was <vspace/>
-          <!-- FIXME: prevent automatic line break after '"mx:' -->
-          "mx:example.com", it would be possible for example.org to specify
+          was "mx:example.com", it would be possible for example.org to specify
           "include:example.com", but it would be preferable to specify
           "redirect=example.com" or even "mx:example.com".
         </t>
@@ -1058,8 +1069,9 @@ a                = "a"      [ ":" domain-spec ] [ dual-cidr-length ]
 ]]></artwork>
         </figure>
         <t>
-          An address lookup is done on the &lt;target-name&gt;. The
-          &lt;ip&gt; is compared to the returned address(es). If any address
+          An address lookup is done on the &lt;target-name&gt; using the type of
+          lookup (A or AAAA) appropriate for the connection type (IPv4 or IPv6).
+          The &lt;ip&gt; is compared to the returned address(es). If any address
           matches, the mechanism matches. 
         </t>
       </section>
@@ -1077,20 +1089,17 @@ mx               = "mx"     [ ":" domain-spec ] [ dual-cidr-length ]
           check_host() first performs an MX lookup on the
           &lt;target-name&gt;. Then it performs an address lookup on each MX
           name returned. The &lt;ip&gt; is compared to each returned IP
-          address. To prevent Denial of Service (DoS) attacks, more than 10
-          MX names MUST NOT be looked up during the evaluation of an "mx"
-          mechanism.  If there are more than 10 MX names then permerror is
-          returned and the evaluation terminated (see <xref
-          target="eval-limits"/>).  If any address matches, the mechanism
+          address. To prevent Denial of Service (DoS) attacks, the processing
+          limits defined in <xref target="eval-limits"/> MUST be followed.  If
+          the MX lookup limit is exceeded, then permerror is returned and the
+          evaluation terminated.  If any address matches, the mechanism
           matches.
         </t>
         <t>
-          Note regarding implicit MXs: If the &lt;target-name&gt; has no MX
-          records, check_host() MUST NOT pretend the target is its single MX,
-          and MUST NOT default to an A or AAAA lookup on the &lt;target-name&gt;
-          directly. This behavior diverges from the legacy "implicit MX" rule,
-          (See <xref target="RFC5321"/>, Section 5. If such behavior is
-          desired, the publisher will have to specify an "a" directive).
+          Note regarding implicit MXes: If the &lt;target-name&gt; has no MX
+          records, check_host() MUST NOT apply the implicit MX rules of<xref
+          target="RFC5321"/> by querying for an A or AAAA record for the same
+          name.
         </t>
       </section>
       <section title="&quot;ptr&quot; (do not use)" anchor="mech-ptr">
@@ -1112,9 +1121,11 @@ ptr              = "ptr"    [ ":" domain-spec ]
                  address is an IPv4 one and in "ip6.arpa." if it is an IPv6
                  address.</t>
               <t>For each record returned, validate the domain name by looking
-                 up its IP addresses.  To prevent DoS attacks, more than 10 PTR
-                 names MUST NOT be looked up during the evaluation of a "ptr"
-                 mechanism (see <xref target="eval-limits"/>).</t>
+                 up its IP addresses.  To prevent DoS attacks, the PTR
+                 processing limits defined in <xref target="eval-limits"/>
+                 MUST be applied.  If they are exceeded, processing is
+                 terminated and the mechanism does not match.
+              </t>
               <t>If &lt;ip&gt; is among the returned IP addresses, then that
                  domain name is validated.</t>
           </list>        
@@ -1144,8 +1155,8 @@ for each name in (sending-domain_names) {
 }
 
 for each name in (validated-sending-domain_names) {
-  if name ends in &lt;domain-spec&gt;, return match.
-  if name is &lt;domain-spec&gt;, return match.
+  if name ends in &lt;target-name&gt;, return match.
+  if name is &lt;target-name&gt;, return match.
 }
 return no-match.
           </artwork>
@@ -1160,12 +1171,13 @@ return no-match.
         <t>
           Note: This mechanism is slow, it is not as reliable as other
           mechanisms in cases of DNS errors, and it places a large burden on the
-          .arpa name servers. If used, proper PTR records MUST be in place for
-          the domain's hosts and the "ptr" mechanism SHOULD be one of the last
-          mechanisms checked.  After many years of SPF deployment experience it
-          has been concluded it is unnecessary and more reliable alternatives
-          used instead.  It is, however, still in use and part of the SPF
-          protocol, so compliant check_host() implementations MUST support it.
+          .arpa name servers. If used, proper PTR records have to be in place
+          for the domain's hosts and the "ptr" mechanism SHOULD be one of the
+          last mechanisms checked.  After many years of SPF deployment
+          experience, it has been concluded it is unnecessary and more
+          reliable alternatives used instead.  It is, however, still in use
+          and part of the SPF protocol, so compliant check_host()
+          implementations MUST support it.
         </t>
       </section>
       <section title="&quot;ip4&quot; and &quot;ip6&quot;" anchor="mech-ip">
@@ -1219,9 +1231,9 @@ exists           = "exists"   ":" domain-spec
         </figure>
         <t>
           The domain-spec is expanded as per <xref target="macros"/>. The
-          resulting domain name is used for a DNS A RR lookup. If any A
-          record is returned, this mechanism matches. The lookup type is A
-          even when the connection type is IPv6.
+          resulting domain name is used for a DNS A RR lookup (even when the
+          connection type is IPv6). If any A record is returned, this mechanism
+          matches.
         </t>
         <t>
           Domains can use this mechanism to specify arbitrarily complex
@@ -1285,8 +1297,8 @@ redirect         = "redirect" "=" domain-spec
         <t>
           The result of this new evaluation of check_host() is then
           considered the result of the current evaluation with the exception
-          that if no SPF record is found, or if the target-name is malformed,
-          the result is a "permerror" rather than "none".
+          that if no SPF record is found, or if the &lt;target-name&gt; is
+          malformed, the result is a "permerror" rather than "none".
         </t>
         <t>
           Note that the newly-queried domain can itself specify redirect
@@ -1332,7 +1344,7 @@ explanation      = "exp" "=" domain-spec
           as "-all"), and the "exp" modifier is present, then the explanation
           string returned is computed as described below. If no "exp"
           modifier is present, then either a default explanation string or an
-          empty explanation string MUST be returned.
+          empty explanation string MUST be returned to the calling application.
         </t>
         <t>
           The domain-spec is macro expanded (see <xref target="macros"/>) and
@@ -1407,9 +1419,9 @@ explanation      = "exp" "=" domain-spec
           <?rfc compact="no"?>
         </t>
         <t>
-          Note: During recursion into an "include" mechanism, an exp=
+          Note: During recursion into an "include" mechanism, an "exp"
           modifier from the &lt;target-name&gt; MUST NOT be used.  In
-          contrast, when executing a "redirect" modifier, an exp= modifier
+          contrast, when executing a "redirect" modifier, an "exp" modifier
           from the original domain MUST NOT be used.
         </t>
       </section>
@@ -1455,7 +1467,7 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           </list>
 	</t>
 	</section> <!-- Formal Specification -->
-        <section title="Macro Definitions">
+        <section title="Macro Definitions" anchor="macro-definitions">
         <t>The following macro letters are expanded in term arguments:</t>
         <t>
           <list style="empty">
@@ -1485,18 +1497,18 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           </list>
         </t>
 	</section> <!-- Macro Definitions -->
-	<section title="Notes">
+	<section title="Macro Processing Details">
         <?rfc compact="yes"?>
         <t>
           A '%' character not followed by a '{', '%', '-', or '_' character
           is a syntax error.  So:
           <figure><artwork>
-  -exists:%(ir).sbl.spamhaus.example.org
+  -exists:%(ir).sbl.example.org
           </artwork></figure>
           is incorrect and will cause check_host() to yield a "permerror".
           Instead, the following is legal: 
           <figure><artwork>
-  -exists:%{ir}.sbl.spamhaus.example.org
+  -exists:%{ir}.sbl.example.org
           </artwork></figure>
         </t>
         <t>
@@ -1525,9 +1537,9 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           treatment is given to leading, trailing, or consecutive delimiters in
           input strings, and so the list of parts might contain empty strings.
           Some older implementations of SPF prohibit trailing dots in domain
-          names, so trailing dots SHOULD NOT be published by domain owners,
-          although they MUST be accepted by implementations conforming to this
-          document.  Macros can specify delimiter characters that are used
+          names, so trailing dots SHOULD NOT be published, although they MUST
+          be accepted by implementations conforming to this document.  Macros
+          can specify delimiter characters that are used
           instead of ".".
         </t>
         <t>
@@ -1573,8 +1585,11 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           subdomain of the &lt;domain&gt; is present, it SHOULD be used.
           Otherwise, any name from the list can be used.  If there are no
           validated domain names or if a DNS error occurs, the string
-          "unknown" is used.  This macro SHOULD NOT be used.  See
-          <xref target="mech-ptr"/> for the discussion about why not.
+          "unknown" is used.
+        </t>
+        <t>
+          This macro SHOULD NOT be used (see <xref target="mech-ptr"/> for
+          the discussion).
         </t>
         <t>
           The "h" macro expands to the parameter that was provided to the
@@ -1611,13 +1626,13 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           target="RFC3986"/>.
         </t>
         <t>
-          Note: Care has to be taken by the sending ADMD so that macro expansion
+          Care has to be taken by the sending ADMD so that macro expansion
           for legitimate email does not exceed the 63-character limit on DNS
           labels.  The local-part of email addresses, in particular, can have
           more than 63 characters between dots.
         </t>
         <t>
-          Note: To minimize DNS lookup resource requirements, it is better if
+          To minimize DNS lookup resource requirements, it is better if
           sending ADMDs avoid using the "s", "l", "o", or "h" macros
           in conjunction with any mechanism directive. Although these macros
           are powerful and allow per-user records to be published, they
@@ -1625,7 +1640,7 @@ delimiter        = "." / "-" / "+" / "," / "/" / "_" / "="
           check_host() and they reduce the effectiveness of DNS caches.
         </t>
         <t>
-          Note: If no directive processed during the evaluation of check_host()
+          If no directive processed during the evaluation of check_host()
           contains an "s", "l", "o", or "h" macro, then the results of the
           evaluation can be cached on the basis of &lt;domain&gt; and &lt;ip&gt;
           alone for as long as the shortest Time To Live (TTL) of all the DNS
@@ -1702,11 +1717,11 @@ IPv6:
          typically handled by merely recording the result in the header and
          allowing the message to pass on for additional processing.  There are
          still others where SPF is one of several inputs to the message
-         handling decision.  As such, there is no normative requirement
-         for message handling in response to any particular result.  This
-         section is provided to present a complete picture of the likely cause
-         of each result, and where available, the experience gained during
-         experimental deployment.    
+         handling decision.  As such, there is no comprehensive normative
+         requirement for message handling in response to any particular result.
+         This section is provided to present a complete picture of the likely
+         cause of each result and, where available, the experience gained
+         during experimental deployment.    
        </t>
        <t>
          There are essentially two classes of handling choices:   
@@ -1735,13 +1750,13 @@ IPv6:
         <section title="Neutral" anchor="handling-result-neutral">
           <t>
             A "neutral" result indicates that although a policy for the identity 
-            was discovered, there is no definite assertion about the (positive or    
+            was discovered, there is no definite assertion (positive or
             negative) about the client.  
          </t>
          <t>
             A "neutral" result MUST be treated exactly like the "none" result;
             the distinction exists only for informational purposes.  Treating
-            "neutral" more harshly than "none" would discourage domain owners
+            "neutral" more harshly than "none" would discourage ADMDs
             from testing the use of SPF records (see <xref
             target="sending-impl"/>).
           </t>
@@ -1790,20 +1805,20 @@ IPv6:
             target="results-headers"/>) to communicate this result to downstream
             message processors.  While this is true for all SPF results, it is
             of particular importance for "fail" results since the message is
-            explicitly not authorized by the domain owner.
+            explicitly not authorized by the ADMD.
           </t>
         </section>
         <section title="Softfail" anchor="handling-result-softfail">
           <t>
             A "softfail" result ought to be treated as somewhere between "fail"
-            and "neutral"/"none".  The domain owner believes the host is not
+            and "neutral"/"none".  The ADMD believes the host is not
             authorized but is not willing to make a strong policy statement.
             Receiving software SHOULD NOT reject the message based solely on
             this result, but MAY subject the message to closer scrutiny than
             normal.
           </t>
           <t>
-            The domain owner wants to discourage the use of this host and
+            The ADMD wants to discourage the use of this host and
             thus desires limited feedback when a "softfail" result occurs.
             For example, the recipient's Mail User Agent (MUA) could
             highlight the "softfail" status, or the receiving MTA could give
@@ -1821,21 +1836,25 @@ IPv6:
             the software SHOULD use an SMTP reply code of 451 and, if
             supported, the 4.4.3 enhanced status code.  These errors can be
             caused by problems in either the sender's or receiver's DNS software.
+            See <xref target="receiver-policy-temperror"/> for considerations
+            on developing local policy.
           </t>
         </section>
         <section title="Permerror" anchor="handling-result-permerror">
           <t>
             A "permerror" result means the domain's published records could not
             be correctly interpreted.  This signals an error condition that
-            definitely requires manual intervention to be resolved.  If the
+            definitely requires operator intervention to be resolved.  If the
             message is rejected during the SMTP transaction for this reason, the
             software SHOULD use an SMTP reply code of 550 and, if supported, the
-            5.5.2 enhanced status code.  Be aware that if the domain owner uses
+            5.5.2 enhanced status code.  Be aware that if the ADMD uses
             macros (<xref target="macros"/>), it is possible that this result
             is due to the checked identities having an unexpected format.  
             It is also possible that this result is generated by certain SPF
-            clients due to the input arguments having an unexpected format;
-            see <xref target="domain-spec"/>.
+            verifiers due to the input arguments having an unexpected format;
+            see <xref target="domain-spec"/>.  See <xref
+            target="receiver-policy-permerror"/> for considerations on
+            developing local policy.
           </t>
         </section>
       </section>
@@ -1864,9 +1883,9 @@ IPv6:
           and what it contained), leaving forensic work to the purview of system
           logs and the Received field contents.  Also, Received-SPF relies on
           compliance of agents within the receiving ADMD to adhere to the header
-          field ordering rules of [RFC5321] and [RFC5322], while
-          Authentication-Results includes some provisions to protect against
-          non-compliant implementations.
+          field ordering rules of <xref target='RFC5321'/> and <xref
+          target='RFC5322'/>, while Authentication-Results includes some
+          provisions to protect against non-compliant implementations.
         </t>
         <t>
           An operator could choose to use both to serve different downstream
@@ -1896,7 +1915,7 @@ key-value-pair   = key [CFWS] "=" ( dot-atom / quoted-string )
 
 key              = "client-ip" / "envelope-from" / "helo" /
                    "problem" / "receiver" / "identity" /
-                    mechanism / name
+                    "mechanism" / name
 
 identity         = "mailfrom"   ; for the "MAIL FROM" identity
                    / "helo"     ; for the "HELO" identity
@@ -1967,6 +1986,12 @@ Received-SPF: fail (mybox.example.org: domain of
                   192.0.2.1 as permitted sender)
                   identity=mailfrom; client-ip=192.0.2.1;
                   envelope-from="myname@example.com";
+
+Received-SPF: pass (mybox.example.org: domain of
+ myname@example.com designates 192.0.2.1 as permitted sender)
+    receiver=mybox.example.org; client-ip=192.0.2.1;
+    mechanism=ip4:192.0.2.1; envelope-from="myname@example.com";
+    helo=foo.example.com;
         </artwork>
       </figure>
       </section>
@@ -1996,6 +2021,7 @@ Received-SPF: pass (myhost.example.org: domain of
       <t>
         As an example, an expanded Authentication-Results header field might
         look like (for a "MAIL FROM" check in this example):
+     </t>
         <figure>
             <artwork>
 Authentication-Results: myhost.example.org; spf=pass
@@ -2003,18 +2029,17 @@ Authentication-Results: myhost.example.org; spf=pass
   smtp.mailfrom=user@example.net
             </artwork>
         </figure>
-      </t>
       </section>
     </section>
     <section title="Effects on Infrastructure" anchor="implications">
       <t>
         This section outlines the major implications that adoption of this
-        document will have on various entities involved in Internet email.
-        It is intended to make clear to the reader where this document
+        protocol will have on various entities involved in Internet email.
+        It is intended to make clear to the reader where this protocol
         knowingly affects the operation of such entities.  This section is
         not a "how-to" manual, or a "best practices" document, and it is not
-        a comprehensive list of what such entities SHOULD do in light of this
-        document.
+        a comprehensive list of what such entities ought do in light of this
+        specification.
       </t>
       <t>
         This section provides operational advice and instruction only.  It is
@@ -2039,7 +2064,7 @@ Authentication-Results: myhost.example.org; spf=pass
         </t>
         <section title="DNS Resource Considerations" anchor="sending-resources">
           <t>
-            Minimizing the DNS resources required for SPF lookups can be done by
+            Minimizing the DNS resources needed for SPF lookups can be done by
             choosing directives that require less DNS information and by placing
             lower-cost mechanisms earlier in the SPF record.
           </t>
@@ -2117,10 +2142,11 @@ Wasteful, bad record:
         <section title="Administrator's Considerations" anchor="sending-admin">
           <t>
             There might be administrative considerations: using "a" over
-            "ip4" or "ip6" allows hosts to be renumbered easily. Using "mx"
-            over "a" allows the set of mail hosts to be changed easily.  Unless
-            such changes are common, it is better to use the less resource
-            intensive mechanisms like "ip4" and "ip6" over "a" or "a" or "mx".
+            "ip4" or "ip6" allows hosts to be renumbered easily at the cost of
+            a DNS query per receiver. Using "mx" over "a" allows the set of
+            mail hosts to be changed easily.  Unless such changes are common,
+            it is better to use the less resource intensive mechanisms like
+            "ip4" and "ip6" over "a" or "a" or "mx".
           </t>
           <t>
             In some specific cases, standard advice on record content is
@@ -2158,17 +2184,17 @@ Wasteful, bad record:
         <section title="Bounces">
           <t>
             As explained in <xref target="mfrom-def"/>,  <xref
-            target="RFC5321"/> allows the reverse-path to be null, which is
+            target="RFC5321"/> allows the MAIL FROM to be null, which is
             typical of some Delivery Status Notification  <xref
             target="RFC3464"/>, commonly called email bounces.  In this case the
             only entity available for performing an SPF check is the
             "HELO" identity defined in <xref target="helo-def"/>.
             SPF functionality is enhanced by administrators ensuring this
             identity is set correctly and has an appropriate SPF record. It is
-            normal to have the HELO identity set to hostname instead of domain.
-            Zone file generation for significant numbers of hosts can be
-            consolidated using the redirect modifier and scripted for initial
-            deployment.  Specific deployment advice is given above in
+            normal to have the HELO identity set to the hostname instead of
+            the domain.  Zone file generation for significant numbers of hosts
+            can be consolidated using the redirect modifier and scripted for
+            initial deployment.  Specific deployment advice is given above in
             <xref target="sending-admin"/>.
           </t>
         </section>
@@ -2176,22 +2202,22 @@ Wasteful, bad record:
       <section title="Receivers" anchor="receivers">
         <t>
           SPF results can be used in combination with other methods to determine
-          the final local disposition (either positive or negative of a message.
-          It can also be considered dispositive on its own.
+          the final local disposition (either positive or negative) of a
+          message.  It can also be considered dispositive on its own.
         </t>
         <t>
           An attempt to have one organization (sender) direct the email   
           handling policies of another (receiver) is inherently challenging and    
           often controversial.  As stated elsewhere in this document, there is 
-          no normative requirement for specific handling of a message based on 
-          any SPF result.  The information presented in Section 8 and in   
-          <xref target="local-policy"/> is offered for receiver consideration
-          when forming local handling policies.
+          no comprehensive normative requirement for specific handling of a
+          message based on SPF results.  The information presented in <xref
+          target="handling"/> and in <xref target="local-policy"/> is offered
+          for receiver consideration when forming local handling policies.
         </t>
         <t>
           The primary considerations are that SPF might return "pass" for mail 
           that is ultimately harmful (e.g., spammers that arrange for SPF to   
-          pass using nonsense domain names, or virus or spam outbreaks from    
+          pass using disposable domain names, or virus or spam outbreaks from    
           within trusted sources), and might also return "fail" for mail that  
           is ultimately legitimate (e.g., legitimate mail that has traversed a 
           mail alias).  It is important take both of these cases under 
@@ -2200,52 +2226,33 @@ Wasteful, bad record:
       </section>
       <section title="Mediators" anchor="middle-lists">
         <t>
-          Broadly speaking, there are two types of mediating ADMDs that can
-          affect SPF deployment of other ADMDs: mailing lists (see
-          <xref target="RFC5598"/> Section 5.3) and ReSenders
-          (<xref target="RFC5598"/> Section 5.2).
-        </t>
-        <section title="Mailing Lists" anchor="mailing-lists">
-        <t>
-          Mailing lists have to be aware of how they re-inject mail that is sent
-          to the list. Mailing lists MUST comply with the requirements in
-          <xref target="RFC5321"/>, Section 3.10, and <xref
-          target="RFC1123"/>, Section 5.3.6, that say that the reverse-path
-          MUST be changed to be the mailbox of a person or other entity who
-          administers the list.  Whereas the reasons for changing the
-          reverse-path are many and long-standing, SPF adds enforcement to
-          this requirement.
+          Mediators are a type of User actor <xref target="RFC5598"/>.  That is,
+          a mediator takes 'delivery' of a message and posts a 'submission' of a
+          new message.  The mediator can make the newly-posted message be as
+          similar or as different from the original message as they wish.
+          Examples include mailing lists (see <xref target="RFC5598"/> Section
+          5.3) and ReSenders (<xref target="RFC5598"/> Section 5.2).  This is
+          discussed in <xref target="RFC5321"/>, Section 3.9.  For the operation
+          of SPF, the essential concern is the email address in the
+          5321.MailFrom command for the new message.
         </t>
         <t>
-          In practice, almost all mailing list software in use already
-          complies with this requirement.  Mailing lists that do not comply
-          might encounter problems depending on how access to the
-          list is restricted.  Such lists that are entirely internal to a
-          domain (only people in the domain can send to or receive from the
-          list) are not affected.
-        </t>
-        </section>
-        <section title="Forwarding Services and Aliases" anchor="forwarding">
-        <t>
-          Forwarding services take mail that is received at a mailbox and
-          direct it to some external mailbox.  At the time of this writing,
-          the near-universal practice of such services is to use the original
-          "MAIL FROM" of a message when re-injecting it for delivery to the
-          external mailbox.  <xref target="RFC1123"/> and <xref
-          target="RFC5321"/> describe this action as an "alias" rather than a
-          "mail list".  This means the external mailbox's MTA sees all such mail
-          in a connection from a host of the forwarding service, and so the
-          "MAIL FROM" identity will not, in general, pass authorization.
+          Because SPF evaluation is based on the IP address of the "last"
+          sending SMTP server, the address of the mediator will be used, rather
+          than the address of the SMTP server that sent the message to the
+          mediator.  Some mediators retain the email address from the original
+          message, while some use a new address.
         </t>
         <t>
-          <xref target="forwarding-solutions"/> provides some operational
-          suggestions to adapt these services to an SPF-aware environment.
+          If the address is the same as for the original message, and the
+          original message had an associated SPF record, then the SPF
+          evaluation will fail unless mitigations such as those described in
+          <xref target="forwarding-solutions"/> are used.
         </t>
       </section>
     </section>
-    </section>
     <section title="Security Considerations" anchor="security">
-      <section title="Processing Limits">
+      <section title="Processing Limits" anchor="security-processing">
         <t>
           As with most aspects of email, there are a number of ways that
           malicious parties could use the protocol as an avenue for a
@@ -2263,10 +2270,11 @@ Wasteful, bad record:
               references to a victim's domain and send many emails to
               different SPF verifiers; those SPF verifiers would then create a
               DoS attack.  In effect, the SPF verifiers are being used to
-              amplify the attacker's bandwidth by using fewer bytes in the
+              amplify the attacker's bandwidth by using fewer octets in the
               SMTP session than are used by the DNS queries.  Using SPF
-              clients also allows the attacker to hide the true source of the
-              attack.
+              verifiers also allows the attacker to hide the true source of
+              the attack.  This potential attach is based on large volumes of
+              mail being transmitted.
             </t>
             <t>
               Whereas implementations of check_host() are supposed to limit
@@ -2275,7 +2283,12 @@ Wasteful, bad record:
               computation effort at their targets when they send them mail.
               Malicious domains could also design SPF records that cause
               particular implementations to use excessive memory or CPU
-              usage, or to trigger bugs.
+              usage, or to trigger bugs.  If a receiver is configured to
+              accept mail with an SPF result of "temperror", such an attack
+              might result in mail that would otherwise have been rejected due
+              to an SPF "fail" result being accepted.  This potential attack
+              is based on specially crafted SPF records being used to
+              exhaus DNS resources of the victim.
             </t>
             <t>
               Malicious parties could send a large volume of mail purporting
@@ -2283,6 +2296,25 @@ Wasteful, bad record:
               legitimate mail hosts.  These legitimate machines would then
               present a DNS load on the target as they fetched the relevant
               records.
+            </t>
+            <t>
+              Malicious parties could, in theory, use SPF records as a vehicle
+              for DNS lookup amplification for a denial-of-service-attack.  In
+              this scenario, the attacker publishes an SPF record in its own DNS
+              that uses "a" and "mx" mechanisms directed toward the intended
+              victim, e.g. "a:example.com a:foo.example.com a:bar.example.com
+              ..." and then distributes mail with a MAIL FROM value including
+              its own domain in large volume to a wide variety of destinations.
+              Any such destination operating an SPF verifier will begin querying
+              all of the names associated with the "a" mechanisms in that
+              record.  The names used in the record needn't exist for the attack
+              to be effective.  Operational experience since publication of
+              <xref target="RFC4408"/> suggests that mitigation of this class of
+              attack can be accomplished with minimal impact on the deployed
+              base by having the verifier abort processing and return
+              "permerror" (<xref target="op-result-permerror"/>) once more than
+              two "void lookups" have been encountered (defined in <xref
+              target="eval-limits"/>).
             </t>
           </list>
           <!-- <?rfc subcompact="yes"?> -->
@@ -2358,12 +2390,17 @@ Wasteful, bad record:
           it receives and from the published DNS records of the sending
           domain holder, (e.g., "HELO" domain name, the "MAIL FROM" address
           from the envelope, and SPF DNS records published by the domain
-          holder).
+          holder).  These parameters are not validated in the SMTP process.
+        </t>
+        <t>
+          All of these pieces of information are generated by actors outside
+          of the authority of the receiver, and thus are not guaranteed to be
+          accurate or legitimate.
         </t>
         <section title="Recorded Results">
         <t>
           This information, passed to the receiver in the Received-SPF: or
-          Authentication-Results: trace fields, may be returned to the client
+          Authentication-Results: trace fields, can be returned to the client
           MTA as an SMTP rejection message.  If such an SMTP rejection message
           is generated, the information from the trace fields has to be checked
           for such problems as invalid characters and excessively long lines.
@@ -2379,8 +2416,8 @@ Wasteful, bad record:
           offensive or misleading.
         </t>
         <t>
-          Explanations returned to sender domains due to "exp" modifiers,
-          (<xref target="mod-exp"/>), were generated by the sender policy
+          Explanations returned to sender domains due to "exp" modifiers
+          (<xref target="mod-exp"/>) were generated by the sender policy
           published by the domain holders themselves.  As long as messages are
           only returned with non-delivery notification (<xref
           target="RFC3464"/>) to domains publishing the explanation strings from
@@ -2411,7 +2448,7 @@ Wasteful, bad record:
           email and likely to which MTA the email is being sent.  This can
           introduce some privacy concerns, which are more or less of an
           issue depending on local laws and the relationship between the
-          domain owner and the person sending the email.
+          ADMD and the person sending the email.
         </t>
       </section>
       <section title="Delivering Mail Producing a 'Fail' Result">
@@ -2480,15 +2517,21 @@ Wasteful, bad record:
           Type and Qtype from the DNS Parameters Registry for the SPF RR type
           with code 99.   The format of this type is identical to the TXT RR
           <xref target="RFC1035"/>.  The character content of the record is
-          encoded as <xref target="US-ASCII"/>.  Use of this record type is
-          obsolete for SPF Version 1.
+          encoded as <xref target="US-ASCII"/>.
         </t>
         <t>
-          IANA is requested to add an annotation to the SPF RRTYPE saying 
-          "(OBSOLETE - use TXT)" in the DNS Parameters registry.
+          Studies have shown that RRTYPE 99 has not seen any substantial use,
+          and in fact its existence and mechanism defined in [RFC4408] has led
+          to some interoperability issues.  Accordingly, its use is now
+          obsolete, and new implementations are not to use it.
         </t>
         <t>
-          [NOTE TO RFC EDITOR: (to be changed to " ... has added ..." upon
+          IANA is requested to update the Resource Record (RR) TYPEs registry
+          to indicate that this document is the reference document for that
+          RRTYPE.
+        </t>
+        <t>
+          [NOTE TO RFC EDITOR: (to be changed to " ... has updated ..." upon
           publication)]
         </t>
       </section>
@@ -2504,7 +2547,7 @@ Wasteful, bad record:
             <t>
               Header field name: Received-SPF<vspace/>
               Applicable protocol: mail (<xref target="RFC5322"/>)<vspace/>
-              Status: Standards Track<vspace/>
+              Status: standard<vspace/>
               Author/Change controller: IETF<vspace/>
               Specification document(s): RFC &rfc.number;<vspace/>
               [NOTE TO RFC EDITOR: (this document)]
@@ -2512,12 +2555,12 @@ Wasteful, bad record:
           </list>
         </t>
       </section>
-      <section anchor="iana-spf-tags" title="SPF Modifier Registration">
+      <section anchor="iana-spf-tags" title="SPF Modifier Registry">
           <t>
               <xref target="RFC6652"/> created a new SPF Modifier Registration.
               IANA is requested to change the reference for the exp and redirect
               modifiers from <xref target="RFC4408"/> to this document.  Their
-              status should not be changed.
+              status is unchanged.
           </t>
       </section>
     </section>
@@ -2535,6 +2578,7 @@ Wasteful, bad record:
       &rfc5321;
       &rfc5322;
       &rfc5451;
+      &rfc5782;
       &rfc5598;
       &rfc5890;
       <reference anchor="US-ASCII">
@@ -2571,6 +2615,7 @@ Wasteful, bad record:
       &rfc5751;
       &rfc6409;
       &rfc6647;
+      &rfc6648;
       &rfc6652;
       &rfc6686;
       <reference anchor="RMX">
@@ -2614,7 +2659,7 @@ Wasteful, bad record:
         <format type="HTML" target="http://ops.ietf.org/lists/namedroppers/namedroppers.2002/msg00656.html"/>
       </reference>
     </references>
-    <section title="Collected ABNF">
+    <section title="Collected ABNF" anchor="collected-abnf">
       <t>
         This section is normative and any discrepancies with the ABNF
         fragments in the preceding text are to be resolved in favor of this
@@ -2701,8 +2746,8 @@ key-value-list   = key-value-pair *( ";" [CFWS] key-value-pair )
 key-value-pair   = key [CFWS] "=" ( dot-atom / quoted-string )
 
 key              = "client-ip" / "envelope-from" / "helo" /
-                   "problem" / "receiver" / identity /
-                    mechanism / name
+                   "problem" / "receiver" / "identity" /
+                    "mechanism" / name
 
 identity         = "mailfrom"   ; for the "MAIL FROM" identity
                    / "helo"     ; for the "HELO" identity
@@ -2711,7 +2756,7 @@ identity         = "mailfrom"   ; for the "MAIL FROM" identity
 ALPHA            = <A-Z / a-z as per [RFC5234]>
 DIGIT            = <0-9 as per [RFC5234]>
 SP               = <space character as per [RFC5234]>
-domain           = <fully qualified domain as per [RFC5321]>
+domain           = <fully qualified domain as per [RFC1983]>
 dot-atom         = <unquoted word as per [RFC5322]>
 quoted-string    = <quoted string as per [RFC5322]>
 comment          = <comment string as per [RFC5322]>
@@ -2871,7 +2916,7 @@ $ORIGIN 0.0.10.in-addr.arpa.
       <section title="DNSBL Style Example">
         <t>
           Imagine that, in addition to the domain records listed above, there
-          are these: 
+          are these (see <xref target="RFC5782"/>):
         </t>
         <figure>
           <artwork>
@@ -2931,6 +2976,71 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
         </t>
       </section>
     </section>
+    <section title="Changes in implementation requirements from RFC 4408"
+      anchor="change-requirements">
+        <t>
+          The modifications to implementation requirements from
+          <xref target="RFC4408"/> are all either (a) corrections to errors in
+          <xref target="RFC4408"/>, or (b) additional documentation based on
+          consensus of operational experience acquired since publication of
+          <xref target="RFC4408"/>.
+        </t>
+        <t>
+          <list style="symbols">
+              <t>
+                Use of DNS RR type SPF (99) has been removed from the protocol,
+                see <xref target="RFC6686"/> for background.
+              </t>
+              <t>
+                A new DNS related processing limit based on "void lookups" has
+                been added (<xref target="eval-limits"/>).
+              </t>
+              <t>
+                A new option for converting repeated DNS SERVFAIL responses
+                from temperror to permerror as been added (<xref
+                target="op-result-temperror"/>).
+              </t>
+              <t>
+                Use of the ptr mechanism and the %p macro have been strongly
+                discouraged <xref target="mech-ptr"/> and <xref
+                target="macro-definitions"/>.  They remain part of the
+                protocol because they were found to be in use, but records ought
+                to be updated to avoid them.
+              </t>
+              <t>
+                Use of the &quot;Authentication-Results&quot; header field <xref
+                target="RFC5451"/> as a possible alternative to use of the
+                &quot;Received-SPF&quot; header field is discussed (<xref
+                target="authres"/>).
+              </t>
+              <t>
+                There have been a number of minor corrections to the ABNF to
+                make it more clear and correct <xref target="collected-abnf"/>.
+                SPF library implementers should give the revised ABNF a careful
+                review to determine if implementation changes are needed.
+              </t>
+              <t>
+                Use of X- fields in the ABNF has been removed see <xref
+                target="RFC6648"/> for background.
+              </t>
+              <t>
+                Ambiguity about how to deal with invalid domain-spec after macro
+                expansion has been documented.  Depending on one specific
+                behavior has to be avoided (<xref target="domain-spec"/>).
+              </t>
+              <t>
+                General operational information has been updated and expanded
+                based on eight years of post <xref target="RFC4408"/> operations
+                experience.  See <xref target="implications"/> and Appendices
+                D - H  below.
+              </t>
+              <t>
+                Security considerations have been reviewed and updated (<xref
+                target="security"/>).
+              </t>
+          </list>
+        </t>
+    </section>
     <section title="Further Testing Advice" anchor="testing-advice">
         <t>
             Another approach that can be helpful to publish records that include
@@ -2943,14 +3053,14 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
             <!-- <?rfc subcompact="yes"?> -->
         </t>
     </section>
-    <section title="Updating Mail Forwarders" anchor="forwarding-solutions">
+    <section title="SPF/Mediator Interactions" anchor="forwarding-solutions">
         <t>
           There are three places that techniques can be used to ameliorate
-          this problem.
-          <!-- <?rfc subcompact="no"?> -->
-          <list style="numbers"  hangIndent="3">
+          unintended SPF failures with mediators.
+        </t>
+          <section title="Originating ADMDs" anchor="forwarding-solutions-orig">
             <t>
-              The beginning, when email is first sent (Originating ADMDs).
+              The beginning, when email is first sent:
               <list style="symbols">
                 <t>
                   "Neutral" results could be given for IP addresses that might
@@ -3003,17 +3113,18 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
                 </t>
               </list>
             </t>
+          </section>
+          <section title="Mediators" anchor="forwarding-solutions-middle">
             <t>
-              The middle, when email is forwarded (Mediating ADMDs).
+              The middle, when email is forwarded:.
               <list style="symbols">
                 <t>
-                  Forwarding services can solve the problem by rewriting the
-                  "MAIL FROM" to be in their own domain.  This means mail
-                  rejected from the external mailbox will have to be forwarded
-                  back to the original sender by the forwarding service.
-                  Various schemes to do this exist though they vary widely in
-                  complexity and resource requirements on the part of the
-                  forwarding service.
+                  Mediators can solve the problem by rewriting the "MAIL FROM"
+                  to be in their own domain.  This means mail rejected from the
+                  external mailbox will have to be forwarded back to the
+                  original sender by the forwarding service.  Various schemes to
+                  do this exist though they vary widely in complexity and
+                  resource requirements on the part of the mediator.
                 </t>
                 <t>
                   Several popular MTAs can be forced from "alias" semantics
@@ -3024,21 +3135,22 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
                   "owner-friends: localowner").
                 </t>
                 <t>
-                  Forwarding servers could reject mail that would "fail" SPF if
+                  Mediators could reject mail that would "fail" SPF if
                   forwarded using an SMTP reply code of 551, User not local,
                   (see <xref target="RFC5321"/> section 3.4) to communicate the
                   correct target address to resend the mail to.
                 </t>
               </list>
             </t>
+          </section>
+          <section title="Receving ADMDs" anchor="forwarding-solutions-receive">
             <t>
-              The end, when email is received (Receiving ADMDs).
+              The end, when email is received:
               <list style="symbols">
                 <t>
                   If the owner of the external mailbox wishes to trust the
-                  forwarding service, he can direct the external mailbox's
-                  MTA to skip SPF tests when the client host belongs to the
-                  forwarding service.
+                  mediator, he can direct the external mailbox's MTA to skip SPF
+                  tests when the client host belongs to the mediator.
                 </t>
                 <t>
                   Tests against other identities, such as the "HELO"
@@ -3054,9 +3166,7 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
                 </t>
               </list>
             </t>
-          </list>
-          <!-- <?rfc subcompact="yes"?> -->
-        </t>
+          </section>
     </section>
     <section title="Mail Services" anchor="mail-services">
         <t>
@@ -3108,7 +3218,8 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
           because (a) header fields can be forged or malformed, and (b) there's
           no standard way to encode that information such that it can be
           reliably extracted.  Testing other than at the boundary is likely to
-          produce unreliable results.
+          produce unreliable results.  This is described further in Appencix C
+          of <xref target="RFC5451"/>.
         </t>
     </section>
     <section title="Local Policy Considerations" anchor="local-policy">
@@ -3202,7 +3313,56 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
           Both implementers and operators need to be cautious of all choices and
           outcomes when handling SPF results.
         </t>
-      </section>
+        </section>
+        <section title="Policy For SPF Temperror" anchor="receiver-policy-temperror">
+        <t>
+          The "temperror" result (see <xref target="op-result-temperror"/>)
+          indicates the SPF processing module at the receiver could not
+          retrieve and SPF policy record due to a (probably) transient
+          condition.  This gives no true indication about the authorized use
+          of the data found in the envelope.
+        </t>
+        <t>
+          As with all results, implementers have a choice to make regarding what
+          to do with a message that yields this result.  SMTP allows only a few
+          basic options.
+        </t>
+        <t>
+          Deferring the message is an option, in that it is the one thing a
+          receiver can do to draw attention to the difficulty encountered while
+          protecting itself from messages that do not have a definite SPF result
+          of some kind.  However, if the SPF implementation is defective and
+          returns spurious "temperror" results, only the sender is actively
+          notified of the defect (in the form of mail rejected after it times
+          out of the sending queue), and not the receiver making use of SPF.
+        </t>
+        <t>
+          Because of long queue lifetimes, it is possible that mail will be
+          repeatedly deferred for several days and so any awareness by the
+          sender of a problem could be quite delayed.  If "temperrors"
+          persist for multiple delivery attempts, it might be perferable to
+          treat the error as permanent and reduce the amount of time the
+          message is in transit.
+        </t>
+        <t>
+          The less intrusive handling choice is to deliver the message, perhaps
+          with some kind of annotation of the difficulty encountered and/or
+          logging of a similar nature.  However, this will not be desirable to
+          operators that wish to implement SPF checking as strictly as possible,
+          nor is this sort of passive problem reporting typically effective.
+        </t>
+        <t>
+          There is of course the option placing this choice in the hands of the
+          operator rather than the implementer since this kind of choice is
+          often a matter of local policy rather than a condition with a
+          universal solution, but this adds one more piece of complexity to an
+          already non-trivial environment.
+        </t>
+        <t>
+          Both implementers and operators need to be cautious of all choices and
+          outcomes when handling SPF results.
+        </t>
+        </section>
     </section>
     <section title="Protocol Status">
         <t>
@@ -3219,8 +3379,8 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
           <xref target="RFC4408"/> was designed to clearly document the protocol
           defined by earlier draft specifications of SPF as used in existing
           implementations.  This updated specification is intended to clarify
-          identified ambiguities in <xref target="RFC4408"/>, resolve techincal
-          issues identified in post-RFC 4408 deplyment experience, and document
+          identified ambiguities in <xref target="RFC4408"/>, resolve technical
+          issues identified in post-RFC 4408 deployment experience, and document
           widely deployed extensions to SPF that have been developed since
           <xref target="RFC4408"/> was published.
         </t>
@@ -3253,7 +3413,7 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
             <t>IESG Note regarding experimental use replaced with discussion of results</t>
             <t>Process errata:</t>
             <t>Resolved Section 2.5.7 PermError on invalid domains after macro expansion
-               errata in favor of documenting that different clients produce different results.</t>
+               errata in favor of documenting that different verifiers produce different results.</t>
             <t>Add %v macro to ABNF grammar</t>
             <t>Replace "uric" by "unreserved"</t>
             <t>Recommend an SMTP reply code for optional permerror rejections</t>
@@ -3321,9 +3481,11 @@ ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
                permerror.</t>
             <t>Added new section 9 discussion on treatment of bounces and the
                significance of HELO records.</t>
-            <t> Added request to IANA to update the SPF modifier registry.</t>
+            <t>Added request to IANA to update the SPF modifier registry.</t>
             <t>Substantially reorganized the document for improved readability
                for new users based on WG consensus.</t>
+            <t>Added new DNS "void lookup" processing limit to mitigate potental
+               future risk of SPF being used as a DDoS vector.</t>
           </list>
       </t>
     </section>
