@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-repute-considerations-01">
+        docName="draft-ietf-repute-considerations-02">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -98,11 +98,11 @@
 
 		<t> However, regardless of the identifier used as the
 		    identifier for a reputation, bad actors can evade detection
-		    or the effects of their observed behavior by changing
+		    or its consequences by changing
 		    identifiers (e.g., move to a new IP address, register a
 		    new domain name, use a sub-domain).  This makes the
 		    problem space effectively boundless, especially as IPv6
-		    rolls out. </t>
+		    rolls out, with its vastly larger address space. </t>
 	</section>
 
 	<section anchor="evolution" title="Evolution">
@@ -119,9 +119,13 @@
 		    identify and give preferential treatment to their
 		    traffic.  Good actors have no need to hop around to
 		    different addresses, and already work to keep their
-		    traffic clean. </t>
+		    traffic clean.  In addition, good actors are willing and
+		    able to collaborate in the assessment process, such as
+		    by supplying validated identifiers that are associated
+		    with their traffic. </t>
 
-		<t> This notion has only been tried to date using manually
+		<t> This new approach of focusing on identification of good
+		    actors has only been tried to date using manually
 		    edited whitelists, but has shown promising results on
 		    that scale. </t>
 	</section>
@@ -184,8 +188,9 @@
 		    	<t> how the RSP establishes reliability and
 			    authenticity of those data; </t>
 
-		    	<t> how data validity is maintained (e.g., on-going
-			    monitoring of the reported data and sources); </t>
+		    	<t> how continuing data validity is maintained
+			    (e.g., on-going monitoring of the reported data
+			    and sources); </t>
 
 		    	<t> how actively data validity is tracked (e.g., how
 			    changes are detected); </t>
@@ -194,8 +199,8 @@
 
 		    	<t> how often input data expire; </t>
 
-		    	<t> whether older information more or less influential
-			    than newer; </t>
+		    	<t> whether older information is more or less
+			    influential than newer; </t>
 
 		    	<t> whether the reported reputation a scalar, a Boolean
 			    value, a collection of values, or something
@@ -216,17 +221,20 @@
 		    reputation on content acceptance.  For example, rather
 		    than rejecting content outright when a negative
 		    reputation is returned, simply subject it to additional
-		    (i.e., more thorough) local analyis before permitting
-		    the traffic to pass. </t>
+		    (i.e., more thorough) local analysis before permitting
+		    the traffic to pass.  In other words, the reputation may
+		    simply allow certain layers of a multi-layered filtering
+		    system to be bypassed when that reputation is
+		    favorable. </t>
 
 		<t> A sensible default should apply when the RSP is not
-		    available.  This may also be a query to a different RSP
+		    available.  This can also be a query to a different RSP
 		    known to be less robust than the primary one. </t>
 
 		<t> Recent proposals have focused on tailoring operation to
 		    prefer or emphasize content whose sources have positive
 		    reputations.  As stated above, negative reputations are
-		    easy to shed, and the universe of things that will earn
+		    easy to shed, while the universe of things that will earn
 		    and maintain positive reputations is relatively small.
 		    Designing a filtering system that observes these notions
 		    is expected to be more lightweight to operate and
@@ -244,8 +252,11 @@
 		    There will be clients that are prepared to make use of
 		    a reputation service blindly, while others will be
 		    interested in understanding more fully the nature of the
-		    service being provided.  An operator of an RSP should be
-		    prepared to answer as may of the questions identified in
+		    service being provided.  These can be likened to a
+		    consumer credit check that only seeks a yes-or-no reply
+		    versus wanting to review a detailed credit report.
+		    An operator of an RSP should be
+		    prepared to answer as many of the questions identified in
 		    <xref target="clients"/> as possible, not only because
 		    wise clients will ask, but also because they reflect issues
 		    that have arisen over the years, and exploration of the
@@ -266,8 +277,8 @@
 		<t> Reptuations should be based on accurate identifiers, i.e.,
 		    some property of the content under analysis that is 
 		    difficult to falsify.  For example, in the realm of email,
-		    the address found in the From: field of a message is
-		    typically not verifiable, while the domain name found in
+		    the address found in the From: header field of a message
+		    is typically not verifiable, while the domain name found in
 		    a validated domain-level signature is.  In this case,
 		    constructing a reputation system based on the domain name
 		    is more useful than one based on the From: field. </t>
