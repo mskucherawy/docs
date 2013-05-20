@@ -37,7 +37,8 @@
   <!ENTITY rfc6686 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6686.xml">
 ]>
 
-<rfc category="std" ipr="pre5378Trust200902" docName="draft-ietf-spfbis-4408bis-15.txt" obsoletes="4408">
+<rfc category="std" ipr="pre5378Trust200902"
+     docName="draft-ietf-spfbis-4408bis-15" obsoletes="4408">
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
 <?rfc sortrefs="yes"?>
@@ -342,7 +343,9 @@
         </t>
         <t>
           This section enumerates and briefly defines the possible outputs of  
-          that function.  Information about how to handle these outputs is in
+          that function.  Note, however, that the protocol establishes no
+	  normative requirements for handling any particular result.
+	  Discussion of handling options for each result can be found in
           <xref target="handling"/>.
         </t>
         <section title="None" anchor="op-result-none">
@@ -356,19 +359,13 @@
         <section title="Neutral" anchor="op-result-neutral">
           <t>
             The ADMD has explicitly stated that it is not asserting
-            whether the IP address is authorized.  This result MUST be treated
-            exactly like the "none" result; the distinction exists only for
-            informational purposes.
+            whether the IP address is authorized.
           </t>
         </section>
         <section title="Pass"  anchor="op-result-pass">
           <t>
             A "pass" result means that the client is authorized to inject
-            mail with the given identity. The domain can now, in the sense of
-            reputation, be considered responsible for sending the message.
-            Further policy checks can now proceed with confidence in the
-            legitimate use of the identity.  This is further discussed in <xref
-            target="receiver-policy-pass"/>.
+            mail with the given identity.
           </t>
         </section>
         <section title="Fail" anchor="op-result-fail">
@@ -381,13 +378,14 @@
           <t>
             The ADMD has published a weak statement that the host is
             probably not authorized.  It has not published a stronger, more
-            definitive policy that results in a "fail"
+            definitive policy that results in a "fail".
           </t>
         </section>
         <section title="Temperror" anchor="op-result-temperror">
           <t>
             A "temperror" result means the SPF verifier encountered a transient
-            (generally DNS) error while performing the check.
+            (generally DNS) error while performing the check.  A later retry
+            may succeed without further operator action.
           </t>
         </section>
         <section title="Permerror" anchor="op-result-permerror">
@@ -1743,15 +1741,15 @@ IPv6:
           <t>
             With a "none" result, the SPF verifier has no information at all 
             about the authorization or lack thereof of the client to use the 
-            checked idenity or identities.  The check_host() function completed  
+            checked idenity or identities.  The check_host() function completed
             without errors but was not able to reach any conclusion.
           </t>
         </section>
         <section title="Neutral" anchor="handling-result-neutral">
           <t>
-            A "neutral" result indicates that although a policy for the identity 
-            was discovered, there is no definite assertion (positive or
-            negative) about the client.  
+            A "neutral" result indicates that although a policy for the
+            identity was discovered, there is no definite assertion (positive
+            or negative) about the client.  
          </t>
          <t>
             A "neutral" result MUST be treated exactly like the "none" result;
@@ -1764,7 +1762,7 @@ IPv6:
         <section title="Pass"  anchor="handling-result-pass">
           <t>
             A "pass" result means that the client is authorized to inject
-            mail with the given identity. The domain can now, in the sense of
+            mail with the given identity.  The domain can now, in the sense of
             reputation, be considered responsible for sending the message.
             Further policy checks can now proceed with confidence in the
             legitimate use of the identity.  This is further discussed in <xref
@@ -1776,8 +1774,8 @@ IPv6:
             A "fail" result is an explicit statement that the client is not
             authorized to use the domain in the given identity.  Disposition of
             SPF fail messages is a matter of local policy. See <xref
-            target="receiver-policy-fail"/> for considerations on developing local
-            policy.
+            target="receiver-policy-fail"/> for considerations on developing
+	    local policy.
           </t>
           <t>
             If the checking software chooses to reject the mail during the
@@ -1830,14 +1828,14 @@ IPv6:
         <section title="Temperror" anchor="handling-result-temperror">
           <t>
             A "temperror" result means the SPF verifier encountered a transient
-            (generally DNS) error while performing the check.  Checking software can
-            choose to accept or temporarily reject the message.  If the
-            message is rejected during the SMTP transaction for this reason,
-            the software SHOULD use an SMTP reply code of 451 and, if
+            (generally DNS) error while performing the check.  Checking
+	    software can choose to accept or temporarily reject the message.
+	    If the message is rejected during the SMTP transaction for this
+	    reason, the software SHOULD use an SMTP reply code of 451 and, if
             supported, the 4.4.3 enhanced status code.  These errors can be
-            caused by problems in either the sender's or receiver's DNS software.
-            See <xref target="receiver-policy-temperror"/> for considerations
-            on developing local policy.
+            caused by problems in either the sender's or receiver's DNS
+ 	    software.  See <xref target="receiver-policy-temperror"/> for
+	    considerations on developing local policy.
           </t>
         </section>
         <section title="Permerror" anchor="handling-result-permerror">
