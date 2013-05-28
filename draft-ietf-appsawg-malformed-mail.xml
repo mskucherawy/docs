@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.13 2012/05/22 06:55:50 msk Exp $ -->
+<!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.3 2013/05/28 16:56:42 msk Exp $ -->
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-malformed-mail-04">
+        docName="draft-ietf-appsawg-malformed-mail-05">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -229,7 +229,7 @@
 		    Format. </t>
 	</section>
 
-	<section anchor="internal" title="Internal Representations">
+	<section anchor="internal" title="Invariant Content">
 		<t> Any agent handling a message could have one or two (or
 		    more) distinct representations of a message it is handling.
 		    One is an internal representation, such as a block of
@@ -242,47 +242,29 @@
 		    such as added or reordered header fields, body
 		    modifications to remove malicious content, etc. </t>
 
-		<t> In most cases, advice is provided only for internal
-		    representations.  However, it is sometimes necessary
-		    to make changes between the input and output versions
-		    as well.  For the most part, such advice is avoided here;
-		    the goal is to ensure consistency among a set of
-		    transport and analysis agents, not necessarily the
-		    presentation of a "cleaned" message to the end user. </t>
-	</section>
+		<t> An important consideration is that each in a sequence
+		    of handling modules is usually most effective when it
+		    receives the same content for analysis.  A module that
+		    "fixes" or otherwise alters the content later modules receive
+		    can result in those later modules failing to identify
+		    content of interest (e.g., something malicious), exposing
+		    the end user to harm.  It is important to enable all such
+		    modules to make consistent assertions about the content. </t>
 
-	<section anchor="constant" title="Invariant Content">
-		<t> An especially interesting handling sequence occurs within
-		    the destination Administrative Management Domain
-		    (ADMD; see <xref target="EMAIL-ARCH"/>).  From ingress to
-		    the ADMD, through the boundary agent, until delivery to
-		    the end user, it is beneficial to ensure that each agent
-		    sees an identical form for the message.  Absent this,
-		    it can be impossible for different agents in the chain
-		    to make consistent assertions about the content. </t>
+		<t> In most cases, this document only discusses techniques to be
+		    used on internal representations.  However, it is sometimes
+		    necessary to make changes between the input and output
+		    versions as well.  The latter cases will be called out
+		    explicitly as they are rare. </t>
 
-		<t> For example, suppose a handling agent records that a
-		    message had some specific set of properties at ingress
-		    to the ADMD, then permitted it to continue inbound.  Some
-		    other agent alters the content for some reason.  The user,
-		    on viewing the delivered content, reports the message as
-		    abuse.  However, report processing often takes place at, or
-		    close to, the original point of ingress and is likely to
-		    be based on the set of properties recorded there, rather
-		    at the end user's system.  This could render the
-		    complaint inactionable.  Similarly, a message that
-		    originally had properties a filtering agent would use to
-		    reject might not be rejected, and thus reach an end
-		    user, if an intermediate agent changed the message in
-		    a manner that alters one of those properties. </t>
+		<t> Moreover, abuse reporting systems may only be able to
+		    act effectively when a user submits the original content
+		    in a complaint action.  Content that has been altered by
+		    handling modules might render a complaint inactionable. </t>
 
-		<t> Therefore, agents within an integrated message processing
-		    environment will simplify operational concerns by ensuring
-		    that each agent receives the same content -- except for
-		    the usual handling agent trace information additions --
-		    and that this is what reaches the end user, unmodified.
-		    Various policies, such as special handling for detected
-		    message abuse, will make exceptions appropriate. </t>
+		<t> There will always be local handling exceptions, but the above
+		    should serve as a useful guideline for developing integrated
+		    message processing environments. </t>
 
 		<t> Note that some changes to a message alter syntax without
 		    changing semantics.  (Indeed, analyzing the semantics of
@@ -777,19 +759,13 @@
 			    external rpresentation, since many deployed tools
 			    use the content of that field as a common unique
 			    message reference, so its absence inhibits
-			    correlation of message processing. One possible
+			    correlation of message processing.  One possible
 			    synthesis would be based on based on an encoding of
 			    the current date/time and an internal MTA ID (e.g.,
 			    queue ID) followed by @ and the fully qualified
 			    hostname of the machine synthesizing the header
-			    value.  For example:
-
-			    <figure><artwork>
-    tm = gmtime(&now);
-    (void) snprintf(buf, sizeof(buf), "%04d%02d%02d%02d%02d.%s@%s",
-                    tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
-                    tm->tm_hour, tm->tm_min, queueID, fqhn);
-			    </artwork></figure> </t>
+			    value.  Whatever details are chosen, the key is to
+			    generate something guaranteed to be unique. </t>
 		</section>
 
 		<section anchor="charset"
@@ -980,8 +956,8 @@
 			    and reject them, or rewrite the oversized line
 			    such that the message is compliant. </t>
 
-			<t> Handling agents MUST take one of the following
-			    actions:
+			<t> Handling agents that can't reject such a message
+			    should take one of the following actions:
 
 			    <list style="numbers">
 				<t> Break such lines into multiple lines at
@@ -1335,7 +1311,9 @@
 		    review and constructive criticism of this proposal:
 		    Dave Crocker,
 		    Ned Freed,
+		    Jim Galvin,
 		    Tony Hansen,
+		    John Levine,
 		    Franck Martin, and
 		    Timo Serainen
                     </t>
