@@ -230,52 +230,51 @@
 	</section>
 
 	<section anchor="internal" title="Invariant Content">
-		<t> Any agent handling a message could have one or two (or
-		    more) distinct representations of a message it is handling.
-		    One is an internal representation, such as a block of
-		    storage used for the header and a block for the body.
-		    These may be sorted, encoded, decoded, etc., as per the
-		    needs of that particular module.  The other is the
-		    representation that is output to the next agent in the
-		    handling chain.  This might be identical to the version
-		    that is input to the module, or it might have some changes
-		    such as added or reordered header fields, body
-		    modifications to remove malicious content, etc. </t>
+		<t> An agent handling a message could use several distinct
+		    representations of the message.  One is an internal
+		    representation, such as separate blocks of storage for
+		    the header and body, some header or body alterations, or
+		    tables indexed by header name, set up to make particular
+		    kinds of processing easier.  The other is the representation
+		    passed along to the next agent in the handling chain.
+		    This might be identical to the message input to the module,
+		    or it might have some changes such as added or reordered
+		    header fields or body elisions to remove malicious
+		    content. </t>
 
-		<t> An important consideration is that each in a sequence
-		    of handling modules is usually most effective when it
-		    receives the same content for analysis.  A module that
-		    "fixes" or otherwise alters the content later modules receive
-		    can result in those later modules failing to identify
-		    content of interest (e.g., something malicious), exposing
-		    the end user to harm.  It is important to enable all such
-		    modules to make consistent assertions about the content. </t>
+		<t> Message handling is usually most effective when each in
+		    a sequence of handling modules receives the same content
+		    for analysis.  A module that "fixes" or otherwise alters
+		    the content passed to later modules can prevent the later
+		    modules from identifing malicious or other content that
+		    exposes the end user to harm.  It is important that all
+		    processing modules can make consistent assertions about
+		    the content. </t>
 
-		<t> In most cases, this document only discusses techniques to be
-		    used on internal representations.  However, it is sometimes
-		    necessary to make changes between the input and output
-		    versions as well.  The latter cases will be called out
-		    explicitly as they are rare. </t>
+		<t> In most cases, this document only discusses techniques used
+		    on internal representations.  It is occasionally necessary
+		    to make changes between the input and output versions;
+		    such cases will be called out explicitly. </t>
 
-		<t> Moreover, abuse reporting systems may only be able to
-		    act effectively when a user submits the original content
-		    in a complaint action.  Content that has been altered by
-		    handling modules might render a complaint inactionable. </t>
+		<t> Often, abuse reporting systems can act effectively only
+		    when a complaint or report contains the original message.
+		    Messages that have been altered by handling modules might
+		    render a complaint inactionable. </t>
 
-		<t> There will always be local handling exceptions, but the above
-		    should serve as a useful guideline for developing integrated
+		<t> There will always be local handling exceptions, but these
+		    guidelines should be useful for developing integrated
 		    message processing environments. </t>
 
-		<t> Note that some changes to a message alter syntax without
-		    changing semantics.  (Indeed, analyzing the semantics of
-		    malformations is the impetus for this work.)  For example,
-		    <xref target="malformations"/> describes a situation
-		    in which additional whitespace in a header is removed.
-		    This is a change in syntax without a change in semantics,
-		    though some systems (e.g., DKIM) are sensitive to such
-		    changes.  Care must be taken when developing message
-		    handling systems to be aware of the downstream impact
-		    of making either kind of change. </t>
+		<t> Some message changes alter syntax without changing
+		    semantics.  (Indeed, analyzing the semantics of
+		    malformations was the impetus for this work.)  For
+		    example, <xref target="malformations"/> describes a
+		    situation where an agent removes additional header
+		    whitespace.  This is a syntax change without a change
+		    in semantics, though some systems (e.g., DKIM) are
+		    sensitive to such changes.  Message system developers
+		    need to aware of the downstream impact of making either
+		    kind of change. </t>
 	</section>
 
 	<section anchor="msa" title="Mail Submission Agents">
