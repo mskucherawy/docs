@@ -752,7 +752,7 @@
 
 			<t> Option 2 is recommended for handling this
 			    case.  Handling agents should add these for
-			    internal hanlding if they are missing, but should
+			    internal handling if they are missing, but should
 			    not add them to the external representation. 
 			    The reason for this advice is that there
 			    are some filter modules that would consider the
@@ -945,7 +945,7 @@
 		<section anchor="bad_encoding"
 		         title="Faulty Encodings">
 			<t> There have been a few different specifications of
-			    base64 in the past.  The implemenation defined
+			    base64 in the past.  The implementation defined
 			    in <xref target="MIME"/> instructs decoders
 			    to discard characters that are not part of the
 			    base64 alphabet.  Other implementations consider
