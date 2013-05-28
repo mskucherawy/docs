@@ -956,8 +956,10 @@
 			    and reject them, or rewrite the oversized line
 			    such that the message is compliant. </t>
 
-			<t> Handling agents that can't reject such a message
-			    should take one of the following actions:
+			<t> To ensure long lines do not prevent analysis of
+			    potentially malicious data, handling agents are
+			    strongly encouraged to take one of the following
+			    actions:
 
 			    <list style="numbers">
 				<t> Break such lines into multiple lines at
