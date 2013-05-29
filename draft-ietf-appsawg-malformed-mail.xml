@@ -3,7 +3,7 @@
 <!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.3 2013/05/28 16:56:42 msk Exp $ -->
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-malformed-mail-05">
+        docName="draft-ietf-appsawg-malformed-mail-06">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -249,21 +249,23 @@
 		    modules from identifing malicious or other content that
 		    exposes the end user to harm.  It is important that all
 		    processing modules can make consistent assertions about
-		    the content. </t>
+		    the content.  Modules that operate sequentially sometimes
+		    add private header fields to relay information downstream
+		    for later filters to use (and possibly remove), or they
+		    may have out-of-band ways of doing so.  Whenever possible,
+		    the latter mechanism should be used. </t>
 
-		<t> In most cases, this document only discusses techniques used
-		    on internal representations.  It is occasionally necessary
-		    to make changes between the input and output versions;
-		    such cases will be called out explicitly. </t>
+		<t> The above is less of a concern when multiple analysis
+		    modules are operated in parallel, independent of one
+		    another. </t>
 
 		<t> Often, abuse reporting systems can act effectively only
-		    when a complaint or report contains the original message.
-		    Messages that have been altered by handling modules might
-		    render a complaint inactionable. </t>
-
-		<t> There will always be local handling exceptions, but these
-		    guidelines should be useful for developing integrated
-		    message processing environments. </t>
+		    when a complaint or report contains the original message
+		    exactly as it was generated.  Messages that have been
+		    altered by handling modules might render a complaint
+		    inactionable as the system receiving the report may be
+		    unable to identify the original message as one of its
+		    own. </t>
 
 		<t> Some message changes alter syntax without changing
 		    semantics.  (Indeed, analyzing the semantics of
@@ -275,6 +277,15 @@
 		    sensitive to such changes.  Message system developers
 		    need to aware of the downstream impact of making either
 		    kind of change. </t>
+
+		<t> There will always be local handling exceptions, but these
+		    guidelines should be useful for developing integrated
+		    message processing environments. </t>
+
+		<t> In most cases, this document only discusses techniques used
+		    on internal representations.  It is occasionally necessary
+		    to make changes between the input and output versions;
+		    such cases will be called out explicitly. </t>
 	</section>
 
 	<section anchor="msa" title="Mail Submission Agents">
