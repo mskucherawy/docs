@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<rfc ipr="trust200902" category="info"
+        docName="draft-wmills-duvs-header-field-00">
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc strict="no" ?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="Drop-Unless-Valid-Since">
+		The Drop-Unless-Valid-Since Header Field
+	</title>
+
+	<author initials="W. J." surname="Mills"
+	        fullname="William J. Mills">
+
+		<organization> Yahoo! Inc. </organization>
+
+		<address>
+			<email>wmills_92105@yahoo.com</email>
+		</address>
+	</author>
+
+	<author initials="M. S." surname="Kucherawy"
+	        fullname="Murray S. Kucherawy">
+
+		<organization/>
+
+		<address>
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<date year="2013"/>
+
+	<area>Applications</area>
+
+	<abstract>
+		<t> This document defines an email header field,
+		    Drop-Unless-Valid-Since, to provide a method for senders
+		    to indicate to receivers a the time when the sender
+		    last confirmed the ownership of the target mailbox.
+		    This can be used to detect changes of mailbox ownership,
+		    and thus avoid leakage of private information. </t>
+	</abstract>
+</front>
+
+<middle>
+	<section anchor="intro" title="Introduction">
+		<t> Mailbox Service Providers (MSPs) are public, often free,
+		    services that provide email sending and receiving
+		    capabilities to users.  Some of them have policies that
+		    allow for expiration of account names when they have been
+		    unused for a protracted period.  If an expired account
+		    name can be reclaimed, there is a risk of leakage of
+		    private information if some message author is unaware of
+		    this change of ownership. </t>
+
+		<t> This document defines a header field called
+		    Drop-Unless-Valid-Since.  The content of this header field is
+		    a timestamp indicating at what point in time the message
+		    author believed the address to be under confirmed
+		    ownership of a specific party.  If the receiving system
+		    observes this field and can determine that the intended
+		    recipient mailbox has changed ownership since the provided
+		    timestamp, it can decline delivery, preventing the possible
+		    leak of prvate information. </t>
+	</section>
+
+	<section title="Definitions" anchor="defs">
+		<t> For a description of the email architecture, consult
+		    <xref target="EMAIL-ARCH"/>. </t>
+
+		<t> The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
+		    "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",
+		    "MAY", and "OPTIONAL" in this document are to be
+		    interpreted as described in <xref target="KEYWORDS"/>. </t>
+	</section>
+
+	<section title="Description" anchor="descr">
+		<t> The Drop-Unless-Valid-Since header field includes a
+		    timestamp indicating the most recent date and time
+		    when the message author believed the destination
+		    mailbox to be under the continuous ownership of a
+		    specific party.  Presumably there has been some 
+		    confirmation process applied to establish this
+		    ownership; however, the methods of making such
+		    determinations is a local matter and outside the scope
+		    of this document. </t>
+
+		<t> The general constraints on syntax and placement
+		    of header fields in a message are defined in
+		    Internet Message Format <xref target="MAIL"/>. </t>
+
+		<t> Using Augmented Backus-Naur Form <xref target="ABNF"/>,
+		    the syntax for the field is:
+
+		    <figure><artwork>
+    duvs = "Drop-Unless-Valid-Since:" [CFWS] date [CFWS] CRLF
+		    </artwork></figure> </t>
+
+		<t> "CFWS" is defined in Section 3.2.2, and "date" is defined in
+		    Section 3.3, of <xref target="MAIL"/>. </t>
+
+		<t> A receiving system that implements this specification
+		    determines whether the target mailbox(es) have been under
+		    continuous ownership since the specified date.  If this
+		    is found to be the case, the message is delivered
+		    normally.  If not, the message MUST be rejected.  it
+		    is preferred that the rejection be enacted as an error
+		    response to the Simple Mail Transfer Protocol
+		    <xref target="SMTP"/> "DATA" command verb, but this is
+		    not strictly necessary. </t>
+
+		<t> When enacting the rejection, servers SHOULD use
+		    an SMTP error code (and Enhanced Mail System Status
+		    Code <xref target="ESC"/>, if supported) that indicates
+		    the intended recipient cannot receive mail.  The intent
+		    is to indicate the user does not exist because the
+		    intended recipient is actually no longer there even
+		    the mailbox is technically valid.  However, "no such
+		    user" errors are more commonly returned in reply to the
+		    "RCPT" command verb. </t>
+
+		<t> Implementation is expected to be transparent to non
+		    participants, as to them this is an ignored header
+		    field. </t>
+
+		<t> This header field SHOULD NOT be added to a message that
+		    is addressed to multiple recipients.  It is presumed that
+		    an author making use of this field is seeking to protect
+		    transactional or otherwise sensitive data intended for
+		    a single recipient. </t>
+	</section>
+
+	<section title="To Be Discussed" anchor="tbd">
+		<t> Things that still need to be sorted out or discussed:
+
+		    <list style="symbols">
+			<t> how do we handle forwarding or remailing? </t>
+
+			<t> apply message authentication? </t>
+
+			<t> should this field contain the intended recipient? </t>
+
+			<t> why a "date" and not a time_t? </t>
+		    </list> </t>
+	</section>
+
+	<section title="Example" anchor="example">
+		<t> In the following example, "C:" indicates data sent by an
+		    SMTP client, and "S:" indicates respones by the SMTP server. 
+		    Message content is CRLF terminated, though these are omitted
+		    here for ease of reading.
+
+		    <figure><artwork>
+  C: [connection established]
+  S: 220 server.example.com ESMTP ready
+  C: HELO client.example.net
+  S: 250 server.example.com
+  C: MAIL FROM:&lt;sender@example.net&gt;
+  S: 250 OK
+  C: RCPT TO:&lt;receiver@example.com&gt;
+  S: 250 OK
+  C: DATA
+  S: 354 Ready for message content
+  C: From: Mister Sender &lt;sender@example.net&gt;
+     To: Miss Receiver &lt;receiver@example.com&gt;
+     Subject: Are you still there?
+     Date: Date: Fri, 28 Jun 2013 18:01:01 +0200
+     Drop-Unless-Valid-Since: 1 Jun 2013
+
+     Are you still there?
+     .
+  S: 550 5.1.6 receiver@example.com is no longer valid
+  C: QUIT
+  S: 221 So long!
+		</artwork></figure></t>
+	</section>
+
+	<section anchor="impl" title="Implementation Status">
+		<t> [RFC Editor: Please delete this section prior to
+		    publication.] </t>
+
+		<t> This section records the status of known implementations of
+		    the protocol defined by this specification at the time of
+		    posting of this Internet-Draft, and is based on a proposal
+		    described in draft-sheffer-running-code.  The description
+		    of implementations in this section is intended to assist
+		    the IETF in its decision processes in progressing drafts
+		    to RFCs.  Please note that the listing of any individual
+		    implementation here does not imply endorsement by the IETF.
+		    Furthermore, no effort has been spent to verify the
+		    information presented here that was supplied by IETF
+		    contributors.  This is not intended as, and must not be
+		    construed to be, a catalog of available implementations or
+		    their features.  Readers are advised to note that other
+		    implementations may exist. </t>
+
+		<t> According to draft-sheffer-running-code, "this will allow
+		    reviewers and working groups to assign due consideration to
+		    documents that have the benefit of running code, by
+		    considering the running code as evidence of valuable
+		    experimentation and feedback that has made the implemented
+		    protocols more mature.  It is up to the individual working
+		    groups to use this information as they see fit". </t>
+
+		<section anchor="impl_facebook" title="Facebook">
+		  <t> <list style="hanging">
+			<t hangText="Responsible Organization:"> Facebook </t>
+			<t hangText="Implementation:"> Facebook;
+				http://www.facebook.com </t>
+			<t hangText="Brief Description:"> Facebook is a popular
+				free social networking service.  Part of the
+				service involves sending private messages
+				about relevant activity from other users,
+				password reset requests, and other sensitive
+				data. </t>
+			<t hangText="Maturity level:"> widely used (over
+				a billion active users) </t>
+			<t hangText="Coverage:"> fully implemented (sender) </t>
+			<t hangText="Licensing:"> proprietary </t>
+			<t hangText="Implementation Experience:"> n/a </t>
+			<t hangText="Contact Information:">
+				http://postmaster.facebook.com </t>
+		  </list> </t>
+		</section>
+
+		<section anchor="impl_yahoo" title="Yahoo!">
+		  <t> <list style="hanging">
+			<t hangText="Responsible Organization:"> Yahoo! </t>
+			<t hangText="Implementation:"> Yahoo!;
+				http://mail.yahoo.com </t>
+			<t hangText="Brief Description:"> Yahoo! mail is a
+				popular, free, web-based mailbox service
+				provider </t>
+			<t hangText="Maturity level:"> widely used </t>
+			<t hangText="Coverage:"> fully implemented (receiver) </t>
+			<t hangText="Licensing:"> proprietary </t>
+			<t hangText="Implementation Experience:"> n/a </t>
+			<t hangText="Contact Information:">
+				http://postmaster.yahoo.com </t>
+		  </list> </t>
+		</section>
+	</section>
+
+	<section anchor="privacy" title="Privacy Considerations">
+		<t> This document proposes a solution to an issue that could
+		    leak private user information. </t>
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+		<t> The response of a server implementing this protocol
+		    can reveal information about the age of existing
+		    email accounts. </t>
+	</section>
+
+	<section anchor="iana" title="IANA Considerations">
+		<t> IANA is requested to add the following entry to the
+		    Permanent Message Header Field registry, as per
+		    the procedure found in <xref target="IANA-HEADERS"/>:
+
+		<figure><artwork>
+  Header field name: Drop-Unless-Valid-Since
+  Applicable protocol: mail ([MAIL])
+  Status: Standard
+  Author/Change controller: IETF
+  Specification document(s): [this document]
+  Related information:
+    Requesting review of any proposed changes and additions to
+    this field is recommended.
+		</artwork></figure> </t>
+	</section>
+</middle>
+
+<back>
+	<references title="Normative References">
+		<reference anchor="ABNF">
+			<front>
+				<title>Augmented BNF for Syntax
+				       Specifications: ABNF</title>
+
+				<author
+					fullname="D. Crocker"
+					initials="D."
+					surname="Crocker"
+					role="editor">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
+				</author>
+
+				<author
+					fullname="P. Overell"
+					initials="P."
+					surname="Overell">
+					<organization>
+						THUS plc.
+					</organization>
+				</author>
+
+				<date month="January" year="2008"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="5234"></seriesInfo>
+		</reference>
+
+		<reference anchor="IANA-HEADERS">
+			<front>
+				<title> Registration Procedures for Message
+				        Header Fields </title>
+
+				<author initials="G." surname="Klyne"
+				        fullname="G. Klyne">
+				</author>
+				<author initials="M." surname="Nottingham"
+				        fullname="M. Nottingham">
+				</author>
+				<author initials="J." surname="Mogul"
+				        fullname="J. Mogul">
+				</author>
+
+				<date year="2004" month="September"/>
+			</front>
+
+			<seriesInfo name="BCP" value="90"/>
+			<seriesInfo name="RFC" value="3864"/>
+		</reference>
+
+		<reference anchor="KEYWORDS">
+			<front>
+				<title>
+					Key words for use in RFCs to
+					Indicate Requirement Levels
+				</title>
+
+				<author fullname="Scott Bradner"
+					initials="S."
+					surname="Bradner">
+
+					<organization>
+						Harvard University
+					</organization>
+				</author>
+
+				<date month="March" year="1997"/>
+			</front>
+
+			<seriesInfo name="BCP" value="14"/>
+			<seriesInfo name="RFC" value="2119"/>
+		</reference>
+
+		<reference anchor="MAIL">
+			<front>
+				<title> Internet Message Format </title>
+
+				<author initials="P." surname="Resnick"
+					fullname="P. Resnick (editor)">
+					<organization>
+						Qualcomm, Inc.
+					</organization>
+				</author>
+
+				<date month="October" year="2008" />
+			</front>
+
+			<seriesInfo name="RFC" value="5322" />
+		</reference>
+
+		<reference anchor="SMTP">
+			<front>
+				<title>Simple Mail Transfer Protocol</title>
+
+				<author
+					fullname="J. Klensin"
+					initials="J."
+					surname="Klensin">
+					<organization></organization>
+				</author>
+
+				<date month="October" year="2008"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="5321"></seriesInfo>
+		</reference>
+	</references>
+
+	<references title="Informative References">
+		<reference anchor="EMAIL-ARCH">
+			<front>
+				<title> Internet Mail Architecture </title>
+				<author initials="D." surname="Crocker"
+				        fullname="D. Crocker">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
+				</author>
+				<date month="July" year="2009" />
+			</front>
+			<seriesInfo name="RFC" value="5598" />
+		</reference>
+
+		<reference anchor="ESC">
+			<front>
+				<title> Enhanced Mail System Status Codes </title>
+
+				<author initials="G." surname="Vaudreuil"
+				        fullname="G. Vaudreuil">
+					<organization>
+						Lucent Technologies
+					</organization>
+				</author>
+				<date month="January" year="2003" />
+			</front>
+			<seriesInfo name="RFC" value="3463" />
+		</reference>
+	</references>
+
+	<section anchor="thanks" title="Acknowledgements">
+		<t> Yuliy Pisetsky proposed the idea. </t>
+
+		<t> (other credit as appropriate) </t>
+	</section>
+
+</back>
+
+</rfc>
