@@ -29,10 +29,17 @@
 	<author initials="M. S." surname="Kucherawy"
 	        fullname="Murray S. Kucherawy">
 
-		<organization/>
+		<organization> Facebook, Inc. </organization>
 
 		<address>
-			<email>superuser@gmail.com</email>
+			<postal>
+				<street>1 Hacker Way</street>
+				<city>Menlo Park</city>
+				<region>CA</region>
+				<code>94025</code>
+				<country>USA</country>
+			</postal>
+			<email>msk@fb.com</email>
 		</address>
 	</author>
 
@@ -43,7 +50,7 @@
 	<abstract>
 		<t> This document defines an email header field,
 		    Drop-Unless-Valid-Since, to provide a method for senders
-		    to indicate to receivers a the time when the sender
+		    to indicate to receivers the time when the sender
 		    last confirmed the ownership of the target mailbox.
 		    This can be used to detect changes of mailbox ownership,
 		    and thus avoid leakage of private information. </t>
@@ -111,7 +118,7 @@
 		    determines whether the target mailbox(es) have been under
 		    continuous ownership since the specified date.  If this
 		    is found to be the case, the message is delivered
-		    normally.  If not, the message MUST be rejected.  it
+		    normally.  If not, the message MUST be rejected.  It
 		    is preferred that the rejection be enacted as an error
 		    response to the Simple Mail Transfer Protocol
 		    <xref target="SMTP"/> "DATA" command verb, but this is
@@ -424,7 +431,7 @@
 	<section anchor="thanks" title="Acknowledgements">
 		<t> Yuliy Pisetsky proposed the idea. </t>
 
-		<t> (other credit as appropriate) </t>
+		<t> Reviews were provided by Ed Zayas, (others) </t>
 	</section>
 
 </back>
