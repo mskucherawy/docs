@@ -145,11 +145,11 @@
 		    a single recipient. </t>
 
 		<t> If the agent generating the message uses any kind of message
-		    signing technology, the generated signature SHOULD cover
-		    this header field.  An agent receiving a message bearing
-		    this header field that is covered by some kind of signature
-		    SHOULD NOT process it as described above if the signature
-		    is not valid. </t>
+		    authentication technology, the authentication SHOULD cover
+		    this header field if possible.  An agent receiving a message
+		    bearing this header field that is covered by some kind of
+		    authentication SHOULD NOT process it as described above if
+		    the authentication does not succeed. </t>
 	</section>
 
 	<section title="Example" anchor="example">
