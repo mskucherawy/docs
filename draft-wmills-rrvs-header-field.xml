@@ -143,20 +143,13 @@
 		    an author making use of this field is seeking to protect
 		    transactional or otherwise sensitive data intended for
 		    a single recipient. </t>
-	</section>
 
-	<section title="To Be Discussed" anchor="tbd">
-		<t> Things that still need to be sorted out or discussed:
-
-		    <list style="symbols">
-			<t> how do we handle forwarding or remailing? </t>
-
-			<t> apply message authentication? </t>
-
-			<t> should this field contain the intended recipient? </t>
-
-			<t> why a "date" and not a time_t? </t>
-		    </list> </t>
+		<t> If the agent generating the message uses any kind of message
+		    signing technology, the generated signature SHOULD cover
+		    this header field.  An agent receiving a message bearing
+		    this header field that is covered by some kind of signature
+		    SHOULD NOT process it as described above if the signature
+		    is not valid. </t>
 	</section>
 
 	<section title="Example" anchor="example">
