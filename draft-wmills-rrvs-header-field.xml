@@ -108,11 +108,11 @@
 		    the syntax for the field is:
 
 		    <figure><artwork>
-    rrvs = "Require-Recipient-Valid-Since:" [CFWS] date [CFWS] CRLF
+    rrvs = "Require-Recipient-Valid-Since:" [CFWS] date-time [CFWS] CRLF
 		    </artwork></figure> </t>
 
-		<t> "CFWS" is defined in Section 3.2.2, and "date" is defined in
-		    Section 3.3, of <xref target="MAIL"/>. </t>
+		<t> "CFWS" is defined in Section 3.2.2, and "date-time" is
+		    defined in Section 3.3, of <xref target="MAIL"/>. </t>
 
 		<t> A receiving system that implements this specification
 		    determines whether the target mailbox(es) have been under
@@ -172,7 +172,7 @@
   C: From: Mister Sender &lt;sender@example.net&gt;
      To: Miss Receiver &lt;receiver@example.com&gt;
      Subject: Are you still there?
-     Date: Date: Fri, 28 Jun 2013 18:01:01 +0200
+     Date: Fri, 28 Jun 2013 18:01:01 +0200
      Require-Recipient-Valid-Since: 1 Jun 2013
 
      Are you still there?
@@ -358,7 +358,8 @@
 	<section anchor="thanks" title="Acknowledgements">
 		<t> Erling Ellingsen proposed the idea. </t>
 
-		<t> Reviews were provided by Ed Zayas, (others) </t>
+		<t> Reviews and comments were provided by Gregg Stefancik,
+		    Ed Zayas, (others) </t>
 	</section>
 
 </back>
