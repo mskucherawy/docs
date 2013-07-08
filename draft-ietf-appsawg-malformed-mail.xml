@@ -33,6 +33,14 @@
 		</address>
 	</author>
 
+	<author initials="N." surname="Freed"
+	        fullname="N. Freed">
+
+		<address>
+			<email>ned.freed@mrochek.com</email>
+		</address>
+	</author>
+
 	<date year="2013"/>
 
 	<area>Applications</area>
