@@ -69,9 +69,9 @@
 		    this change of ownership. </t>
 
 		<t> This document defines a header field called
-		    Require-Recipient-Valid-Since.  The content of this header field is
-		    a timestamp indicating at what point in time the message
-		    author believed the address to be under confirmed
+		    Require-Recipient-Valid-Since.  The content of this header
+		    field is a timestamp indicating at what point in time the
+		    message author believed the address to be under confirmed
 		    ownership of a specific party.  If the receiving system
 		    observes this field and can determine that the intended
 		    recipient mailbox has changed ownership since the provided
@@ -108,7 +108,7 @@
 		    the syntax for the field is:
 
 		    <figure><artwork>
-    rrvs = "Require-Recipient-Valid-Since:" [CFWS] date-time [CFWS] CRLF
+    rrvs = "Require-Recipient-Valid-Since:" date-time CRLF
 		    </artwork></figure> </t>
 
 		<t> "CFWS" is defined in Section 3.2.2, and "date-time" is
@@ -118,24 +118,24 @@
 		    determines whether the target mailbox(es) have been under
 		    continuous ownership since the specified date.  If this
 		    is found to be the case, the message is delivered
-		    normally.  If not, the message MUST be rejected.  It
-		    is preferred that the rejection be enacted as an error
+		    normally.  If not, the message is rejected.
+		    It is preferred that the rejection be enacted as an error
 		    response to the Simple Mail Transfer Protocol
 		    <xref target="SMTP"/> "DATA" command verb, but this is
 		    not strictly necessary. </t>
 
-		<t> When enacting the rejection, servers SHOULD use
+		<t> When enacting the "DATA" rejection, servers use
 		    an SMTP error code (and Enhanced Mail System Status
 		    Code <xref target="ESC"/>, if supported) that indicates
-		    the intended recipient cannot receive mail.  The intent
-		    is to indicate the user does not exist because the
-		    intended recipient is actually no longer there even
-		    the mailbox is technically valid.  However, "no such
-		    user" errors are more commonly returned in reply to the
-		    "RCPT" command verb. </t>
+		    the intended recipient cannot receive mail for policy
+		    reasons.  This is done because the mailbox identified in
+		    the envelope does exist, but there is doubt about the
+		    identity of the owner of that mailbox.  By contrast,
+		    "no such user" errors are more commonly returned in reply
+		    to the "RCPT" command verb. </t>
 
 		<t> Implementation is expected to be transparent to non
-		    participants, as to them this is an ignored header
+		    participants, since they would typically ignore this header
 		    field. </t>
 
 		<t> This header field SHOULD NOT be added to a message that
@@ -150,6 +150,15 @@
 		    bearing this header field that is covered by some kind of
 		    authentication SHOULD NOT process it as described above if
 		    the authentication does not succeed. </t>
+
+		<t> The handling rules are unchanged in the case of an MTA
+		    that observes the target mailbox is configured to forward
+		    to some other mailbox.  For example, if a mailbox did
+		    exist at one point but has been replaced by a rule to
+		    forward mail, the receiver is free to decide that the
+		    forwarding arrangement was established by the owner of the
+		    now-defunct mailbox and thus continuous ownership has
+		    been satisfied. </t>
 	</section>
 
 	<section title="Example" anchor="example">
@@ -173,7 +182,7 @@
      To: Miss Receiver &lt;receiver@example.com&gt;
      Subject: Are you still there?
      Date: Fri, 28 Jun 2013 18:01:01 +0200
-     Require-Recipient-Valid-Since: 1 Jun 2013
+     Require-Recipient-Valid-Since: Sat, 1 Jun 2013 09:23:01 -0700
 
      Are you still there?
      .
