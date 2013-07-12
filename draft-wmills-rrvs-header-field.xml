@@ -53,7 +53,8 @@
 		    to indicate to receivers the time when the sender
 		    last confirmed the ownership of the target mailbox.
 		    This can be used to detect changes of mailbox ownership,
-		    and thus avoid leakage of private information. </t>
+		    and thus prevent mail from being delivered to the wrong
+		    party. </t>
 	</abstract>
 </front>
 
@@ -64,8 +65,8 @@
 		    capabilities to users.  Some of them have policies that
 		    allow for expiration of account names when they have been
 		    unused for a protracted period.  If an expired account
-		    name can be reclaimed, there is a risk of leakage of
-		    private information if some message author is unaware of
+		    name can be reclaimed, there is a risk of delivery of
+		    mail to the wrong party if some message author is unaware of
 		    this change of ownership. </t>
 
 		<t> This document defines a header field called
@@ -75,8 +76,8 @@
 		    ownership of a specific party.  If the receiving system
 		    observes this field and can determine that the intended
 		    recipient mailbox has changed ownership since the provided
-		    timestamp, it can decline delivery, preventing the possible
-		    leak of prvate information. </t>
+		    timestamp, it can decline delivery, preventing possible
+		    misdelivery of mail. </t>
 	</section>
 
 	<section title="Definitions" anchor="defs">
@@ -90,7 +91,8 @@
 	</section>
 
 	<section title="Description" anchor="descr">
-		<t> The Require-Recipient-Valid-Since header field includes a
+		<t> The Require-Recipient-Valid-Since header field includes
+		    the original intended recipient coupled with a
 		    timestamp indicating the most recent date and time
 		    when the message author believed the destination
 		    mailbox to be under the continuous ownership of a
@@ -108,17 +110,21 @@
 		    the syntax for the field is:
 
 		    <figure><artwork>
-    rrvs = "Require-Recipient-Valid-Since:" date-time CRLF
+    rrvs = "Require-Recipient-Valid-Since:" mailbox; date-time CRLF
 		    </artwork></figure> </t>
 
-		<t> "CFWS" is defined in Section 3.2.2, and "date-time" is
-		    defined in Section 3.3, of <xref target="MAIL"/>. </t>
+		<t> "CFWS" is defined in Section 3.2.2, "date-time" is
+		    defined in Section 3.3, and "mailbox" is defined in
+		    Section 3.4, of <xref target="MAIL"/>. </t>
 
 		<t> A receiving system that implements this specification
-		    determines whether the target mailbox(es) have been under
-		    continuous ownership since the specified date.  If this
-		    is found to be the case, the message is delivered
-		    normally.  If not, the message is rejected.
+		    determines whether the named mailbox is based
+		    at that receiving system, and has been under
+		    continuous ownership since the specified date.  If that
+		    address is found to be foreign, the header field is
+		    ignored.  Otherwise, if continuous ownership since the
+		    indicated time can be established, the message is delivered
+		    normally; if not, the message is rejected.
 		    It is preferred that the rejection be enacted as an error
 		    response to the Simple Mail Transfer Protocol
 		    <xref target="SMTP"/> "DATA" command verb, but this is
@@ -129,7 +135,7 @@
 		    Code <xref target="ESC"/>, if supported) that indicates
 		    the intended recipient cannot receive mail for policy
 		    reasons.  This is done because the mailbox identified in
-		    the envelope does exist, but there is doubt about the
+		    the header field does exist, but there is doubt about the
 		    identity of the owner of that mailbox.  By contrast,
 		    "no such user" errors are more commonly returned in reply
 		    to the "RCPT" command verb. </t>
@@ -151,14 +157,40 @@
 		    authentication SHOULD NOT process it as described above if
 		    the authentication does not succeed. </t>
 
-		<t> The handling rules are unchanged in the case of an MTA
-		    that observes the target mailbox is configured to forward
-		    to some other mailbox.  For example, if a mailbox did
-		    exist at one point but has been replaced by a rule to
-		    forward mail, the receiver is free to decide that the
-		    forwarding arrangement was established by the owner of the
-		    now-defunct mailbox and thus continuous ownership has
-		    been satisfied. </t>
+		<t> If the receiving system detects that the named mailbox is
+		    foreign, it is free to remove the header field prior to
+		    relaying it toward its destination. </t>
+	</section>
+
+	<section title="Discussion" anchor="disc">
+		<t> The presence of the intended mailbox supports the case where
+		    a message bearing this header field is forwarded.  The
+		    specific use case is as follows:
+			<list style="numbers">
+				<t> A user subscribes to a service "S" on
+				    data "D" and confirms an email address at
+				    the user's current location, "A"; </t>
+
+				<t> At some later date, the user intends to
+				    leave the current location, and thus creates
+				    a new mailbox elsewhere, at "B"; </t>
+
+				<t> The user replaces mailbox "A" with
+				    forwarding to "B"; </t>
+
+				<t> "S" constructs a message to "A" claiming that
+				    address was valid at date "D" and sends it
+				    to "A", which forwards to "B"; </t>
+
+				<t> The receiving MTA at "B" asserts that "B"
+				    has not been under constant ownership
+				    since "D" and rejects the message. </t>
+			</list> </t>
+
+		<t> Some services generate messages with an RFC5322.To field
+		    that does not contain a valid address, in order to obscure
+		    the intended recipient.  For this reason, the original
+		    intended recipient is included in this header field. </t>
 	</section>
 
 	<section title="Example" anchor="example">
@@ -194,7 +226,8 @@
 
 	<section anchor="privacy" title="Privacy Considerations">
 		<t> This document proposes a solution to an issue that could
-		    leak private user information. </t>
+		    cause mail to be unintentionally delivered to the wrong
+		    party. </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
