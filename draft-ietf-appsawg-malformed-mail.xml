@@ -3,7 +3,7 @@
 <!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.3 2013/05/28 16:56:42 msk Exp $ -->
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-malformed-mail-06">
+        docName="draft-ietf-appsawg-malformed-mail-07">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -317,12 +317,15 @@
 		    users might not understand. </t>
 	</section>
 
-	<section anchor="lines" title="Line Terminaton">
+	<section anchor="lines" title="Line Termination">
 		<t> For interoperable Internet Mail messages, the only
-		    valid line separation sequence in messaging is
-		    ASCII 0x0D ("carriage return", or CR) followed by ASCII
-		    0x0A ("line feed", or LF), commonly referred to as CRLF.
-		    Common UNIX user tools, however, typically only use LF
+		    valid line separation sequence during a typical SMTP
+		    session is ASCII 0x0D ("carriage return", or CR) followed by
+		    ASCII 0x0A ("line feed", or LF), commonly referred to as
+		    CRLF.  This is not the case for binary mode SMTP
+		    (see <xref target="BINARYSMTP"/>). </t>
+
+		<t> Common UNIX user tools, however, typically only use LF
 		    for internal line termination.  This means that a protocol
 		    engine, which converts between UNIX and Internet Mail
 		    formats, has to convert between these two end-of-line
@@ -338,13 +341,20 @@
 
 		<t> Within modern Internet Mail it is highly unlikely that
 		    an isolated CR or LF is valid in common ASCII text.
-		    Furthermore <xref target="MIME"/> presents mechanisms for
+		    Furthermore, <xref target="MIME"/> presents mechanisms for
 		    encoding content that actually does need to contain such
 		    an unusual character sequence. </t>
 
 		<t> Thus, it will typically be safe and helpful to treat a
 		    naked CR or LF as equivalent to a CRLF when parsing
 		    a message. </t>
+
+		<t> Note that this advice pertains only to the raw SMTP data,
+		    and not to decoded MIME entities.  In fact, it could
+		    be necessary to encode MIME content that actually does
+		    need to contian such unusual character sequences.  However,
+		    they would by definition be encoded, and not visible in the
+		    raw SMTP stream. </t>
 	</section>
 
 	<section anchor="header" title="Header Anomalies">
@@ -786,6 +796,82 @@
 			    generate something guaranteed to be unique. </t>
 		</section>
 
+		<section anchor="rp" title="Return-Path">
+			<t> A valid message will have exactly one Return-Path
+			    header field, as per Section 4.4 of
+			    <xref target="SMTP"/>.  Should a message be
+			    encountered bearing more than one, all but the
+			    topmost one is to be disregarded, as it is most
+			    likely to have been added nearest to the mailbox
+			    that received that message. </t>
+		</section>
+
+		<section anchor="repeated" title="Repeated Header Fields">
+			<t> There are some occasions where repeated fields
+			    are encountered where only one is expected.
+			    Two examples are presented.  First:
+
+				<figure><artwork>
+    From: reminders@example.com {1}
+    To: jqpublic@example.com {2}
+    Subject: Automatic Meeting Reminder {3}
+    Subject: 4pm Today -- Staff Meeting {4}
+    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
+
+    Reminder of the staff meeting today in the small {6}
+    auditorium.  Come early! {7}
+				</artwork></figure></t>
+
+			<t> The message above has two Subject fields, which is
+			    in violation of Section 3.6 of <xref target="MAIL"/>.
+			    A safe interpretation of this would be to treat
+			    it as though the two Subject field values were
+			    concatenated, so long as they are not identical,
+			    such as:
+				<figure><artwork>
+    From: reminders@example.com {1}
+    To: jqpublic@example.com {2}
+    Subject: Automatic Meeting Reminder {3}
+      4pm Today -- Staff Meeting {4}
+    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
+
+    Reminder of the staff meeting today in the small {6}
+    auditorium.  Come early! {7}
+				</artwork></figure></t>
+
+			<t> Second:
+				<figure><artwork>
+    From: president@example.com {1}
+    From: vice-president@example.com {2}
+    To: jqpublic@example.com {3}
+    Subject: A note from the E-Team {4}
+    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
+
+    This memo is to remind you of the corporate dress {6}
+    code.  Attached you will find an updated copy of {7}
+    the policy. {8}
+    ...
+				</artwork></figure></t>
+
+			<t> As with the first example, there is a violation
+			    in terms of the number of instances of the From
+			    field.  A likely safe interpretation would be
+			    to combine these into a comma-separated address
+			    list in a single From field:
+				<figure><artwork>
+    From: president@example.com, {1}
+          vice-president@example.com {2}
+    To: jqpublic@example.com {3}
+    Subject: A note from the E-Team {4}
+    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
+
+    This memo is to remind you of the corporate dress {6}
+    code.  Attached you will find an updated copy of {7}
+    the policy. {8}
+    ...
+				</artwork></figure></t>
+		</section>
+
 		<section anchor="charset"
 		         title="Missing or Incorrect Charset Information">
 			<t> MIME provides the means to include textual
@@ -1038,6 +1124,22 @@
 	</references>
 
 	<references title="Informative References">
+		<reference anchor="BINARYSMTP">
+			<front>
+				<title> SMTP Service Extensions for Transmission
+					of Large and Binary MIME
+					Messages </title>
+				<author initials="G." surname="Vaudreuil"
+					fullname="G. Vaudreuil">
+					<organization>
+						Lucent Technologies
+					</organization>
+				</author>
+				<date month="December" year="2000" />
+			</front>
+			<seriesInfo name="RFC" value="3030" />
+		</reference>
+
 		<reference anchor="CHARSET">
 			<front>
 				<title> Update to MIME regarding "charset"
@@ -1329,6 +1431,7 @@
 	<section anchor="thanks" title="Acknowledgements">
    		<t> The author wishes to acknowledge the following for their
 		    review and constructive criticism of this proposal:
+		    Dave Cridland,
 		    Dave Crocker,
 		    Ned Freed,
 		    Jim Galvin,
