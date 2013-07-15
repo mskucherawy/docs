@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-wmills-rrvs-header-field-00">
+        docName="draft-wmills-rrvs-header-field-01">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -401,7 +401,9 @@
 	<section anchor="thanks" title="Acknowledgements">
 		<t> Erling Ellingsen proposed the idea. </t>
 
-		<t> Reviews and comments were provided by Gregg Stefancik,
+		<t> Reviews and comments were provided by
+		    Michael Adkins,
+		    Gregg Stefancik,
 		    Ed Zayas, (others) </t>
 	</section>
 
