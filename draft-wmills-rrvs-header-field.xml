@@ -160,6 +160,12 @@
 		<t> If the receiving system detects that the named mailbox is
 		    foreign, it is free to remove the header field prior to
 		    relaying it toward its destination. </t>
+
+		<t> To further obscure account details on the receiving system,
+		    the receiver can ignore the header field if the address within
+		    it has had one continuous owner since it was created,
+		    regardless of the purported confirmation date of the
+		    address. </t>
 	</section>
 
 	<section title="Discussion" anchor="disc">
@@ -234,7 +240,11 @@
 	<section anchor="security" title="Security Considerations">
 		<t> The response of a server implementing this protocol
 		    can reveal information about the age of existing
-		    email accounts. </t>
+		    email accounts.  The field can be ignored if the
+		    claim of account existence is clearly false, such as
+		    a date before the account was initially created,
+		    or a date before the mailbox service was even brought
+		    online. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
