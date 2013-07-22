@@ -55,6 +55,10 @@
 		    This can be used to detect changes of mailbox ownership,
 		    and thus prevent mail from being delivered to the wrong
 		    party. </t>
+
+		<t> The intended use of this header field is on automatically
+		    generated messages that might contain sensitive
+		    information. </t>
 	</abstract>
 </front>
 
@@ -71,13 +75,17 @@
 
 		<t> This document defines a header field called
 		    Require-Recipient-Valid-Since.  The content of this header
-		    field is a timestamp indicating at what point in time the
-		    message author believed the address to be under confirmed
+		    field includes the intended recipient mailbox and a
+		    timestamp indicating at what point in time the
+		    message author believed the mailbox to be under confirmed
 		    ownership of a specific party.  If the receiving system
 		    observes this field and can determine that the intended
 		    recipient mailbox has changed ownership since the provided
 		    timestamp, it can decline delivery, preventing possible
 		    misdelivery of mail. </t>
+
+		<t> The primary application is automatically generated messages
+		    rather than user-authored content.  </t>
 	</section>
 
 	<section title="Definitions" anchor="defs">
