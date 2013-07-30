@@ -75,9 +75,9 @@
 
 		<t> This document defines a header field called
 		    Require-Recipient-Valid-Since.  The content of this header
-		    field includes the intended recipient mailbox and a
+		    field includes an intended recipient mailbox and a
 		    timestamp indicating at what point in time the
-		    message author believed the mailbox to be under confirmed
+		    message author believed that mailbox to be under confirmed
 		    ownership of a specific party.  If the receiving system
 		    observes this field and can determine that the intended
 		    recipient mailbox has changed ownership since the provided
@@ -100,13 +100,12 @@
 
 	<section title="Description" anchor="descr">
 		<t> The Require-Recipient-Valid-Since header field includes
-		    the original intended recipient coupled with a
-		    timestamp indicating the most recent date and time
-		    when the message author believed the destination
-		    mailbox to be under the continuous ownership of a
-		    specific party.  Presumably there has been some 
-		    confirmation process applied to establish this
-		    ownership; however, the methods of making such
+		    an intended recipient coupled with a timestamp indicating
+		    the most recent date and time when the message author
+		    believed the destination mailbox to be under the continuous
+		    ownership (see <xref target="own"/>) of a specific party.
+		    Presumably there has been some confirmation process applied
+		    to establish this ownership; however, the method of making such
 		    determinations is a local matter and outside the scope
 		    of this document. </t>
 
@@ -127,47 +126,74 @@
 
 		<t> A receiving system that implements this specification
 		    determines whether the named mailbox is based
-		    at that receiving system, and has been under
-		    continuous ownership since the specified date.  If that
-		    address is found to be foreign, the header field is
-		    ignored.  Otherwise, if continuous ownership since the
-		    indicated time can be established, the message is delivered
-		    normally; if not, the message is rejected.
-		    It is preferred that the rejection be enacted as an error
-		    response to the Simple Mail Transfer Protocol
-		    <xref target="SMTP"/> "DATA" command verb, but this is
-		    not strictly necessary. </t>
+		    at that receiving system, is a current intended recipient of
+		    the message, and has been under continuous ownership since the
+		    specified date.  If that address does not match an intended
+		    local recipient (in terms of the email transaction details),
+		    the header field is ignored.  Otherwise, if continuous
+		    ownership since the indicated time can be established, the
+		    message is delivered normally; if not, the message is
+		    rejected.  Finally, when delivery is being enacted (and the
+		    message is not being forwarded), the header field is
+		    removed.  Expressed algorithmically:
 
-		<t> When enacting the "DATA" rejection, servers use
-		    an SMTP error code (and Enhanced Mail System Status
-		    Code <xref target="ESC"/>, if supported) that indicates
-		    the intended recipient cannot receive mail for policy
-		    reasons.  This is done because the mailbox identified in
-		    the header field does exist, but there is doubt about the
-		    identity of the owner of that mailbox.  By contrast,
-		    "no such user" errors are more commonly returned in reply
-		    to the "RCPT" command verb. </t>
+		    <list style="numbers">
+			<t> Extract the set of Require-Recipient-Valid-Since fields
+			    from the message. </t>
+
+			<t> Discard any such fields that are syntactically
+			    invalid. </t>
+
+			<t> Discard any such fields that name a role account as
+			    listed in Mailbox Names For Common Services, Roles
+			    And Functions <xref target="ROLES"/>. </t>
+
+			<t> Discard any such fields for which the "mailbox" portion
+			    does not match a current recipient, as listed in the
+			    RCPT TO commands in the corresponding Simple Mail
+			    Transfer Protocol <xref target="SMTP"/> session. </t>
+
+			<t> For each field remaining, deterine if the named mailbox
+			    has been under continuous ownership since the
+			    corresponding timestamp.  If it has not, reject the
+			    message. </t>
+
+			<t> RECOMMENDED: If local delivery is being enacted,
+			    remove all instances of this field prior to delivery
+			    to a mailbox; if the message is being forwarded, remove
+			    those instances of this header field that were not
+			    discarded by steps 1-4 above. </t>
+		    </list> </t>
+
+		<t> The final step is not mandatory as not all mail handling agents
+		    are capable of stripping away header fields. </t>
+
+		<t> It is preferred that the rejection be enacted as an error
+		    response to the SMTP command verb, but this is
+		    not strictly necessary.  When enacting the "DATA" rejection,
+		    servers use an SMTP error code (and Enhanced Mail System Status
+		    Code <xref target="ESC"/>, if supported) as described in
+		    <xref target="iana_esc"/>.  </t>
 
 		<t> Implementation is expected to be transparent to non
 		    participants, since they would typically ignore this header
 		    field. </t>
 
 		<t> This header field SHOULD NOT be added to a message that
-		    is addressed to multiple recipients.  It is presumed that
-		    an author making use of this field is seeking to protect
-		    transactional or otherwise sensitive data intended for
-		    a single recipient. </t>
+		    is addressed to multiple recipients, since one address failing
+		    the continuous ownership test will cause rejection of the
+		    entire message.  It is presumed that an author making use of
+		    this field is seeking to protect transactional or otherwise
+		    sensitive data intended for a single recipient, and thus
+		    generating multiple messages for each individual is
+		    RECOMMENDED. </t>
 
 		<t> If the agent generating the message uses any kind of message
 		    authentication technology, the authentication SHOULD cover
-		    this header field if possible.  An agent receiving a message
+		    this header field.  An agent receiving a message
 		    bearing this header field that is covered by some kind of
 		    authentication SHOULD NOT process it as described above if
 		    the authentication does not succeed. </t>
-
-		<t> If the receiving system detects that the named mailbox is
-		    foreign, it is free to remove the header field prior to
-		    relaying it toward its destination. </t>
 
 		<t> To further obscure account details on the receiving system,
 		    the receiver can ignore the header field if the address within
@@ -177,12 +203,24 @@
 	</section>
 
 	<section title="Discussion" anchor="disc">
-		<t> The presence of the intended mailbox supports the case where
-		    a message bearing this header field is forwarded.  The
-		    specific use case is as follows:
+		<t> It can be argued that the architecturally better decision
+		    would be to introduce this capability as an extention to SMTP.
+		    The exchange of meta data about the target mailbox is
+		    not part of the actual message content, nor is it meta data
+		    about the content.  However, if the author and the target
+		    mailbox are separated by an SMTP server that does not implement
+		    the SMTP extension, the check will not be able to propagate
+		    to the intended receving system.  Implementing this service
+		    as a header field allows the check to occur even across
+		    non-participating systems, effectively tunnelling the
+		    request. </t>
+
+		<t> The presence of the intended mailbox in the field content
+		    supports the case where a message bearing this header field
+		    is forwarded.  The specific use case is as follows:
 			<list style="numbers">
 				<t> A user subscribes to a service "S" on
-				    data "D" and confirms an email address at
+				    date "D" and confirms an email address at
 				    the user's current location, "A"; </t>
 
 				<t> At some later date, the user intends to
@@ -194,17 +232,48 @@
 
 				<t> "S" constructs a message to "A" claiming that
 				    address was valid at date "D" and sends it
-				    to "A", which forwards to "B"; </t>
+				    to "A"; </t>
 
-				<t> The receiving MTA at "B" asserts that "B"
-				    has not been under constant ownership
-				    since "D" and rejects the message. </t>
+				<t> The receiving MTA at "A" determines that the
+				    forwarding in effect was created by the
+				    same party that owned the mailbox there,
+				    and thus concludes the continuous ownership
+				    test has been satisfied; </t>
+
+				<t> If possible, "A" removes this header field
+				    from the message, and in either case, forwards
+				    it to "B"; </t>
+
+				<t> On receipt at "B", either the header field
+				    has been removed, or the header field does
+				    not refer to a current envelope recipeint, and
+				    in either case delivers the message. </t>
 			</list> </t>
 
 		<t> Some services generate messages with an RFC5322.To field
 		    that does not contain a valid address, in order to obscure
 		    the intended recipient.  For this reason, the original
 		    intended recipient is included in this header field. </t>
+	</section>
+
+	<section anchor="own" title="Continuous Ownership">
+		<t> Determining continuous ownership of a mailbox is entirely
+		    a local matter.  In particular, the only possible answers
+		    to that question are "yes", "no", and "unknown"; the action
+		    to be taken in the "unknown" case is a matter of local
+		    policy. </t>
+
+		<t> For example, when control of a domain name is
+		    transferred, the new domain owner may be unable to determine
+		    whether the owner of the subject mailbox has been under
+		    continuous ownership since the stated date if the mailbox
+		    history is not also transferred (or was not previously
+		    maintained). </t>
+
+		<t> It will also be "unknown" if whatever database
+		    contains mailbox ownership data is unavailable at the time a
+		    message arrives for delivery.  In this case, typical
+		    SMTP temporary failure handling is appropriate. </t>
 	</section>
 
 	<section title="Example" anchor="example">
@@ -233,7 +302,7 @@
 
      Are you still there?
      .
-  S: 550 5.1.6 receiver@example.com is no longer valid
+  S: 550 5.7.15 receiver@example.com is no longer valid
   C: QUIT
   S: 221 So long!
 		</artwork></figure></t>
@@ -256,6 +325,7 @@
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
+	  <section anchor="iana_header" title="Header Field Registration">
 		<t> IANA is requested to add the following entry to the
 		    Permanent Message Header Field registry, as per
 		    the procedure found in <xref target="IANA-HEADERS"/>:
@@ -270,6 +340,26 @@
     Requesting review of any proposed changes and additions to
     this field is recommended.
 		</artwork></figure> </t>
+	  </section>
+
+	  <section anchor="iana_esc" title="Enhanced Status Code Registration">
+		<t> IANA is requested to register the following in the SMTP
+		    Enhanced Status Codes registry:
+			<figure><artwork>
+   Code:               X.7.15
+   Sample Text:        Mailbox owner has changed
+   Associated basic status code:  5
+   Description:        This status code is returned when a message is
+                       received with a Require-Recipient-Valid-Since
+                       field and the receiving system is able to
+                       determine that the intended recipient mailbox
+                       has not been under continuous ownership since
+                       the specified date.
+   Reference:          [this document]
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+	  </section>
 	</section>
 </middle>
 
@@ -367,6 +457,24 @@
 			<seriesInfo name="RFC" value="5322" />
 		</reference>
 
+		<reference anchor="ROLES">
+			<front>
+				<title> Mailbox Names For Common Services,
+				        Roles And Functions</title>
+
+				<author
+					fullname="D. Crocker"
+					initials="D."
+					surname="Crocker">
+					<organization></organization>
+				</author>
+
+				<date month="May" year="1997"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="2142"></seriesInfo>
+		</reference>
+
 		<reference anchor="SMTP">
 			<front>
 				<title>Simple Mail Transfer Protocol</title>
@@ -421,6 +529,7 @@
 
 		<t> Reviews and comments were provided by
 		    Michael Adkins,
+		    Ned Freed,
 		    Gregg Stefancik,
 		    Ed Zayas, (others) </t>
 	</section>
