@@ -308,20 +308,32 @@
 		</artwork></figure></t>
 	</section>
 
-	<section anchor="privacy" title="Privacy Considerations">
-		<t> This document proposes a solution to an issue that could
-		    cause mail to be unintentionally delivered to the wrong
-		    party. </t>
-	</section>
-
 	<section anchor="security" title="Security Considerations">
 		<t> The response of a server implementing this protocol
-		    can reveal information about the age of existing
-		    email accounts.  The field can be ignored if the
-		    claim of account existence is clearly false, such as
-		    a date before the account was initially created,
-		    or a date before the mailbox service was even brought
-		    online. </t>
+		    can disclose information about the age of existing
+		    email mailbox.  Implementation of countermeasures against
+		    probing attacks is advised. </t>
+
+		<t> If the mailbox named in the field
+		    is known to have had only a single continuous owner
+		    since creation, or not to have existed at all (under any
+		    owner) as of the date specified in the field, then the
+		    field can be silently ignored and normal message handling
+		    applied so that this information is not disclosed.  Such
+		    fields are likely the product of either an attack or gross
+		    error. </t>
+	</section>
+
+	<section anchor="privacy" title="Privacy Considerations">
+		<t> As described above, use of this header field in probing
+		    attacks can disclose information about the history
+		    of the mailbox.  In terms of Privacy Considerations
+		    for Internet Protocols <xref target="PRIVACY"/>, this is
+		    a potential Item of Interest. </t>
+
+		<t> It is believed, however, that the potential for delilvering
+		    mail to the wrong party is a far greater risk than the one
+		    this proposal exposes. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
@@ -521,6 +533,64 @@
 				<date month="January" year="2003" />
 			</front>
 			<seriesInfo name="RFC" value="3463" />
+		</reference>
+
+		<reference anchor="PRIVACY">
+			<front>
+				<title> Privacy Considerations for Internet
+				        Protocols </title>
+
+				<author initials="A." surname="Cooper"
+				        fullname="A. Cooper">
+					<organization>
+						CDT
+					</organization>
+				</author>
+
+				<author initials="H." surname="Tschofenig"
+				        fullname="H. Tschofenig">
+					<organization>
+						Nokia Siemens Networks
+					</organization>
+				</author>
+
+				<author initials="B." surname="Aboba"
+				        fullname="B. Aboba">
+					<organization>
+						Skype
+					</organization>
+				</author>
+
+				<author initials="J." surname="Peterson"
+				        fullname="J. Peterson">
+					<organization>
+						Neustar, Inc.
+					</organization>
+				</author>
+
+				<author initials="J." surname="Morris"
+				        fullname="J. Morris">
+					<organization/>
+				</author>
+
+				<author initials="M." surname="Hansen"
+				        fullname="M. Hansen">
+					<organization>
+						ULD
+					</organization>
+				</author>
+
+				<author initials="R." surname="Smith"
+				        fullname="R. Smith">
+					<organization>
+						Janet
+					</organization>
+				</author>
+
+				<date month="July" year="2013" />
+			</front>
+
+			<seriesInfo name="RFC" value="6973" />
 		</reference>
 	</references>
 
