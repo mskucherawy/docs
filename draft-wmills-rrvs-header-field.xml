@@ -317,7 +317,7 @@
 		<t> If the mailbox named in the field
 		    is known to have had only a single continuous owner
 		    since creation, or not to have existed at all (under any
-		    owner) as of the date specified in the field, then the
+		    owner) prior to the date specified in the field, then the
 		    field can be silently ignored and normal message handling
 		    applied so that this information is not disclosed.  Such
 		    fields are likely the product of either an attack or gross
