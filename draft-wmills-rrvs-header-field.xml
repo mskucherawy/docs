@@ -183,13 +183,17 @@
 		    field. </t>
 
 		<t> This header field SHOULD NOT be added to a message that
-		    is addressed to multiple recipients, since one address
-		    failing the continuous ownership test will cause rejection
-		    of the entire message.  It is presumed that an author
+		    is addressed to multiple recipients.  Because of the
+		    nature of SMTP, a message bearing this header field for
+		    multiple mailboxes could result in a single delivery
+		    attempt for multiple recipients (in particular, if two
+		    of the recipients are handled by the same server), and if
+		    any one of them fails the test, the delivery fails to
+		    all of them.  It is presumed that an author
 		    making use of this field is seeking to protect
 		    transactional or otherwise sensitive data intended for a
-		    single recipient, and thus generating multiple messages
-		    for each individual is RECOMMENDED. </t>
+		    single recipient, and thus generating independent messages
+		    for each individual recipient is RECOMMENDED. </t>
 
 		<t> If the agent generating the message uses any kind of
 		    message authentication technology, the authentication
@@ -203,7 +207,8 @@
 		    the receiver can ignore the header field if the address
 		    within it has had one continuous owner since it was
 		    created, regardless of the purported confirmation date of
-		    the address. </t>
+		    the address.  This is further discussed in
+		    <xref target="security"/>. </t>
 	</section>
 
 	<section title="Use with Mailing Lists" anchor="lists">
