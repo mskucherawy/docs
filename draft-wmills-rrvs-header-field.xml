@@ -170,7 +170,7 @@
 
 		<t> It is preferred that the rejection be enacted as an error
 		    response to the SMTP command verb, but this is
-		    not strictly necessary.  When enacting the "DATA" rejection,
+		    not strictly necessary.  When performing the "DATA" rejection,
 		    servers use an SMTP error code (and Enhanced Mail System Status
 		    Code <xref target="ESC"/>, if supported) as described in
 		    <xref target="iana_esc"/>.  </t>
@@ -200,6 +200,20 @@
 		    it has had one continuous owner since it was created,
 		    regardless of the purported confirmation date of the
 		    address. </t>
+	</section>
+
+	<section title="Use with Mailing Lists" anchor="lists">
+		<t> Mailing list services can store the timestamp at which
+		    a subscriber was added to a mailing list.  Thus, when
+		    generating a message for distribution, the list service
+		    can use this field as a means of preventing mailing list
+		    traffic from going to the wrong recipient, and instead
+		    remove that address from further distribution. </t>
+
+		<t> A mailing list service that receives a message containing
+		    this field removes it from the message prior to redistributing
+		    it, limiting exposure of information regarding the relationship
+		    between the message's author and mailing list. </t>
 	</section>
 
 	<section title="Discussion" anchor="disc">
