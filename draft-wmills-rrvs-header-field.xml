@@ -49,8 +49,8 @@
 
 	<abstract>
 		<t> This document defines an email header field,
-		    Require-Recipient-Valid-Since, to provide a method for senders
-		    to indicate to receivers the time when the sender
+		    Require-Recipient-Valid-Since, to provide a method for
+		    senders to indicate to receivers the time when the sender
 		    last confirmed the ownership of the target mailbox.
 		    This can be used to detect changes of mailbox ownership,
 		    and thus prevent mail from being delivered to the wrong
@@ -70,8 +70,8 @@
 		    allow for expiration of account names when they have been
 		    unused for a protracted period.  If an expired account
 		    name can be reclaimed, there is a risk of delivery of
-		    mail to the wrong party if some message author is unaware of
-		    this change of ownership. </t>
+		    mail to the wrong party if some message author is unaware
+		    of this change of ownership. </t>
 
 		<t> This document defines a header field called
 		    Require-Recipient-Valid-Since.  The content of this header
@@ -105,8 +105,8 @@
 		    believed the destination mailbox to be under the continuous
 		    ownership (see <xref target="own"/>) of a specific party.
 		    Presumably there has been some confirmation process applied
-		    to establish this ownership; however, the method of making such
-		    determinations is a local matter and outside the scope
+		    to establish this ownership; however, the method of making
+		    such determinations is a local matter and outside the scope
 		    of this document. </t>
 
 		<t> The general constraints on syntax and placement
@@ -126,20 +126,21 @@
 
 		<t> A receiving system that implements this specification
 		    determines whether the named mailbox is based
-		    at that receiving system, is a current intended recipient of
-		    the message, and has been under continuous ownership since the
-		    specified date.  If that address does not match an intended
-		    local recipient (in terms of the email transaction details),
-		    the header field is ignored.  Otherwise, if continuous
-		    ownership since the indicated time can be established, the
-		    message is delivered normally; if not, the message is
-		    rejected.  Finally, when delivery is being enacted (and the
-		    message is not being forwarded), the header field is
-		    removed.  Expressed algorithmically:
+		    at that receiving system, is a current intended recipient
+		    of the message, and has been under continuous ownership
+		    since the specified date.  If that address does not match
+		    an intended local recipient (in terms of the email
+		    transaction details), the header field is ignored.
+		    Otherwise, if continuous ownership since the indicated
+		    time can be established, the message is delivered
+		    normally; if not, the message is rejected.  Finally, when
+		    delivery is being performed (and the message is not being
+		    forwarded), the header field is removed.  Expressed
+		    algorithmically:
 
 		    <list style="numbers">
-			<t> Extract the set of Require-Recipient-Valid-Since fields
-			    from the message. </t>
+			<t> Extract the set of Require-Recipient-Valid-Since
+			    fields from the message. </t>
 
 			<t> Discard any such fields that are syntactically
 			    invalid. </t>
@@ -148,58 +149,61 @@
 			    listed in Mailbox Names For Common Services, Roles
 			    And Functions <xref target="ROLES"/>. </t>
 
-			<t> Discard any such fields for which the "mailbox" portion
-			    does not match a current recipient, as listed in the
-			    RCPT TO commands in the corresponding Simple Mail
-			    Transfer Protocol <xref target="SMTP"/> session. </t>
+			<t> Discard any such fields for which the "mailbox"
+			    portion does not match a current recipient, as
+			    listed in the RCPT TO commands in the
+			    corresponding Simple Mail Transfer Protocol
+			    <xref target="SMTP"/> session. </t>
 
-			<t> For each field remaining, deterine if the named mailbox
-			    has been under continuous ownership since the
-			    corresponding timestamp.  If it has not, reject the
-			    message. </t>
+			<t> For each field remaining, determine if the named
+			    mailbox has been under continuous ownership since
+			    the corresponding timestamp.  If it has not,
+			    reject the message. </t>
 
-			<t> RECOMMENDED: If local delivery is being enacted,
-			    remove all instances of this field prior to delivery
-			    to a mailbox; if the message is being forwarded, remove
-			    those instances of this header field that were not
-			    discarded by steps 1-4 above. </t>
+			<t> RECOMMENDED: If local delivery is being performed,
+			    remove all instances of this field prior to
+			    delivery to a mailbox; if the message is being
+			    forwarded, remove those instances of this header
+			    field that were not discarded by steps 1-4
+			    above. </t>
 		    </list> </t>
 
-		<t> The final step is not mandatory as not all mail handling agents
-		    are capable of stripping away header fields. </t>
+		<t> The final step is not mandatory as not all mail handling
+		    agents are capable of stripping away header fields. </t>
 
 		<t> It is preferred that the rejection be enacted as an error
 		    response to the SMTP command verb, but this is
-		    not strictly necessary.  When performing the "DATA" rejection,
-		    servers use an SMTP error code (and Enhanced Mail System Status
-		    Code <xref target="ESC"/>, if supported) as described in
-		    <xref target="iana_esc"/>.  </t>
+		    not strictly necessary.  When performing the "DATA"
+		    rejection, servers use an SMTP error code (and Enhanced
+		    Mail System Status Code <xref target="ESC"/>, if
+		    supported) as described in <xref target="iana_esc"/>. </t>
 
 		<t> Implementation is expected to be transparent to non
 		    participants, since they would typically ignore this header
 		    field. </t>
 
 		<t> This header field SHOULD NOT be added to a message that
-		    is addressed to multiple recipients, since one address failing
-		    the continuous ownership test will cause rejection of the
-		    entire message.  It is presumed that an author making use of
-		    this field is seeking to protect transactional or otherwise
-		    sensitive data intended for a single recipient, and thus
-		    generating multiple messages for each individual is
-		    RECOMMENDED. </t>
+		    is addressed to multiple recipients, since one address
+		    failing the continuous ownership test will cause rejection
+		    of the entire message.  It is presumed that an author
+		    making use of this field is seeking to protect
+		    transactional or otherwise sensitive data intended for a
+		    single recipient, and thus generating multiple messages
+		    for each individual is RECOMMENDED. </t>
 
-		<t> If the agent generating the message uses any kind of message
-		    authentication technology, the authentication SHOULD cover
-		    this header field.  An agent receiving a message
-		    bearing this header field that is covered by some kind of
-		    authentication SHOULD NOT process it as described above if
-		    the authentication does not succeed. </t>
+		<t> If the agent generating the message uses any kind of
+		    message authentication technology, the authentication
+		    SHOULD cover this header field.  An agent receiving a
+		    message bearing this header field that is covered by
+		    some kind of authentication SHOULD NOT process it as
+		    described above if the authentication does not
+		    succeed. </t>
 
 		<t> To further obscure account details on the receiving system,
-		    the receiver can ignore the header field if the address within
-		    it has had one continuous owner since it was created,
-		    regardless of the purported confirmation date of the
-		    address. </t>
+		    the receiver can ignore the header field if the address
+		    within it has had one continuous owner since it was
+		    created, regardless of the purported confirmation date of
+		    the address. </t>
 	</section>
 
 	<section title="Use with Mailing Lists" anchor="lists">
@@ -211,23 +215,24 @@
 		    remove that address from further distribution. </t>
 
 		<t> A mailing list service that receives a message containing
-		    this field removes it from the message prior to redistributing
-		    it, limiting exposure of information regarding the relationship
-		    between the message's author and mailing list. </t>
+		    this field removes it from the message prior to
+		    redistributing it, limiting exposure of information
+		    regarding the relationship between the message's author
+		    and mailing list. </t>
 	</section>
 
 	<section title="Discussion" anchor="disc">
 		<t> It can be argued that the architecturally better decision
-		    would be to introduce this capability as an extention to SMTP.
-		    The exchange of meta data about the target mailbox is
-		    not part of the actual message content, nor is it meta data
-		    about the content.  However, if the author and the target
-		    mailbox are separated by an SMTP server that does not implement
-		    the SMTP extension, the check will not be able to propagate
-		    to the intended receving system.  Implementing this service
-		    as a header field allows the check to occur even across
-		    non-participating systems, effectively tunnelling the
-		    request. </t>
+		    would be to introduce this capability as an extension to
+		    SMTP.  The exchange of meta data about the target mailbox
+		    is not part of the actual message content, nor is it meta
+		    data about the content.  However, if the author and the
+		    target mailbox are separated by an SMTP server that does
+		    not implement the SMTP extension, the check will not be
+		    able to propagate to the intended receiving system.
+		    Implementing this service as a header field allows the
+		    check to occur even across non-participating systems,
+		    effectively tunneling the request. </t>
 
 		<t> The presence of the intended mailbox in the field content
 		    supports the case where a message bearing this header field
@@ -238,30 +243,32 @@
 				    the user's current location, "A"; </t>
 
 				<t> At some later date, the user intends to
-				    leave the current location, and thus creates
-				    a new mailbox elsewhere, at "B"; </t>
+				    leave the current location, and thus
+				    creates a new mailbox elsewhere, at
+				    "B"; </t>
 
 				<t> The user replaces mailbox "A" with
 				    forwarding to "B"; </t>
 
-				<t> "S" constructs a message to "A" claiming that
-				    address was valid at date "D" and sends it
-				    to "A"; </t>
+				<t> "S" constructs a message to "A" claiming
+				    that address was valid at date "D" and
+				    sends it to "A"; </t>
 
-				<t> The receiving MTA at "A" determines that the
-				    forwarding in effect was created by the
+				<t> The receiving MTA at "A" determines that
+				    the forwarding in effect was created by the
 				    same party that owned the mailbox there,
 				    and thus concludes the continuous ownership
 				    test has been satisfied; </t>
 
 				<t> If possible, "A" removes this header field
-				    from the message, and in either case, forwards
-				    it to "B"; </t>
+				    from the message, and in either case,
+				    forwards it to "B"; </t>
 
 				<t> On receipt at "B", either the header field
 				    has been removed, or the header field does
-				    not refer to a current envelope recipeint, and
-				    in either case delivers the message. </t>
+				    not refer to a current envelope recipient,
+				    and in either case delivers the
+				    message. </t>
 			</list> </t>
 
 		<t> Some services generate messages with an RFC5322.To field
@@ -278,23 +285,23 @@
 		    policy. </t>
 
 		<t> For example, when control of a domain name is
-		    transferred, the new domain owner may be unable to determine
-		    whether the owner of the subject mailbox has been under
-		    continuous ownership since the stated date if the mailbox
-		    history is not also transferred (or was not previously
-		    maintained). </t>
+		    transferred, the new domain owner may be unable to
+		    determine whether the owner of the subject mailbox has
+		    been under continuous ownership since the stated date if
+		    the mailbox history is not also transferred (or was not
+		    previously maintained). </t>
 
 		<t> It will also be "unknown" if whatever database
-		    contains mailbox ownership data is unavailable at the time a
-		    message arrives for delivery.  In this case, typical
+		    contains mailbox ownership data is unavailable at the time
+		    a message arrives for delivery.  In this case, typical
 		    SMTP temporary failure handling is appropriate. </t>
 	</section>
 
 	<section title="Example" anchor="example">
 		<t> In the following example, "C:" indicates data sent by an
-		    SMTP client, and "S:" indicates respones by the SMTP server. 
-		    Message content is CRLF terminated, though these are omitted
-		    here for ease of reading.
+		    SMTP client, and "S:" indicates responses by the SMTP
+		    server. Message content is CRLF terminated, though these
+		    are omitted here for ease of reading.
 
 		    <figure><artwork>
   C: [connection established]
@@ -345,7 +352,7 @@
 		    for Internet Protocols <xref target="PRIVACY"/>, this is
 		    a potential Item of Interest. </t>
 
-		<t> It is believed, however, that the potential for delilvering
+		<t> It is believed, however, that the potential for delivering
 		    mail to the wrong party is a far greater risk than the one
 		    this proposal exposes. </t>
 	</section>
@@ -536,7 +543,8 @@
 
 		<reference anchor="ESC">
 			<front>
-				<title> Enhanced Mail System Status Codes </title>
+				<title> Enhanced Mail System Status
+				        Codes </title>
 
 				<author initials="G." surname="Vaudreuil"
 				        fullname="G. Vaudreuil">
@@ -608,12 +616,13 @@
 		</reference>
 	</references>
 
-	<section anchor="thanks" title="Acknowledgements">
+	<section anchor="thanks" title="Acknowledgments">
 		<t> Erling Ellingsen proposed the idea. </t>
 
 		<t> Reviews and comments were provided by
 		    Michael Adkins,
 		    Ned Freed,
+		    John Levine,
 		    Gregg Stefancik,
 		    Ed Zayas, (others) </t>
 	</section>
