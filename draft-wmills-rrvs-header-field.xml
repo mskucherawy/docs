@@ -375,12 +375,9 @@
 	<section anchor="privacy" title="Privacy Considerations">
 		<t> As described above, use of this header field in probing
 		    attacks can disclose information about the history
-		    of the mailbox.  In the terminology defined in Privacy
-		    Considerations for Internet Protocols
-		    <xref target="PRIVACY"/>, this is an Item of
-		    Interest.  The harm that can be done by leaking any kind
-		    of private information varies widely and cannot be
-		    predicted, so it is prudent to be sensitive to this
+		    of the mailbox.  The harm that can be done by leaking any kind
+		    of private information is difficult to predict,
+		    so it is prudent to be sensitive to this
 		    sort of disclosure, either inadvertently or in response
 		    to probing by an attacker.  It bears restating, then, that
 		    implementing countermeasures to abuse of this capability
@@ -603,64 +600,6 @@
 				<date month="January" year="2003" />
 			</front>
 			<seriesInfo name="RFC" value="3463" />
-		</reference>
-
-		<reference anchor="PRIVACY">
-			<front>
-				<title> Privacy Considerations for Internet
-				        Protocols </title>
-
-				<author initials="A." surname="Cooper"
-				        fullname="A. Cooper">
-					<organization>
-						CDT
-					</organization>
-				</author>
-
-				<author initials="H." surname="Tschofenig"
-				        fullname="H. Tschofenig">
-					<organization>
-						Nokia Siemens Networks
-					</organization>
-				</author>
-
-				<author initials="B." surname="Aboba"
-				        fullname="B. Aboba">
-					<organization>
-						Skype
-					</organization>
-				</author>
-
-				<author initials="J." surname="Peterson"
-				        fullname="J. Peterson">
-					<organization>
-						Neustar, Inc.
-					</organization>
-				</author>
-
-				<author initials="J." surname="Morris"
-				        fullname="J. Morris">
-					<organization/>
-				</author>
-
-				<author initials="M." surname="Hansen"
-				        fullname="M. Hansen">
-					<organization>
-						ULD
-					</organization>
-				</author>
-
-				<author initials="R." surname="Smith"
-				        fullname="R. Smith">
-					<organization>
-						Janet
-					</organization>
-				</author>
-
-				<date month="July" year="2013" />
-			</front>
-
-			<seriesInfo name="RFC" value="6973" />
 		</reference>
 	</references>
 
