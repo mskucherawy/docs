@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
-<rfc ipr="trust200902" category="info"
-        docName="draft-wmills-rrvs-header-field-01">
+<rfc ipr="trust200902" category="std"
+        docName="draft-wmills-rrvs-header-field-02">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -332,6 +332,15 @@
   C: QUIT
   S: 221 So long!
 		</artwork></figure></t>
+
+		<t> If an authentication scheme is applied to claim the
+		    added header field is valid, but the scheme fails,
+		    a receiver might reject the message with an SMTP reply
+		    such as:
+		<figure><artwork>
+  S: 550-5.7.7 Use of Require-Recipient-Valid-Since header
+  S: 550 field requires a valid signature
+		</artwork></figure></t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
@@ -355,6 +364,12 @@
 		    applied so that this information is not disclosed.  Such
 		    fields are likely the product of either an attack or gross
 		    error. </t>
+
+		<t> A message author using this specification might restrict
+		    inclusion of the header field such that it is only done
+		    for recipients known also to implement this specification,
+		    in order to reduce the possibility of revealing information
+		    about the relationship between the author and the mailbox. </t>
 	</section>
 
 	<section anchor="privacy" title="Privacy Considerations">
