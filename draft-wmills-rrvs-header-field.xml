@@ -203,7 +203,7 @@
 		    authentication does not succeed. </t>
 
 		<t> To further obscure account details on the receiving system,
-		    the receiver can ignore the header field if the address
+		    the receiver SHOULD ignore the header field if the address
 		    within it has had one continuous owner since it was
 		    created, regardless of the purported confirmation date of
 		    the address.  This is further discussed in
@@ -338,7 +338,14 @@
 		<t> The response of a server implementing this protocol
 		    can disclose information about the age of existing
 		    email mailbox.  Implementation of countermeasures against
-		    probing attacks is advised. </t>
+		    probing attacks is advised.  For example, an operator
+		    could track appearance of this field with respect to a
+		    particular mailbox and observe the timestamps being
+		    submitted for testing; if it appears a variety of
+		    timestamps is being tried against a single mailbox in short
+		    order, the field could be ignored and the message silently
+		    discarded.  This concern is discussed further in
+		    <xref target="privacy"/>. </t>
 
 		<t> If the mailbox named in the field
 		    is known to have had only a single continuous owner
@@ -356,15 +363,21 @@
 		    of the mailbox.  In the terminology defined in Privacy
 		    Considerations for Internet Protocols
 		    <xref target="PRIVACY"/>, this is an Item of
-		    Interest. </t>
+		    Interest.  The harm that can be done by leaking any kind
+		    of private information varies widely and cannot be
+		    predicted, so it is prudent to be sensitive to this
+		    sort of disclosure, either inadvertently or in response
+		    to probing by an attacker.  It bears restating, then that
+		    implementing countermeasures to abuse of this capability
+		    needs strong consideration. </t>
 
 		<t> That some MSPs allow for expiration of account names when
 		    they have been unused for a protracted period forces a choice
 		    between two potential types of privacy vulnerabilities, one
 		    of which presents significantly greater threats to users than
-		    others.  Automatically generated mail is often used to convey
-		    authentication credentials that can potentially provide access
-		    to extremely sensitive information.  Supplying such
+		    the other.  Automatically generated mail is often used to
+		    convey authentication credentials that can potentially provide
+		    access to extremely sensitive information.  Supplying such
 		    credentials to the wrong party after a mailbox ownership
 		    change could allow the previous owner's data to be exposed
 		    without his or her authorization or knowledge.  In contrast,
