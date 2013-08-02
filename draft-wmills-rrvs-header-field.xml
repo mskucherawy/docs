@@ -199,9 +199,8 @@
 		    message authentication technology, the authentication
 		    SHOULD cover this header field.  An agent receiving a
 		    message bearing this header field that is covered by
-		    some kind of authentication SHOULD NOT process it as
-		    described above if the authentication does not
-		    succeed. </t>
+		    some kind of authentication SHOULD ignore it if the
+		    authentication does not succeed. </t>
 
 		<t> To further obscure account details on the receiving system,
 		    the receiver can ignore the header field if the address
@@ -297,9 +296,10 @@
 		    previously maintained). </t>
 
 		<t> It will also be "unknown" if whatever database
-		    contains mailbox ownership data is unavailable at the time
-		    a message arrives for delivery.  In this case, typical
-		    SMTP temporary failure handling is appropriate. </t>
+		    contains mailbox ownership data is temporarily unavailable
+		    at the time a message arrives for delivery.  In this case,
+		    typical SMTP temporary failure handling is
+		    appropriate. </t>
 	</section>
 
 	<section title="Example" anchor="example">
@@ -353,13 +353,28 @@
 	<section anchor="privacy" title="Privacy Considerations">
 		<t> As described above, use of this header field in probing
 		    attacks can disclose information about the history
-		    of the mailbox.  In terms of Privacy Considerations
-		    for Internet Protocols <xref target="PRIVACY"/>, this is
-		    a potential Item of Interest. </t>
+		    of the mailbox.  In the terminology defined in Privacy
+		    Considerations for Internet Protocols
+		    <xref target="PRIVACY"/>, this is an Item of
+		    Interest. </t>
 
-		<t> It is believed, however, that the potential for delivering
-		    mail to the wrong party is a far greater risk than the one
-		    this proposal exposes. </t>
+		<t> That some MSPs allow for expiration of account names when
+		    they have been unused for a protracted period forces a choice
+		    between two potential types of privacy vulnerabilities, one
+		    of which presents significantly greater threats to users than
+		    others.  Automatically generated mail is often used to convey
+		    authentication credentials that can potentially provide access
+		    to extremely sensitive information.  Supplying such
+		    credentials to the wrong party after a mailbox ownership
+		    change could allow the previous owner's data to be exposed
+		    without his or her authorization or knowledge.  In contrast,
+		    the information that may be exposed to a third party via the
+		    proposal in this document is limited to information about the
+		    mailbox history.  Given that MSPs have chosen to allow
+		    transfers of mailbox ownership without the prior owner's
+		    involvement, the information leakage from the header field
+		    specified here creates far fewer risks than the potential for
+		    delivering mail to the wrong party. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
@@ -626,6 +641,8 @@
 
 		<t> Reviews and comments were provided by
 		    Michael Adkins,
+		    Kurt Andersen,
+		    Alissa Cooper,
 		    Ned Freed,
 		    John Levine,
 		    Gregg Stefancik,
