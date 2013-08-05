@@ -64,25 +64,34 @@
 
 <middle>
 	<section anchor="intro" title="Introduction">
-		<t> Mailbox Service Providers (MSPs) are public, often free,
-		    services that provide email sending and receiving
-		    capabilities to users.  Some of them have policies that
-		    allow for expiration of account names when they have been
-		    unused for a protracted period.  If an expired account
-		    name can be reclaimed, there is a risk of delivery of
-		    mail to the wrong party if some message author is unaware
-		    of this change of ownership. </t>
+		<t> Email addresses sometimes get reassigned to a different
+		    person.  For example, employment changes at a company can
+		    cause an address used for an ex-employee to be assigned to a
+		    new employee, or a mail service provider (MSP) might expire an
+		    account and then let someone else register for the
+		    local-part that was previously used.  Those who sent mail to
+		    the previous owner of an address might not know that it has
+		    been reassigned.  This can lead to the sending of email to the
+		    correct address, but the wrong recipient. </t>
 
-		<t> This document defines a header field called
-		    Require-Recipient-Valid-Since.  The content of this header
-		    field includes an intended recipient mailbox and a
-		    timestamp indicating at what point in time the
-		    message author believed that mailbox to be under confirmed
-		    ownership of a specific party.  If the receiving system
-		    observes this field and can determine that the intended
-		    recipient mailbox has changed ownership since the provided
-		    timestamp, it can decline delivery, preventing possible
-		    misdelivery of mail. </t>
+		<t> What is needed is a way to indicate an attribute of the
+		    recipient that will distinguish between the previous owner of
+		    an address and its current owner. if they are different.
+		    Further, this needs to be done in a way that respects
+		    privacy. </t>
+
+		<t> The mechanism specified here allows the sender of the mail to
+		    indicate how "old" the address assignment is expected to be.
+		    In effect, the sender is saying "the person to whom I am
+		    sending to had this address assigned to as far back as
+		    <date-time>."  A receiving system can then compare this
+		    information against the date and time the address was
+		    assigned to its current user.  If the assignment was made
+		    later than the <date-time> indicated in the message, there is
+		    a good chance the current user of the address is not the
+		    correct recipient.  The receiving system can then choose to
+		    prevent delivery and, possibly, to notify the original sender
+		    of the problem. </t>
 
 		<t> The primary application is automatically generated messages
 		    rather than user-authored content.  </t>
@@ -117,26 +126,18 @@
 		    the syntax for the field is:
 
 		    <figure><artwork>
-    rrvs = "Require-Recipient-Valid-Since:" mailbox; date-time CRLF
+    rrvs = "Require-Recipient-Valid-Since:" addr-spec; date-time CRLF
 		    </artwork></figure> </t>
 
 		<t> "CFWS" is defined in Section 3.2.2, "date-time" is
-		    defined in Section 3.3, and "mailbox" is defined in
-		    Section 3.4, of <xref target="MAIL"/>. </t>
+		    defined in Section 3.3, and "addr-spec" is defined in
+		    Section 3.4.1, of <xref target="MAIL"/>. </t>
 
 		<t> A receiving system that implements this specification
-		    determines whether the named mailbox is based
-		    at that receiving system, is a current intended recipient
-		    of the message, and has been under continuous ownership
-		    since the specified date.  If that address does not match
-		    an intended local recipient (in terms of the email
-		    transaction details), the header field is ignored.
-		    Otherwise, if continuous ownership since the indicated
-		    time can be established, the message is delivered
-		    normally; if not, the message is rejected.  Finally, when
-		    delivery is being performed (and the message is not being
-		    forwarded), the header field is removed.  Expressed
-		    algorithmically:
+		    checks whether the current mailbox owner has held it
+		    continuously, far enough back to include the given
+		    date-time, and delivers it unless that check returns
+		    in the negative.  Expressed as a sequence of steps:
 
 		    <list style="numbers">
 			<t> Extract the set of Require-Recipient-Valid-Since
@@ -149,14 +150,14 @@
 			    listed in Mailbox Names For Common Services, Roles
 			    And Functions <xref target="ROLES"/>. </t>
 
-			<t> Discard any such fields for which the "mailbox"
+			<t> Discard any such fields for which the "addr-spec"
 			    portion does not match a current recipient, as
 			    listed in the RCPT TO commands in the
 			    corresponding Simple Mail Transfer Protocol
 			    <xref target="SMTP"/> session. </t>
 
 			<t> For each field remaining, determine if the named
-			    mailbox has been under continuous ownership since
+			    address has been under continuous ownership since
 			    the corresponding timestamp.  If it has not,
 			    reject the message. </t>
 
@@ -172,7 +173,7 @@
 		    agents are capable of stripping away header fields. </t>
 
 		<t> It is preferred that the rejection be enacted as an error
-		    response to the SMTP command verb, but this is
+		    response to the SMTP "DATA" command verb, but this is
 		    not strictly necessary.  When performing the "DATA"
 		    rejection, servers use an SMTP error code (and Enhanced
 		    Mail System Status Code <xref target="ESC"/>, if
@@ -185,7 +186,7 @@
 		<t> This header field SHOULD NOT be added to a message that
 		    is addressed to multiple recipients.  Because of the
 		    nature of SMTP, a message bearing this header field for
-		    multiple mailboxes could result in a single delivery
+		    multiple addresses could result in a single delivery
 		    attempt for multiple recipients (in particular, if two
 		    of the recipients are handled by the same server), and if
 		    any one of them fails the test, the delivery fails to
@@ -212,10 +213,12 @@
 
 	<section title="Use with Mailing Lists" anchor="lists">
 		<t> Mailing list services can store the timestamp at which
-		    a subscriber was added to a mailing list.  Thus, when
-		    generating a message for distribution, the list service
-		    can use this field as a means of preventing mailing list
-		    traffic from going to the wrong recipient, and instead
+		    a subscriber was added to a mailing list.  This specification
+		    can be used in conjunction with that information in order
+		    to restrict traffic to the original subscriber, rather than
+		    a different person now in possession of an address under
+		    which the original subscriber registered.  Upon receiving
+		    a rejection caused by this specification, the list service can
 		    remove that address from further distribution. </t>
 
 		<t> A mailing list service that receives a message containing
@@ -226,19 +229,20 @@
 	</section>
 
 	<section title="Discussion" anchor="disc">
-		<t> It can be argued that the architecturally better decision
-		    would be to introduce this capability as an extension to
-		    SMTP.  The exchange of meta data about the target mailbox
-		    is not part of the actual message content, nor is it meta
-		    data about the content.  However, if the author and the
-		    target mailbox are separated by an SMTP server that does
+		<t> It can be argued that placing this information in a message
+		    header field is not the ideal architectural choice and that it
+		    would have been better to introduce this capability as an
+		    extension to SMTP.  The exchange of meta data about the target
+		    address is not part of the actual message content, nor is it
+		    meta data about the content.  However, if the author and the
+		    target address are separated by an SMTP server that does
 		    not implement the SMTP extension, the check will not be
 		    able to propagate to the intended receiving system.
 		    Implementing this service as a header field allows the
 		    check to occur even across non-participating systems,
 		    effectively tunneling the request. </t>
 
-		<t> The presence of the intended mailbox in the field content
+		<t> The presence of the intended address in the field content
 		    supports the case where a message bearing this header field
 		    is forwarded.  The specific use case is as follows:
 			<list style="numbers">
@@ -251,7 +255,7 @@
 				    creates a new mailbox elsewhere, at
 				    "B"; </t>
 
-				<t> The user replaces mailbox "A" with
+				<t> The user replaces address "A" with
 				    forwarding to "B"; </t>
 
 				<t> "S" constructs a message to "A" claiming
@@ -282,15 +286,15 @@
 	</section>
 
 	<section anchor="own" title="Continuous Ownership">
-		<t> Determining continuous ownership of a mailbox is entirely
-		    a local matter.  In particular, the only possible answers
-		    to that question are "yes", "no", and "unknown"; the action
-		    to be taken in the "unknown" case is a matter of local
-		    policy. </t>
+		<t> Determining continuous ownership of a mailbox is a local
+		    at the receiving site.  In particular, the only possible
+		    answers to the continuous-ownership-since question are
+		    "yes", "no", and "unknown"; the action to be taken in the
+		    "unknown" case is a matter of local policy. </t>
 
 		<t> For example, when control of a domain name is
-		    transferred, the new domain owner may be unable to
-		    determine whether the owner of the subject mailbox has
+		    transferred, the new domain owner might be unable to
+		    determine whether the owner of the subject address has
 		    been under continuous ownership since the stated date if
 		    the mailbox history is not also transferred (or was not
 		    previously maintained). </t>
@@ -362,8 +366,8 @@
 		    owner) prior to the date specified in the field, then the
 		    field can be silently ignored and normal message handling
 		    applied so that this information is not disclosed.  Such
-		    fields are likely the product of either an attack or gross
-		    error. </t>
+		    fields are likely the product of either gross error or an
+		    attack. </t>
 
 		<t> A message author using this specification might restrict
 		    inclusion of the header field such that it is only done
@@ -610,6 +614,7 @@
 		    Michael Adkins,
 		    Kurt Andersen,
 		    Alissa Cooper,
+		    Dave Crocker,
 		    Ned Freed,
 		    John Levine,
 		    Gregg Stefancik,
