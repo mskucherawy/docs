@@ -82,12 +82,12 @@
 
 		<t> The mechanism specified here allows the sender of the mail to
 		    indicate how "old" the address assignment is expected to be.
-		    In effect, the sender is saying "the person to whom I am
+		    In effect, the sender is saying, "The person to whom I am
 		    sending to had this address assigned to as far back as
-		    <date-time>."  A receiving system can then compare this
+		    this date-time."  A receiving system can then compare this
 		    information against the date and time the address was
 		    assigned to its current user.  If the assignment was made
-		    later than the <date-time> indicated in the message, there is
+		    later than the date-time indicated in the message, there is
 		    a good chance the current user of the address is not the
 		    correct recipient.  The receiving system can then choose to
 		    prevent delivery and, possibly, to notify the original sender
