@@ -173,7 +173,9 @@
 		    agents are capable of stripping away header fields. </t>
 
 		<t> It is preferred that the rejection be enacted as an error
-		    response to the SMTP "DATA" command verb, but this is
+		    response to the SMTP "DATA" command verb, as a rejection
+		    message generated separately may not be actionable due to
+		    the varied formats they take.  However, SMTP handling is
 		    not strictly necessary.  When performing the "DATA"
 		    rejection, servers use an SMTP error code (and Enhanced
 		    Mail System Status Code <xref target="ESC"/>, if
@@ -194,7 +196,8 @@
 		    making use of this field is seeking to protect
 		    transactional or otherwise sensitive data intended for a
 		    single recipient, and thus generating independent messages
-		    for each individual recipient is RECOMMENDED. </t>
+		    for each individual recipient is normal practice.  For
+		    further discussion, see <xref target="priv_envelope"/>. </t>
 
 		<t> If the agent generating the message uses any kind of
 		    message authentication technology, the authentication
@@ -348,6 +351,7 @@
 	</section>
 
 	<section anchor="security" title="Security Considerations">
+	    <section anchor="sec_flares" title="Abuse Countermeasures">
 		<t> The response of a server implementing this protocol
 		    can disclose information about the age of existing
 		    email mailbox.  Implementation of countermeasures against
@@ -359,7 +363,9 @@
 		    order, the field could be ignored and the message silently
 		    discarded.  This concern is discussed further in
 		    <xref target="privacy"/>. </t>
+	    </section>
 
+	    <section anchor="sec_restrict" title="Suggested Use Restrictions">
 		<t> If the mailbox named in the field
 		    is known to have had only a single continuous owner
 		    since creation, or not to have existed at all (under any
@@ -374,9 +380,11 @@
 		    for recipients known also to implement this specification,
 		    in order to reduce the possibility of revealing information
 		    about the relationship between the author and the mailbox. </t>
+	    </section>
 	</section>
 
 	<section anchor="privacy" title="Privacy Considerations">
+	    <section anchor="priv_probing" title="Probing Attacks">
 		<t> As described above, use of this header field in probing
 		    attacks can disclose information about the history
 		    of the mailbox.  The harm that can be done by leaking any kind
@@ -404,6 +412,23 @@
 		    involvement, the information leakage from the header field
 		    specified here creates far fewer risks than the potential for
 		    delivering mail to the wrong party. </t>
+	    </section>
+
+	    <section anchor="priv_envelope" title="Envelope Recipients">
+		<t> The email To and Cc header fields are not required to be
+		    populated with addresses that match the envelope recipient
+		    set, and Cc may even be absent.  However, the algorithm in
+		    <xref target="descr"/> requires that this header field contain 
+		    a match for an envelope recipient in order to be actionable.
+		    As such, use of this specification can reveal some or all
+		    of the original intended recipient set to any party that
+		    can see the message in transit or upon delivery. </t>
+
+		<t> For a message destined to a single recipient, this is
+		    unlikely to be a concern, which is one of the reasons
+		    use of this specification on multi-recipient messages is
+		    discouraged. </t>
+	    </section>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
