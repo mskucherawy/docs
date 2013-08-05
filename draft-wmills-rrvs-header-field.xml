@@ -199,13 +199,6 @@
 		    for each individual recipient is normal practice.  For
 		    further discussion, see <xref target="priv_envelope"/>. </t>
 
-		<t> If the agent generating the message uses any kind of
-		    message authentication technology, the authentication
-		    SHOULD cover this header field.  An agent receiving a
-		    message bearing this header field that is covered by
-		    some kind of authentication SHOULD ignore it if the
-		    authentication does not succeed. </t>
-
 		<t> To further obscure account details on the receiving system,
 		    the receiver SHOULD ignore the header field if the address
 		    within it has had one continuous owner since it was
