@@ -282,7 +282,7 @@
 
 	<section anchor="own" title="Continuous Ownership">
 		<t> Determining continuous ownership of a mailbox is a local
-		    at the receiving site.  In particular, the only possible
+		    matter at the receiving site.  In particular, the only possible
 		    answers to the continuous-ownership-since question are
 		    "yes", "no", and "unknown"; the action to be taken in the
 		    "unknown" case is a matter of local policy. </t>
