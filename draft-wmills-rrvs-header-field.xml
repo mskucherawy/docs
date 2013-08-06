@@ -172,14 +172,12 @@
 		<t> The final step is not mandatory as not all mail handling
 		    agents are capable of stripping away header fields. </t>
 
-		<t> It is preferred that the rejection be enacted as an error
-		    response to the SMTP "DATA" command verb, as a rejection
-		    message generated separately may not be actionable due to
-		    the varied formats they take.  However, SMTP handling is
-		    not strictly necessary.  When performing the "DATA"
-		    rejection, servers use an SMTP error code (and Enhanced
-		    Mail System Status Code <xref target="ESC"/>, if
-		    supported) as described in <xref target="iana_esc"/>. </t>
+		<t> If a message is to be rejected within the SMTP protocol
+		    itself (versus generating a rejection message separately),
+		    servers implementing this protocol and the SMTP extensions
+		    described in Enhanced Mail System Status Codes
+		    <xref target="ESC"/> SHOULD use the enhanced status code
+		    described in <xref target="iana_esc"/>. </t>
 
 		<t> Implementation is expected to be transparent to non
 		    participants, since they would typically ignore this header
