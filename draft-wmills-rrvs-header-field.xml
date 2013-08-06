@@ -192,7 +192,8 @@
 		    attempt for multiple recipients (in particular, if two
 		    of the recipients are handled by the same server), and if
 		    any one of them fails the test, the delivery fails to
-		    all of them.  It is presumed that an author
+		    all of them without a standard way of indicating which one(s)
+		    failed.  It is presumed that an author
 		    making use of this field is seeking to protect
 		    transactional or otherwise sensitive data intended for a
 		    single recipient, and thus generating independent messages
