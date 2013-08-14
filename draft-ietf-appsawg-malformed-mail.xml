@@ -3,7 +3,7 @@
 <!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.3 2013/05/28 16:56:42 msk Exp $ -->
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-malformed-mail-07">
+        docName="draft-ietf-appsawg-malformed-mail-08">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -352,7 +352,7 @@
 		<t> Note that this advice pertains only to the raw SMTP data,
 		    and not to decoded MIME entities.  In fact, it could
 		    be necessary to encode MIME content that actually does
-		    need to contian such unusual character sequences.  However,
+		    need to contain such unusual character sequences.  However,
 		    they would by definition be encoded, and not visible in the
 		    raw SMTP stream. </t>
 	</section>
@@ -480,7 +480,7 @@
 				    making the interpretation.  Another
 				    possible interpretation is simply: 
 				    <figure><artwork>
-    To: "Joe" &lt;joe@example.com&gt
+    To: "Joe" &lt;joe@example.com&gt;
 				    </artwork></figure> </t>
 			</section>
 
@@ -723,6 +723,13 @@
 				    combine additional instances into a
 				    single compound instance; </t>
 
+				<t> where a field can contain multiple distinct
+				    values (such as From) or is free-form
+				    text (such as Subject), combine them into
+				    a semantically identical single header
+				    field of the same name (see 
+				    <xref target="repeated"/>); </t>
+
 				<t> alter the name of any header field 
 				    whose presence exceeds a limit prescribed
 				    in Section 3.6 of
@@ -739,6 +746,77 @@
 			    or some other action, must consider the needs
 			    of the operator making the decision, and the
 			    nature of its user base. </t>
+
+			<section anchor="repeated"
+			         title="Repeated Header Fields">
+				<t> There are some occasions where repeated
+				    fields are encountered where only one is
+				    expected.  Two examples are presented.
+				    First:
+
+					<figure><artwork>
+    From: reminders@example.com {1}
+    To: jqpublic@example.com {2}
+    Subject: Automatic Meeting Reminder {3}
+    Subject: 4pm Today -- Staff Meeting {4}
+    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
+
+    Reminder of the staff meeting today in the small {6}
+    auditorium.  Come early! {7}
+					</artwork></figure></t>
+
+				<t> The message above has two Subject fields,
+				    which is in violation of Section 3.6 of
+				    <xref target="MAIL"/>.  A safe
+				    interpretation of this would be to treat
+				    it as though the two Subject field values
+				    were concatenated, so long as they are
+				    not identical, such as:
+
+					<figure><artwork>
+    From: reminders@example.com {1}
+    To: jqpublic@example.com {2}
+    Subject: Automatic Meeting Reminder {3}
+      4pm Today -- Staff Meeting {4}
+    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
+
+    Reminder of the staff meeting today in the small {6}
+    auditorium.  Come early! {7}
+					</artwork></figure></t>
+
+				<t> Second:
+					<figure><artwork>
+    From: president@example.com {1}
+    From: vice-president@example.com {2}
+    To: jqpublic@example.com {3}
+    Subject: A note from the E-Team {4}
+    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
+
+    This memo is to remind you of the corporate dress {6}
+    code.  Attached you will find an updated copy of {7}
+    the policy. {8}
+    ...
+					</artwork></figure></t>
+
+				<t> As with the first example, there is a
+				    violation in terms of the number of
+				    instances of the From field.  A likely
+				    safe interpretation would be to combine
+				    these into a comma-separated address
+				    list in a single From field:
+					<figure><artwork>
+    From: president@example.com, {1}
+	  vice-president@example.com {2}
+    To: jqpublic@example.com {3}
+    Subject: A note from the E-Team {4}
+    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
+
+    This memo is to remind you of the corporate dress {6}
+    code.  Attached you will find an updated copy of {7}
+    the policy. {8}
+    ...
+					</artwork></figure></t>
+			</section>
 		</section>
 
 		<section anchor="missing" title="Missing Header Fields">
@@ -784,7 +862,7 @@
 			    Message-Id field.  An MTA that encounters a message
 			    missing this field should synthesize a valid one
 			    using techniques described above and add it to the
-			    external rpresentation, since many deployed tools
+			    external representation, since many deployed tools
 			    use the content of that field as a common unique
 			    message reference, so its absence inhibits
 			    correlation of message processing.  One possible
@@ -804,72 +882,6 @@
 			    topmost one is to be disregarded, as it is most
 			    likely to have been added nearest to the mailbox
 			    that received that message. </t>
-		</section>
-
-		<section anchor="repeated" title="Repeated Header Fields">
-			<t> There are some occasions where repeated fields
-			    are encountered where only one is expected.
-			    Two examples are presented.  First:
-
-				<figure><artwork>
-    From: reminders@example.com {1}
-    To: jqpublic@example.com {2}
-    Subject: Automatic Meeting Reminder {3}
-    Subject: 4pm Today -- Staff Meeting {4}
-    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
-
-    Reminder of the staff meeting today in the small {6}
-    auditorium.  Come early! {7}
-				</artwork></figure></t>
-
-			<t> The message above has two Subject fields, which is
-			    in violation of Section 3.6 of <xref target="MAIL"/>.
-			    A safe interpretation of this would be to treat
-			    it as though the two Subject field values were
-			    concatenated, so long as they are not identical,
-			    such as:
-				<figure><artwork>
-    From: reminders@example.com {1}
-    To: jqpublic@example.com {2}
-    Subject: Automatic Meeting Reminder {3}
-      4pm Today -- Staff Meeting {4}
-    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
-
-    Reminder of the staff meeting today in the small {6}
-    auditorium.  Come early! {7}
-				</artwork></figure></t>
-
-			<t> Second:
-				<figure><artwork>
-    From: president@example.com {1}
-    From: vice-president@example.com {2}
-    To: jqpublic@example.com {3}
-    Subject: A note from the E-Team {4}
-    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
-
-    This memo is to remind you of the corporate dress {6}
-    code.  Attached you will find an updated copy of {7}
-    the policy. {8}
-    ...
-				</artwork></figure></t>
-
-			<t> As with the first example, there is a violation
-			    in terms of the number of instances of the From
-			    field.  A likely safe interpretation would be
-			    to combine these into a comma-separated address
-			    list in a single From field:
-				<figure><artwork>
-    From: president@example.com, {1}
-          vice-president@example.com {2}
-    To: jqpublic@example.com {3}
-    Subject: A note from the E-Team {4}
-    Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
-
-    This memo is to remind you of the corporate dress {6}
-    code.  Attached you will find an updated copy of {7}
-    the policy. {8}
-    ...
-				</artwork></figure></t>
 		</section>
 
 		<section anchor="charset"
@@ -985,7 +997,7 @@
 				    in most cases best to exclude the address
 				    from any sort of processing -- which may
 				    mean dropping it entirely -- since any
-				    attempt to fix interpret it definitively
+				    attempt to fix it definitively
 				    is unlikely to be successful. </t>
 				</list> </t>
 		</section>
@@ -1433,11 +1445,11 @@
 		    review and constructive criticism of this proposal:
 		    Dave Cridland,
 		    Dave Crocker,
-		    Ned Freed,
 		    Jim Galvin,
 		    Tony Hansen,
 		    John Levine,
-		    Franck Martin, and
+		    Franck Martin,
+		    Alexey Melnikov, and
 		    Timo Serainen
                     </t>
 	</section>
