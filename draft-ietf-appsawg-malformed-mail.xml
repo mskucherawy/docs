@@ -812,7 +812,7 @@
 				    list in a single From field:
 					<figure><artwork>
     From: president@example.com, {1}
-	  vice-president@example.com {2}
+          vice-president@example.com {2}
     To: jqpublic@example.com {3}
     Subject: A note from the E-Team {4}
     Date: Wed, 20 Oct 2010 08:00:00 -0700 {5}
