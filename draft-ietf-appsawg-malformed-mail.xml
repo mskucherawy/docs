@@ -75,8 +75,14 @@
 
 		<t> This document includes a collection of the best advice
 		    available regarding a variety of common malformed mail
-		    situations, to be used as implementation guidance.  It
-		    must be emphasized, however, that the intent of this
+		    situations, to be used as implementation guidance.  These
+		    malformations are typically based around loose
+		    interpretations or implementations of specifications such
+		    as Internet Message Format <xref target="MAIL"/> and
+		    Multipurpose Internet Mail Extensions
+		    <xref target="MIME"/>. </t>
+
+		<t> It must be emphasized, however, that the intent of this
 		    document is not to standardize malformations or otherwise
 		    encourage their proliferation.  The messages are
 		    manifestly malformed, and the code and culture that
@@ -865,13 +871,11 @@
 			    external representation, since many deployed tools
 			    use the content of that field as a common unique
 			    message reference, so its absence inhibits
-			    correlation of message processing.  One possible
-			    synthesis would be based on based on an encoding of
-			    the current date/time and an internal MTA ID (e.g.,
-			    queue ID) followed by @ and the fully qualified
-			    hostname of the machine synthesizing the header
-			    value.  Whatever details are chosen, the key is to
-			    generate something guaranteed to be unique. </t>
+			    correlation of message processing.  Section 3.6.4
+			    of <xref target="MAIL"/> describes advisable
+			    practise for synthesizing the content of this field
+			    when it is absent, and establishes a requirement
+			    that it be globally unique. </t>
 		</section>
 
 		<section anchor="rp" title="Return-Path">
@@ -1133,6 +1137,28 @@
 			</front>
 			<seriesInfo name="RFC" value="5322" />
 		</reference>
+
+		<reference anchor="MIME">
+			<front>
+				<title> Multipurpose Internet Mail
+				        Extensions (MIME) Part One: Format of
+				        Internet Message Bodies </title>
+				<author initials="N." surname="Freed"
+					fullname="N. Freed">
+					<organization>
+						Innosoft
+					</organization>
+				</author>
+				<author initials="N." surname="Borenstein"
+					fullname="N. Borenstein">
+					<organization>
+						First Virtual
+					</organization>
+				</author>
+				<date month="November" year="1996" />
+			</front>
+			<seriesInfo name="RFC" value="2045" />
+		</reference>
 	</references>
 
 	<references title="Informative References">
@@ -1304,28 +1330,6 @@
 				<date month="July" year="2009" />
 			</front>
 			<seriesInfo name="RFC" value="5598" />
-		</reference>
-
-		<reference anchor="MIME">
-			<front>
-				<title> Multipurpose Internet Mail
-				        Extensions (MIME) Part One: Format of
-				        Internet Message Bodies </title>
-				<author initials="N." surname="Freed"
-					fullname="N. Freed">
-					<organization>
-						Innosoft
-					</organization>
-				</author>
-				<author initials="N." surname="Borenstein"
-					fullname="N. Borenstein">
-					<organization>
-						First Virtual
-					</organization>
-				</author>
-				<date month="November" year="1996" />
-			</front>
-			<seriesInfo name="RFC" value="2045" />
 		</reference>
 
 		<reference anchor="MIME3">
