@@ -3,7 +3,7 @@
 <!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.3 2013/05/28 16:56:42 msk Exp $ -->
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-malformed-mail-08">
+        docName="draft-ietf-appsawg-malformed-mail-09">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -1207,67 +1207,31 @@
 					Signatures
 				</title>
 
-				<author initials="E." surname="Allman"
-				        fullname="E. Allman">
-					<organization/>
+				<author initials="D." surname="Crocker"
+					fullname="D. Crocker" role="editor">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
 				</author>
 
-				<author initials="J." surname="Callas"
-				        fullname="J. Callas">
-					<organization/>
+				<author initials="T." surname="Hansen"
+					fullname="T. Hansen" role="editor">
+					<organization>
+						AT&T Laboratories
+					</organization>
 				</author>
 
-				<author initials="M." surname="Delany"
-				        fullname="M. Delany">
-					<organization/>
+				<author initials="M." surname="Kucherawy"
+					fullname="M. Kucherawy" role="editor">
+					<organization>
+						Cloudmark
+					</organization>
 				</author>
 
-				<author initials="M." surname="Libbey"
-				        fullname="M. Libbey">
-					<organization/>
-				</author>
-
-				<author initials="J." surname="Fenton"
-				        fullname="J. Fenton">
-					<organization/>
-				</author>
-
-				<author initials="M." surname="Thomas"
-				        fullname="M. Thomas">
-					<organization/>
-				</author>
-
-				<date year="2007" month="May"/>
-
-				<abstract>
-					<t> DomainKeys Identified Mail (DKIM)
-					    defines a domain-level
-					    authentication framework for email
-					    using public-key cryptography and
-					    key server technology to permit
-					    verification of the source and
-					    contents of messages by either
-					    Mail Transfer Agents (MTAs) or
-					    Mail User Agents (MUAs).  The
-					    ultimate goal of this framework is
-					    to permit a signing domain to
-					    assert responsibility for a
-					    message, thus protecting message
-					    signer identity and the integrity
-					    of the messages they convey while
-					    retaining the functionality of
-					    Internet email as it is known
-					    today.  Protection of email
-					    identity may assist in the global
-					    control of "spam" and "phishing".
-					    [STANDARDS TRACK] </t>
-				</abstract>
+				<date year="2011" month="September"/>
 			</front>
 
-			<seriesInfo name="RFC" value="4871"/>
-
-			<format type="TXT" octets="166054"
-			        target="ftp://ftp.isi.edu/in-notes/rfc4871.txt"/>
+			<seriesInfo name="RFC" value="6376"/>
 		</reference>
 
 		<reference anchor="DSN">
@@ -1454,7 +1418,7 @@
 		    John Levine,
 		    Franck Martin,
 		    Alexey Melnikov, and
-		    Timo Serainen
+		    Timo Sirainen
                     </t>
 	</section>
 
