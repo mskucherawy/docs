@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<rfc ipr="trust200902" category="info"
+        obsoletes="5617"
+        docName="draft-kucherawy-adsp-historic-00">
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc strict="no" ?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="ADSP to Historic">
+		Moving Author Domain Signing Practices (ADSP) to Historic Status
+	</title>
+
+	<author initials="M. S." surname="Kucherawy"
+	        fullname="Murray S. Kucherawy">
+
+		<address>
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<date year="2013"/>
+
+	<area>Applications</area>
+
+	<abstract>
+		<t> Author Domain Signing Practices (ADSP) is a protocol
+		    adjunct to DomainKeys Identified Mail (DKIM) designed
+		    to allow a domain owner to advertise a very narrow, strict
+		    handling policy for that domain's email.  Since its
+		    publication in 2009, it has seen very little adoption
+		    and support, in part because of its narrow application
+		    space and in part due to the destructive impact it can
+		    have when not used carefully.  It has not lived up to
+		    its intended purpose. </t>
+
+		<t> As more modern protocols are under development that will
+		    take a more cautious approach to email security in terms
+		    of authentic use of identifiers, ADSP should be considered
+		    deprecated and phased out as soon as practical. </t>
+	</abstract>
+</front>
+
+<middle>
+	<section anchor="intro" title="Introduction">
+		<t> DomainKeys Identified Mail <xref target="DKIM"/> defines
+		    a mechanism whereby a verified domain name can be attached
+		    to a message, or portion of a message, using a
+		    cryptographic signature.  It does not, however, assert
+		    that this domain name matches a domain name found anywhere
+		    else in the message. </t>
+
+		<t> Author Domain Signing Practices <xref target="ADSP"/>
+		    was developed as an add-on to DKIM that establishes a
+		    binding between the domain name validated by DKIM and 
+		    the one visible in the From: field on a message.  In
+		    essence, the ADSP test is satisfied if there exists
+		    on the message a DKIM signature whose domain name matches
+		    the one in the From: field of the message being checked.
+		    For instances where this test fails, ADSP further offers a
+		    mechanism for a domain name owner to publish via the
+		    Domain Name System a policy statement requesting that a
+		    mail receiver prevent delivery of the message. </t>
+	</section>
+
+	<section anchor="disc" title="Discussion">
+		<t> Although the intent of ADSP is noble enough, namely
+		    suppression of improper (i.e., fraudulent) use of a
+		    domain name for the purposes of abuse, its mechanism
+		    establishes undesirable constraints on the email
+		    ecosystem.  Using DKIM With Mailing Lists
+		    <xref target="DKIM-MLM"/> gives a fairly thorough
+		    treatment of these, particularly:
+
+		    <list style="symbols">
+			<t> Destructive interaction with mailing lists
+			    (Section 5.2) </t>
+
+			<t> The need to create distinct message streams,
+			    which imposes an operational burden on the user
+			    base (Section 4.1) </t>
+		    </list> </t>
+
+		<t> Other protocols are now under development that are taking a
+		    more cautious approach to the conditions under which
+		    a message can be blocked from delivery, and include
+		    extensive reporting mechanisms for diagnosing the causes
+		    of blocked messages. </t>
+
+		<t> Generally, the cost of using ADSP is higher than the
+		    benefits it conveys, and is being gradually eclipsed
+		    by new work.  Thus, this document obsoletes ADSP and
+		    changes its status to "Historic". </t>
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+		<t> This document introduces no changes to the email
+		    ecosystem, and thus introduces no security issues. </t>
+	</section>
+
+	<section anchor="iana" title="IANA Considerations">
+		<section anchor="iana_method"
+			title="Email Authentication Methods registry">
+			<t> IANA is requested to change the stauts of
+			    "dkim-adsp" in the Email Authentication Methods
+			    registry to "deprecated". </t>
+		</section>
+
+		<section anchor="iana_results"
+			title="Email Authentication Result Names registry">
+			<t> IANA is requested to change all entries in the
+			    the Email Authentication Result Names registry
+			    bearing an Auth Method of "dkim-adsp" to
+			    "deprecated". </t>
+		</section>
+	</section>
+</middle>
+
+<back>
+	<references title="Normative References">
+		<reference anchor="ADSP">
+			<front>
+				<title>
+					DomainKeys Identified Mail (DKIM)
+					Author Domain Signing Practices (ADSP)
+				</title>
+
+				<author initials="E." surname="Allman"
+					fullname="E. Allman">
+					<organization>
+						Sendmail, Inc.
+					</organization>
+				</author>
+
+				<author initials="J." surname="Fenton"
+					fullname="J. Fenton">
+					<organization>
+						Cisco Systems, Inc.
+					</organization>
+				</author>
+
+				<author initials="M." surname="Delany"
+					fullname="M. Delany">
+					<organization>
+						Yahoo!, Inc.
+					</organization>
+				</author>
+
+				<author initials="J." surname="Levine"
+					fullname="J. Levine">
+					<organization>
+						Taughannock Networks
+					</organization>
+				</author>
+
+				<date year="2009" month="August"/>
+
+			</front>
+
+			<seriesInfo name="RFC" value="5617"/>
+		</reference>
+
+		<reference anchor="DKIM">
+			<front>
+				<title>
+					DomainKeys Identified Mail (DKIM)
+					Signatures
+				</title>
+
+				<author initials="D." surname="Crocker"
+					fullname="D. Crocker" role="editor">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
+				</author>
+
+				<author initials="T." surname="Hansen"
+					fullname="T. Hansen" role="editor">
+					<organization>
+						AT&T Laboratories
+					</organization>
+				</author>
+
+				<author initials="M." surname="Kucherawy"
+					fullname="M. Kucherawy" role="editor">
+					<organization>
+						Cloudmark
+					</organization>
+				</author>
+
+				<date year="2011" month="September"/>
+			</front>
+
+			<seriesInfo name="RFC" value="6376"/>
+		</reference>
+
+		<reference anchor="DKIM-MLM">
+			<front>
+				<title>
+					DomainKeys Identified Mail (DKIM)
+					Signatures
+				</title>
+
+				<author initials="M." surname="Kucherawy"
+					fullname="M. Kucherawy">
+					<organization>
+						Cloudmark
+					</organization>
+				</author>
+
+				<date year="2011" month="September"/>
+			</front>
+		</reference>
+	</references>
+
+	<section anchor="thanks" title="Acknowledgements">
+		<t> The author wishes to acknowledge
+		    John Klensin,
+		    (names)
+		    for their comments during the development of this
+		    document. </t>
+	</section>
+</back>
+
+</rfc>
