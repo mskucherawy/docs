@@ -40,10 +40,9 @@
 		    have when not used carefully.  It has not lived up to
 		    its intended purpose. </t>
 
-		<t> As more modern protocols are under development that will
-		    take a more cautious approach to email security in terms
-		    of authentic use of identifiers, ADSP should be considered
-		    deprecated and phased out as soon as practical. </t>
+		<t> This document highlights these concerns with ADSP, and
+		    requests it be reclassified as Historic so as to
+		    discourage its use. </t>
 	</abstract>
 </front>
 
@@ -87,24 +86,28 @@
 			    base (Section 4.1) </t>
 		    </list> </t>
 
-		<t> Other protocols are now under development that are taking a
-		    more cautious approach to the conditions under which
-		    a message can be blocked from delivery, and include
-		    extensive reporting mechanisms for diagnosing the causes
-		    of blocked messages. </t>
-
 		<t> Generally, the cost of using ADSP is higher than the
-		    benefits it conveys, and is being gradually eclipsed
-		    by new work.  Thus, this document obsoletes ADSP and
-		    changes its status to "Historic". </t>
+		    benefits it conveys.  Thus, this document obsoletes ADSP
+		    and asks the IESG to change its status to "Historic". </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
-		<t> This document introduces no changes to the email
-		    ecosystem, and thus introduces no security issues. </t>
+		<t> Given that ADSP is not providing the security benefits
+		    that were expected of it, its obsolescence poses no
+		    security threat.  Moreover, operational problems caused
+		    by its misuse may have resulted in operational workarounds
+		    with dubious security characteristics, and the
+		    obsolescence of ADSP will alleviate those problems. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
+		<t> [RFC EDITOR NOTE: The actions in the following subsections
+		    are to be taken in response to the status change of 
+		    <xref target="ADSP"/> to Historic.  IANA is asked to take
+		    these actions only after that status change is made.  If
+		    that has happened before this document is published, the
+		    RFC Editor is asked to remove this paragraph.] </t>
+
 		<section anchor="iana_method"
 			title="Email Authentication Methods registry">
 			<t> IANA is requested to change the stauts of
