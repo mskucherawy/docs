@@ -923,13 +923,13 @@
 		<section anchor="charset"
 		         title="Missing or Incorrect Charset Information">
 			<t> MIME provides the means to include textual
-			    material employing charsets other than US-ASCII.
- 			    Such material is required to have an identified
-			    charset.  Charset identification is done using a
-			    "charset" parameter in the Content-Type header
-			    field, a character set label within the MIME
-			    entity itself, or the character set may be
-			    implicitly specified by the Content-Type
+			    material employing character sets ("charsets")
+			    other than US-ASCII.  Such material is required to
+			    have an identified charset.  Charset identification
+			    is done using a "charset" parameter in the
+			    Content-Type header field, a charset label
+			    within the MIME entity itself, or the charset
+			    can be implicitly specified by the Content-Type
 			    (see <xref target="CHARSET"/>). </t>
 		
 			<t> It is unfortunately fairly common for required
@@ -939,20 +939,26 @@
 			    checks, such as:
 
 			    <list style="symbols">
-				<t> US-ASCII is 7bit only, so 8bit material
-				    is necessarily not US-ASCII.  (See
-				    Sections 2.7 and 2.8 of
-				    <xref target="MIME"/>.)</t>
-				<t> UTF-8 has a very specific syntactic
-				    structure that other 8bit charsets are
-				    unlikely to follow. </t>
+				<t> US-ASCII contains bytes between 1 and 127
+				    inclusive only (colloquially, "7-bit"
+				    data), so material including bytes outside
+				    of that range ("8-bit" data) is
+				    necessarily not US-ASCII.  (See Section
+				    2.3.1 of <xref target="MAIL"/>.)</t>
+				<t> <xref target="UTF-8"/> has a very specific
+				    syntactic structure that other 8-bit
+				    charsets are unlikely to follow. </t>
 				<t> Null bytes (ASCII 0x00) are not allowed
-				    in either 7bit or 8bit data. </t>
-				<t> Not all 7bit material is US-ASCII.  The
+				    in either 7-bit or 8-bit data. </t>
+				<t> Not all 7-bit material is US-ASCII.  The
 				    presence of the various escape sequences
-				    used for character switching may be used
-				    as an indication of the various
-				    <xref target="ISO-2022"/> charsets. </t>
+				    used for character switching can be used
+				    as an indication of the various charsets
+				    based on ISO/IEC 2022, such as those
+				    defined in
+				    <xref target="ISO-2022-CN"/>, 
+				    <xref target="ISO-2022-JP"/>, and
+				    <xref target="ISO-2022-KR"/>. </t>
 			    </list> </t>
 
 			<t> When a character set error is detected, processing
@@ -1331,17 +1337,101 @@
 			<seriesInfo name="RFC" value="6532" />
 		</reference>
 
-		<reference anchor="ISO-2022">
+		<reference anchor="ISO-2022-CN">
 			<front>
-				<title> Information technology -- Character
-				        code structure and extension
-					techniques (ISO/IEC 2022:1994) </title>
-				<author fullname="ISO/IEC">
+				<title> Chinese Character Encoding for Internet
+				        Messages </title>
+				<author initials="HF." surname="Zhu"
+					fullname="HF. Zhu">
+					<organization>
+						Tsinghua U
+					</organization>
+				</author>
+				<author initials="DY." surname="Hu"
+					fullname="DY. Hu">
+					<organization>
+						Tsinghua U
+					</organization>
+				</author>
+				<author initials="ZG." surname="Wang"
+					fullname="ZG. Wang">
+					<organization>
+						CITS
+					</organization>
+				</author>
+				<author initials="TC." surname="Kao"
+					fullname="TC. Kao">
+					<organization>
+						III
+					</organization>
+				</author>
+				<author initials="WCH." surname="Chang"
+					fullname="WCH. Chang">
+					<organization>
+						III
+					</organization>
+				</author>
+				<author initials="M." surname="Crispin"
+					fullname="M. Crispin">
+					<organization>
+						U Washington
+					</organization>
+				</author>
+				<date month="March" year="1996" />
+			</front>
+			<seriesInfo name="RFC" value="1922" />
+		</reference>
+
+		<reference anchor="ISO-2022-JP">
+			<front>
+				<title> Japanese Character Encoding for
+				        Internet Messages </title>
+				<author initials="J." surname="Murai"
+					fullname="J. Murai">
+					<organization>
+						Kaio University
+					</organization>
+				</author>
+				<author initials="M." surname="Crispin"
+					fullname="M. Crispin">
+					<organization>
+						Panda Programming
+					</organization>
+				</author>
+				<author initials="E." surname="van der Poel"
+					fullname="E. van der Poel">
 					<organization/>
 				</author>
-				<date year="1994" />
+				<date month="June" year="1993" />
 			</front>
-			<seriesInfo name="ISO" value="2022" />
+			<seriesInfo name="RFC" value="1468" />
+		</reference>
+
+		<reference anchor="ISO-2022-KR">
+			<front>
+				<title> Korean Character Encoding for Internet
+				        Messages </title>
+				<author initials="U." surname="Choi"
+					fullname="U. Choi">
+					<organization>
+						KAIST
+					</organization>
+				</author>
+				<author initials="K." surname="Chon"
+					fullname="K. Chon">
+					<organization>
+						KAIST
+					</organization>
+				</author>
+				<author initials="H." surname="Park"
+					fullname="H. Park">
+					<organization>
+						Solvit Chosun Media
+					</organization>
+				</author>
+				<date month="December" year="1993" />
+			</front>
+			<seriesInfo name="RFC" value="1557" />
 		</reference>
 
 		<reference anchor="MIME3">
@@ -1453,6 +1543,21 @@
 				<date month="January" year="2005"/>
 			</front>
 			<seriesInfo name="RFC" value="3986" />
+		</reference>
+
+		<reference anchor="UTF-8">
+			<front>
+				<title> UTF-8, a transformation format of
+					ISO 10646 </title>
+				<author initials="F." surname="Yergeau"
+					fullname="F. Yergeau">
+					<organization>
+						Alis Technologies
+					</organization>
+				</author>
+				<date year="2003" />
+			</front>
+			<seriesInfo name="RFC" value="3629" />
 		</reference>
 	</references>
 
