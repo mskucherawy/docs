@@ -29,7 +29,7 @@
 	        fullname="Gregory N. Shapiro">
 
 		<address>
-			<email>gshapiro@sendmail.com</email>
+			<email>gshapiro@proofpoint.com</email>
 		</address>
 	</author>
 
@@ -52,50 +52,14 @@
 		<t> Although Internet mail formats have been precisely defined
 		    since the 1970s, authoring and handling software often
 		    show only mild conformance to the specifications.  The
-		    distributed and non-interactive nature of email has often
-		    prompted adjustments to receiving software, to handle
-		    these variations, rather than trying to gain better
-		    conformance by senders, since the receiving operator is
-		    primarily driven by complaining recipient users and has no
-		    authority over the sending side of the system.  Processing
-		    with such flexibility comes at some cost, since mail
-		    software is faced with decisions about whether or not to
-		    permit non-conforming messages to continue toward their
-		    destinations unaltered, adjust them to conform (possibly
-		    at the cost of losing some of the original message), or
-		    outright rejecting them. </t>
-
-		<t> A core requirement for interoperability is that both sides
-		    of an exchange work from the same details and semantics.
-		    By having receivers be flexible, beyond the specifications,
-		    there can be -- and often has been -- a good chance that a
-		    message will not be fully interoperable.  Worse, a
-		    well-established pattern of tolerance for variations can
-		    sometimes be used as an attack vector. </t>
-
-		<t> This document includes a collection of the best advice
+		    malformed messages that result are non-standard.
+		    Nonetheless, decades of experience has shown that
+		    handling with some tolerance the malformations that
+		    result is often an acceptable approach, and is better
+		    than rejecting the messages outright as nonconformant.
+		    This document includes a collection of the best advice
 		    available regarding a variety of common malformed mail
-		    situations, to be used as implementation guidance.  These
-		    malformations are typically based around loose
-		    interpretations or implementations of specifications such
-		    as Internet Message Format <xref target="MAIL"/> and
-		    Multipurpose Internet Mail Extensions
-		    <xref target="MIME"/>. </t>
-
-		<t> It must be emphasized, however, that the intent of this
-		    document is not to standardize malformations or otherwise
-		    encourage their proliferation.  The messages are
-		    manifestly malformed, and the code and culture that
-		    generates them needs to be fixed.  Therefore, these
-		    messages should be rejected outright if at all possible.
-		    Nevertheless, many malformed messages from otherwise
-		    legitimate senders are in circulation and will be for
-		    some time, and, unfortunately, commercial reality shows
-		    that we cannot always simply reject or discard them.
-		    Accordingly, this document presents alternatives for
-		    dealing with them in ways that seem to do the least
-		    additional harm until the infrastructure is tightened up
-		    to match the standards. </t>
+		    situations, to be used as implementation guidance.  </t>
 	</abstract>
 </front>
 
@@ -104,10 +68,10 @@
 		<section anchor="for" title="The Purpose Of This Work">
 			<t> The history of email standards, going back to
 			    <xref target="RFC733"/> and beyond, contains a
-			    fairly rigid evolution of specifications.  But
-			    implementations within that culture have also
-			    long had an undercurrent known formally as the
-			    robustness principle, but also known informally
+			    fairly rigid evolution of specifications
+			    However, implementations within that culture have
+			    also long had an undercurrent known formally as the
+			    robustness principle, also known informally
 			    as Postel's Law: "Be conservative in what you do,
 			    be liberal in what you accept from others." </t>
 
@@ -122,7 +86,7 @@
 			    that a sender might take, while presuming a burden
 			    on a receiver to guess "correctly" at the meaning
 			    of any such variation.  These matters are further
-			    compounded by flawed receiver software -- the
+			    compounded by receiver software -- the
 			    end users' mail readers -- which are also
 			    sometimes flawed, leaving senders to craft
 			    messages (sometimes bending the rules) to overcome
@@ -141,11 +105,57 @@
 			    that infrastructure, intending to be robust, fail
 			    utterly to assert those standards. </t>
 
-			<t> This document presents some areas in which the more
-			    lenient stances can provide vectors for attack,
-			    and then presents the collected wisdom of numerous
-			    applications in and around the email ecosystem for
-			    dealing with them to mitigate their impact. </t>
+  			<t> The distributed and non-interactive nature of
+			    email has often prompted adjustments to receiving
+			    software, to handle these variations, rather than
+			    trying to gain better conformance by senders,
+			    since the receiving operator is primarily driven
+			    by complaints from recipient users and has no
+			    authority over the sending side of the system.
+			    Processing with such flexibility comes at some
+			    cost, since mail software is faced with decisions
+			    about whether to permit non-conforming messages to
+			    continue toward their destinations unaltered,
+			    adjust them to conform (possibly at the cost of
+			    losing some of the original message), or outright
+			    rejecting them. </t>
+
+			<t> A core requirement for interoperability is that
+			    both sides of an exchange work from the same
+			    details and semantics.  By having receivers be
+			    flexible, beyond the specifications, there can
+			    be -- and often has been -- a good chance that
+			    a message will not be fully interoperable.  Worse,
+			    a well-established pattern of tolerance for
+			    variations can sometimes be used as an attack
+			    vector. </t>
+
+			<t> This document includes a collection of the best
+			    advice available regarding a variety of common
+			    malformed mail situations, to be used as
+			    implementation guidance.  These malformations are
+			    typically based around loose interpretations or
+			    implementations of specifications such as
+			    Internet Message Format <xref target="MAIL"/> and
+			    Multipurpose Internet Mail Extensions
+			    <xref target="MIME"/>. </t>
+
+			<t> It must be emphasized, however, that the intent of
+			    this document is not to standardize malformations
+			    or otherwise encourage their proliferation.  The
+			    messages are manifestly malformed, and the code
+			    and culture that generates them needs to be fixed.
+			    Therefore, these messages should be rejected
+			    outright if at all possible.  Nevertheless, many
+			    malformed messages from otherwise legitimate
+			    senders are in circulation and will be for some
+			    time, and, unfortunately, commercial reality shows
+			    that we cannot always simply reject or discard
+			    them.  Accordingly, this document presents
+			    alternatives for dealing with them in ways that
+			    seem to do the least additional harm until the
+			    infrastructure is tightened up to match the
+			    standards. </t>
 		</section>
 
 		<section anchor="not_for" title="Not The Purpose Of This Work">
@@ -174,13 +184,13 @@
 			<t> Many deviations from message format standards
 			    are considered by some receivers to be
 			    strong indications that the message is undesirable,
-			    i.e., is spam or contains malware.  Such receivers
-			    quickly decide that the best handling choice is
-			    simply to reject or discard the message.  This
-			    means malformations caused by innocent
-			    misunderstandings or ignorance of proper syntax
-			    can cause messages with no ill intent also to fail
-			    to be delivered. </t>
+			    such as spam or something containing malware.
+			    These receivers quickly decide that the best
+			    handling choice is simply to reject or discard the
+			    message.  This means malformations caused by
+			    innocent misunderstandings or ignorance of proper
+			    syntax can cause messages with no ill intent also
+			    to fail to be delivered. </t>
 
 			<t> Senders that want to ensure message delivery are
 			    best advised to adhere strictly to the relevant
@@ -266,8 +276,10 @@
 		    the content.  Modules that operate sequentially sometimes
 		    add private header fields to relay information downstream
 		    for later filters to use (and possibly remove), or they
-		    may have out-of-band ways of doing so.  Whenever possible,
-		    the latter mechanism should be used. </t>
+		    may have out-of-band ways of doing so.  However, even
+		    the presence of private header fields can impact a
+		    downstream handling agent unaware of its local semantics,
+		    so an out-of-band method is always preferable. </t>
 
 		<t> The above is less of a concern when multiple analysis
 		    modules are operated in parallel, independent of one
@@ -282,14 +294,12 @@
 		    own. </t>
 
 		<t> Some message changes alter syntax without changing
-		    semantics.  (Indeed, analyzing the semantics of
-		    malformations was the impetus for this work.)  For
-		    example, <xref target="malformations"/> describes a
-		    situation where an agent removes additional header
-		    whitespace.  This is a syntax change without a change
-		    in semantics, though some systems (e.g., DKIM) are
+		    semantics.  For example, <xref target="malformations"/>
+		    describes a situation where an agent removes additional
+		    header whitespace.  This is a syntax change without a
+		    change in semantics, though some systems (such as DKIM) are
 		    sensitive to such changes.  Message system developers
-		    need to aware of the downstream impact of making either
+		    need to be aware of the downstream impact of making either
 		    kind of change. </t>
 
 		<t> There will always be local handling exceptions, but these
@@ -315,12 +325,13 @@
 		    <xref target="MAIL"/> and the <xref target="MIME"/>
 		    family of documents. </t>
 
-		<t> More strict conformance by relaying MTAs will also be
-		    helpful.  although preventing the dissemination of
-		    malformed messages is desirable, the rejection of such
-		    mail already in transit also has a support cost, namely
-		    the creation of a <xref target="DSN"/> that many end
-		    users might not understand. </t>
+		<t> More strict conformance by relaying Mail Transfer Agents
+		    (MTAs) will also be helpful.  although preventing the
+		    dissemination of malformed messages is desirable, the
+		    rejection of such mail already in transit also has a
+		    support cost, namely the creation of a
+		    <xref target="DSN"/> that many end users might not
+		    understand. </t>
 	</section>
 
 	<section anchor="lines" title="Line Termination">
@@ -333,13 +344,13 @@
 
 		<t> Common UNIX user tools, however, typically only use LF
 		    for internal line termination.  This means that a protocol
-		    engine, which converts between UNIX and Internet Mail
-		    formats, has to convert between these two end-of-line
+		    engine that converts between UNIX and Internet Mail
+		    formats has to convert between these two end-of-line
 		    representations before transmitting a message or after
 		    receiving it. </t>
 
-		<t> Non-compliant implementations can cause messages to be
-		    transmitted with a mix of line terminations, such as LF
+		<t> Non-compliant implementations can create messages
+		    with a mix of line terminations, such as LF
 		    everywhere except CRLF only at the end of the message.
 		    According to <xref target="SMTP"/> and
 		    <xref target="MAIL"/>, this means the entire
@@ -347,26 +358,26 @@
 
 		<t> Within modern Internet Mail it is highly unlikely that
 		    an isolated CR or LF is valid in common ASCII text.
-		    Furthermore, <xref target="MIME"/> presents mechanisms for
-		    encoding content that actually does need to contain such
-		    an unusual character sequence. </t>
+		    Furthermore, when content actually does need to contain
+		    such an unusual character sequence, <xref target="MIME"/>
+		    provides mechanisms for encoding that content in an
+		    SMTP-safe manner. </t>
 
 		<t> Thus, it will typically be safe and helpful to treat a
 		    naked CR or LF as equivalent to a CRLF when parsing
 		    a message. </t>
 
 		<t> Note that this advice pertains only to the raw SMTP data,
-		    and not to decoded MIME entities.  In fact, it could
-		    be necessary to encode MIME content that actually does
-		    need to contain such unusual character sequences.  However,
-		    they would by definition be encoded, and not visible in the
-		    raw SMTP stream. </t>
+		    and not to decoded MIME entities.  As noted above,
+		    when MIME encoding mechanisms are used, the unusual
+		    character sequences are not visible in the raw SMTP
+		    stream. </t>
 	</section>
 
 	<section anchor="header" title="Header Anomalies">
-		<t> This section covers common syntactical and semantic
+		<t> This section covers common syntactic and semantic
 		    anomalies found in a message header, and presents
-		    preferred mitigations. </t>
+		    suggested mitigations. </t>
 
 		<section anchor="obsolete"
 		         title="Converting Obsolete and Invalid Syntaxes">
@@ -374,7 +385,7 @@
 			    confound an agent that is attempting to be robust
 			    in its handling of syntax variations.  A bad
 			    actor could exploit such a weakness in order to
-			    get abuse or malicious content through a filter.
+			    get abusive or malicious content through a filter.
 			    This section presents some examples of such
 			    variations.  Messages including them ought be
 			    rejected; where this is not possible, recommended
@@ -399,7 +410,7 @@
 
 			<section anchor="angle"
 			         title="Excessive Angle Brackets">
-				<t> The following over-use of angle brackets, e.g.:
+				<t> The following over-use of angle brackets:
 
 				    <figure><artwork>
     To: &lt;&lt;&lt;user2@example.org&gt;&gt;&gt;
@@ -419,13 +430,23 @@
 
 				    <figure><artwork>
     To: &lt;another@example.net
-    To: second@example.org&gt;
 				    </artwork></figure> </t>
 
 				<t> can usually be treated as:
 
 				    <figure><artwork>
     To: &lt;another@example.net&gt;
+				    </artwork></figure> </t>
+
+				<t> Likewise, the following:
+
+				    <figure><artwork>
+    To: second@example.org&gt;
+				    </artwork></figure> </t>
+
+				<t> can usually be treated as:
+
+				    <figure><artwork>
     To: second@example.org
 				    </artwork></figure> </t>
 			</section>
@@ -437,13 +458,23 @@
 
 				    <figure><artwork>
     To: (Testing &lt;fran@example.com&gt;
-    To: Testing) &lt;sam@example.com&gt;
 				    </artwork></figure> </t>
 
 				<t> should be interpreted as:
 
 				    <figure><artwork>
     To: (Testing) &lt;fran@example.com&gt;
+				    </artwork></figure> </t>
+
+				<t> Likewise, this case:
+
+				    <figure><artwork>
+    To: Testing) &lt;sam@example.com&gt;
+				    </artwork></figure> </t>
+
+				<t> should be interpreted as:
+
+				    <figure><artwork>
     To: "Testing)" &lt;sam@example.com&gt;
 				    </artwork></figure> </t>
 			</section>
@@ -546,8 +577,8 @@
 			    <list style="numbers">
 				<t> some agents choose to separate the header
 				    of the message from the body only at the
-				    first empty line (i.e. a CRLF immediately
-				    followed by another CRLF); </t>
+				    first empty line (that is, a CRLF
+				    immediately followed by another CRLF); </t>
 
 				<t> some agents assume this anomaly should
 				    be interpreted to mean the body starts
@@ -602,8 +633,8 @@
 				    anomalous line, and continue. </t>
 
 				<t> Search forward for another line that
-				    appears to be a new header field, i.e.,
-				    a name followed by a colon.  If one is
+				    appears to be a new header field
+				    (a name followed by a colon).  If one is
 				    found, then apply option 3 above to the
 				    anomalous line, and continue. </t>
 			    </list> </t>
@@ -823,9 +854,9 @@
     ...
 					</artwork></figure></t>
 			</section>
-		</section>
 
-		<section anchor="missing" title="Missing Header Fields">
+			<section anchor="missing"
+				title="Missing Header Fields">
 			<t> Similar to the previous section, there are
 			    messages seen in the wild that lack certain
 			    required header fields.  In particular,
@@ -851,18 +882,18 @@
 			    The reason for this advice is that there
 			    are some filter modules that would consider the
 			    absence of such fields to be a condition warranting
-			    special treatment (e.g., rejection), and thus the
-			    effectiveness of such modules would be stymied by
-			    an upstream filter adding them in a way visible
-			    to other components. </t>
+			    special treatment (for example, rejection), and
+			    thus the effectiveness of such modules would be
+			    stymied by an upstream filter adding them in a
+			    way visible to other components. </t>
 
 			<t> The synthesized fields should contain a best
 			    guess as to what should have been there; for From,
 			    the SMTP MAIL command's address can be used
 			    (if not null) or a placeholder address followed
-			    by an address literal (e.g., unknown@[192.0.2.1]);
-			    for Date, a date extracted from a Received field
-			    is a reasonable choice. </t>
+			    by an address literal (for example,
+			    unknown@[192.0.2.1]); for Date, a date extracted
+			    from a Received field is a reasonable choice. </t>
 
 			<t> One other important case to consider is a missing
 			    Message-Id field.  An MTA that encounters a message
@@ -876,9 +907,9 @@
 			    practise for synthesizing the content of this field
 			    when it is absent, and establishes a requirement
 			    that it be globally unique. </t>
-		</section>
+			</section>
 
-		<section anchor="rp" title="Return-Path">
+			<section anchor="rp" title="Return-Path">
 			<t> A valid message will have exactly one Return-Path
 			    header field, as per Section 4.4 of
 			    <xref target="SMTP"/>.  Should a message be
@@ -886,13 +917,14 @@
 			    topmost one is to be disregarded, as it is most
 			    likely to have been added nearest to the mailbox
 			    that received that message. </t>
+			</section>
 		</section>
 
 		<section anchor="charset"
 		         title="Missing or Incorrect Charset Information">
 			<t> MIME provides the means to include textual
 			    material employing charsets other than US-ASCII.
- 			    Such material is required to have an identifiable
+ 			    Such material is required to have an identified
 			    charset.  Charset identification is done using a
 			    "charset" parameter in the Content-Type header
 			    field, a character set label within the MIME
@@ -904,11 +936,13 @@
 			    character set information to be missing or
 			    incorrect in textual MIME entities.  As such,
 			    processing agents should perform basic sanity
-			    checks, e.g.:
+			    checks, such as:
 
 			    <list style="symbols">
 				<t> US-ASCII is 7bit only, so 8bit material
-				    is necessarily not US-ASCII. </t>
+				    is necessarily not US-ASCII.  (See
+				    Sections 2.7 and 2.8 of
+				    <xref target="MIME"/>.)</t>
 				<t> UTF-8 has a very specific syntactic
 				    structure that other 8bit charsets are
 				    unlikely to follow. </t>
@@ -918,7 +952,7 @@
 				    presence of the various escape sequences
 				    used for character switching may be used
 				    as an indication of the various
-				    ISO-2022 charsets. </t>
+				    <xref target="ISO-2022"/> charsets. </t>
 			    </list> </t>
 
 			<t> When a character set error is detected, processing
@@ -982,7 +1016,7 @@
 				    comments, and phrases, can be converted
 				    into encoded-words (see
 				    <xref target="MIME3"/> if a likely
-				    character set can be determined.
+				    character set can be determined).
 				    Alternatively, 8bit characters can be
 				    removed or replaced with some other
 				    character. </t>
@@ -996,7 +1030,7 @@
 				    problematic.  Agents supporting
 				    <xref target="EAI"/> may, if the 8bit
 				    conforms to 8bit syntax, elect to treat
-				    the messages as an EAI message and
+				    the message as an EAI message and
 				    process it accordingly.  Otherwise, it is
 				    in most cases best to exclude the address
 				    from any sort of processing -- which may
@@ -1008,10 +1042,11 @@
 	</section>
 
 	<section anchor="mime" title="MIME Anomalies">
-		<t> <xref target="MIME"/>, et seq, include a mechanism of
-		    message extensions for providing text in character sets
-		    other than ASCII, non-text attachments to messages,
-		    multi-part message bodies, and similar facilities. </t>
+		<t> The five-part set of MIME specifications includes a
+		    mechanism of message extensions for providing text in
+		    character sets other than ASCII, non-text attachments to
+		    messages, multi-part message bodies, and similar
+		    facilities. </t>
 
 		<t> Some anomalies with MIME-compliant generation are also
 		    common.  This section discusses some of those and
@@ -1124,6 +1159,20 @@
 
 <back>
 	<references title="Normative References">
+		<reference anchor="EMAIL-ARCH">
+			<front>
+				<title> Internet Mail Architecture </title>
+				<author initials="D." surname="Crocker"
+				        fullname="D. Crocker">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
+				</author>
+				<date month="July" year="2009" />
+			</front>
+			<seriesInfo name="RFC" value="5598" />
+		</reference>
+
 		<reference anchor="MAIL">
 			<front>
 				<title> Internet Message Format </title>
@@ -1282,18 +1331,17 @@
 			<seriesInfo name="RFC" value="6532" />
 		</reference>
 
-		<reference anchor="EMAIL-ARCH">
+		<reference anchor="ISO-2022">
 			<front>
-				<title> Internet Mail Architecture </title>
-				<author initials="D." surname="Crocker"
-				        fullname="D. Crocker">
-					<organization>
-						Brandenburg InternetWorking
-					</organization>
+				<title> Information technology -- Character
+				        code structure and extension
+					techniques (ISO/IEC 2022:1994) </title>
+				<author fullname="ISO/IEC">
+					<organization/>
 				</author>
-				<date month="July" year="2009" />
+				<date year="1994" />
 			</front>
-			<seriesInfo name="RFC" value="5598" />
+			<seriesInfo name="ISO" value="2022" />
 		</reference>
 
 		<reference anchor="MIME3">
@@ -1408,6 +1456,15 @@
 		</reference>
 	</references>
 
+	<section anchor="editor" title="RFC Editor Notes">
+		<t> [RFC Editor Note: This section can be removed before
+		    publication.] </t>
+
+		<t> I can't seem to figure out how to do this with xml2rfc,
+		    but the ISO-2022 reference above should contain the
+		    following URI: http://www.iso.org/iso/catalogue_detail.htm?csnumber=22747 </t>
+	</section>
+
 	<section anchor="thanks" title="Acknowledgements">
    		<t> The author wishes to acknowledge the following for their
 		    review and constructive criticism of this proposal:
@@ -1421,7 +1478,6 @@
 		    Timo Sirainen
                     </t>
 	</section>
-
 </back>
 
 </rfc>
