@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="std"
-        docName="draft-ietf-appsawg-rrvs-header-field-00">
+        docName="draft-ietf-appsawg-rrvs-header-field-01">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -66,32 +66,33 @@
 	<section anchor="intro" title="Introduction">
 		<t> Email addresses sometimes get reassigned to a different
 		    person.  For example, employment changes at a company can
-		    cause an address used for an ex-employee to be assigned to a
-		    new employee, or a mail service provider (MSP) might expire an
-		    account and then let someone else register for the
-		    local-part that was previously used.  Those who sent mail to
-		    the previous owner of an address might not know that it has
-		    been reassigned.  This can lead to the sending of email to the
-		    correct address, but the wrong recipient. </t>
+		    cause an address used for an ex-employee to be assigned to
+		    a new employee, or a mail service provider (MSP) might
+		    expire an account and then let someone else register for
+		    the local-part that was previously used.  Those who sent
+		    mail to the previous owner of an address might not know
+		    that it has been reassigned.  This can lead to the sending
+		    of email to the correct address, but the wrong
+		    recipient. </t>
 
 		<t> What is needed is a way to indicate an attribute of the
-		    recipient that will distinguish between the previous owner of
-		    an address and its current owner. if they are different.
+		    recipient that will distinguish between the previous owner
+		    of an address and its current owner, if they are different.
 		    Further, this needs to be done in a way that respects
 		    privacy. </t>
 
-		<t> The mechanism specified here allows the sender of the mail to
-		    indicate how "old" the address assignment is expected to be.
-		    In effect, the sender is saying, "The person to whom I am
-		    sending to had this address assigned to as far back as
-		    this date-time."  A receiving system can then compare this
-		    information against the date and time the address was
-		    assigned to its current user.  If the assignment was made
-		    later than the date-time indicated in the message, there is
-		    a good chance the current user of the address is not the
-		    correct recipient.  The receiving system can then choose to
-		    prevent delivery and, possibly, to notify the original sender
-		    of the problem. </t>
+		<t> The mechanism specified here allows the sender of the mail
+		    to indicate how "old" the address assignment is expected
+		    to be.  In effect, the sender is saying, "The person to
+		    whom I am sending to had this address assigned to as far
+		    back as this date-time."  A receiving system can then
+		    compare this information against the date and time the
+		    address was assigned to its current user.  If the
+		    assignment was made later than the date-time indicated in
+		    the message, there is a good chance the current user of
+		    the address is not the correct recipient.  The receiving
+		    system can then choose to prevent delivery and, possibly,
+		    to notify the original sender of the problem. </t>
 
 		<t> The primary application is automatically generated messages
 		    rather than user-authored content.  </t>
@@ -189,15 +190,16 @@
 		    transactional or otherwise sensitive data intended for a
 		    single recipient, and thus generating independent messages
 		    for each individual recipient is normal practice.
-		    Because of the nature of SMTP, a message bearing this header
-		    field for multiple addressees could result in a single delivery
-		    attempt for multiple recipients (in particular, if two
-		    of the recipients are handled by the same server), and if
-		    any one of them fails the test, the delivery fails to
-		    all of them; it then becomes necessary to generate a
-		    Delivery Status Notification <xref target="DSN"/> message
-		    for each of the failed recipients indicating the specific
-		    failure cause for each. </t>
+		    Because of the nature of SMTP, a message bearing this
+		    header field for multiple addressees could result in a
+		    single delivery attempt for multiple recipients (in
+		    particular, if two of the recipients are handled by the
+		    same server), and if any one of them fails the test, the
+		    delivery fails to all of them; it then becomes necessary
+		    to generate a Delivery Status Notification
+		    <xref target="DSN"/> message for each of the failed
+		    recipients indicating the specific failure cause for
+		    each. </t>
 
 		<t> To further obscure account details on the receiving system,
 		    the receiver SHOULD ignore the header field if the address
@@ -209,13 +211,14 @@
 
 	<section title="Use with Mailing Lists" anchor="lists">
 		<t> Mailing list services can store the timestamp at which
-		    a subscriber was added to a mailing list.  This specification
-		    can be used in conjunction with that information in order
-		    to restrict traffic to the original subscriber, rather than
-		    a different person now in possession of an address under
-		    which the original subscriber registered.  Upon receiving
-		    a rejection caused by this specification, the list service can
-		    remove that address from further distribution. </t>
+		    a subscriber was added to a mailing list.  This
+		    specification can be used in conjunction with that
+		    information in order to restrict traffic to the original
+		    subscriber, rather than a different person now in
+		    possession of an address under which the original
+		    subscriber registered.  Upon receiving a rejection caused
+		    by this specification, the list service can remove that
+		    address from further distribution. </t>
 
 		<t> A mailing list service that receives a message containing
 		    this field removes it from the message prior to
@@ -226,17 +229,18 @@
 
 	<section title="Discussion" anchor="disc">
 		<t> It can be argued that placing this information in a message
-		    header field is not the ideal architectural choice and that it
-		    would have been better to introduce this capability as an
-		    extension to SMTP.  The exchange of meta data about the target
-		    address is not part of the actual message content, nor is it
-		    meta data about the content.  However, if the author and the
-		    target address are separated by an SMTP server that does
-		    not implement the SMTP extension, the check will not be
-		    able to propagate to the intended receiving system.
-		    Implementing this service as a header field allows the
-		    check to occur even across non-participating systems,
-		    effectively tunneling the request. </t>
+		    header field is not the ideal architectural choice and
+		    that it would have been better to introduce this
+		    capability as an extension to SMTP.  The exchange of meta
+		    data about the target address is not part of the actual
+		    message content, nor is it meta data about the content.
+		    However, if the author and the target address are
+		    separated by an SMTP server that does not implement the
+		    SMTP extension, the check will not be able to propagate
+		    to the intended receiving system.  Implementing this
+		    service as a header field allows the check to occur
+		    even across non-participating systems, effectively
+		    tunneling the request. </t>
 
 		<t> The presence of the intended address in the field content
 		    supports the case where a message bearing this header field
@@ -283,10 +287,11 @@
 
 	<section anchor="own" title="Continuous Ownership">
 		<t> Determining continuous ownership of a mailbox is a local
-		    matter at the receiving site.  In particular, the only possible
-		    answers to the continuous-ownership-since question are
-		    "yes", "no", and "unknown"; the action to be taken in the
-		    "unknown" case is a matter of local policy. </t>
+		    matter at the receiving site.  In particular, the only
+		    possible answers to the continuous-ownership-since
+		    question are "yes", "no", and "unknown"; the action to
+		    be taken in the "unknown" case is a matter of local
+		    policy. </t>
 
 		<t> For example, when control of a domain name is
 		    transferred, the new domain owner might be unable to
@@ -372,7 +377,8 @@
 		    inclusion of the header field such that it is only done
 		    for recipients known also to implement this specification,
 		    in order to reduce the possibility of revealing information
-		    about the relationship between the author and the mailbox. </t>
+		    about the relationship between the author and the
+		    mailbox. </t>
 	    </section>
 	</section>
 
@@ -380,8 +386,8 @@
 	    <section anchor="priv_probing" title="Probing Attacks">
 		<t> As described above, use of this header field in probing
 		    attacks can disclose information about the history
-		    of the mailbox.  The harm that can be done by leaking any kind
-		    of private information is difficult to predict,
+		    of the mailbox.  The harm that can be done by leaking any
+		    kind of private information is difficult to predict,
 		    so it is prudent to be sensitive to this
 		    sort of disclosure, either inadvertently or in response
 		    to probing by an attacker.  It bears restating, then, that
@@ -389,33 +395,36 @@
 		    needs strong consideration. </t>
 
 		<t> That some MSPs allow for expiration of account names when
-		    they have been unused for a protracted period forces a choice
-		    between two potential types of privacy vulnerabilities, one
-		    of which presents significantly greater threats to users than
-		    the other.  Automatically generated mail is often used to
-		    convey authentication credentials that can potentially provide
-		    access to extremely sensitive information.  Supplying such
+		    they have been unused for a protracted period forces a
+		    choice between two potential types of privacy
+		    vulnerabilities, one of which presents significantly
+		    greater threats to users than the other.  Automatically
+		    generated mail is often used to convey authentication
+		    credentials that can potentially provide access to
+		    extremely sensitive information.  Supplying such
 		    credentials to the wrong party after a mailbox ownership
-		    change could allow the previous owner's data to be exposed
-		    without his or her authorization or knowledge.  In contrast,
-		    the information that may be exposed to a third party via the
-		    proposal in this document is limited to information about the
-		    mailbox history.  Given that MSPs have chosen to allow
-		    transfers of mailbox ownership without the prior owner's
-		    involvement, the information leakage from the header field
-		    specified here creates far fewer risks than the potential for
-		    delivering mail to the wrong party. </t>
+		    change could allow the previous owner's data to be
+		    exposed without his or her authorization or knowledge.
+		    In contrast, the information that may be exposed to a
+		    third party via the proposal in this document is limited
+		    to information about the mailbox history.  Given that
+		    MSPs have chosen to allow transfers of mailbox ownership
+		    without the prior owner's involvement, the information
+		    leakage from the header field specified here creates far
+		    fewer risks than the potential for delivering mail to the
+		    wrong party. </t>
 	    </section>
 
 	    <section anchor="priv_envelope" title="Envelope Recipients">
 		<t> The email To and Cc header fields are not required to be
 		    populated with addresses that match the envelope recipient
 		    set, and Cc may even be absent.  However, the algorithm in
-		    <xref target="descr"/> requires that this header field contain 
-		    a match for an envelope recipient in order to be actionable.
-		    As such, use of this specification can reveal some or all
-		    of the original intended recipient set to any party that
-		    can see the message in transit or upon delivery. </t>
+		    <xref target="descr"/> requires that this header field
+		    contain a match for an envelope recipient in order to be
+		    actionable.  As such, use of this specification can
+		    reveal some or all of the original intended recipient
+		    set to any party that can see the message in transit or
+		    upon delivery. </t>
 
 		<t> For a message destined to a single recipient, this is
 		    unlikely to be a concern, which is one of the reasons
@@ -596,8 +605,8 @@
 	<references title="Informative References">
 		<reference anchor="DSN">
 			<front>
-				<title> An Extensible Message Format for Delivery
-				        Status Notifications </title>
+				<title> An Extensible Message Format for
+				        Delivery Status Notifications </title>
 
 				<author
 					fullname="K. Moore"
