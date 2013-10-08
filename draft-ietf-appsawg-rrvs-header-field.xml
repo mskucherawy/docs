@@ -58,7 +58,8 @@
 
 		<t> The intended use of this header field is on automatically
 		    generated messages that might contain sensitive
-		    information. </t>
+		    information, though it may also be useful in other
+		    applications. </t>
 	</abstract>
 </front>
 
@@ -171,7 +172,10 @@
 		    </list> </t>
 
 		<t> The final step is not mandatory as not all mail handling
-		    agents are capable of stripping away header fields. </t>
+		    agents are capable of stripping away header fields, and
+		    there are sometimes reasons to keep the field intact
+		    such as debugging or presence of digital signatures that
+		    might be invalidated by such a change. </t>
 
 		<t> If a message is to be rejected within the SMTP protocol
 		    itself (versus generating a rejection message separately),
@@ -670,6 +674,7 @@
 		    Michael Adkins,
 		    Kurt Andersen,
 		    Alissa Cooper,
+		    Dave Cridland,
 		    Dave Crocker,
 		    Ned Freed,
 		    John Levine,
