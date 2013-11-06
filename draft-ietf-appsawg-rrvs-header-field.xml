@@ -14,6 +14,7 @@
 <front>
 	<title abbrev="Require-Recipient-Valid-Since">
 		The Require-Recipient-Valid-Since Header Field
+		and SMTP Service Extension
 	</title>
 
 	<author initials="W. J." surname="Mills"
@@ -48,7 +49,8 @@
 	<area>Applications</area>
 
 	<abstract>
-		<t> This document defines an email header field,
+		<t> This document defines an extension for the Simple Mail
+		    Transfer Protocol called RRVS, and a header field called
 		    Require-Recipient-Valid-Since, to provide a method for
 		    senders to indicate to receivers the time when the sender
 		    last confirmed the ownership of the target mailbox.
@@ -56,7 +58,7 @@
 		    and thus prevent mail from being delivered to the wrong
 		    party. </t>
 
-		<t> The intended use of this header field is on automatically
+		<t> The intended use of these facilities is on automatically
 		    generated messages that might contain sensitive
 		    information, though it may also be useful in other
 		    applications. </t>
@@ -82,7 +84,7 @@
 		    Further, this needs to be done in a way that respects
 		    privacy. </t>
 
-		<t> The mechanism specified here allows the sender of the mail
+		<t> The mechanisms specified here allow the sender of the mail
 		    to indicate how "old" the address assignment is expected
 		    to be.  In effect, the sender is saying, "The person to
 		    whom I am sending to had this address assigned to as far
@@ -96,7 +98,8 @@
 		    to notify the original sender of the problem. </t>
 
 		<t> The primary application is automatically generated messages
-		    rather than user-authored content.  </t>
+		    rather than user-authored content, though it may be useful
+		    in other contexts.  </t>
 	</section>
 
 	<section title="Definitions" anchor="defs">
@@ -110,107 +113,257 @@
 	</section>
 
 	<section title="Description" anchor="descr">
-		<t> The Require-Recipient-Valid-Since header field includes
+		<t> To address the problem described above, a mail sending
+		    client needs to indicate to the server to which it is
+		    connecting that there is an expectation that the
+		    destination of the message has been under continuous
+		    ownership since some date-time, presumably the most recent
+		    time the message author had confirmed its understanding
+		    of who owned that mailbox.  Two mechanisms are defined
+		    here: an extension to the Simple Mail Transfer Protocol
+		    <xref target="SMTP"/>, for use between a client and
+		    server that both implement the extension, and a header
+		    field that can be used when passing a message to a server
+		    that appears not to implement this extension. </t>
+
+		<t> The SMTP extenion is called "RRVS" (Require Recipient
+		    Valid Since), and adds a parameter to the SMTP "RCPT"
+		    command that indicates the most recent date and time when
+		    the message author believed the destination mailbox to be
+		    under the continuous ownership (see <xref target="own"/>)
+		    of a specific party.  Similarly, the
+		    Require-Recipient-Valid-Since header field includes
 		    an intended recipient coupled with a timestamp indicating
-		    the most recent date and time when the message author
-		    believed the destination mailbox to be under the continuous
-		    ownership (see <xref target="own"/>) of a specific party.
+		    the same thing.
 		    Presumably there has been some confirmation process applied
 		    to establish this ownership; however, the method of making
 		    such determinations is a local matter and outside the scope
 		    of this document. </t>
 
-		<t> The general constraints on syntax and placement
-		    of header fields in a message are defined in
-		    Internet Message Format <xref target="MAIL"/>. </t>
+		<section anchor="descr_esmtp"
+		         title="The 'RRVS' SMTP Extension">
+			<t> Extensions to SMTP are described in Section 2.2 of 
+			    <xref target="SMTP"/>. </t>
 
-		<t> Using Augmented Backus-Naur Form <xref target="ABNF"/>,
-		    the syntax for the field is:
+			<t> The name of the extension is "RRVS", an
+			    abbreviation of "Require Recipient Valid Since".
+			    Servers implementing the SMTP extension advertise
+			    an additional EHLO keyword of "RRVS", which has
+			    no associated parameters, introduces no new
+			    SMTP verbs, and does not alter the MAIL verb. </t>
 
-		    <figure><artwork>
+			<t> An MTA implementing RRVS can transmit or accept a
+			    new parameter to the RCPT command.  The new
+			    parameter is "RRVS", which takes a value
+			    that is an integer timestamp expressed as an
+			    "epoch" time, namely the number of seconds since
+			    midnight on January 1, 1970.  Accordingly,
+			    this extension increases the maximum command
+			    length for the RCPT verb by 16 characters. </t>
+
+			<t> The meaning of this extension, when used, is
+			    described in <xref target="op_esmtp"/>. </t>
+		</section>
+
+		<section anchor="descr_header"
+		         title="The 'Require-Recipient-Valid-Since' Header Field">
+			<t> The general constraints on syntax and placement of
+			    header fields in a message are defined in Internet
+			    Message Format <xref target="MAIL"/>. </t>
+
+			<t> Using Augmented Backus-Naur Form
+			    <xref target="ABNF"/>, the syntax for the field is:
+
+		    	<figure><artwork>
     rrvs = "Require-Recipient-Valid-Since:" addr-spec; date-time CRLF
-		    </artwork></figure> </t>
+		    	</artwork></figure> </t>
 
-		<t> "CFWS" is defined in Section 3.2.2, "date-time" is
-		    defined in Section 3.3, and "addr-spec" is defined in
-		    Section 3.4.1, of <xref target="MAIL"/>. </t>
+			<t> "CFWS" is defined in Section 3.2.2, "date-time"
+			    is defined in Section 3.3, and "addr-spec" is
+			    defined in Section 3.4.1, of
+			    <xref target="MAIL"/>. </t>
+		</section>
+	</section>
 
-		<t> A receiving system that implements this specification
-		    checks whether the current mailbox owner has held it
-		    continuously, far enough back to include the given
-		    date-time, and delivers it unless that check returns
-		    in the negative.  Expressed as a sequence of steps:
+	<section anchor="op" title="Handling By Receivers">
+		<t> If a receiver implements the RRVS SMTP extension, then
+		    there are two possible evaluation paths:
 
 		    <list style="numbers">
-			<t> Extract the set of Require-Recipient-Valid-Since
-			    fields from the message. </t>
+			<t> The sending client implements the extension, and
+			    so there was an RRVS parameter on a RCPT TO
+			    command in the SMTP session; or </t>
 
-			<t> Discard any such fields that are syntactically
-			    invalid. </t>
-
-			<t> Discard any such fields that name a role account as
-			    listed in Mailbox Names For Common Services, Roles
-			    And Functions <xref target="ROLES"/>. </t>
-
-			<t> Discard any such fields for which the "addr-spec"
-			    portion does not match a current recipient, as
-			    listed in the RCPT TO commands in the
-			    corresponding Simple Mail Transfer Protocol
-			    <xref target="SMTP"/> session. </t>
-
-			<t> For each field remaining, determine if the named
-			    address has been under continuous ownership since
-			    the corresponding timestamp.  If it has not,
-			    reject the message. </t>
-
-			<t> RECOMMENDED: If local delivery is being performed,
-			    remove all instances of this field prior to
-			    delivery to a mailbox; if the message is being
-			    forwarded, remove those instances of this header
-			    field that were not discarded by steps 1-4
-			    above. </t>
+			<t> The sending client does not (or elected not to)
+			    implement the extension, so the RRVS parameter
+			    was not present on the RCPT TO commands in the SMTP
+			    session. </t>
 		    </list> </t>
 
-		<t> The final step is not mandatory as not all mail handling
-		    agents are capable of stripping away header fields, and
-		    there are sometimes reasons to keep the field intact
-		    such as debugging or presence of digital signatures that
-		    might be invalidated by such a change. </t>
+		<section anchor="op_esmtp" title="SMTP Extension Used">
+			<t> A receiving system that implements the SMTP
+			    extension declared above and observes an RRVS
+			    parameter on a RCPT TO command checks whether the
+			    current owner of the destination mailbox has held
+			    it continuously, far enough back to inclue the
+			    given date-time, and delivers it unless that check
+			    returns in the negative.  Expressed as a sequence
+			    of steps:
 
-		<t> If a message is to be rejected within the SMTP protocol
-		    itself (versus generating a rejection message separately),
-		    servers implementing this protocol and the SMTP extensions
-		    described in Enhanced Mail System Status Codes
-		    <xref target="ESC"/> SHOULD use the enhanced status code
-		    described in <xref target="iana_esc"/>. </t>
+			    <list style="numbers">
+				<t> Ignore the parameter if the named mailbox
+				    is a role account as listed in
+			            Mailbox Names For Common Services, Roles
+			            And Functions <xref target="ROLES"/>. 
+				    (See <xref target="roles"/>.) </t>
 
-		<t> Implementation is expected to be transparent to non
-		    participants, since they would typically ignore this header
-		    field. </t>
+				<t> Determine if the named address is serviced
+				    for local delivery.  If so, and if that
+				    address, has not been under continuous
+				    ownership since the specified timestamp,
+				    return a 550 error to the RCPT command.
+				    (See also <xref target="iana_esc"/>.) </t>
 
-		<t> This header field is not typically added to a message that
-		    is addressed to multiple recipients.  The intended use of
-		    this field involves an author seeking to protect
-		    transactional or otherwise sensitive data intended for a
-		    single recipient, and thus generating independent messages
-		    for each individual recipient is normal practice.
-		    Because of the nature of SMTP, a message bearing this
-		    header field for multiple addressees could result in a
-		    single delivery attempt for multiple recipients (in
-		    particular, if two of the recipients are handled by the
-		    same server), and if any one of them fails the test, the
-		    delivery fails to all of them; it then becomes necessary
-		    to generate a Delivery Status Notification
-		    <xref target="DSN"/> message for each of the failed
-		    recipients indicating the specific failure cause for
-		    each. </t>
+				<t> RECOMMENDED: If any
+				    Require-Recipient-Valid-Since header
+				    fields are present and refer to the named
+				    address, remove them prior to delivery
+				    or relaying.  (See
+				    <xref target="op_header"/> for
+				    discussion.) </t>
+			    </list> </t>
+		</section>
+		
+		<section anchor="op_header" title="Header Field Used">
+			<t> A receiving system that implements this
+			    specification, upon receiving a message bearing a
+			    Require-Recipient-Valid-Since header field when no
+			    corresponding RRVS SMTP extension was used, checks
+			    whether the destination mailbox owner has held it
+			    continuously, far enough back to include the
+			    given date-time, and delivers it unless that check
+			    returns in the negative.  Expressed as a sequence
+			    of steps:
 
-		<t> To further obscure account details on the receiving system,
-		    the receiver SHOULD ignore the header field if the address
-		    within it has had one continuous owner since it was
-		    created, regardless of the purported confirmation date of
-		    the address.  This is further discussed in
-		    <xref target="security"/>. </t>
+			    <list style="numbers">
+				<t> Extract the set of
+				    Require-Recipient-Valid-Since fields from
+				    the message for which no corresponding
+				    RRVS SMTP extension was used. </t>
+
+				<t> Discard any such fields that are
+				    syntactically invalid. </t>
+
+				<t> Discard any such fields that name a role
+				    account as listed in
+				    <xref target="ROLES"/> (see
+				    <xref target="roles"/>). </t>
+
+				<t> Discard any such fields for which the
+				    "addr-spec" portion does not match a
+				    current recipient, as listed in the
+				    RCPT TO commands in the SMTP session. </t>
+
+				<t> Discard any such fields for which the
+				    "addr-spec" portion does not refer to a
+				    mailbox handled for local delivery by
+				    this MTA. </t>
+
+				<t> For each field remaining, determine if
+				    the named address has been under
+				    continuous ownership since the
+				    corresponding timestamp.  If it has not,
+				    reject the message. </t>
+
+				<t> RECOMMENDED: If local delivery is being
+				    performed, remove all instances of this
+				    field prior to delivery to a mailbox; if
+				    the message is being forwarded, remove
+				    those instances of this header field that
+				    were not discarded by steps 1-4 above. </t>
+		    	</list> </t>
+
+			<t> Handling proceeds normally upon completion of the
+			    above steps if rejection has not been
+			    performed. </t>
+
+			<t> The final step is not mandatory as not all mail
+			    handling agents are capable of stripping away
+			    header fields, and there are sometimes reasons to
+			    keep the field intact such as debugging or
+			    presence of digital signatures that might be
+			    invalidated by such a change. </t>
+
+			<t> If a message is to be rejected within the SMTP
+			    protocol itself (versus generating a rejection
+			    message separately), servers implementing this
+			    protocol and the SMTP extensions described in
+			    Enhanced Mail System Status Codes
+			    <xref target="ESC"/> SHOULD use the enhanced
+			    status code described in
+			    <xref target="iana_esc"/>. </t>
+
+			<t> Implementation by this method is expected to
+			    be transparent to non-participants, since they
+			    would typically ignore this header field. </t>
+
+			<t> This header field is not normally added to a
+			    message that is addressed to multiple recipients.
+			    The intended use of this field involves an author
+			    seeking to protect transactional or otherwise
+			    sensitive data intended for a single recipient,
+			    and thus generating independent messages for each
+			    individual recipient is normal practice.  Because
+			    of the nature of SMTP, a message bearing this
+			    header field for multiple addressees could result
+			    in a single delivery attempt for multiple
+			    recipients (in particular, if two of the
+			    recipients are handled by the same server), and
+			    if any one of them fails the test, the delivery
+			    fails to all of them; it then becomes necessary
+			    to generate a Delivery Status Notification
+			    <xref target="DSN"/> message for each of
+			    the failed recipients indicating the specific
+			    failure cause for each. </t>
+		</section>
+	</section>
+
+	<section anchor="roles" title="Role Accounts">
+		<t> It is necessary not to interfere with delivery of
+		    messages to role mailboxes (see <xref target="ROLES"/>),
+		    but it could be useful to indicate to users handling those
+		    mailboxes that a change of ownership might have taken
+		    place where doing so is possible. </t>
+	</section>
+			    
+	<section anchor="tunnelling" title="Method Conversion">
+		<t> Use of the SMTP extension provided here is preferable
+		    over the header field method, since the additional detail
+		    about the relationship between the message author and its
+		    intended recipient is at best a property of the
+		    message transaction and not part of the message itself.
+		    The header field mechanism is defined only to enable
+		    passage of the request between and through systems that
+		    that do not implement the SMTP extension. </t>
+
+		<t> If an SMTP server receives a message from a client and both
+		    of them use the SMTP extension described here,
+		    the server thus has "valid-since" timestamps associated
+		    with one or more of the destination mailboxes.  If that
+		    server needs to relay the message on to another server
+		    (thereby becoming a client), but this new server does not
+		    advertise the SMTP extension, the client SHOULD add
+		    Require-Recipient-Valid-Since header fields matching each
+		    mailbox to which relaying is being done, and the
+		    corresponding valid-since timestamp for each. </t>
+
+		<t> Similarly, if an SMTP server receives a message bearing
+		    one or more Require-Recipient-Valid-Since header fields
+		    for which it must now relay the message (thereby becoming
+		    a client) and the new server advertises support for the
+		    SMTP extension, the client SHOULD delete the header
+		    field(s) and instead relay this information by making use
+		    of the SMTP extension. </t>
 	</section>
 
 	<section title="Use with Mailing Lists" anchor="lists">
@@ -232,19 +385,13 @@
 	</section>
 
 	<section title="Discussion" anchor="disc">
-		<t> It can be argued that placing this information in a message
-		    header field is not the ideal architectural choice and
-		    that it would have been better to introduce this
-		    capability as an extension to SMTP.  The exchange of meta
-		    data about the target address is not part of the actual
-		    message content, nor is it meta data about the content.
-		    However, if the author and the target address are
-		    separated by an SMTP server that does not implement the
-		    SMTP extension, the check will not be able to propagate
-		    to the intended receiving system.  Implementing this
-		    service as a header field allows the check to occur
-		    even across non-participating systems, effectively
-		    tunneling the request. </t>
+		<t> To further obscure account details on the receiving system,
+		    the receiver SHOULD ignore the SMTP extension or the
+		    header field if the address specified has had one
+		    continuous owner since it was
+		    created, regardless of the purported confirmation date of
+		    the address.  This is further discussed in
+		    <xref target="security"/>. </t>
 
 		<t> The presence of the intended address in the field content
 		    supports the case where a message bearing this header field
@@ -311,13 +458,30 @@
 		    appropriate. </t>
 	</section>
 
-	<section title="Example" anchor="example">
-		<t> In the following example, "C:" indicates data sent by an
-		    SMTP client, and "S:" indicates responses by the SMTP
-		    server. Message content is CRLF terminated, though these
-		    are omitted here for ease of reading.
+	<section title="Examples" anchor="examples">
+		<t> In the following examples, "C:" indicates data sent
+		    by an SMTP client, and "S:" indicates responses by the
+		    SMTP server.  Message content is CRLF terminated, though
+		    these are omitted here for ease of reading. </t>
 
-		    <figure><artwork>
+		<section title="SMTP Extension Example" anchor="header_esmtp">
+		    <t> <figure><artwork>
+  C: [connection established]
+  S: 220 server.example.com ESMTP ready
+  C: EHLO client.example.net
+  S: 250-server.example.com
+  S: 250 RRVS
+  C: MAIL FROM:&lt;sender@example.net&gt;
+  S: 250 OK
+  C: RCPT TO:&lt;receiver@example.com&gt; RRVS=1381993177
+  S: 550 5.7.15 receiver@example.com is no longer valid
+  C: QUIT
+  S: 221 So long!
+			</artwork></figure> </t>
+		</section>
+
+		<section title="Header Field Example" anchor="header_example">
+		    <t> <figure><artwork>
   C: [connection established]
   S: 220 server.example.com ESMTP ready
   C: HELO client.example.net
@@ -340,16 +504,17 @@
   S: 550 5.7.15 receiver@example.com is no longer valid
   C: QUIT
   S: 221 So long!
-		</artwork></figure></t>
+			</artwork></figure></t>
 
-		<t> If an authentication scheme is applied to claim the
-		    added header field is valid, but the scheme fails,
-		    a receiver might reject the message with an SMTP reply
-		    such as:
-		<figure><artwork>
+			<t> If an authentication scheme is applied to claim the
+			    added header field is valid, but the scheme fails,
+			    a receiver might reject the message with an SMTP
+			    reply such as:
+			<figure><artwork>
   S: 550-5.7.7 Use of Require-Recipient-Valid-Since header
   S: 550 field requires a valid signature
-		</artwork></figure></t>
+			</artwork></figure></t>
+		</section>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
@@ -383,6 +548,12 @@
 		    in order to reduce the possibility of revealing information
 		    about the relationship between the author and the
 		    mailbox. </t>
+
+		<t> If ownership of an entire domain is transferred, the new
+		    owner may not know what addresses were assigned in the past
+		    by the prior owner.  Hence, no address can be known not
+		    to have had a single owner, or to have existed (or not)
+		    at all. </t>
 	    </section>
 	</section>
 
@@ -438,6 +609,11 @@
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
+	  <section anchor="iana_esmtp" title="SMTP Extension Registration">
+		<t> IANA is requested to register the SMTP extension described
+		    in <xref target="descr_esmtp"/>. </t>
+	  </section>
+
 	  <section anchor="iana_header" title="Header Field Registration">
 		<t> IANA is requested to add the following entry to the
 		    Permanent Message Header Field registry, as per
@@ -678,6 +854,7 @@
 		    Dave Crocker,
 		    Ned Freed,
 		    John Levine,
+		    Hector Santos,
 		    Gregg Stefancik,
 		    Ed Zayas, (others) </t>
 	</section>
