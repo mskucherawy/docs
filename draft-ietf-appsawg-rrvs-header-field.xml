@@ -155,11 +155,13 @@
 			<t> An MTA implementing RRVS can transmit or accept a
 			    new parameter to the RCPT command.  The new
 			    parameter is "RRVS", which takes a value
-			    that is an integer timestamp expressed as an
-			    "epoch" time, namely the number of seconds since
-			    midnight on January 1, 1970.  Accordingly,
-			    this extension increases the maximum command
-			    length for the RCPT verb by 16 characters. </t>
+			    that is a timestamp expressed as a
+			    "date-time" as defiend in
+			    <xref target="DATETIME"/>, with the added
+			    restriction that a "time-secfrac" MUST NOT
+			    be used.  Accordingly, this extension increases
+			    the maximum command length for the RCPT verb by
+			    31 characters. </t>
 
 			<t> The meaning of this extension, when used, is
 			    described in <xref target="op_esmtp"/>. </t>
