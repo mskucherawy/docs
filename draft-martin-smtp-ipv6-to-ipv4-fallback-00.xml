@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is for creating an Internet Draft using xml2rfc,
+     which is available here: http://xml.resource.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+     There has to be one entity for each item to be referenced. 
+     An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5321 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5321.xml">
+<!ENTITY RFC6376 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6376.xml">
+<!ENTITY RFC6652 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6652.xml">
+<!ENTITY RFC3974 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3974.xml">
+<!ENTITY I-D.narten-iana-considerations-rfc2434bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.narten-iana-considerations-rfc2434bis.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+     please see http://xml.resource.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+     (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+     (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+<rfc category="info" docName="draft-martin-smtp-ipv6-to-ipv4-fallback-00" ipr="trust200902">
+  <!-- category values: std, bcp, info, exp, and historic
+     ipr values: full3667, noModification3667, noDerivatives3667
+     you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+     they will automatically be output with "(if approved)" -->
+
+  <!-- ***** FRONT MATTER ***** -->
+
+  <front>
+    <!-- The abbreviated title is used in the page header - it is only necessary if the 
+         full title is longer than 39 characters -->
+
+    <title abbrev="SMTP IPv6 to IPv4 fall back">SMTP IPv6 to IPv4 fall back</title>
+
+    <!-- add 'role="editor"' below for the editors if appropriate -->
+
+    <!-- Another author who claims to be an editor -->
+
+    <author fullname="Franck Martin" initials="F.M." role="editor"
+            surname="Martin">
+      <organization>LinkedIn</organization>
+
+      <address>
+        <postal>
+          <street></street>
+
+          <!-- Reorder these if your country does things differently -->
+
+          <city>Mountain View</city>
+
+          <region>CA</region>
+
+          <code></code>
+
+          <country>US</country>
+        </postal>
+
+        <phone></phone>
+
+        <email>fmartin@linkedin.com</email>
+
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+    </author>
+
+    <date month="November" year="2013" />
+
+    <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+         in the current day for you. If only the current year is specified, xml2rfc will fill 
+	 in the current day and month for you. If the year is not the current one, it is 
+	 necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+	 purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+	 specify just the year. -->
+
+    <!-- Meta-data Declarations -->
+
+    <area>apparea</area>
+
+    <workgroup>Network Working Group</workgroup>
+
+    <!-- WG name at the upperleft corner of the doc,
+         IETF is fine for individual submissions.  
+	 If this element is not present, the default is "Network Working Group",
+         which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+    <keyword>SMTP</keyword>
+    <keyword>IPv4</keyword>
+    <keyword>IPv6</keyword>
+    <keyword>MX</keyword>
+
+    <!-- Keywords will be incorporated into HTML output
+         files in a meta tag but they have no effect on text or nroff
+         output. If you submit your draft to the RFC Editor, the
+         keywords will be used for the search engine. -->
+
+    <abstract>
+      <t>This document describes how some MTA software can be made to fall back to IPv4 when a message is refused over IPv6</t>
+    </abstract>
+  </front>
+
+  <middle>
+    <section title="Introduction">
+      <t>Under <xref target="RFC5321">RFC&nbsp;5321</xref>, the process of target host selection is described. SMTP clients in well know MTA software will retry to send a message at a different MX RR or IP Address if the message is temporarly rejected. This document describes under which circumstances these MTAs can be made to retry over IPv4. This behavior could be useful for instance in enforcing higher requirements for SMTP over IPv6 than what exists on IPv4 while not simply rejecting outright the message.</t>
+
+      <section title="Requirements Language">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+        document are to be interpreted as described in <xref
+        target="RFC2119">RFC 2119</xref>.</t>
+      </section>
+
+    </section>
+
+    <section title="Moving from IP reputation to domain based reputation">
+      <t>IPv6 brings more IP addresses, building an IP based reputation system using IPv6 addresses could be difficult to achieve. Moving from an IP based reputation systems to a domain based reputation system could be easier. However it requires that all SMTP servers participate. With IPv6 there is a chance to mandate SPF (<xref target="RFC6652">RFC&nbsp;6652</xref>) or DKIM (<xref target="RFC6376">RFC&nbsp;6376</xref>) for messages sent over IPv6 and if not to be retried over IPv4.</t>
+    </section>
+
+    <section title="Configuration for common opensource MTA">
+      <section title="MX RR configuration">
+        <t>When a message is temporarly refused the strategy for the SMTP client is to sometimes retry immediately to a different MX</t>
+        <t>When the MX RR points to a dual stacked machine, some MTA software will not pick up all the A or AAAA RR but the RR which is preferred as per the IP stack, therefore it is important to not have any MX RR point to dual stacked machines.</t>
+        <figure>
+          <preamble>For instance the following configuration is desired:</preamble>
+          <artwork><![CDATA[
+      example.org.            IN MX   10  mx1.example.org.
+                              IN MX   10 mx1-6.example.org.
+      mx1.example.org.        IN A    192.0.2.1
+      mx1-6.example.org.      IN AAAA 2001:db8:ffff::1
+          ]]></artwork>
+        </figure>
+        <t>In this configuration, the SMTP clients see two MXes of same priority, and will automatically pick one or the other and try the other one if the message is properly temp failed.</t>
+      </section>
+      <section title="Rejecting messages for immediate retry on IPv4">
+        <t>SMTP clients only interpret SMTP status codes, but the use of SMTP enhanced status codes can be used to better monitor and act on the reason of the temporary failure.</t>
+        <t>The SMTP client SHOULD be presented with a temporary failure code 4xx at the end of DATA for the message to be retried.</t>
+        <t>If the SMTP client is presented with a permanent failure code 5xx during connection, some MTA software will declare the message non deliverable, instead of retrying it on a different MX.</t>
+        <t>At connection time if the SMTP server reject using the code 451 and disconnect, the SMTP client will retry the message immediately on a different MX.</t>
+        <t>At the end of data if the SMTP server reject using the code 421 and disconnect, the SMTP client will retry the message immediately on a different MX.</t>
+        <t>For instance, at the end of DATA, if the message was sent over IPv6, the SMTP server can evalute if the message passes SPF or DKIM and reject the message using 421 if none pass. If one pass, then we have an authenticated domain where we can apply domain reputation rules. The IPv6 of the SMTP client can be noted, and futher connections over IPv6 can be temporary rejected using 451 status code for a certain time period as to minimize resources to evaluate each message after the end of DATA. If a message coming from a defined IPv6 address does not have SPF or DKIM, it is unlikely that this state would quickly change for the next message coming from this IP.</t>
+        <t>This behavior has been observed for well known opensource MTAs.</t>
+        <t>For proprietary mail systems or large mailbox providers, they all do a form of domain authentication, either SPF or DKIM, so the above may not apply to them. Not all are yet enabled to send email over IPv6.</t>
+        <figure>
+          <preamble>Here is an example of an initial message sent over IPv6. The SMTP client then retries immediately on the next MX record, here an IPv4 address.</preamble>
+          <artwork><![CDATA[
+      S: 220 foo.com Simple Mail Transfer Service Ready
+      C: EHLO bar.com
+      S: 250-foo.com greets bar.com over IPv6
+      S: 250-8BITMIME
+      S: 250-SIZE
+      S: 250-DSN
+      S: 250 HELP
+      C: MAIL FROM:<Smith@bar.com>
+      S: 250 OK
+      C: RCPT TO:<Jones@foo.com>
+      S: 250 OK
+      C: RCPT TO:<Green@foo.com>
+      S: 550 No such user here
+      C: RCPT TO:<Brown@foo.com>
+      S: 250 OK
+      C: DATA
+      S: 354 Start mail input; end with <CRLF>.<CRLF>
+      C: Blah blah blah...
+      C: ...etc. etc. etc.
+      C: .
+      S: 421 4.4.8 message with no SPF or DKIM and over IPv6
+      C: QUIT
+      S: 221 foo.com Service closing transmission channel
+          ]]></artwork>
+        </figure>
+        <figure>
+          <preamble>In this case the SMTP client has been previously temporary rejected but re-attempt to send a new message over IPv6.</preamble>
+          <artwork><![CDATA[
+      S: 451 4.4.8 Come back on IPv4 as I told you before
+          ]]></artwork>
+        </figure>
+
+      </section>
+    </section>
+
+    <section anchor="Acknowledgements" title="Acknowledgements">
+      <t>Thanks to Murray Kucheraway for guidance in getting this draft out.</t>
+
+    </section>
+
+    <!-- Possibly a 'Contributors' section ... -->
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This section has no action requested of IANA.</t>
+
+    </section>
+
+    <section anchor="Security" title="Security Considerations">
+      <t>Sender-SMTP may not fall back to IPv4 when requested and keep retrying over and over on IPv6. MTA administrators SHOULD monitor for such servers. MTA Administrators MAY Whitelist them to accept messages over IPv6 or take appropriate action.</t> 
+    </section>
+  </middle>
+
+  <!--  *****BACK MATTER ***** -->
+
+  <back>
+    <!-- References split into informative and normative -->
+
+    <!-- There are 2 ways to insert reference entries from the citation libraries:
+     1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+     2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+        (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+     Both are cited textually in the same manner: by using xref elements.
+     If you use the PI option, xml2rfc will, by default, try to find included files in the same
+     directory as the including file. You can also define the XML_LIBRARY environment variable
+     with a value containing a set of directories to search.  These can be either in the local
+     filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+    <references title="Normative References">
+      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+      &RFC2119;
+
+      &RFC5321;
+
+      &RFC3552;
+
+      &RFC6376;
+
+      &RFC6652;
+
+    </references>
+
+    <references title="Informative References">
+      <!-- Here we use entities that we defined at the beginning. -->
+
+      &RFC3974;
+
+      &I-D.narten-iana-considerations-rfc2434bis;
+
+    </references>
+
+  </back>
+</rfc>
