@@ -3,7 +3,7 @@
 <!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.3 2013/05/28 16:56:42 msk Exp $ -->
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-malformed-mail-09">
+        docName="draft-ietf-appsawg-malformed-mail-10">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -72,8 +72,8 @@
 			    However, implementations within that culture have
 			    also long had an undercurrent known formally as the
 			    robustness principle, also known informally
-			    as Postel's Law: "Be conservative in what you do,
-			    be liberal in what you accept from others." </t>
+			    as Postel's Law: "Be liberal in what you accept,
+			    and conservative in what you send." </t>
 
 			<t> Jon Postel's directive is often misinterpreted to
 			    mean that any deviance from a specification is
@@ -316,7 +316,8 @@
 		<t> Within the email context, the single most influential
 		    component that can reduce the presence of malformed
 		    items in the email system is the Mail Handling Service
-		    (MHS; see <xref target="EMAIL-ARCH"/>).  This is the
+		    (MHS; see <xref target="EMAIL-ARCH"/>), which includes
+		    the Mail Submission Agent (MSA).  This is the
 		    component that is essentially the interface between end
 		    users that create content and the mail stream. </t>
 
@@ -363,8 +364,8 @@
 		    provides mechanisms for encoding that content in an
 		    SMTP-safe manner. </t>
 
-		<t> Thus, it will typically be safe and helpful to treat a
-		    naked CR or LF as equivalent to a CRLF when parsing
+		<t> Thus, it will typically be safe and helpful to treat an
+		    isolated CR or LF as equivalent to a CRLF when parsing
 		    a message. </t>
 
 		<t> Note that this advice pertains only to the raw SMTP data,
@@ -438,7 +439,7 @@
     To: &lt;another@example.net&gt;
 				    </artwork></figure> </t>
 
-				<t> Likewise, the following:
+				<t> The following:
 
 				    <figure><artwork>
     To: second@example.org&gt;
@@ -460,7 +461,7 @@
     To: (Testing &lt;fran@example.com&gt;
 				    </artwork></figure> </t>
 
-				<t> should be interpreted as:
+				<t> can safely be interpreted as:
 
 				    <figure><artwork>
     To: (Testing) &lt;fran@example.com&gt;
@@ -472,7 +473,7 @@
     To: Testing) &lt;sam@example.com&gt;
 				    </artwork></figure> </t>
 
-				<t> should be interpreted as:
+				<t> can safely be interpreted as:
 
 				    <figure><artwork>
     To: "Testing)" &lt;sam@example.com&gt;
@@ -487,9 +488,9 @@
     To: &lt;third@example.net, fourth@example.net&gt;
 				    </artwork></figure> </t>
 
-				<t> can reasonably be interpreted as ending
-				    an address, so the above should really
-				    be interpreted as: 
+				<t> can usually be interpreted as ending
+				    an address, so the above is usually
+				    best interpreted as: 
 
 				    <figure><artwork>
     To: third@example.net, fourth@example.net
@@ -1007,15 +1008,15 @@
 			<t> The best way to handle non-compliant 8bit material
 			    depends on its location. </t>
 
-			<t> Non-compliant 8bit in MIME entity content should
-			    simply be processed as if the necessary SMTP
+			<t> Non-compliant 8bit material in MIME entity content
+			    should simply be processed as if the necessary SMTP
 			    extensions had been used to transfer the message.
 			    Note that improperly labeled 8bit material in
 			    textual MIME entities may require treatment as
 			    described in <xref target="charset"/>. </t>
 
-			<t> Non-compliant 8bit in message or MIME entity
-			    header fields can be handled as follows:
+			<t> Non-compliant 8bit material in message or MIME
+			    entity header fields can be handled as follows:
 
 			    <list style="symbols">
 				<t> Occurrences in unstructured text fields,
@@ -1035,8 +1036,8 @@
 				<t> Occurrences in addresses are especially
 				    problematic.  Agents supporting
 				    <xref target="EAI"/> may, if the 8bit
-				    conforms to 8bit syntax, elect to treat
-				    the message as an EAI message and
+				    material conforms to 8bit syntax, elect
+				    to treat the message as an EAI message and
 				    process it accordingly.  Otherwise, it is
 				    in most cases best to exclude the address
 				    from any sort of processing -- which may
