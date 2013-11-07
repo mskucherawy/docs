@@ -73,7 +73,8 @@
 			    also long had an undercurrent known formally as the
 			    robustness principle, also known informally
 			    as Postel's Law: "Be liberal in what you accept,
-			    and conservative in what you send." </t>
+			    and conservative in what you send."
+			    <xref target="RFC1122"/> </t>
 
 			<t> Jon Postel's directive is often misinterpreted to
 			    mean that any deviance from a specification is
@@ -478,6 +479,15 @@
 				    <figure><artwork>
     To: "Testing)" &lt;sam@example.com&gt;
 				    </artwork></figure> </t>
+
+				<t> In both cases, it is obvious where the
+				    active email address in the string can be
+				    found.  The former case retains the active
+				    email address in the string by completing
+				    what appears to be intended as a comment;
+				    the intent in the latter case is less
+				    obvious, so the leading string is
+				    interpreted as a display name. </t>
 			</section>
 
 			<section anchor="commas"
@@ -667,7 +677,10 @@
 			    in the previous section. </t>
 
 			<t> This example was legal in earlier versions of the
-			    Internet Mail format standard. </t>
+			    Internet Mail format standard, but was rendered
+			    obsolete as of <xref target="RFC2822"/> as line {4}
+			    could be interpreted as the separator between the
+			    header and body. </t>
 
 			<t> The best handling of this example is for a
 			    message parsing engine to behave as if line {4}
@@ -726,10 +739,11 @@
 			    first or last instance of a particular field name,
 			    such as From, to decide who sent a message.  Absent
 			    strict enforcement of <xref target="MAIL"/>, an
-			    attacker can craft a message with multiple fields
+			    attacker can craft a message with multiple 
+			    instances of the same field fields
 			    if that attacker knows the filter will make a
 			    decision based on one but the user will be shown
-			    the other. </t>
+			    the others. </t>
 
 			<t> This situation is exacerbated when message validity
 			    is assessed, such as through enhanced
@@ -899,7 +913,7 @@
 			<t> One other important case to consider is a missing
 			    Message-Id field.  An MTA that encounters a message
 			    missing this field should synthesize a valid one
-			    using techniques described above and add it to the
+			    and add it to the
 			    external representation, since many deployed tools
 			    use the content of that field as a common unique
 			    message reference, so its absence inhibits
@@ -1500,6 +1514,33 @@
 				<date month="November" year="1977" />
 			</front>
 			<seriesInfo name="RFC" value="733" />
+		</reference>
+
+		<reference anchor="RFC1122">
+			<front>
+				<title> Requirements for Internet Hosts --
+				        Communication Layers  </title>
+				<author initials="R." surname="Braden"
+				        fullname="R. Braden" role="editor">
+					<organization/>
+				</author>
+				<date month="October" year="1989" />
+			</front>
+			<seriesInfo name="RFC" value="1122" />
+		</reference>
+
+		<reference anchor="RFC2822">
+			<front>
+				<title> Internet Message Format </title>
+				<author initials="P." surname="Resnick"
+				        fullname="P. Resnick" role="editor">
+					<organization>
+						QUALCOMM Incorporated
+					</organization>
+				</author>
+				<date month="April" year="2001" />
+			</front>
+			<seriesInfo name="RFC" value="2822" />
 		</reference>
 
 		<reference anchor="SMTP">
