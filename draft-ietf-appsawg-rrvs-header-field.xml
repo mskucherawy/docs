@@ -670,10 +670,10 @@
    Associated basic status code:  5
    Description:        This status code is returned when a message is
                        received with a Require-Recipient-Valid-Since
-                       field or RRVS extension and the receiving system is
-                       able to determine that the intended recipient mailbox
-                       has not been under continuous ownership since
-                       the specified date.
+                       field or RRVS extension and the receiving
+                       system is able to determine that the intended
+                       recipient mailbox has not been under
+                       continuous ownership since the specified date.
    Reference:          [this document]
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -685,10 +685,10 @@
    Associated basic status code:  5
    Description:        This status code is returned when a message is
                        received with a Require-Recipient-Valid-Since
-                       field or RRVS extension and the receiving system
-                       wishes to disclose that the owner of the domain
-                       name of the recipient has changed since the
-                       specified date.
+                       field or RRVS extension and the receiving
+                       system wishes to disclose that the owner of
+                       the domain name of the recipient has changed
+                       since the specified date.
    Reference:          [this document]
    Submitter:          M. Kucherawy
    Change controller:  IESG
