@@ -9,8 +9,6 @@
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
 <!ENTITY RFC3552 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3552.xml">
-<!ENTITY RFC6376 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6376.xml">
-<!ENTITY RFC6652 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6652.xml">
 <!ENTITY RFC5321 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5321.xml">
 <!ENTITY RFC3974 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3974.xml">
 <!ENTITY I-D.narten-iana-considerations-rfc2434bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.narten-iana-considerations-rfc2434bis.xml">
@@ -176,22 +174,6 @@
 
     </section>
 
-    <section title="Indicating the sender-SMTP server to fall back to IPv4">
-      <t>To move from IP based reputation to a domain based reputation system for email, a receiver-SMTP MAY require that messages pass SPF (<xref target="RFC6652">RFC&nbsp;6652</xref>) or DKIM (<xref target="RFC6376">RFC&nbsp;6376</xref>). This section does not discuss the merit of such policy but proposes mechanisms for any policy to get the sender-SMTP to fall back to IPv4 from an IPv6 connection.</t>
-      <section title="With the service extension IPV6-IPV4-FALLBACK ">
-        <t>The receiver-SMTP MAY addvertise a service extension IPV6-IPV4-FALLBACK , which the sender-SMTP MUST reply by IPV6-IPV4-FALLBACK if capable</t>
-        <t>In this condition for each message not acceptable due to policy where a retry over IPv4 is requested, the sender-SMTP server MUST reply by the reply code 456, where the sender-SMTP MUST requeue the message for immediate retry over IPv4.</t>
-        <t>The SMTP enhanced status code SHOULD be 4.4.8.</t>
-        <t>453 The receiver-SMTP is requiring the sender-SMTP to retry immediately the message over IPv4.</t>
-      </section>
-      <section title="Without service extension">
-        <t>The receiver-SMTP server MAY reject a message sent over IPv6 and request the sender-SMTP to retry over IPv4. In such case the SMTP reject code SHOULD be 451 if done at connection time and 421 if done later. The SMTP enhanced status code SHOULD be 4.4.8.</t>
-        <t>The rejection at connection time MAY be issued only when it has been demonstrated that a majority of messages would not pass the policy and that the sender-SMTP is not capable of the service extension IPV6-IPV4-FALLBACK.</t>
-        <t>The rejection at connection time SHOULD be for a limited time to give a chance for later messages to be re-evaluted against the policy.</t>
-        <t>453 is not used here, as it is not sure that sender-SMTP without the above service extension would behave as expected.</t>
-      </section>
-    </section>
-
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>Thanks to Murray Kucheraway for guidance in getting this draft out.</t>
 
@@ -200,30 +182,14 @@
     <!-- Possibly a 'Contributors' section ... -->
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>This section describes actions requested of IANA.</t>
+      <t>This section has no action requested of IANA.</t>
 
-      <section title="SMTP Enhanced Status Codes Registry update">
-        <t>IANA is requested to add the following to the Simple Mail Transfer Protocol (SMTP) Enhanced Status Codes Registry:</t>
-        <t>Enumerated Status Codes</t>
-        <t>Code: X.4.8</t>
-        <t>Summary: retry on IPv4</t>
-        <t>Associated basic status code: 421,451,456</t>
-        <t>Description: the mail system will not accept this message over IPv6 because it lacks some requirments described in the full text of the rejection, however the sending mail system can retry immediately to submit the message over IPv4 only.</t>
-      </section>
-      <section title="Simple Mail Transfer Protocol (SMTP) Service Extensions Registry update">
-        <t>IANA is requested to add the following to the Simple Mail Transfer Protocol (SMTP) Service Extensions Registry:</t>
-        <t>EHLO Keyword: IPV6-IPV4-FALLBACK</t>
-        <t>Description: resend email over IPv4</t>
-      </section>
+      <t>[RFC Editor: Please remove this section before publication.] </t>
+
     </section>
 
     <section anchor="Security" title="Security Considerations">
       <t>Rogue sender-SMTP do not follow MX RR preferences, this existed over IPv4 and common defense can be used over IPv6</t>
-      <t>Sender-SMTP may not fall back to IPv4 when requested and keep retrying over and over on IPv6. MTA administrators SHOULD monitor for such servers. MTA Administrators MAY Whitelist them to accept messages over IPv6 or take appropriate action.</t> 
-      <t>Messages may start to queue on the sender-SMTP side and the mail administrator may not notice it or take appropriate action in time.</t>
-      <t>If the policy is not explained clearly the mail administrator may not know what is required to pass the policy.</t>
-      <t>If the policy is to cumbersome and is not based on widely adopted standards and recommendations, the mail administrator may decide not to jump through hoops to get the email delivered.</t>
-      <t>The fall back mechanism without service extension may create unecessary burden for the sender as well as the receiver.</t>
     </section>
   </middle>
 
@@ -250,10 +216,6 @@
       &RFC3552;
 
       &RFC5321;
-
-      &RFC6376;
-
-      &RFC6652;
 
     </references>
 
@@ -342,96 +304,6 @@
           </figure>
         </section>
 
-      </section>
-
-      <section title="SMTP fall back from IPv6 to IPv4 without service extension">
-         <figure>
-            <preamble>The sender-SMTP server opens a connection to foo.com over IPv6, the message is refused because no domain authentication can be performed therefore the sender-SMTP retries immediately using IPv4</preamble>
-            <artwork><![CDATA[
-      S: 220 foo.com Simple Mail Transfer Service Ready
-      C: EHLO bar.com
-      S: 250-foo.com greets bar.com over IPv6
-      S: 250-8BITMIME
-      S: 250-SIZE
-      S: 250-DSN
-      S: 250 HELP
-      C: MAIL FROM:<Smith@bar.com>
-      S: 250 OK
-      C: RCPT TO:<Jones@foo.com>
-      S: 250 OK
-      C: RCPT TO:<Green@foo.com>
-      S: 550 No such user here
-      C: RCPT TO:<Brown@foo.com>
-      S: 250 OK
-      C: DATA
-      S: 354 Start mail input; end with <CRLF>.<CRLF>
-      C: Blah blah blah...
-      C: ...etc. etc. etc.
-      C: .
-      S: 421 4.4.8 message with no SPF or DKIM and over IPv6
-      S: <disconnect>
-
-      S: 220 foo.com Simple Mail Transfer Service Ready
-      C: EHLO bar.com
-      S: 250-foo.com greets bar.com over IPv4
-      S: 250-8BITMIME
-      S: 250-SIZE
-      S: 250-DSN
-      S: 250 HELP
-      C: MAIL FROM:<Smith@bar.com>
-      S: 250 OK
-      C: RCPT TO:<Jones@foo.com>
-      S: 250 OK
-      C: RCPT TO:<Green@foo.com>
-      S: 550 No such user here
-      C: RCPT TO:<Brown@foo.com>
-      S: 250 OK
-      C: DATA
-      S: 354 Start mail input; end with <CRLF>.<CRLF>
-      C: Blah blah blah...
-      C: ...etc. etc. etc.
-      C: .
-      S: 250 OK
-      C: QUIT
-      S: 221 foo.com Service closing transmission channel
-
-            ]]></artwork>
-          </figure>
-      </section>
-      <section title="SMTP fall back from IPv6 to IPv4 with service extension">
-         <figure>
-            <preamble>The sender-SMTP server opens a connection to foo.com over IPv6, the message is refused because no domain authentication can be performed therefore the sender-SMTP retries immediately using IPv4</preamble>
-            <artwork><![CDATA[
-      S: 220 foo.com Simple Mail Transfer Service Ready
-      C: EHLO bar.com
-      S: 250-foo.com greets bar.com over IPv6
-      S: 250-8BITMIME
-      S: 250-SIZE
-      S: 250-DSN
-      S: 250-IPV6-IPV4-FALLBACK 
-      S: 250 HELP
-      C: IPV6-IPV4-FALLBACK 
-      S: 250 OK
-      C: MAIL FROM:<Smith@bar.com>
-      S: 250 OK
-      C: RCPT TO:<Jones@foo.com>
-      S: 250 OK
-      C: RCPT TO:<Green@foo.com>
-      S: 550 No such user here
-      C: RCPT TO:<Brown@foo.com>
-      S: 250 OK
-      C: DATA
-      S: 354 Start mail input; end with <CRLF>.<CRLF>
-      C: Blah blah blah...
-      C: ...etc. etc. etc.
-      C: .
-      S: 453 4.4.8 message with no SPF or DKIM and over IPv6
-      C: QUIT
-      S: 221 foo.com Service closing transmission channel 
-
-      Message is then retried immediately over IPv4
-            ]]></artwork>
-          </figure>
       </section>
     </section>
 

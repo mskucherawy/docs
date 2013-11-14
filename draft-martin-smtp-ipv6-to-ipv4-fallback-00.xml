@@ -10,6 +10,7 @@
 <!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
 <!ENTITY RFC5321 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5321.xml">
 <!ENTITY RFC6376 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6376.xml">
+<!ENTITY RFC6652 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6652.xml">
 <!ENTITY RFC4408 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4408.xml">
 <!ENTITY RFC3974 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3974.xml">
 ]>
@@ -38,7 +39,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-martin-smtp-ipv6-to-ipv4-fallback-00" ipr="trust200902">
+<rfc category="std" docName="draft-martin-smtp-ipv6-to-ipv4-fallback-00" ipr="trust200902" updates="5321">
   <!-- category values: std, bcp, info, exp, and historic
      ipr values: full3667, noModification3667, noDerivatives3667
      you can add the attributes updates="NNNN" and obsoletes="NNNN" 
@@ -82,6 +83,34 @@
         <!-- uri and facsimile elements may also be added -->
       </address>
     </author>
+
+    <author fullname="Alec Peterson" initials="A.P." role="editor"
+            surname="Peterson">
+      <organization>Message Systems</organization>
+
+      <address>
+        <postal>
+          <street></street>
+
+          <!-- Reorder these if your country does things differently -->
+
+          <city>Columbia</city>
+
+          <region>MD</region>
+
+          <code></code>
+
+          <country>US</country>
+        </postal>
+
+        <phone></phone>
+
+        <email>alec@messagesystems.com</email>
+
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+    </author>
+
 
     <date month="November" year="2013" />
 
@@ -137,19 +166,197 @@
       <t>As IPv6 is still relatively nascent, there is a chance to mandate use of the Sender Policy Framework (SPF, <xref target="RFC4408"/>) or DomainKeys Identified Mail (DKIM, <xref target="RFC6376"/>) for messages sent over IPv6 and, if these fail, to do retries over IPv4.</t>
     </section>
 
-    <section title="Common Open Source MTA Design">
-      <t> This secton discusses current implementations in common open source
-	  MTAs. </t>
-
-	<t>Some observations:
-	<list style="symbols">
-        <t>When presented with a permanent failure code (5yz) during connection establishment, some MTA clients will declare the message non deliverable instead of retrying it on a different MX.</t>
-        <t>When an SMTP server rejects during the connection phase using the code 451 and disconnects, the SMTP client will typically retry the message immediately on a different MX.</t>
-        <t>When an SMTP server rejects after the DATA phase using a 421 SMTP reply code followed by a disconnect, the code 421 and disconnect, the SMTP client will retry the message immediately on a different MX.</t>
-	</list></t>
+    <section title="Indicating the sender-SMTP server to fall back to IPv4">
+      <t>To move from IP based reputation to a domain based reputation system for email, a receiver-SMTP MAY require that messages pass SPF (<xref target="RFC6652">RFC&nbsp;6652</xref>) or DKIM (<xref target="RFC6376">RFC&nbsp;6376</xref>). This section does not discuss the merit of such policy but proposes mechanisms for any policy to get the sender-SMTP to fall back to IPv4 from an IPv6 connection.</t>
+      <section title="With the service extension IPV6-IPV4-FALLBACK ">
+        <t>The receiver-SMTP MAY addvertise a service extension IPV6-IPV4-FALLBACK , which the sender-SMTP MUST reply by IPV6-IPV4-FALLBACK if capable</t>
+        <t>In this condition for each message not acceptable due to policy where a retry over IPv4 is requested, the sender-SMTP server MUST reply by the reply code 456, where the sender-SMTP MUST requeue the message for immediate retry over IPv4.</t>
+        <t>The SMTP enhanced status code SHOULD be 4.4.8.</t>
+        <t>456 The receiver-SMTP is requiring the sender-SMTP to retry immediately the message over IPv4.</t>
+        <t>The SMTP status code 456 is introduced in this document, and has a very specific meaning associated to the service extension. The SMTP enhanced status code is also introduced in this document, but like all enhanced status codes, they are usually not interpreted by the SMTP client, but for the bounce processor as to provide more meaningful reports to the mail administrator.</t>
+      </section>
+      <section title="Without service extension">
+        <t>The sender-SMTP server MUST have MX RR pointing to single stack hostnames and for same MX RR preference MUST point to at least an IPv4 hostname and an IPv6 hostname.</t> 
+        <t>The receiver-SMTP server MAY reject a message sent over IPv6 and request the sender-SMTP to retry over IPv4. In such case the SMTP reject code SHOULD be 451 if done at connection time and 421 if done later. The SMTP enhanced status code SHOULD be 4.4.8.</t>
+        <t>The rejection at connection time MAY be issued only when it has been demonstrated that a majority of messages would not pass the policy and that the sender-SMTP is not capable of the service extension IPV6-IPV4-FALLBACK.</t>
+        <t>The rejection at connection time SHOULD be for a limited time to give a chance for later messages to be re-evaluted against the policy.</t>
+        <t>456 is not used here, as it is a new SMTP status code introduced for clients that understand the service extension IPV6-IPV4-FALLBACK. It is not sure that sender-SMTP without the this service extension would behave as expected with a new SMTP status code.</t>
+        <t>Research presented in annexes has shown that common MTA exhibit this behavior.</t>
+      </section>
     </section>
 
-      <section title="Rejecting Messages for Immediate Retry on IPv4">
+    <section anchor="Acknowledgements" title="Acknowledgements">
+      <t>Thanks to Murray Kucheraway for guidance in getting this draft out.</t>
+
+    </section>
+
+    <!-- Possibly a 'Contributors' section ... -->
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This section describes actions requested of IANA.</t>
+
+      <section title="SMTP Enhanced Status Codes Registry update">
+        <t>IANA is requested to add the following to the Simple Mail Transfer Protocol (SMTP) Enhanced Status Codes Registry:</t>
+        <t>Enumerated Status Codes</t>
+        <t>Code: X.4.8</t>
+        <t>Summary: retry on IPv4</t>
+        <t>Associated basic status code: 421,451,456</t>
+        <t>Description: the mail system will not accept this message over IPv6 because it lacks some requirments described in the full text of the rejection, however the sending mail system can retry immediately to submit the message over IPv4 only.</t>
+      </section>
+      <section title="Simple Mail Transfer Protocol (SMTP) Service Extensions Registry update">
+        <t>IANA is requested to add the following to the Simple Mail Transfer Protocol (SMTP) Service Extensions Registry:</t>
+        <t>EHLO Keyword: IPV6-IPV4-FALLBACK</t>
+        <t>Description: resend email over IPv4</t>
+      </section>
+    </section>
+
+    <section anchor="Security" title="Security Considerations">
+      <t>SMTP clients might not not fall back to IPv4 when requested (by not implementing this proposal) and keep retrying on IPv6. MTA administrators ought to monitor for such servers, and could whitelist them to accept messages over IPv6 or take other action as appropriate.</t> 
+      <t>Messages may start to queue on the sender-SMTP side and the mail administrator may not notice it or take appropriate action in time.</t>
+      <t>If the policy is not explained clearly the mail administrator may not know what is required to pass the policy.</t>
+      <t>If the policy is to cumbersome and is not based on widely adopted standards and recommendations, the mail administrator may decide not to jump through hoops to get the email delivered.</t>
+      <t>The fall back mechanism without service extension may create unecessary burden for the sender as well as the receiver.</t>
+    </section>
+  </middle>
+
+  <!--  *****BACK MATTER ***** -->
+
+  <back>
+    <!-- References split into informative and normative -->
+
+    <!-- There are 2 ways to insert reference entries from the citation libraries:
+     1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+     2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+        (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+     Both are cited textually in the same manner: by using xref elements.
+     If you use the PI option, xml2rfc will, by default, try to find included files in the same
+     directory as the including file. You can also define the XML_LIBRARY environment variable
+     with a value containing a set of directories to search.  These can be either in the local
+     filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+    <references title="Normative References">
+      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+      &RFC2119;
+
+      &RFC5321;
+
+      &RFC6376;
+
+      &RFC6652;
+
+      &RFC4408;
+
+    </references>
+
+    <references title="Informative References">
+      <!-- Here we use entities that we defined at the beginning. -->
+
+      &RFC3974;
+
+    </references>
+    <section anchor="app-additional" title="Examples and research">
+      <section title="SMTP fall back from IPv6 to IPv4 without service extension">
+         <figure>
+            <preamble>The sender-SMTP server opens a connection to foo.com over IPv6, the message is refused because no domain authentication can be performed therefore the sender-SMTP retries immediately using IPv4</preamble>
+            <artwork><![CDATA[
+      S: 220 foo.com Simple Mail Transfer Service Ready
+      C: EHLO bar.com
+      S: 250-foo.com greets bar.com over IPv6
+      S: 250-8BITMIME
+      S: 250-SIZE
+      S: 250-DSN
+      S: 250 HELP
+      C: MAIL FROM:<Smith@bar.com>
+      S: 250 OK
+      C: RCPT TO:<Jones@foo.com>
+      S: 250 OK
+      C: RCPT TO:<Green@foo.com>
+      S: 550 No such user here
+      C: RCPT TO:<Brown@foo.com>
+      S: 250 OK
+      C: DATA
+      S: 354 Start mail input; end with <CRLF>.<CRLF>
+      C: Blah blah blah...
+      C: ...etc. etc. etc.
+      C: .
+      S: 421 4.4.8 message with no SPF or DKIM and over IPv6
+      S: <disconnect>
+
+      S: 220 foo.com Simple Mail Transfer Service Ready
+      C: EHLO bar.com
+      S: 250-foo.com greets bar.com over IPv4
+      S: 250-8BITMIME
+      S: 250-SIZE
+      S: 250-DSN
+      S: 250 HELP
+      C: MAIL FROM:<Smith@bar.com>
+      S: 250 OK
+      C: RCPT TO:<Jones@foo.com>
+      S: 250 OK
+      C: RCPT TO:<Green@foo.com>
+      S: 550 No such user here
+      C: RCPT TO:<Brown@foo.com>
+      S: 250 OK
+      C: DATA
+      S: 354 Start mail input; end with <CRLF>.<CRLF>
+      C: Blah blah blah...
+      C: ...etc. etc. etc.
+      C: .
+      S: 250 OK
+      C: QUIT
+      S: 221 foo.com Service closing transmission channel
+
+            ]]></artwork>
+          </figure>
+      </section>
+      <section title="SMTP fall back from IPv6 to IPv4 with service extension">
+         <figure>
+            <preamble>The sender-SMTP server opens a connection to foo.com over IPv6, the message is refused because no domain authentication can be performed therefore the sender-SMTP retries immediately using IPv4</preamble>
+            <artwork><![CDATA[
+      S: 220 foo.com Simple Mail Transfer Service Ready
+      C: EHLO bar.com
+      S: 250-foo.com greets bar.com over IPv6
+      S: 250-8BITMIME
+      S: 250-SIZE
+      S: 250-DSN
+      S: 250-IPV6-IPV4-FALLBACK 
+      S: 250 HELP
+      C: IPV6-IPV4-FALLBACK 
+      S: 250 OK
+      C: MAIL FROM:<Smith@bar.com>
+      S: 250 OK
+      C: RCPT TO:<Jones@foo.com>
+      S: 250 OK
+      C: RCPT TO:<Green@foo.com>
+      S: 550 No such user here
+      C: RCPT TO:<Brown@foo.com>
+      S: 250 OK
+      C: DATA
+      S: 354 Start mail input; end with <CRLF>.<CRLF>
+      C: Blah blah blah...
+      C: ...etc. etc. etc.
+      C: .
+      S: 453 4.4.8 message with no SPF or DKIM and over IPv6
+      C: QUIT
+      S: 221 foo.com Service closing transmission channel 
+
+      Message is then retried immediately over IPv4
+            ]]></artwork>
+          </figure>
+      </section>
+      <section title="Common Open Source MTA Design">
+        <t> This secton discusses current implementations in common open source
+    MTAs. </t>
+
+        <t>Some observations:
+        <list style="symbols">
+          <t>When presented with a permanent failure code (5yz) during connection establishment, some MTA clients will declare the message non deliverable instead of retrying it on a different MX.</t>
+          <t>When an SMTP server rejects during the connection phase using the code 451 and disconnects, the SMTP client will typically retry the message immediately on a different MX.</t>
+          <t>When an SMTP server rejects after the DATA phase using a 421 SMTP reply code followed by a disconnect, the code 421 and disconnect, the SMTP client will retry the message immediately on a different MX.</t>
+        </list></t>
+
+        <section title="Rejecting Messages for Immediate Retry on IPv4">
         <t>SMTP clients only interpret SMTP status codes, but the use of SMTP enhanced status codes can be used to better monitor and act on the reason of the temporary failure.</t>
 
         <t>For instance, at the end of DATA, if the message was sent over IPv6, the SMTP server can evalute whether the message passes SPF or DKIM and reject the message using 421 if neither pass.  If one passes, then an authenticated domain name is available and domain reputation rules can be applie. The IPv6 address of the SMTP client can be noted, and futher connections over IPv6 can be temporarily failed using the 451 status code for some period of time period so as to minimize resources to evaluate each message after the end of DATA.  On the other hand, if a message coming from an IPv6 address does not pass SPF or DKIM, it is unlikely that this state would quickly change for the next message coming from the same network address.</t>
@@ -190,78 +397,25 @@
 
         <t> [MSK: Either move the registration of 4.4.8 here, or refer to the
             document where you do so.] </t>
-      </section>
+        </section>
 
-      <section title="MX RR configuration">
-        <t>When a message is temporarily refused, using a 400-series SMTP error code, the strategy for the SMTP client is sometimes to retry immediately to a different MTA, as defined by the target selection process defined in <xref target="RFC5321"/>. </t>
+        <section title="MX RR configuration">
+          <t>When a message is temporarily refused, using a 400-series SMTP error code, the strategy for the SMTP client is sometimes to retry immediately to a different MTA, as defined by the target selection process defined in <xref target="RFC5321"/>. </t>
 
-        <t>When the new MX refers to a dual-stacked machine (see <xref target="RFC3974"/>), some MTA software will not pick up all of the A or AAAA RRs (Resource Records), but will instead select only the RRs matching the address family preferred by the local TCP/IP implementation.  Thus, MX RRs SHOULD NOT refer to dual-stacked machines.</t>
+          <t>When the new MX refers to a dual-stacked machine (see <xref target="RFC3974"/>), some MTA software will not pick up all of the A or AAAA RRs (Resource Records), but will instead select only the RRs matching the address family preferred by the local TCP/IP implementation.  Thus, MX RRs SHOULD NOT refer to dual-stacked machines.</t>
 
-        <figure>
-          <preamble>For instance, the following configuration is desired:</preamble>
-          <artwork><![CDATA[
+          <figure>
+            <preamble>For instance, the following configuration is desired:</preamble>
+            <artwork><![CDATA[
       example.org.            IN MX   10  mx1.example.org.
                               IN MX   10 mx1-6.example.org.
       mx1.example.org.        IN A    192.0.2.1
       mx1-6.example.org.      IN AAAA 2001:db8:ffff::1
           ]]></artwork>
-        </figure>
-        <t>In this configuration, the SMTP clients see two MXes at the same precedence, and will automatically pick one and try the other one if the message is properly temp-failed.  [MSK: But isn't that what you want to happen?] </t>
+          </figure>
+          <t>In this configuration, the SMTP clients see two MXes at the same precedence, and will automatically pick one and try the other one if the message is properly temp-failed.  [MSK: But isn't that what you want to happen?] </t>
+        </section>
       </section>
-
-    <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>Thanks to Murray Kucheraway for guidance in getting this draft out.</t>
-
     </section>
-
-    <!-- Possibly a 'Contributors' section ... -->
-
-    <section anchor="IANA" title="IANA Considerations">
-      <t>This section has no action requested of IANA.</t>
-
-      <t>[RFC Editor: Please remove this section before publication.] </t>
-
-    </section>
-
-    <section anchor="Security" title="Security Considerations">
-      <t>SMTP clients might not not fall back to IPv4 when requested (by not implementing this proposal) and keep retrying on IPv6. MTA administrators ought to monitor for such servers, and could whitelist them to accept messages over IPv6 or take other action as appropriate.</t> 
-    </section>
-  </middle>
-
-  <!--  *****BACK MATTER ***** -->
-
-  <back>
-    <!-- References split into informative and normative -->
-
-    <!-- There are 2 ways to insert reference entries from the citation libraries:
-     1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
-     2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
-        (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
-
-     Both are cited textually in the same manner: by using xref elements.
-     If you use the PI option, xml2rfc will, by default, try to find included files in the same
-     directory as the including file. You can also define the XML_LIBRARY environment variable
-     with a value containing a set of directories to search.  These can be either in the local
-     filing system or remote ones accessed by http (http://domain/dir/... ).-->
-
-    <references title="Normative References">
-      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
-      &RFC2119;
-
-      &RFC5321;
-
-      &RFC6376;
-
-      &RFC4408;
-
-    </references>
-
-    <references title="Informative References">
-      <!-- Here we use entities that we defined at the beginning. -->
-
-      &RFC3974;
-
-    </references>
-
   </back>
 </rfc>
