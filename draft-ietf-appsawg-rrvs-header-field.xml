@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="std"
-        docName="draft-ietf-appsawg-rrvs-header-field-01">
+        docName="draft-ietf-appsawg-rrvs-header-field-03">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -234,6 +234,23 @@
 				    <xref target="op_header"/> for
 				    discussion.) </t>
 			    </list> </t>
+
+			<section anchor="op_relay" title="Relays">
+				<t> An MTA that does not make mailbox
+				    ownership checks, such as an MTA
+				    positioned to do SMTP ingress at an
+				    organizational boundary, SHOULD relay the
+				    RRVS extension parameter to the next MTA
+				    so that it can be processed there. </t>
+
+				<t> An MTA could replace the envelope as a
+				    result of simple alias expansion, mapping
+				    one mailbox to several other mailboxes.
+				    In this case, each of the new SMTP
+				    recipients SHOULD NOT include RRVS
+				    RRVS parameter when relaying to the new
+				    addresses. </t>
+			</section>
 		</section>
 		
 		<section anchor="op_header" title="Header Field Used">
@@ -299,11 +316,11 @@
 			<t> If a message is to be rejected within the SMTP
 			    protocol itself (versus generating a rejection
 			    message separately), servers implementing this
-			    protocol and the SMTP extensions described in
-			    Enhanced Mail System Status Codes
-			    <xref target="ESC"/> SHOULD use the enhanced
-			    status code described in
-			    <xref target="iana_esc"/>. </t>
+			    protocol SHOULD also implement the SMTP extension
+			    described in Enhanced Mail System Status Codes
+			    <xref target="ESC"/> and use the enhanced
+			    status codes described in
+			    <xref target="iana_esc"/> as appropriate. </t>
 
 			<t> Implementation by this method is expected to
 			    be transparent to non-participants, since they
@@ -534,6 +551,16 @@
 		    <xref target="privacy"/>. </t>
 	    </section>
 
+	    <section anchor="sec_downgrade"
+	             title="Risks with Use of Header Field">
+		<t> MTAs might not implement the recommendation to remove the
+		    header field defined here, either out of ignorance or due
+		    to error.  Since user agents often do not render all of the
+		    header fields present, the message could be forwarded
+		    to a party that would then inadvertently have the content
+		    of this header field. </t>
+	    </section>
+
 	    <section anchor="sec_restrict" title="Suggested Use Restrictions">
 		<t> If the mailbox named in the field
 		    is known to have had only a single continuous owner
@@ -636,16 +663,32 @@
 	  <section anchor="iana_esc" title="Enhanced Status Code Registration">
 		<t> IANA is requested to register the following in the SMTP
 		    Enhanced Status Codes registry:
+
 			<figure><artwork>
    Code:               X.7.15
    Sample Text:        Mailbox owner has changed
    Associated basic status code:  5
    Description:        This status code is returned when a message is
                        received with a Require-Recipient-Valid-Since
-                       field and the receiving system is able to
-                       determine that the intended recipient mailbox
+                       field or RRVS extension and the receiving system is
+                       able to determine that the intended recipient mailbox
                        has not been under continuous ownership since
                        the specified date.
+   Reference:          [this document]
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+
+		<t>><figure><artwork>
+   Code:               X.7.16
+   Sample Text:        Domain owner has changed
+   Associated basic status code:  5
+   Description:        This status code is returned when a message is
+                       received with a Require-Recipient-Valid-Since
+                       field or RRVS extension and the receiving system
+                       wishes to disclose that the owner of the domain
+                       name of the recipient has changed since the
+                       specified date.
    Reference:          [this document]
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -684,6 +727,35 @@
 			</front>
 
 			<seriesInfo name="RFC" value="5234"></seriesInfo>
+		</reference>
+
+		<reference anchor="DATETIME">
+			<front>
+				<title>Date and Time on the Internet:
+				       Timestamps</title>
+
+				<author
+					fullname="G. Klyne"
+					initials="G."
+					surname="Klyne">
+					<organization>
+						Clearswift Corporation
+					</organization>
+				</author>
+
+				<author
+					fullname="C. Newman"
+					initials="C."
+					surname="Newman">
+					<organization>
+						Sun Microsystems
+					</organization>
+				</author>
+
+				<date month="July" year="2002"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="3339"></seriesInfo>
 		</reference>
 
 		<reference anchor="IANA-HEADERS">
