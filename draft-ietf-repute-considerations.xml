@@ -13,7 +13,8 @@
 
 <front>
 	<title abbrev="Reputation Operations">
-		Operational Considerations Regarding Reputation Services
+		Considerations Regarding Third-Party
+		Reputation Services
 	</title>
 
 	<author initials="M. S." surname="Kucherawy"
@@ -30,7 +31,9 @@
 	<workgroup>REPUTE</workgroup>
 
 	<abstract>
-		<t> The use of reputation systems is has become a common tool
+		<t> Reputation services offer quality assessments about likely
+		    future behavior, based on past behaviors.  The use
+		    of these services has become a common tool
 		    in many applications that seek to apply collected
 		    intelligence about traffic sources.  Often this is done
 		    because it is common or even expected operator practice.
@@ -56,24 +59,27 @@
 		    problem domain to the next, but several operational
 		    concepts appear to be common to all of these. </t>
 
-		<t> The promise of the protection that reputation services
-		    offers can be enticing, and many users and operators alike
-		    typically engage those services merely because it is
-		    expected of them.  A critical notion, however, is that
-		    doing so explicitly involves a third party in the flow of
-		    data those parties receive.  This is often taken for
-		    granted, with potentially disastrous results. </t>
+		<t> The promise of the protection that relying on reputation
+		    services offers can be enticing, and many users and
+		    operators alike typically engage those services merely
+		    because it is expected of them.  A critical notion,
+		    however, is that use of such a service explicitly involves
+		    a third party in the flow of data being received.  This
+		    is often taken for granted, with potentially disastrous
+		    results. </t>
 
 		<t> This document highlights this and other considerations
 		    in providing and consuming reputation data services. </t>
 	</section>
 
 	<section anchor="background" title="Background">
-		<t> The community has historically focused on identifying
-		    sources that misbehave, i.e., that earn
-		    negative reputations.  The purpose here is to identify
-		    and filter traffic from bad actors.  This grew out of
-		    operational need.  As the Internet grew, so did the
+		<t> The anti-abuse community has historically focused
+		    on identifying sources that misbehave, i.e., that earn
+		    negative reputations.  For email, this means identifying
+		    sources of spam; for security, it means identifying
+		    sources of penetration attacks.  The purpose here is to
+		    identify and filter traffic from bad actors.  This grew
+		    out of operational need.  As the Internet grew, so did the
 		    occurrence of problematic traffic, especially in email.
 		    The pragmatics of email (i.e., the fact that the total
 		    IP address space is more constrained than the total
@@ -83,63 +89,59 @@
 		    (via the TCP/IP infrastructure) where email addresses
 		    have had none. </t>
 
-		<t> A specific example of a reputation service in common use
-		    in the email space is the DNS blacklist
-		    <xref target="DNSBL"/>.  This is a method of querying a
-		    database as to whether a source of incoming 
-		    <xref target="SMTP"/> email traffic should be allowed to
-		    relay email, based on previous observations and feedback.
-		    The method uses the IP address of the source as the basis
-		    for a query to the database using the Domain Name System
-		    <xref target="DNS"/> as the interface.
-		    <xref target="DNSBL"/> includes several points in its
-		    Security Considerations document that are repeated and
-		    further developed here. </t>
+		<t> The major considerations around a third-party reputation
+		    service are:
 
-		<t> However, regardless of the identifier used as the
-		    identifier for a reputation, bad actors can evade detection
+		    <list style="hanging">
+			<t hangText="Raw data:"> The method of obtaining
+				the information that will be analyzed; </t>
+				
+			<t hangText="Rating method:"> The techniques used on
+				the collected data to compute a rating
+				or other expression of expected behavior; </t>
+
+			<t hangText="Publication:"> How consumers obtain
+				the computed ratings. </t>
+		    </list> </t>
+
+		<t> A specific example of a publication method in common use
+		    in the email space is the DNS blacklist
+		    <xref target="DNSBL"/>.  In particular, the operator of
+		    a reputation service computes reputations of IP addresses
+		    and stores them in a database.  Via a DNSBL query, a
+		    consumer can query the database as to whether mail should
+		    be accepted from a particular source
+		    of incoming <xref target="SMTP"/>, based on previous
+		    observations and feedback.  The service uses the IP
+		    address of the source as the basis for a query to the
+		    database, accessed through the Domain Name System
+		    <xref target="DNS"/>.  <xref target="DNSBL"/> includes
+		    several points in its Security Considerations document
+		    that are repeated and further developed here. </t>
+
+		<t> However, regardless of the identifier used for
+		    a reputation, bad actors can evade detection
 		    or its consequences by changing
 		    identifiers (e.g., move to a new IP address, register a
 		    new domain name, use a sub-domain).  This makes the
 		    problem space effectively boundless, especially as IPv6
 		    rolls out, with its vastly larger address space. </t>
+
+		<t> A framework for reputation services is introduced in
+		    <xref target="REPUTE"/> and the documents it
+		    references. </t>
 	</section>
 
-	<section anchor="evolution" title="Evolution">
-		<t> More modern thinking is evolving toward the identification
-		    of good actors rather than bad actors, and giving them
-		    preferential treatment.  This drastically reduces the
-		    problem space: There are vastly more IP addresses and email
-		    addresses used by bad actors to generate problematic
-		    traffic than are used by good actors to generate
-		    desirable traffic. </t>
-
-		<t> Moreover, good actors tend to be represented by stable
-		    names and addresses, allowing users to rely on these to
-		    identify and give preferential treatment to their
-		    traffic.  Good actors have no need to hop around to
-		    different addresses, and already work to keep their
-		    traffic clean.  In addition, good actors are willing and
-		    able to collaborate in the assessment process, such as
-		    by supplying validated identifiers that are associated
-		    with their traffic. </t>
-
-		<t> This new approach of focusing on identification of good
-		    actors has only been tried to date using manually
-		    edited whitelists, but has shown promising results on
-		    that scale. </t>
-	</section>
-
-	<section anchor="clients" title="Reputation Clients">
-		<t> Operators that choose to make use of reputation services
+	<section anchor="consumers" title="Using Reputation Services">
+		<t> Operators that choose to make use of treputation services
 		    to influence content allowed to pass into or through their
 		    infrastructures need to understand that they are granting
 		    a third party (the reputation service provider, or RSP)
-		    the ability to affect incoming traffic, for better
-		    or worse.  Of course, this is the whole point of engaging
-		    an RSP when everything is working properly, but a number
-		    of issues are worthy of consideration before establishing
-		    such a relationship. </t>
+		    the ability to affect the handling of incoming traffic,
+		    for better or worse.  Of course, this is the whole point
+		    of engaging an RSP when everything is working properly,
+		    but a number of issues are worthy of consideration
+		    before establishing such a relationship. </t>
 
 		<t> Some cases have occurred where an RSP made the unilateral
 		    decision to terminate its service.  To encourage its
@@ -153,8 +155,8 @@
 
 		<t> RSPs will be the subject of attacks once it is understood
 		    that success in doing so will allow malicious content to
-		    evade detection and filtering.  Users of RSPs need to be
-		    aware of possible interruptions in service availability
+		    evade detection and filtering.  Users of RSPs need to plan
+		    for possible interruptions in service availability
 		    or quality. </t>
 
 		<t> Similarly, some actors will try to "game" the service,
@@ -213,9 +215,9 @@
 		    </list> </t>
 
 		<t> An operator using an RSP would be wise to ensure it has
-		    the capability to effect local overrides for cases where
-		    the client expects to disagree with the reported
-		    reputation. </t>
+		    the capability to give preference to local policies, for
+		    cases where the client expects to disagree with the
+		    reported reputation. </t>
 
 		<t> An operator should be able limit the impact of a negative
 		    reputation on content acceptance.  For example, rather
@@ -231,22 +233,29 @@
 		    available.  This can also be a query to a different RSP
 		    known to be less robust than the primary one. </t>
 
-		<t> Recent proposals have focused on tailoring operation to
-		    prefer or emphasize content whose sources have positive
-		    reputations.  As stated above, negative reputations are
-		    easy to shed, while the universe of things that will earn
-		    and maintain positive reputations is relatively small.
-		    Designing a filtering system that observes these notions
-		    is expected to be more lightweight to operate and
+		<t> Recent proposals such as the experimental system
+		    implemented in <xref target="OPENDKIM"/> have focused on
+		    tailoring operation to prefer or emphasize content whose
+		    sources have positive reputations.  See 
+		    <xref target="evolution"/> for discussion of this notion.
+		    As stated in <xref target="intro"/>, negative reputations
+		    are easy to shed, while the universe of things that will
+		    earn and maintain positive reputations is relatively
+		    small.  Designing a filtering system that observes these
+		    notions is expected to be more lightweight to operate and
 		    harder to game.  </t>
 
-		<t> One choice is to query and cross-referencing multiple RSPs.
+		<t> One choice is to query and cross-reference multiple RSPs.
 		    This can help to detect which ones under comparison
 		    are reliable, and offsets the effect of anomalous
-		    replies. </t>
+		    replies.  More generally, a robust mechanism that is
+		    using a third-party service needs to contain an array of
+		    mechanisms, and to limit its dependence on any one
+		    mechanism, as well as protect against for misbehavior by
+		    an individual mechanism.</t>
 	</section>
 
-	<section anchor="servers" title="Reputation Service Providers">
+	<section anchor="services" title="Providing Reputation Services">
 		<t> Operators intending to provide a reputation service
 		    need to consider that there are many flavors of clients.
 		    There will be clients that are prepared to make use of
@@ -257,10 +266,10 @@
 		    versus wanting to review a detailed credit report.
 		    An operator of an RSP should be
 		    prepared to answer as many of the questions identified in
-		    <xref target="clients"/> as possible, not only because
+		    <xref target="consumers"/> as possible, not only because
 		    wise clients will ask, but also because they reflect issues
-		    that have arisen over the years, and exploration of the
-		    points they raise will result in a more robust
+		    that have arisen over the years, and diligent exploration
+		    of the points they raise will result in a better
 		    reputation service. </t>
 
 		<t> Obviously, in computing reputations via traffic analysis,
@@ -283,8 +292,9 @@
 		    constructing a reputation system based on the domain name
 		    is more useful than one based on the From: field. </t>
 
-		<t> The biggest frustration with most RSPs to date has been
-		    the absence of a visible, accessible, and transparent
+		<t> The biggest frustration with most RSPs to date has been the
+		    challenge of dealing with errors: there ofen is no
+		    visible, accessible, and transparent
 		    process for remediating the errant addition of an
 		    identifier to a negative reputation list.  An RSP in
 		    widespread use is perceived to have enormous power when
@@ -293,12 +303,13 @@
 		    have destructive effects, so an effective mechanism to fix
 		    such problems needs to exist. </t>
 
-		<t> To accommodate clients with varying sensitivities, it is
-		    advisable for the query mechanism used to access the RSP
-		    to provide the ability to request details in the returned
-		    result about how the result was reached, allowing the
-		    client to decide if the result should be applied.  For
-		    example, it should be possible for the reply to contain:
+		<t> Clients clients with varying sensitivities need to be
+		    accomodated.  The mechanism that is used to access the RSP
+		    should provide an ability to request that query results
+		    include details about the basis for producing those
+		    results.  This will help the user to decide how to apply
+		    those results.  For example, it should be possible for
+		    the reply to contain:
 
 		    <list style="symbols">
 			<t> the result itself; </t>
@@ -329,6 +340,32 @@
 		    reputations, if made difficult to earn, put a large
 		    cost on bad actors, which may be enough to dissuade them
 		    entirely. </t>
+	</section>
+
+	<section anchor="evolution" title="Evolution">
+		<t> Recent consideration of reputation efforts is evolving
+		    toward the identification
+		    of good actors rather than bad actors, and giving them
+		    preferential treatment.  This drastically reduces the
+		    problem space: There are vastly more IP addresses and email
+		    addresses used by bad actors to generate problematic
+		    traffic than are used by good actors to generate
+		    desirable traffic. </t>
+
+		<t> Moreover, good actors tend to be represented by stable
+		    names and addresses, allowing users to rely on these to
+		    identify and give preferential treatment to their
+		    traffic.  Good actors have no need to hop around to
+		    different addresses, and already work to keep their
+		    traffic clean.  In addition, good actors are willing and
+		    able to collaborate in the assessment process, such as
+		    by supplying validated identifiers that are associated
+		    with their traffic. </t>
+
+		<t> This new approach of focusing on identification of good
+		    actors has only been tried to date using manually
+		    edited whitelists, but has shown promising results on
+		    that scale. </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
@@ -380,6 +417,40 @@
 			</front>
 
 			<seriesInfo name="RFC" value="5782" />
+		</reference>
+
+		<reference anchor="OPENDKIM"
+		           target="http://www.opendkim.org">
+			<front>
+				<title> OpenDKIM (Open Source DKIM)
+				</title>
+
+				<author fullname="The Trusted Domain Project">
+				</author>
+
+				<date year="2013" month="July"/>
+			</front>
+		</reference>
+
+		<reference anchor="REPUTE">
+			<front>
+				<title> An Architecture for Reputation
+					Reporting </title>
+				<author initials="N." surname="Borenstein"
+					fullname="N. Borenstein">
+					<organization>
+						Mimecast
+					</organization>
+				</author>
+				<author initials="M." surname="Kucherawy"
+					fullname="M. Kucherawy">
+					<organization/>
+				</author>
+
+				<date month="November" year="2013" />
+			</front>
+
+			<seriesInfo name="RFC" value="7070" />
 		</reference>
 
 		<reference anchor="SMTP">
