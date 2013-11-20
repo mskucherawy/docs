@@ -370,7 +370,7 @@
 		    place where doing so is possible. </t>
 	</section>
 			    
-	<section anchor="non_compliant" title="Non-Compliant Relays">
+	<section anchor="non_compliant" title="Relaying Without RRVS Support">
 		<t> When a message is received using the SMTP extension
 		    defined here but will not be delivered locally (that is,
 		    it needs to be relayed further), the MTA to which the
@@ -383,20 +383,22 @@
 		    <list style="numbers">
 			<t> Decline to relay the message further, preferably
 			    generating a Delivery Status Notification
-			    <xref target="DSN"/> to indicate failure; </t>
-
-			<t> Silently continue with delivery, dropping
-			    the protection offered by this protocol; or </t>
+			    <xref target="DSN"/> to indicate failure
+			    (RECOMMENDED); </t>
 
 			<t> Downgrade the data thus provided in the SMTP
 			    extension to a header field, as described in
-			    <xref target="conversion"/> below. </t>
+			    <xref target="conversion"/> below (RECOMMENDED
+			    when the previous option is not available); or </t>
+
+			<t> Silently continue with delivery, dropping
+			    the protection offered by this protocol. </t>
 		    </list> </t>
 
-		<t> The first option is RECOMMENDED.  The other two
-		    are to be avoided except where there is specific knowledge
-		    that further relaying with the degraded protections thus
-		    provided does not introduce undue risk. </t>
+		<t> Using other than the first option needs to be avoided 
+		    unless there is specific knowledge that further relaying
+		    with the degraded protections thus provided does not
+		    introduce undue risk. </t>
 			    
 		<section anchor="conversion" title="Header Field Conversion">
 			<t> If an SMTP server ("B") that has received mailbox
@@ -424,12 +426,14 @@
 	         title="Header Field with Multiple Recipients">
 		<t> Numerous issues arise when using the header field form
 		    of this extension, particularly when multiple recipients
-		    are specified for a single message. </t>
+		    are specified for a single message resulting in one
+		    multiple fields each with a distinct address
+		    and timestamp. </t>
 
-		<t> Because of the nature of SMTP, a message bearing this
-		    header field for multiple addressees could result
-		    in a single delivery attempt for multiple
-		    recipients (in particular, if two of the
+		<t> Because of the nature of SMTP, a message bearing a
+		    multiplicity of Require-Recipient-Valid-Since header
+		    fields could result in a single delivery attempt for
+		    multiple recipients (in particular, if two of the
 		    recipients are handled by the same server), and
 		    if any one of them fails the test, the delivery
 		    fails to all of them; it then becomes necessary
@@ -553,7 +557,8 @@
 			    prior to relaying it to its true destination. </t>
 		</section>
 		    
-		<section title="Suggested Enhancements" anchor="lists_enh">
+		<section title="Suggested Mailing List Enhancements"
+			anchor="lists_enh">
 			<t> Mailing list services could store the timestamp
 			    at which a subscriber was added to a mailing list.
 			    This specification could then be used in
@@ -692,6 +697,10 @@
 				constant ownership since the timestamp
 				thus provided. </t>
 		    </list> </t>
+
+		<t> Where multiple recipients are present on a message,
+		    multiple results can be reported using the mechanism
+		    described in <xref target="AUTHRES"/>. </t>
 	</section>
 			
 	<section title="Examples" anchor="examples">
@@ -768,16 +777,6 @@
 		    <xref target="privacy"/>. </t>
 	    </section>
 
-	    <section anchor="sec_downgrade"
-	             title="Risks with Use of Header Field">
-		<t> MTAs might not implement the recommendation to remove the
-		    header field defined here, either out of ignorance or due
-		    to error.  Since user agents often do not render all of the
-		    header fields present, the message could be forwarded
-		    to a party that would then inadvertently have the content
-		    of this header field. </t>
-	    </section>
-
 	    <section anchor="sec_restrict" title="Suggested Use Restrictions">
 		<t> If the mailbox named in the field
 		    is known to have had only a single continuous owner
@@ -805,11 +804,11 @@
 
 	<section anchor="privacy" title="Privacy Considerations">
 	    <section anchor="priv_probing" title="Probing Attacks">
-		<t> As described above, use of this header field in probing
-		    attacks can disclose information about the history
-		    of the mailbox.  The harm that can be done by leaking any
-		    kind of private information is difficult to predict,
-		    so it is prudent to be sensitive to this
+		<t> As described above, use of this extension or header field
+		    in probing attacks can disclose information about the
+		    history of the mailbox.  The harm that can be done by
+		    leaking any kind of private information is difficult to
+		    predict, so it is prudent to be sensitive to this
 		    sort of disclosure, either inadvertently or in response
 		    to probing by an attacker.  It bears restating, then, that
 		    implementing countermeasures to abuse of this capability
@@ -831,7 +830,7 @@
 		    to information about the mailbox history.  Given that
 		    MSPs have chosen to allow transfers of mailbox ownership
 		    without the prior owner's involvement, the information
-		    leakage from the header field specified here creates far
+		    leakage from the extensions specified here creates far
 		    fewer risks than the potential for delivering mail to the
 		    wrong party. </t>
 	    </section>
@@ -852,12 +851,25 @@
 		    use of this specification on multi-recipient messages is
 		    discouraged. </t>
 	    </section>
+
+	    <section anchor="priv_header"
+	             title="Risks with Use of Header Field">
+		<t> MTAs might not implement the recommendation to remove the
+		    header field defined here, either out of ignorance or due
+		    to error.  Since user agents often do not render all of the
+		    header fields present, the message could be forwarded
+		    to another party that would then inadvertently have the
+		    content of this header field. </t>
+	    </section>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
 	  <section anchor="iana_esmtp" title="SMTP Extension Registration">
-		<t> IANA is requested to register the SMTP extension described
-		    in <xref target="descr_esmtp"/>. </t>
+		<t> Section 2.2.2 of <xref target="MAIL"/> sets out the
+		    procedure for registering a new SMTP extension.  IANA
+		    is requested to register the SMTP extension using the
+		    details provided in <xref target="descr_esmtp"/> of this
+		    document. </t>
 	  </section>
 
 	  <section anchor="iana_header" title="Header Field Registration">
@@ -896,7 +908,7 @@
    Change controller:  IESG
 			</artwork></figure> </t>
 
-		<t>><figure><artwork>
+		<t><figure><artwork>
    Code:               X.7.16
    Sample Text:        Domain owner has changed
    Associated basic status code:  5
@@ -1218,6 +1230,7 @@
 		    Dave Crocker,
 		    Ned Freed,
 		    John Levine,
+		    Alexey Melnikov,
 		    Hector Santos,
 		    Gregg Stefancik,
 		    Ed Zayas, (others) </t>
