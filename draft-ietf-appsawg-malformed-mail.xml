@@ -3,7 +3,7 @@
 <!-- $Id: draft-ietf-appsawg-malformed-mail.xml,v 1.3 2013/05/28 16:56:42 msk Exp $ -->
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-malformed-mail-11">
+        docName="draft-ietf-appsawg-malformed-mail-12">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -277,9 +277,11 @@
 		    kind of change. </t>
 
 		<t> Where a change to content between modules is unavoidable,
-		    adding trace data (such as prepending a standard Received
-		    field) will at least allow tracing of the handling by
-		    modules that actually see different input. </t>
+		    it is a good idea to add standard trace data to indicate
+		    a "visible" handoff between modules has occurred.  The
+		    only advisable way to do this is to prepend Received
+		    fields with the appropriate information, as described in
+		    Section 3.6.7 of <xref target="MAIL"/>. </t>
 
 		<t> There will always be local handling exceptions, but these
 		    guidelines should be useful for developing integrated
@@ -494,19 +496,18 @@
     To: "Joe &lt;joe@example.com&gt;
 				    </artwork></figure> </t>
 
-				<t> leaves software with no obvious "good"
-				    interpretation.  If it is essential to
-				    extract an address from the above, one
-				    possible interpretation is:
+				<t> leaves software with no unambiguous
+				    interpretation.  One possible
+				    interpretation is:
 				    <figure><artwork>
     To: "Joe &lt;joe@example.com&gt;"@example.net
 				    </artwork></figure> </t>
 
 				<t> where "example.net" is the domain name
 				    or host name of the handling agent
-				    making the interpretation.  Another
-				    possible interpretation, much simpler and
-				    likely more correct, is simply: 
+				    making the interpretation.  However, the
+				    more obvious and likely best interpretation
+				    is simply: 
 
 				    <figure><artwork>
     To: "Joe" &lt;joe@example.com&gt;
@@ -909,13 +910,16 @@
 			</section>
 
 			<section anchor="rp" title="Return-Path">
-			<t> A valid message will have exactly one Return-Path
-			    header field, as per Section 4.4 of
-			    <xref target="SMTP"/>.  Should a message be
-			    encountered bearing more than one, all but the
-			    topmost one is to be disregarded, as it is most
-			    likely to have been added nearest to the mailbox
-			    that received that message. </t>
+			<t> While legitimate messages can contain more than
+			    one Return-Path header field, such usage is often
+			    an error rather that a valid message containing
+			    multiple header field blocks as described in
+			    Sections 3.6 of <xref target="MAIL"/>.
+			    Accordingly, when a message containing multiple
+			    Return-Path header fields is encountered, all but
+			    the topmost one is to be disregarded, as it is
+			    most likely to have been added nearest to the
+			    mailbox that received that message.  </t>
 			</section>
 		</section>
 
