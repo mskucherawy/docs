@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-repute-considerations-03">
+        docName="draft-kucherawy-repute-consid-00">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -12,7 +12,7 @@
 <?rfc subcompact="no"?>
 
 <front>
-	<title abbrev="Reputation Operations">
+	<title abbrev="Reputation Considerations">
 		Considerations Regarding Third-Party
 		Reputation Services
 	</title>
