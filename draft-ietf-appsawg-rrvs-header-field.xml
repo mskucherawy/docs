@@ -508,16 +508,17 @@
 				    field when relaying to the new address.
 				    (RECOMMENDED) </t>
 
-				<t> If, however, the relaying
-				    system knows the time when the alias
-				    was established, it MAY add an RRVS
+				<t> If the relaying system records the time
+				    when the alias was established, independent
+				    of confirming the validity of the new
+				    destination address, it MAY add an RRVS
 				    parameter for the new target address
 				    that includes that time. </t>
 
-				<t> If a confirmation of the new destination
-				    was done, it MAY add an RRVS parameter
-				    for the new target address that includes
-				    that time. </t>
+				<t> If an explicit confirmation of the new
+				    destination was done, it MAY add an RRVS
+				    parameter for the new target address that
+				    includes that time. </t>
 			    </list> </t>
 
 			<t> There is risk and additional administrative burden
@@ -536,7 +537,6 @@
 			    The MTA expanding such an alias then decides
 			    which of the options enumerated in that section
 			    is to be applied for each new recipient. </t>
-			    
 		</section>
 		    
 		<section title="Confidential Forwarding Addresses"
