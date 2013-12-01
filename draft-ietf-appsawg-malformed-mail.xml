@@ -755,11 +755,6 @@
 				    <xref target="MAIL"/> when generating its
 				    output; </t>
 
-				<t> where a field has a limited instance count,
-				    combine additional instances into a
-				    single instance carrying the same
-				    inforamtion as the multiple instances; </t>
-
 				<t> where a field can contain multiple distinct
 				    values (such as From) or is free-form
 				    text (such as Subject), combine them into
