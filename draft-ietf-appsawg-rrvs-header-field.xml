@@ -177,10 +177,10 @@
 			    <xref target="ABNF"/>, the syntax for the field is:
 
 		    	<figure><artwork>
-    rrvs = "Require-Recipient-Valid-Since:" addr-spec; date-time CRLF
+    rrvs = "Require-Recipient-Valid-Since:" addr-spec ";" date-time CRLF
 		    	</artwork></figure> </t>
 
-			<t> "CFWS" is defined in Section 3.2.2, "date-time"
+			<t> "date-time"
 			    is defined in Section 3.3, and "addr-spec" is
 			    defined in Section 3.4.1, of
 			    <xref target="MAIL"/>. </t>
