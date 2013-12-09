@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="std"
-        docName="draft-ietf-appsawg-rrvs-header-field-04">
+        docName="draft-ietf-appsawg-rrvs-header-field-05">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -177,7 +177,8 @@
 			    <xref target="ABNF"/>, the syntax for the field is:
 
 		    	<figure><artwork>
-    rrvs = "Require-Recipient-Valid-Since:" addr-spec ";" date-time CRLF
+  rrvs = "Require-Recipient-Valid-Since:" addr-spec ";" date-time
+         CRLF
 		    	</artwork></figure> </t>
 
 			<t> "date-time"
@@ -250,7 +251,7 @@
 
 				<t> Determine if the named address is serviced
 				    for local delivery.  If so, and if that
-				    address, has not been under continuous
+				    address has not been under continuous
 				    ownership since the specified timestamp,
 				    return a 550 error to the RCPT command.
 				    (See also <xref target="iana_esc"/>.) </t>
@@ -263,6 +264,13 @@
 				    <xref target="op_header"/> for
 				    discussion.) </t>
 			    </list> </t>
+
+			<t> Where a message arrives using the SMTP extension
+			    that also contains the
+			    Require-Recipient-Valid-Since header field in its
+			    header, the header field SHOULD be removed.  (See
+			    <xref target="conversion"/> for further discussion
+			    about removal of the header field.) </t>
 
 			<section anchor="op_relay" title="Relays">
 				<t> An MTA that does not make mailbox
@@ -418,7 +426,12 @@
 			    message, and "C" advertises support for the SMTP
 			    extension, "B" SHOULD delete the header field(s)
 			    and instead relay this information by making use
-			    of the SMTP extension. </t>
+			    of the SMTP extension.  Note that such modification
+			    of the header might affect later validation of
+			    the header upon delivery; for example, a hash of
+			    the header would produce a different result.  This
+			    might be a valid cause for some operators to
+			    skip this delete operation. </t>
 		</section>
 	</section>
 
@@ -633,6 +646,11 @@
 	</section>
 
 	<section anchor="own" title="Continuous Ownership">
+		<t> Evaluating the notion of continuous ownership is
+		    accomplished by doing any query that establishes whether
+		    a particular mailbox is currently owned by the same party
+		    that owned it at a particular time in the past. </t>
+
 		<t> Determining continuous ownership of a mailbox is a local
 		    matter at the receiving site.  In particular, the only
 		    possible answers to the continuous-ownership-since
@@ -798,7 +816,8 @@
 		    owner may not know what addresses were assigned in the past
 		    by the prior owner.  Hence, no address can be known not
 		    to have had a single owner, or to have existed (or not)
-		    at all. </t>
+		    at all.  In this case, the "unknown" result is likely
+		    appropriate. </t>
 	    </section>
 	</section>
 
@@ -1235,7 +1254,6 @@
 		    Gregg Stefancik,
 		    Ed Zayas, (others) </t>
 	</section>
-
 </back>
 
 </rfc>
