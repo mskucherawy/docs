@@ -117,28 +117,24 @@
 		    client needs to indicate to the server to which it is
 		    connecting that there is an expectation that the
 		    destination of the message has been under continuous
-		    ownership since some date-time, presumably the most recent
-		    time the message author had confirmed its understanding
-		    of who owned that mailbox.  Two mechanisms are defined
-		    here: an extension to the Simple Mail Transfer Protocol
-		    <xref target="SMTP"/>, for use between a client and
-		    server that both implement the extension, and a header
-		    field that can be used when passing a message to a server
-		    that appears not to implement this extension. </t>
+		    ownership (see <xref target="own"/>) since some date-time,
+		    presumably the most recent time the message author had
+		    confirmed its understanding of who owned that mailbox.
+		    Two mechanisms are defined here: an extension to the
+		    Simple Mail Transfer Protocol <xref target="SMTP"/>, for
+		    use between a client and server that both implement the
+		    extension, and a header field that can be used when
+		    passing a message to a server that appears not to
+		    implement this extension. </t>
 
 		<t> The SMTP extenion is called "RRVS" (Require Recipient
 		    Valid Since), and adds a parameter to the SMTP "RCPT"
 		    command that indicates the most recent date and time when
 		    the message author believed the destination mailbox to be
-		    under the continuous ownership (see <xref target="own"/>)
-		    of a specific party.  Similarly, the
-		    Require-Recipient-Valid-Since header field includes
-		    an intended recipient coupled with a timestamp indicating
-		    the same thing.
-		    Presumably there has been some confirmation process applied
-		    to establish this ownership; however, the method of making
-		    such determinations is a local matter and outside the scope
-		    of this document. </t>
+		    under the continuous ownership of a specific party.
+		    Similarly, the Require-Recipient-Valid-Since header
+		    field includes an intended recipient coupled with a
+		    timestamp indicating the same thing. </t>
 
 		<section anchor="descr_esmtp"
 		         title="The 'RRVS' SMTP Extension">
@@ -646,30 +642,42 @@
 	</section>
 
 	<section anchor="own" title="Continuous Ownership">
+		<t> For the purposes of this specification, an address is
+		    defined as having been under continuous ownership since a
+		    given date-time if a message sent to the address at any
+		    point since the given date would not go to anyone except
+		    the owner at that given date-time.  That is, while an
+		    address may have been suspended or otherwise disabled
+		    for some period, any mail actually delivered would have
+		    been delivered exclusively to the same owner.  It is
+		    is presumed that some sort of relationship exists between
+		    the message sender and the intended recipient.
+		    Presumably there has been some confirmation process
+		    applied to establish this ownership of the receiver's
+		    mailbox; however, the method of making such determinations
+		    is a local matter and outside the scope of this
+		    document. </t>
+
 		<t> Evaluating the notion of continuous ownership is
 		    accomplished by doing any query that establishes whether
-		    a particular mailbox is currently owned by the same party
-		    that owned it at a particular time in the past. </t>
+		    the above condition holds for a given mailbox. </t>
 
 		<t> Determining continuous ownership of a mailbox is a local
-		    matter at the receiving site.  In particular, the only
-		    possible answers to the continuous-ownership-since
-		    question are "yes", "no", and "unknown"; the action to
-		    be taken in the "unknown" case is a matter of local
-		    policy. </t>
+		    matter at the receiving site.  The only possible answers
+		    to the continuous-ownership-since question are "yes",
+		    "no", and "unknown"; the action to be taken in the
+		    "unknown" case is a matter of local policy. </t>
 
 		<t> For example, when control of a domain name is
 		    transferred, the new domain owner might be unable to
 		    determine whether the owner of the subject address has
 		    been under continuous ownership since the stated date if
 		    the mailbox history is not also transferred (or was not
-		    previously maintained). </t>
-
-		<t> It will also be "unknown" if whatever database
-		    contains mailbox ownership data is temporarily unavailable
-		    at the time a message arrives for delivery.  In this case,
-		    typical SMTP temporary failure handling is
-		    appropriate. </t>
+		    previously maintained).  It will also be "unknown" if
+		    whatever database contains mailbox ownership data is
+		    temporarily unavailable at the time a message arrives for
+		    delivery.  In this latter case, typical SMTP temporary
+		    failure handling is appropriate. </t>
 	</section>
 
 	<section anchor="ar_defs" title="Authentication-Results Definitions">
