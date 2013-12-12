@@ -917,11 +917,12 @@
 	  </section>
 
 	  <section anchor="iana_esc" title="Enhanced Status Code Registration">
-		<t> IANA is requested to register the following in the SMTP
-		    Enhanced Status Codes registry:
+		<t> IANA is requested to register the following in the
+		    Enumerated Status Codes table of the Simple Mail Transfer
+		    Protocol (SMTP) Enhanced Status Codes Registry:
 
 			<figure><artwork>
-   Code:               X.7.15
+   Code:               X.7.17
    Sample Text:        Mailbox owner has changed
    Associated basic status code:  5
    Description:        This status code is returned when a message is
@@ -936,7 +937,7 @@
 			</artwork></figure> </t>
 
 		<t><figure><artwork>
-   Code:               X.7.16
+   Code:               X.7.18
    Sample Text:        Domain owner has changed
    Associated basic status code:  5
    Description:        This status code is returned when a message is
