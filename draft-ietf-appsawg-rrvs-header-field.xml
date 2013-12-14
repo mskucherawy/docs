@@ -209,12 +209,12 @@
 
 		<t> The header field mechanism is defined only to
 		    enable passage of the request between and through
-		    systems that that do not implement the SMTP
+		    systems that do not implement the SMTP
 		    extension. </t>
 	</section>
 
 	<section anchor="op_recv" title="Handling By Receivers">
-		<t> If a receiver implements the RRVS SMTP extension, then
+		<t> If a receiver implements this specification, then
 		    there are two possible evaluation paths:
 
 		    <list style="numbers">
@@ -225,7 +225,8 @@
 			<t> The sending client does not (or elected not to)
 			    implement the extension, so the RRVS parameter
 			    was not present on the RCPT TO commands in the SMTP
-			    session. </t>
+			    session, but the corresponding header field might
+			    be present in the message. </t>
 		    </list> </t>
 
 		<section anchor="op_esmtp" title="SMTP Extension Used">
@@ -242,11 +243,13 @@
 				<t> Ignore the parameter if the named mailbox
 				    is a role account as listed in
 			            Mailbox Names For Common Services, Roles
-			            And Functions <xref target="ROLES"/>. 
+			            And Functions <xref target="ROLES"/>, and
+				    is also an address over which the receiving
+				    MTA has local delivery authority.
 				    (See <xref target="roles"/>.) </t>
 
-				<t> Determine if the named address is serviced
-				    for local delivery.  If so, and if that
+				<t> If the address is one for local delivery
+				    but is not a role account, and if that
 				    address has not been under continuous
 				    ownership since the specified timestamp,
 				    return a 550 error to the RCPT command.
@@ -257,16 +260,10 @@
 				    fields are present and refer to the named
 				    address, remove them prior to delivery
 				    or relaying.  (See
-				    <xref target="op_header"/> for
+				    <xref target="op_header"/> and
+				    <xref target="conversion"/> for
 				    discussion.) </t>
 			    </list> </t>
-
-			<t> Where a message arrives using the SMTP extension
-			    that also contains the
-			    Require-Recipient-Valid-Since header field in its
-			    header, the header field SHOULD be removed.  (See
-			    <xref target="conversion"/> for further discussion
-			    about removal of the header field.) </t>
 
 			<section anchor="op_relay" title="Relays">
 				<t> An MTA that does not make mailbox
@@ -339,7 +336,9 @@
 			    header fields, and there are sometimes reasons to
 			    keep the field intact such as debugging or
 			    presence of digital signatures that might be
-			    invalidated by such a change. </t>
+			    invalidated by such a change.  See
+			    <xref target="signatures"/> for additional
+			    discussion. </t>
 
 			<t> If a message is to be rejected within the SMTP
 			    protocol itself (versus generating a rejection
@@ -491,7 +490,7 @@
 			    as the RRVS parameter, the message is delivered
 			    to the list service normally, and is otherwise
 			    not delivered.  However, the MTA passing the
-			    message to the list service does not convey
+			    message to the list service MUST NOT convey
 			    the RRVS parameter in either form (SMTP extension
 			    or header field) to the list service.  The
 			    emission of a message from the list service to
@@ -499,7 +498,7 @@
 			    not covered by the previous transaction. </t>
 		</section>
 		    
-		<section title="Single-Recipient Alaises"
+		<section title="Single-Recipient Aliases"
 		         anchor="special_single">
 			<t> Upon delivery of an RRVS-protected message to
 			    an alias (acting in place of a mailbox) that
@@ -680,6 +679,26 @@
 		    failure handling is appropriate. </t>
 	</section>
 
+	<section anchor="signatures" title="Digital Signatures">
+		<t> This protocol mandates removal of the header field
+		    form other than in exceptional circumstances.  Altering
+		    a message in this way will invalidate a digital signature
+		    intended to guard against message modification in transit,
+		    which can interfere with delivery. </t>
+
+		<t> Section 5.4.1 of DomainKeys Identified Mail
+		    <xref target="DKIM"/> proposes a strategy for selecting
+		    header fields to sign.  Specifically, it advises including
+		    in the signed portion of the message only those header
+		    fields that comprise part of the core content of the
+		    message.  As the header field version of this protocol is
+		    ephemeral, it cannot be considered core content. </t>
+
+		<t> Accordingly, applying digital signatures that attempt
+		    to protect the content of this header field is
+		    NOT RECOMMENDED. </t>
+	</section>
+
 	<section anchor="ar_defs" title="Authentication-Results Definitions">
 		<t> <xref target="AUTHRES"/> defines a mechanism for
 		    indicating, via a header field, the results of message
@@ -745,7 +764,7 @@
   C: MAIL FROM:&lt;sender@example.net&gt;
   S: 250 OK
   C: RCPT TO:&lt;receiver@example.com&gt; RRVS=1381993177
-  S: 550 5.7.15 receiver@example.com is no longer valid
+  S: 550 5.7.17 receiver@example.com is no longer valid
   C: QUIT
   S: 221 So long!
 			</artwork></figure> </t>
@@ -772,19 +791,29 @@
 
      Are you still there?
      .
-  S: 550 5.7.15 receiver@example.com is no longer valid
+  S: 550 5.7.17 receiver@example.com is no longer valid
   C: QUIT
   S: 221 So long!
 			</artwork></figure></t>
+		</section>
 
-			<t> If an authentication scheme is applied to claim the
-			    added header field is valid, but the scheme fails,
-			    a receiver might reject the message with an SMTP
-			    reply such as:
+		<section title="Authentication-Results Example"
+		          anchor="ex_ar">
+			<t> An example use of the Authentication-Results
+			    header field used to yield the results of an RRVS
+			    evaluation:
+
 			<figure><artwork>
-  S: 550-5.7.7 Use of Require-Recipient-Valid-Since header
-  S: 550 field requires a valid signature
+  Authentication-Results: mx.example.com; rrvs=pass
+          smtp.rcptto=user@example.com
 			</artwork></figure></t>
+
+			<t> This indicates that the message arrived addressed
+			    to the mailbox user@example.com, the
+			    continuous ownership test was applied with the
+			    provided timestamp, and the check revealed that
+			    test was satisfied.  The timestamp is not
+			    revealed. </t>
 		</section>
 	</section>
 
@@ -1164,6 +1193,40 @@
 			</front>
 
 			<seriesInfo name="RFC" value="7001"></seriesInfo>
+		</reference>
+
+		<reference anchor="DKIM">
+			<front>
+				<title>
+					DomainKeys Identified Mail (DKIM)
+					Signatures
+				</title>
+
+				<author initials="D." surname="Crocker"
+					fullname="D. Crocker" role="editor">
+					<organization>
+						Brandenburg InternetWorking
+					</organization>
+				</author>
+
+				<author initials="T." surname="Hansen"
+					fullname="T. Hansen" role="editor">
+					<organization>
+						AT&T Laboratories
+					</organization>
+				</author>
+
+				<author initials="M." surname="Kucherawy"
+					fullname="M. Kucherawy" role="editor">
+					<organization>
+						Cloudmark
+					</organization>
+				</author>
+
+				<date year="2011" month="September"/>
+			</front>
+
+			<seriesInfo name="RFC" value="6376"/>
 		</reference>
 
 		<reference anchor="DSN">
