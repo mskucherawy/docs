@@ -100,6 +100,12 @@
 		<t> The primary application is automatically generated messages
 		    rather than user-authored content, though it may be useful
 		    in other contexts.  </t>
+
+		<t> One important point is that the protocols presented
+		    here provide a way for a sending system to make a request
+		    to receiving systems with respect to handling of a
+		    message.  In the end, there is no guarantee that the
+		    request will have the desired effect. </t>
 	</section>
 
 	<section title="Definitions" anchor="defs">
@@ -220,7 +226,9 @@
 		    <list style="numbers">
 			<t> The sending client implements the extension, and
 			    so there was an RRVS parameter on a RCPT TO
-			    command in the SMTP session; or </t>
+			    command in the SMTP session and the parameters of
+			    interest are taken only from there (and the
+			    header field, if present, is disregarded); or </t>
 
 			<t> The sending client does not (or elected not to)
 			    implement the extension, so the RRVS parameter
@@ -230,7 +238,7 @@
 		    </list> </t>
 
 		<section anchor="op_esmtp" title="SMTP Extension Used">
-			<t> A receiving system that implements the SMTP
+			<t> A receiving MTA that implements the SMTP
 			    extension declared above and observes an RRVS
 			    parameter on a RCPT TO command checks whether the
 			    current owner of the destination mailbox has held
@@ -251,9 +259,10 @@
 				<t> If the address is one for local delivery
 				    but is not a role account, and if that
 				    address has not been under continuous
-				    ownership since the specified timestamp,
-				    return a 550 error to the RCPT command.
-				    (See also <xref target="iana_esc"/>.) </t>
+				    ownership since the timestamp specified
+				    in the extension, return a 550 error to
+				    the RCPT command.  (See also
+				    <xref target="iana_esc"/>.) </t>
 
 				<t> RECOMMENDED: If any
 				    Require-Recipient-Valid-Since header
@@ -368,9 +377,9 @@
 	<section anchor="roles" title="Role Accounts">
 		<t> It is necessary not to interfere with delivery of
 		    messages to role mailboxes (see <xref target="ROLES"/>),
-		    but it could be useful to indicate to users handling those
-		    mailboxes that a change of ownership might have taken
-		    place where doing so is possible. </t>
+		    but it could be useful to indicate to users sending to
+		    those mailboxes that a change of ownership might have
+		    taken place if such notification is possible. </t>
 	</section>
 			    
 	<section anchor="non_compliant" title="Relaying Without RRVS Support">
@@ -856,6 +865,24 @@
 		    at all.  In this case, the "unknown" result is likely
 		    appropriate. </t>
 	    </section>
+
+	    <section anchor="sec_false" title="False Sense of Security">
+		<t> Senders implementing this protocol likely believe their
+		    content is being protected by doing so.  It has to be
+		    considered, however, that receiving systems might not
+		    implement this protocol correctly, or at all.  Furthermore,
+		    use of RRVS by a sending system constitutes nothing more
+		    than a request to the receiving system; that system could
+		    choose not to prevent delivery for some local policy or
+		    operational reason, which compromises the security the
+		    sending system believed was a benefit to using RRVS.  This
+		    could mean the timestamp information involved in the
+		    protocol becomes inadvertently revealed. </t>
+
+		<t> This concern lends further support to the notion that
+		    senders would do well to avoid using this protocol other
+		    than when sending to known, trusted receivers. </t>
+	    </section>
 	</section>
 
 	<section anchor="privacy" title="Privacy Considerations">
@@ -916,6 +943,10 @@
 		    header fields present, the message could be forwarded
 		    to another party that would then inadvertently have the
 		    content of this header field. </t>
+
+		<t> A bad actor may detect use of either form of the RRVS
+		    protocol and interpret it as an indication of high value
+		    content. </t>
 	    </section>
 	</section>
 
@@ -1316,6 +1347,7 @@
 		<t> Reviews and comments were provided by
 		    Michael Adkins,
 		    Kurt Andersen,
+		    Eric Burger,
 		    Alissa Cooper,
 		    Dave Cridland,
 		    Dave Crocker,
