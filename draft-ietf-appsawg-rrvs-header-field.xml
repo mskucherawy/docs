@@ -320,7 +320,7 @@
 				<t> Discard any such fields for which the
 				    "addr-spec" portion does not refer to a
 				    mailbox handled for local delivery by
-				    this MTA. </t>
+				    this ADMD. </t>
 
 				<t> For each field remaining, determine if
 				    the named address has been under
@@ -371,6 +371,61 @@
 			    individual recipient is normal practice.  
 			    See <xref target="multi_rcpt"/> for further
 			    discussion. </t>
+
+			<section title="Design Choices" anchor="header_design">
+				<t> The presence of the intended address in
+				    the field content supports the case where
+				    a message bearing this header field is
+				    forwarded.  The specific use case is as
+				    follows:
+
+				    <list style="numbers">
+					<t> A user subscribes to a service "S"
+					    on date "D" and confirms an email
+					    address at the user's current
+					    location, "A"; </t>
+
+					<t> At some later date, the user
+					    intends to leave the current
+					    location, and thus creates a new
+					    mailbox elsewhere, at "B"; </t>
+
+					<t> The user replaces address "A" with
+					    forwarding to "B"; </t>
+
+					<t> "S" constructs a message to "A"
+					    claiming that address was valid at
+					    date "D" and sends it to "A"; </t>
+
+					<t> The receiving MTA at "A"
+					    determines that the forwarding in
+					    effect was created by the same
+					    party that owned the mailbox there,
+					    and thus concludes the continuous
+					    ownership test has been
+					    satisfied; </t>
+
+					<t> If possible, "A" removes this
+					    header field from the message, and
+					    in either case, forwards it to
+					    "B"; </t>
+
+					<t> On receipt at "B", either the
+					    header field has been removed, or
+					    the header field does not refer to
+					    a current envelope recipient,
+					    and in either case delivers the
+					    message. </t>
+				    </list> </t>
+
+				<t> SMTP has never required any correspondence
+				    between addresses in the RFC5321.MailFrom
+				    and RFC5321.RcptTo parameters and header
+				    fields of a message, which is why the
+				    header field defined here contains the
+				    recipient address to which the timestamp
+				    applies. </t>
+			</section>
 		</section>
 	</section>
 
@@ -596,59 +651,6 @@
 		</section>
 	</section>
 
-	<section title="Discussion" anchor="disc">
-		<t> To further obscure account details on the receiving system,
-		    the receiver SHOULD ignore the SMTP extension or the
-		    header field if the address specified has had one
-		    continuous owner since it was
-		    created, regardless of the purported confirmation date of
-		    the address.  This is further discussed in
-		    <xref target="security"/>. </t>
-
-		<t> The presence of the intended address in the field content
-		    supports the case where a message bearing this header field
-		    is forwarded.  The specific use case is as follows:
-			<list style="numbers">
-				<t> A user subscribes to a service "S" on
-				    date "D" and confirms an email address at
-				    the user's current location, "A"; </t>
-
-				<t> At some later date, the user intends to
-				    leave the current location, and thus
-				    creates a new mailbox elsewhere, at
-				    "B"; </t>
-
-				<t> The user replaces address "A" with
-				    forwarding to "B"; </t>
-
-				<t> "S" constructs a message to "A" claiming
-				    that address was valid at date "D" and
-				    sends it to "A"; </t>
-
-				<t> The receiving MTA at "A" determines that
-				    the forwarding in effect was created by the
-				    same party that owned the mailbox there,
-				    and thus concludes the continuous ownership
-				    test has been satisfied; </t>
-
-				<t> If possible, "A" removes this header field
-				    from the message, and in either case,
-				    forwards it to "B"; </t>
-
-				<t> On receipt at "B", either the header field
-				    has been removed, or the header field does
-				    not refer to a current envelope recipient,
-				    and in either case delivers the
-				    message. </t>
-			</list> </t>
-
-		<t> SMTP has never required any correspondence between
-		    addresses in the RFC5321.MailFrom and RFC5321.RcptTo
-		    parameters and header fields of a message, which is why
-		    the header field defined here contains the recipient
-		    address to which the timestamp applies. </t>
-	</section>
-
 	<section anchor="own" title="Continuous Ownership">
 		<t> For the purposes of this specification, an address is
 		    defined as having been under continuous ownership since a
@@ -686,6 +688,13 @@
 		    temporarily unavailable at the time a message arrives for
 		    delivery.  In this latter case, typical SMTP temporary
 		    failure handling is appropriate. </t>
+
+		<t> To further obscure account details on the receiving
+		    system, the receiver SHOULD ignore the SMTP extension or
+		    the header field if the address specified has had one
+		    continuous owner since it was created, regardless of the
+		    purported confirmation date of the address.  This is
+		    further discussed in <xref target="security"/>. </t>
 	</section>
 
 	<section anchor="signatures" title="Digital Signatures">
@@ -937,12 +946,13 @@
 
 	    <section anchor="priv_header"
 	             title="Risks with Use of Header Field">
-		<t> MTAs might not implement the recommendation to remove the
-		    header field defined here, either out of ignorance or due
-		    to error.  Since user agents often do not render all of the
-		    header fields present, the message could be forwarded
-		    to another party that would then inadvertently have the
-		    content of this header field. </t>
+		<t> MDAs might not implement the recommendation to remove
+		    the header field defined here when messages are delivered,
+		    either out of ignorance or due to error.  Since user
+		    agents often do not render all of the header fields
+		    present, the message could be forwarded to another party
+		    that would then inadvertently have the content of this
+		    header field. </t>
 
 		<t> A bad actor may detect use of either form of the RRVS
 		    protocol and interpret it as an indication of high value
