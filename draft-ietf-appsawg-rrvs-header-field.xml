@@ -154,7 +154,8 @@
 			    no associated parameters, introduces no new
 			    SMTP verbs, and does not alter the MAIL verb. </t>
 
-			<t> An MTA implementing RRVS can transmit or accept a
+			<t> A Message Transfer Agent (MTA) implementing RRVS
+			    can transmit or accept a
 			    new parameter to the RCPT command.  The new
 			    parameter is "RRVS", which takes a value
 			    that is a timestamp expressed as a
