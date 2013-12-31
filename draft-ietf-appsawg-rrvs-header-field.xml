@@ -127,11 +127,13 @@
 		    presumably the most recent time the message author had
 		    confirmed its understanding of who owned that mailbox.
 		    Two mechanisms are defined here: an extension to the
-		    Simple Mail Transfer Protocol <xref target="SMTP"/>, for
-		    use between a client and server that both implement the
-		    extension, and a header field that can be used when
-		    passing a message to a server that appears not to
-		    implement this extension. </t>
+		    Simple Mail Transfer Protocol <xref target="SMTP"/>
+		    and a new message header field.  The SMTP extension
+		    permits strong assurance of enforcement by confirming
+		    support at each handling step for a message.  The
+		    header field does not provide the strong assurance, but
+		    only requires adoption by the receiving Message Delivery
+		    Agent (MDA). </t>
 
 		<t> The SMTP extenion is called "RRVS" (Require Recipient
 		    Valid Since), and adds a parameter to the SMTP "RCPT"
@@ -204,15 +206,20 @@
 		    destination. </t>
 
 		<t> Use of the SMTP extension provided here is
-		    preferable over the header field method, since
-		    the additional detail about the relationship
-		    between the message author and its intended
-		    recipient is at best a property of the message
-		    transaction and not part of the message itself.
-		    Further, SMTP parameters are not typically recorded in
-		    the message upon delivery, so detail about the
-		    relationship between the author or author's ADMD and
-		    the intended recipient are not recorded. </t>
+		    preferable over the header field method because of:
+
+		    <list style="numbers">
+			<t> the positive confirmation of support at each
+			    handling node; </t>
+
+			<t> the fact that the protocol is focused on
+			    affecting delivery (that is, the transaction)
+			    rather than content; and </t>
+
+			<t> the fact that there is less risk of the
+			    timestamp parameter being inadvertently
+			    forwarded (see <xref target="priv_header"/>). </t>
+		    </list> </t>
 
 		<t> The header field mechanism is defined only to
 		    enable passage of the request between and through
