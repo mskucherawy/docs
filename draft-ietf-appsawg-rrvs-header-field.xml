@@ -214,7 +214,7 @@
 
 			<t> the fact that the protocol is focused on
 			    affecting delivery (that is, the transaction)
-			    rather than content; and </t>
+			    rather than on content; and </t>
 
 			<t> the fact that there is less risk of the
 			    timestamp parameter being inadvertently
@@ -246,27 +246,31 @@
 		    </list> </t>
 
 		<section anchor="op_esmtp" title="SMTP Extension Used">
-			<t> A receiving MTA that implements the SMTP
+			<t> An MDA, by definition, will perform final delivery for
+			    one or more of the intended recipients of an arriving
+			    message, as identified in RCPT commands of the SMTP
+			    session.  It acts as an MTA for all other
+			    recipients, routing the message rather than delivering
+			    it. </t>
+
+			<t> A receiving MDA that implements the SMTP
 			    extension declared above and observes an RRVS
 			    parameter on a RCPT TO command checks whether the
 			    current owner of the destination mailbox has held
 			    it continuously, far enough back to include the
 			    given date-time, and delivers it unless that check
-			    returns in the negative.  Expressed as a sequence
-			    of steps:
+			    returns in the negative.  Specifically, an MDA will
+			    do the following before continuing with delivery:
 
 			    <list style="numbers">
 				<t> Ignore the parameter if the named mailbox
 				    is a role account as listed in
 			            Mailbox Names For Common Services, Roles
-			            And Functions <xref target="ROLES"/>, and
-				    is also an address over which the receiving
-				    MTA has local delivery authority.
+			            And Functions <xref target="ROLES"/>.
 				    (See <xref target="roles"/>.) </t>
 
-				<t> If the address is one for local delivery
-				    but is not a role account, and if that
-				    address has not been under continuous
+				<t> If the address is not a role account, and if
+				    that address has not been under continuous
 				    ownership since the timestamp specified
 				    in the extension, return a 550 error to
 				    the RCPT command.  (See also
@@ -287,8 +291,8 @@
 				    ownership checks, such as an MTA
 				    positioned to do SMTP ingress at an
 				    organizational boundary, SHOULD relay the
-				    RRVS extension parameter to the next MTA
-				    so that it can be processed there. </t>
+				    RRVS extension parameter to the next MTA or
+				    MDA so that it can be processed there. </t>
 
 				<t> See <xref target="special_single"/> for
 				    additional discussion. </t>
@@ -309,7 +313,7 @@
 			    <list style="numbers">
 				<t> Extract the set of
 				    Require-Recipient-Valid-Since fields from
-				    the message for which no corresponding
+				    MDA the message for which no corresponding
 				    RRVS SMTP extension was used. </t>
 
 				<t> Discard any such fields that are
@@ -440,9 +444,9 @@
 	<section anchor="roles" title="Role Accounts">
 		<t> It is necessary not to interfere with delivery of
 		    messages to role mailboxes (see <xref target="ROLES"/>),
-		    but it could be useful to indicate to users sending to
+		    but it could be useful to notify users sending to
 		    those mailboxes that a change of ownership might have
-		    taken place if such notification is possible. </t>
+		    taken place, if such notification is possible. </t>
 	</section>
 			    
 	<section anchor="non_compliant" title="Relaying Without RRVS Support">
@@ -561,12 +565,13 @@
 			    mailbox since at least the timestamp given
 			    as the RRVS parameter, the message is delivered
 			    to the list service normally, and is otherwise
-			    not delivered.  However, the MTA passing the
-			    message to the list service MUST NOT convey
-			    the RRVS parameter in either form (SMTP extension
-			    or header field) to the list service.  The
-			    emission of a message from the list service to
-			    its subscribers constitutes a new message
+			    not delivered. </t>
+
+			<t> It is important, however, that the MTA passing the
+			    message to the list service omits the RRVS parameter
+			    in either form (SMTP extension or header field) when
+			    doing so.  The emission of a message from the list
+			    service to its subscribers constitutes a new message
 			    not covered by the previous transaction. </t>
 		</section>
 		    
