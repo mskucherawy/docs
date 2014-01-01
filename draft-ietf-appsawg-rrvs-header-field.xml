@@ -135,7 +135,7 @@
 		    only requires adoption by the receiving Message Delivery
 		    Agent (MDA). </t>
 
-		<t> The SMTP extenion is called "RRVS" (Require Recipient
+		<t> The SMTP extension is called "RRVS" (Require Recipient
 		    Valid Since), and adds a parameter to the SMTP "RCPT"
 		    command that indicates the most recent date and time when
 		    the message author believed the destination mailbox to be
@@ -161,7 +161,7 @@
 			    new parameter to the RCPT command.  The new
 			    parameter is "RRVS", which takes a value
 			    that is a timestamp expressed as a
-			    "date-time" as defiend in
+			    "date-time" as defined in
 			    <xref target="DATETIME"/>, with the added
 			    restriction that a "time-secfrac" MUST NOT
 			    be used.  Accordingly, this extension increases
@@ -250,7 +250,7 @@
 			    extension declared above and observes an RRVS
 			    parameter on a RCPT TO command checks whether the
 			    current owner of the destination mailbox has held
-			    it continuously, far enough back to inclue the
+			    it continuously, far enough back to include the
 			    given date-time, and delivers it unless that check
 			    returns in the negative.  Expressed as a sequence
 			    of steps:
