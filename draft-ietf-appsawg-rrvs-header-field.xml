@@ -246,12 +246,10 @@
 		    </list> </t>
 
 		<section anchor="op_esmtp" title="SMTP Extension Used">
-			<t> An MDA, by definition, will perform final delivery for
-			    one or more of the intended recipients of an arriving
-			    message, as identified in RCPT commands of the SMTP
-			    session.  It acts as an MTA for all other
-			    recipients, routing the message rather than delivering
-			    it. </t>
+			<t> For an MTA supporting the SMTP extension, the
+			    requirement is to continue enforcement of
+			    RRVS during the relaying process to the next MTA
+			    or the MDA. </t>
 
 			<t> A receiving MDA that implements the SMTP
 			    extension declared above and observes an RRVS
@@ -567,12 +565,13 @@
 			    to the list service normally, and is otherwise
 			    not delivered. </t>
 
-			<t> It is important, however, that the MTA passing the
-			    message to the list service omits the RRVS parameter
-			    in either form (SMTP extension or header field) when
-			    doing so.  The emission of a message from the list
-			    service to its subscribers constitutes a new message
-			    not covered by the previous transaction. </t>
+			<t> It is important, however, that the participating
+			    MDA passing the message to the list service needs
+			    to omit the RRVS parameter in either form (SMTP
+			    extension or header field) when doing so.  The
+			    emission of a message from the list service to
+			    its subscribers constitutes a new message not
+			    covered by the previous transaction. </t>
 		</section>
 		    
 		<section title="Single-Recipient Aliases"
