@@ -157,9 +157,9 @@
 			    SMTP verbs, and does not alter the MAIL verb. </t>
 
 			<t> A Message Transfer Agent (MTA) implementing RRVS
-			    can transmit or accept a
-			    new parameter to the RCPT command.  The new
-			    parameter is "RRVS", which takes a value
+			    can transmit or accept a new parameter to the RCPT
+			    command.  An MDA can also accept this new parameter.
+			    The new parameter is "RRVS", which takes a value
 			    that is a timestamp expressed as a
 			    "date-time" as defined in
 			    <xref target="DATETIME"/>, with the added
@@ -262,23 +262,22 @@
 
 			    <list style="numbers">
 				<t> Ignore the parameter if the named mailbox
-				    is a role account as listed in
+				    is known to be a role account as listed in
 			            Mailbox Names For Common Services, Roles
 			            And Functions <xref target="ROLES"/>.
 				    (See <xref target="roles"/>.) </t>
 
-				<t> If the address is not a role account, and if
-				    that address has not been under continuous
-				    ownership since the timestamp specified
-				    in the extension, return a 550 error to
-				    the RCPT command.  (See also
+				<t> If the address is not known to be a role
+				    account, and if that address has not been
+				    under continuous ownership since the timestamp
+				    specified in the extension, return a 550 error
+				    to the RCPT command.  (See also
 				    <xref target="iana_esc"/>.) </t>
 
-				<t> RECOMMENDED: If any
-				    Require-Recipient-Valid-Since header
+				<t> If any Require-Recipient-Valid-Since header
 				    fields are present and refer to the named
-				    address, remove them prior to delivery
-				    or relaying.  (See
+				    address, they SHOULD be removed prior to
+				    delivery or relaying.  (See
 				    <xref target="op_header"/> and
 				    <xref target="conversion"/> for
 				    discussion.) </t>
