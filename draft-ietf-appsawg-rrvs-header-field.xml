@@ -709,11 +709,11 @@
 	</section>
 
 	<section anchor="signatures" title="Digital Signatures">
-		<t> This protocol mandates removal of the header field
-		    form other than in exceptional circumstances.  Altering
-		    a message in this way will invalidate a digital signature
-		    intended to guard against message modification in transit,
-		    which can interfere with delivery. </t>
+		<t> This protocol mandates removal of the header field (when used)
+		    upon delivery in all but iexceptional circumstances.
+		    Altering a message in this way will invalidate a digital
+		    signature intended to guard against message modification in
+		    transit, which can interfere with delivery. </t>
 
 		<t> Section 5.4.1 of DomainKeys Identified Mail
 		    <xref target="DKIM"/> proposes a strategy for selecting
