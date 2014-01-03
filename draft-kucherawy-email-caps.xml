@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<rfc ipr="trust200902" category="info"
+        docName="draft-kucherawy-email-caps-00">
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc strict="no" ?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="Adding Email Capabilities">
+		Adding Capabilities to Email
+	</title>
+
+	<author initials="M. S." surname="Kucherawy"
+	        fullname="Murray S. Kucherawy">
+
+		<organization/> 
+
+		<address>
+			<postal>
+				<street>270 Upland Drive</street>
+				<city>San Francisco</city>
+				<region>CA</region>
+				<code>94127</code>
+				<country>USA</country>
+			</postal>
+
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<date year="2014"/>
+
+	<area>Applications</area>
+
+	<abstract>
+		<t> Many enhancements to the email service have appeared since its
+		    basic format and protocol were defined.  However, the lines
+		    between these are sometimes blurred as a result of
+		    the evolution of the software that implements them.  This
+		    document provides observations about these points and
+		    some clear guidelines for those interested in developing
+		    further enhancements. </t>
+	</abstract>
+</front>
+
+<middle>
+	<section anchor="intro" title="Introduction">
+		<t> The email service has two core components: The format of
+		    a message, and the transport for that message. </t>
+
+		<t> The format was originally fully specified in
+		    <xref target="RFC733"/>, though it has some antecedents
+		    in the RFC archive.  The current specificaton is
+		    <xref target="RFC5322"/>.  This format describes
+		    two sections: a "header" and a "body".  The body contains
+		    the actual content fo the message itself, while the header
+		    conveys some metadata such as who sent it, to whom it
+		    was sent, where replies are to be directed, etc. </t>
+
+		<t> The protocol was originally fully specified in
+		    <xref target="RFC821"/>, though it too was based on some
+		    other previous work.  The current specification is
+		    <xref target="RFC5321"/>.  The protocol is essentially a
+		    simple ASCII dialog between the client (sending)
+		    system and the server (receiving) system that exchanges
+		    a couple of identifiers -- the sender and the recipient --
+		    and then the message itself, with status codes as the
+		    responses at each step. </t>
+
+		<t> A number of enhancements to both of these have appeared
+		    over the years, which are too numerous to list here.  They
+		    range in popularity and deployment.  Some of these are
+		    enhancements to format (such as the addition of multimedia
+		    support), others to the protocol (such as enhanced
+		    error handling), and a few have augmented both. </t>
+
+		<t> The original and increased complexity of the service has
+		    led to a body of deployed code that has in turn had some
+		    impacts on the development of enhancements over time.
+		    The IETF has observed that this leads to enhancements
+		    being developed in what it believes to be a misguided
+		    way, given the intended architecture. </t>
+
+		<t> This document describes the relationship between the two
+		    major components and provides advice on developing
+		    future enhancements, while also being sensitive to the
+		    nature of currently deployed software, and the community's
+		    use of the service in general. </t>
+	</section>
+
+	<section title="Definitions" anchor="defs">
+		<t> For a description of the email architecture, consult
+		    <xref target="EMAIL-ARCH"/>. </t>
+	</section>
+
+	<section title="The Protocol" anchor="protocol">
+		<t> The Simple Mail Transfer Protocol (SMTP) is the language
+		    spoken by email clients and servers to exchange messages.
+		    The protocol is all in printable ASCII, which makes it easy
+		    for users to "speak" the protocol directly for the purposes
+		    of testing, debugging, or illustration. </t>
+
+		<t> Essentially, the client introduces itself to the server, which
+		    replies with a similar greeting.  The client declares that it
+		    has a message from a given party for delivery to one or more
+		    parties, followed by a declaration that it is ready to send
+		    the content.  When the server is ready, the client relays its
+		    payload (the message) to the server.  Finally, the server 
+		    accepts the message, returning a code to the client that
+		    uniquely identifies this transaction so that later analysis
+		    of the specific transaction is possible.  This sequence can
+		    repeat if the client has multiple messages to relay.  When
+		    no more relaying is to be done, the two politely
+		    disconnect, and the dialog is complete. </t>
+
+		<t> One could make the analogy of a person (perhaps a postal
+		    worker) speaking to another person (perhaps at home)
+		    and the former handing the latter an envelope
+		    bearing a sender address and a recipient address.  The
+		    specific contents are not known to either of these parties
+		    at this stage; merely the exchange takes place. </t>
+
+		<t> An important point here is that once the exchange is complete,
+		    the first party no longer has the message.  This is one of
+		    the intentional properties of the email service; the message
+		    always exists in exactly one place. </t>
+	</section>
+
+	<section title="The Message" anchor="content">
+		<t> The email format is meant to convey the "core" content of
+		    a message between two or more parties.  It consists of a
+		    header and a body.  The body is the actual message, and
+		    in modern terms it can contain unstructured plain text, 
+		    structured multimedia, or nothing at all.  The header
+		    consists of a set of header fields that include meta-data
+		    about the content, such as identifying the party (or parties)
+		    that generated it, which agents handled it in transit,
+		    the date and time at which it was generated, the (apparent)
+		    set of intended recipients, etc.  In the case of structured
+		    content, the header also contains the initial set of details
+		    needed to extract the structure. </t>
+
+		<t> If one imagines a printed memo, with fields like "From",
+		    "To", "Subject", "Date", and perhaps "Cc", it is easy to
+		    envision a simple email message; these fields are at the
+		    top, separated by some kind of divider (which might be just
+		    an extra blank line or two) followed by the body of the memo.
+		    It is in this image that the email format was also
+		    created. </t>
+
+		<t> Importantly, what's on that memo is completely independent
+		    of what was on the envelope that contained it.  The memo
+		    might say "From: Alice" and "To: Bob", while the envelope
+		    said "From: Charlie" and "To: Donald".  More generally,
+		    there is no guarantee that the content and the transport
+		    have any relationship at all. </t>
+
+		<t> SMTP has the notion of "Trace Information" which is a
+		    record of the agents that handled the message prior to
+		    delivery.  One might think of a premium package handling
+		    service that includes tracking as part of its product,
+		    showing through which stations the package was carried and
+		    a date/time at each.  Email trace information fulfills the
+		    same goal, and is normally recorded as header fields. </t>
+	</section>
+
+	<section title="Deployment Observations and Results" anchor="deployment">
+	</section>
+
+	<section title="Guidance for Future Work" anchor="guidance">
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+	</section>
+
+	<section anchor="iana" title="IANA Considerations">
+		<t> This document contains no actions for IANA. </t>
+
+		<t> [RFC Editor: Please remove this section prior to
+		    publication.] </t>
+	</section>
+</middle>
+
+<back>
+	<references title="Normative References">
+	</references>
+
+	<references title="Informative References">
+	</references>
+
+	<section anchor="thanks" title="Acknowledgments">
+	</section>
+</back>
+
+</rfc>
