@@ -39,9 +39,9 @@
 	<area>Applications</area>
 
 	<abstract>
-		<t> Many enhancements to the email service have appeared since its
-		    basic format and protocol were defined.  However, the lines
-		    between these are sometimes blurred as a result of
+		<t> Many enhancements to the email service have appeared since
+		    its basic format and protocol were defined.  However, the
+		    lines between these are sometimes blurred as a result of
 		    the evolution of the software that implements them.  This
 		    document provides observations about these points and
 		    some clear guidelines for those interested in developing
@@ -106,18 +106,19 @@
 		    for users to "speak" the protocol directly for the purposes
 		    of testing, debugging, or illustration. </t>
 
-		<t> Essentially, the client introduces itself to the server, which
-		    replies with a similar greeting.  The client declares that it
-		    has a message from a given party for delivery to one or more
-		    parties, followed by a declaration that it is ready to send
-		    the content.  When the server is ready, the client relays its
-		    payload (the message) to the server.  Finally, the server 
-		    accepts the message, returning a code to the client that
-		    uniquely identifies this transaction so that later analysis
-		    of the specific transaction is possible.  This sequence can
-		    repeat if the client has multiple messages to relay.  When
-		    no more relaying is to be done, the two politely
-		    disconnect, and the dialog is complete. </t>
+		<t> Essentially, the client introduces itself to the server,
+		    which replies with a similar greeting.  The client
+		    declares that it has a message from a given party for
+		    delivery to one or more parties, followed by a declaration
+		    that it is ready to send the content.  When the server is
+		    ready, the client relays its payload (the message) to the
+		    server.  Finally, the server accepts the message,
+		    returning a code to the client that uniquely identifies
+		    this transaction so that later analysis of the specific
+		    transaction is possible.  This sequence can repeat if the
+		    client has multiple messages to relay.  When no more
+		    relaying is to be done, the two politely disconnect, and
+		    the dialog is complete. </t>
 
 		<t> One could make the analogy of a person (perhaps a postal
 		    worker) speaking to another person (perhaps at home)
@@ -126,10 +127,10 @@
 		    specific contents are not known to either of these parties
 		    at this stage; merely the exchange takes place. </t>
 
-		<t> An important point here is that once the exchange is complete,
-		    the first party no longer has the message.  This is one of
-		    the intentional properties of the email service; the message
-		    always exists in exactly one place. </t>
+		<t> An important point here is that once the exchange is
+		    complete, the first party no longer has the message.  This
+		    is one of the intentional properties of the email service;
+		    the message always exists in exactly one place. </t>
 	</section>
 
 	<section title="The Message" anchor="content">
@@ -139,19 +140,20 @@
 		    in modern terms it can contain unstructured plain text, 
 		    structured multimedia, or nothing at all.  The header
 		    consists of a set of header fields that include meta-data
-		    about the content, such as identifying the party (or parties)
-		    that generated it, which agents handled it in transit,
-		    the date and time at which it was generated, the (apparent)
-		    set of intended recipients, etc.  In the case of structured
-		    content, the header also contains the initial set of details
-		    needed to extract the structure. </t>
+		    about the content, such as identifying the party (or
+		    parties) that generated it, which agents handled it in
+		    transit, the date and time at which it was generated, the
+		    (apparent) set of intended recipients, etc.  In the case
+		    of structured content, the header also contains the
+		    initial set of details needed to extract the
+		    structure. </t>
 
 		<t> If one imagines a printed memo, with fields like "From",
 		    "To", "Subject", "Date", and perhaps "Cc", it is easy to
 		    envision a simple email message; these fields are at the
 		    top, separated by some kind of divider (which might be just
-		    an extra blank line or two) followed by the body of the memo.
-		    It is in this image that the email format was also
+		    an extra blank line or two) followed by the body of the
+		    memo.  It is in this image that the email format was also
 		    created. </t>
 
 		<t> Importantly, what's on that memo is completely independent
@@ -170,7 +172,8 @@
 		    same goal, and is normally recorded as header fields. </t>
 	</section>
 
-	<section title="Deployment Observations and Results" anchor="deployment">
+	<section title="Deployment Observations and Results"
+		 anchor="deployment">
 	</section>
 
 	<section title="Guidance for Future Work" anchor="guidance">
