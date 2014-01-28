@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC0733 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.0733.xml">
+  <!ENTITY RFC0821 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.0821.xml">
+  <!ENTITY RFC5321 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5321.xml">
+  <!ENTITY RFC5322 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5322.xml">
+  <!ENTITY RFC5598 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5598.xml">
+]>
+
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-kucherawy-email-caps-00">
+        docName="draft-kucherawy-email-caps-01">
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -55,7 +65,7 @@
 		    a message, and the transport for that message. </t>
 
 		<t> The format was originally fully specified in
-		    <xref target="RFC733"/>, though it has some antecedents
+		    <xref target="RFC0733"/>, though it has some antecedents
 		    in the RFC archive.  The current specificaton is
 		    <xref target="RFC5322"/>.  This format describes
 		    two sections: a "header" and a "body".  The body contains
@@ -63,8 +73,9 @@
 		    conveys some metadata such as who sent it, to whom it
 		    was sent, where replies are to be directed, etc. </t>
 
-		<t> The protocol was originally fully specified in
-		    <xref target="RFC821"/>, though it too was based on some
+		<t> The Simple Mail Transfer Protocol (SMTP)  was originally fully
+		    specified in
+		    <xref target="RFC0821"/>, though it too was based on some
 		    other previous work.  The current specification is
 		    <xref target="RFC5321"/>.  The protocol is essentially a
 		    simple ASCII dialog between the client (sending)
@@ -96,7 +107,7 @@
 
 	<section title="Definitions" anchor="defs">
 		<t> For a description of the email architecture, consult
-		    <xref target="EMAIL-ARCH"/>. </t>
+		    Internet Mail Architecture <xref target="RFC5598"/>. </t>
 	</section>
 
 	<section title="The Protocol" anchor="protocol">
@@ -113,12 +124,12 @@
 		    that it is ready to send the content.  When the server is
 		    ready, the client relays its payload (the message) to the
 		    server.  Finally, the server accepts the message,
-		    returning a code to the client that uniquely identifies
-		    this transaction so that later analysis of the specific
-		    transaction is possible.  This sequence can repeat if the
-		    client has multiple messages to relay.  When no more
-		    relaying is to be done, the two politely disconnect, and
-		    the dialog is complete. </t>
+		    usually returning a code to the client that uniquely
+		    identifies this transaction so that later analysis of the
+		    specific transaction is possible.  This sequence can
+		    repeat if the client has multiple messages to relay.  When
+		    no more relaying is to be done, the two politely
+		    disconnect, and the dialog is complete. </t>
 
 		<t> One could make the analogy of a person (perhaps a postal
 		    worker) speaking to another person (perhaps at home)
@@ -131,6 +142,15 @@
 		    complete, the first party no longer has the message.  This
 		    is one of the intentional properties of the email service;
 		    the message always exists in exactly one place. </t>
+
+		<t> An envelope, in this illustration, can name more than one
+		    recipient.  An agent holding a message with such an
+		    envelope may find it must next relay the message to
+		    multiple independent servers to complete delivery to each
+		    recipient.  In this case, that agent clones ("splits")
+		    the envelope, resuting in multiple envelopes each with
+		    a subset of the previous recipient set, but with identical
+		    content. </t>
 	</section>
 
 	<section title="The Message" anchor="content">
@@ -155,6 +175,12 @@
 		    an extra blank line or two) followed by the body of the
 		    memo.  It is in this image that the email format was also
 		    created. </t>
+	</section>
+
+	<section title="Header vs. Envelope" anchor="hdr_env">
+		<t> It is useful to consider this separation of function
+		    of the message versus the envelope when considering the
+		    design of any enhancement to the email service. </t>
 
 		<t> Importantly, what's on that memo is completely independent
 		    of what was on the envelope that contained it.  The memo
@@ -163,23 +189,156 @@
 		    there is no guarantee that the content and the transport
 		    have any relationship at all. </t>
 
-		<t> SMTP has the notion of "Trace Information" which is a
+		<t> An example of non-core material that is rightly a property
+		    of the message and not the envelope includes digital
+		    signatures.  One might think of the mark or seal of a
+		    notary, which is meant to certify the content and not the
+		    envelope containing it. </t>
+
+		<t> SMTP also has the notion of "Trace Information" which is a
 		    record of the agents that handled the message prior to
-		    delivery.  One might think of a premium package handling
+		    delivery and when they each processed the message.  One
+		    might think of a premium package handling
 		    service that includes tracking as part of its product,
 		    showing through which stations the package was carried and
 		    a date/time at each.  Email trace information fulfills the
 		    same goal, and is normally recorded as header fields. </t>
+
+		<t> However, any message can be forwarded by a user or a piece
+		    of software (such as a mailing list service).  In this case,
+		    it is appropriate to think of the message content as
+		    taking on a new life beyond its original delivery, with
+		    a new envelope and possibly a new or revised header or even
+		    augmented content.  Caution must be taken when constructing
+		    a new header so that information relevant only to the
+		    original delivery does not get forwarded; this leakage
+		    of information can lead to mishandling of the content or
+		    even leakage of private information to the new
+		    recipient(s). </t>
 	</section>
 
 	<section title="Deployment Observations and Results"
 		 anchor="deployment">
+		<t> As the email service has grown in popularity, it also
+		    became a popular target for abuse.  In particular, it
+		    became a vector for delivery of unwanted commercial email
+		    ("spam") or even malicious active content ("malware", such
+		    as viruses or worms).  Both of these attempt to exploit
+		    user trust (and naivete) in order to deliver undesirable
+		    content.  Among other things, false or misleading
+		    From and Subject fields on messages are commonplace. </t>
+
+		<t> Mail User Agents (MUAs) retrieve messages from message
+		    stores, and not from the Message Transfer Agents (MTAs)
+		    or Message Delivery Agents (MDAs) that affect transport
+		    and delivery of messages.  As such, they do not have access
+		    to the parameters exchanged during the protocol sessions
+		    that resulted in the delivery.  This led to many MUA
+		    extensions that were activated by way of custom header
+		    fields rather than extensions to SMTP, or to MUA protocols
+		    such as the Internet Message Access Protocol (IMAP) or
+		    Post Office Protocol (POP). </t>
+
+		<t> These two factors have led to increased flexibility in
+		    email handling agents (primarily Message Transfer Agents,
+		    or MTAs) for making decisions about, or altering, header
+		    fields on messages as they arrived.  By contrast, very
+		    little in the way of messaging abuse takes place via
+		    misuse of SMTP extensions.  This has resulted in the
+		    current environment, in which it is often very easy to
+		    add, alter, remove, and analyze header fields on a
+		    message, and typically very difficult if not impossible
+		    to add or process an SMTP extension for which built-in
+		    support does not already exist. </t>
+
+		<t> By its nature, an MTA or MDA that implements an SMTP
+		    extension advertises this fact in its reply to the EHLO
+		    command verb when issued by a client.  A client,
+		    therefore, that has support for a particular extension
+		    can easily determine if the next agent to which it will
+		    relay a message also supports that extension.  If that
+		    agent does not include such support, the current agent
+		    must decide to do one of two things:
+
+		    <list style="letters">
+			<t> consider the delivery a failure, and begin
+			    processing it as an error; or </t>
+
+			<t> relay the message anyway, losing the capability
+			    afforded by the extension. </t>
+		    </list> </t>
+
+		<t> The former is required, of course, if the capability
+		    offered by the extension needs to be active from the
+		    message's origin to its final destination.  By contrast,
+		    an MTA or MDA that does not know of a particular special
+		    interpretation for a specific header field will almost
+		    always simply ignore that header field and continue to
+		    relay it unmodified.  This can be enormously useful when
+		    one wishes to deploy a new capability that will not be
+		    affected by non-participating agents. </t>
+
+		<t> Another distinguishing property between the two approaches
+		    is that an SMTP client can immediately determine which
+		    protocol extensions are supported, while extensions that
+		    involve header fields are not visible to the client.
+		    Header field extensions, therefore, need to be designed
+		    such that they can be ignored by agents that don't support
+		    them. </t>
+
+		<t> As a result, it is common to assume that adding a new
+		    capability to the email service is best accomplished by
+		    creating (and hopefully, registering) a new header field
+		    specific to that purpose, even if that capability would
+		    more properly be implemented as an SMTP extension. </t>
+
+		<t> In a few very rare cases, new capabilities have even been
+		    developed that include both header field and SMTP extension
+		    forms. </t>
 	</section>
 
 	<section title="Guidance for Future Work" anchor="guidance">
+		<t> Enhancements to the email system should be designed such
+		    that they appear in the protocol when they have to do with
+		    handling and delivery, and in the message when they
+		    directly affect the content in ways that do not involve the
+		    transport of the content.  An additional rule of thumb
+		    is to ensure that extensions specific to an envelope
+		    address need to appear as SMTP extensions rather than
+		    header fields. </t>
+
+		<t> Overloading the header for enhancements that do not fit
+		    the envelope vs. content model may be convenient given
+		    the current deployed environment, but they result in
+		    such issues as:
+
+		    <list style="symbols">
+			<t> pollution of the header field namespace; </t>
+
+			<t> often needless enlargement of messages; and </t>
+
+			<t> inadvertent leakage of data not relevant to later
+			    message recipients. </t>
+		    </list> </t>
+
+		<t> MTA and MDA implementers need to ensure that SMTP
+		    extensions can be added and handled via the runtime
+		    environment as easily as they can be for header fields.
+		    This will ensure the more sound architectural decisions
+		    can be made by designers of future enhancements. </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
+		<t> An important observation is that the envelope and
+		    the header overlap in only a small number of key ways.
+		    The most obvious of these is the Return-Path header field,
+		    added at time of delivery, which includes the sender
+		    address as extracted from the message envelope.  Typically,
+		    all other envelope details are discarded upon delivery. 
+		    Because of this, data that should be ephemeral but are stored
+		    in header fields can fall into the wrong hands when the
+		    messages is forwarded.  Following the recommendations
+		    above can help to reduce this concern. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
@@ -192,12 +351,19 @@
 
 <back>
 	<references title="Normative References">
+		&RFC5598;
 	</references>
 
 	<references title="Informative References">
+		&RFC0733;
+		&RFC0821;
+		&RFC5321;
+		&RFC5322;
 	</references>
 
 	<section anchor="thanks" title="Acknowledgments">
+		<t> John Levine provided useful review comments during the
+		    early development of this work. </t>
 	</section>
 </back>
 
