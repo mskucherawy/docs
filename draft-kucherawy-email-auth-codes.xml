@@ -5,6 +5,7 @@
   <!ENTITY RFC4408 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4408.xml">
   <!ENTITY RFC5248 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5248.xml">
   <!ENTITY RFC6376 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6376.xml">
+  <!ENTITY RFC7001 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7001.xml">
 ]>
 
 
@@ -65,7 +66,10 @@
 		<t> <xref target="RFC6376"/> and <xref target="RFC4408"/>
 		    introduced, respectively, DomainKeys Identified Mail
 		    and Sender Policy Framework, two protocols for conducting
-		    email authentication. </t>
+		    email authentication.  Another common email acceptance
+		    test is the reverse Domain Name System check on an email
+		    client's IP address, as described in Section 3 of
+		    <xref target="RFC7001"/>. </t>
 
 		<t> The current set of enhanced status codes does not include
 		    any code for indicating that a message is being rejected
@@ -117,6 +121,21 @@
    Change controller:  IESG
 			</artwork></figure> </t>
 		</section>
+
+		<section anchor="iprev-code" title="Reverse DNS Failure Code">
+			<t><figure><artwork>
+   Code:               X.7.22
+   Sample Text:        reverse DNS validation failed
+   Associated basic status code:  5
+   Description:        This status code is returned when an SMTP
+                       client's IP address failed a reverse DNS
+                       validation check, contrary to local policy
+                       requirements.
+   Reference:          [this document]
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+		</section>
 	</section>
 
 	<section anchor="discuss" title="General Considerations">
@@ -154,6 +173,7 @@
 		&RFC4408;
 		&RFC5248;
 		&RFC6376;
+		&RFC7001;
 	</references>
 
 	<section anchor="ed-notes" title="Notes to the RFC Editor">
