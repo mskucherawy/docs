@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="std"
-        docName="draft-ietf-appsawg-rrvs-header-field-06">
+        docName="draft-ietf-appsawg-rrvs-header-field-07">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -86,9 +86,9 @@
 
 		<t> The mechanisms specified here allow the sender of the mail
 		    to indicate how "old" the address assignment is expected
-		    to be.  In effect, the sender is saying, "The person to
-		    whom I am sending to had this address assigned to as far
-		    back as this date-time."  A receiving system can then
+		    to be.  In effect, the sender is saying, "The last time
+		    the intended recipient was known to be using this address
+		    was this date-time."  A receiving system can then
 		    compare this information against the date and time the
 		    address was assigned to its current user.  If the
 		    assignment was made later than the date-time indicated in
@@ -671,7 +671,7 @@
 		    address may have been suspended or otherwise disabled
 		    for some period, any mail actually delivered would have
 		    been delivered exclusively to the same owner.  It is
-		    is presumed that some sort of relationship exists between
+		    presumed that some sort of relationship exists between
 		    the message sender and the intended recipient.
 		    Presumably there has been some confirmation process
 		    applied to establish this ownership of the receiver's
@@ -709,8 +709,8 @@
 	</section>
 
 	<section anchor="signatures" title="Digital Signatures">
-		<t> This protocol mandates removal of the header field (when used)
-		    upon delivery in all but iexceptional circumstances.
+		<t> This protocol mandates removal of the header field (when
+		    used) upon delivery in all but iexceptional circumstances.
 		    Altering a message in this way will invalidate a digital
 		    signature intended to guard against message modification in
 		    transit, which can interfere with delivery. </t>
@@ -849,7 +849,7 @@
 	<section anchor="security" title="Security Considerations">
 	    <section anchor="sec_flares" title="Abuse Countermeasures">
 		<t> The response of a server implementing this protocol
-		    can disclose information about the age of existing
+		    can disclose information about the age of an existing
 		    email mailbox.  Implementation of countermeasures against
 		    probing attacks is advised.  For example, an operator
 		    could track appearance of this field with respect to a
@@ -1375,6 +1375,7 @@
 		    Ned Freed,
 		    John Levine,
 		    Alexey Melnikov,
+		    Jay Nancarrow,
 		    Hector Santos,
 		    Gregg Stefancik,
 		    Ed Zayas, (others) </t>
