@@ -10,7 +10,7 @@
 
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-kucherawy-email-caps-01">
+        docName="draft-kucherawy-email-caps-02">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -73,16 +73,15 @@
 		    conveys some metadata such as who sent it, to whom it
 		    was sent, where replies are to be directed, etc. </t>
 
-		<t> The Simple Mail Transfer Protocol (SMTP)  was originally fully
-		    specified in
-		    <xref target="RFC0821"/>, though it too was based on some
-		    other previous work.  The current specification is
-		    <xref target="RFC5321"/>.  The protocol is essentially a
-		    simple ASCII dialog between the client (sending)
-		    system and the server (receiving) system that exchanges
-		    a couple of identifiers -- the sender and the recipient --
-		    and then the message itself, with status codes as the
-		    responses at each step. </t>
+		<t> The Simple Mail Transfer Protocol (SMTP)  was originally
+		    fully specified in <xref target="RFC0821"/>, though it
+		    too was based on some other previous work.  The current
+		    specification is <xref target="RFC5321"/>.  The protocol
+		    is essentially a simple ASCII dialog between the
+		    client (sending) system and the server (receiving) system
+		    that exchanges a couple of identifiers -- the sender and
+		    the recipient -- and then the message itself, with
+		    status codes as the responses at each step. </t>
 
 		<t> A number of enhancements to both of these have appeared
 		    over the years, which are too numerous to list here.  They
@@ -270,13 +269,23 @@
 
 		<t> The former is required, of course, if the capability
 		    offered by the extension needs to be active from the
-		    message's origin to its final destination.  By contrast,
-		    an MTA or MDA that does not know of a particular special
-		    interpretation for a specific header field will almost
-		    always simply ignore that header field and continue to
-		    relay it unmodified.  This can be enormously useful when
-		    one wishes to deploy a new capability that will not be
-		    affected by non-participating agents. </t>
+		    message's origin to its final destination. </t>
+
+		<t> By contrast, an MTA or MDA that does not know of a
+		    particular special interpretation for a specific header
+		    field will almost always simply ignore that header field
+		    and continue to relay it, usually unmodified, to software
+		    downstream that does recognize the field and how to use
+		    its contents.  A good example of this is MIME, whose header
+		    fields are typically of use only to MUAs and are ignored
+		    by MTAs and MDAs.  Moreover, MUAs typically do not include
+		    header fields they don't recognize in the material
+		    ultimately presented to the end user. </t>
+
+		<t> These can be enormously useful when one wishes to deploy a
+		    new capability that will not affect or be affected by
+		    non-participating agents and is not intended for direct
+		    human consumption. </t>
 
 		<t> Another distinguishing property between the two approaches
 		    is that an SMTP client can immediately determine which
@@ -335,9 +344,9 @@
 		    added at time of delivery, which includes the sender
 		    address as extracted from the message envelope.  Typically,
 		    all other envelope details are discarded upon delivery. 
-		    Because of this, data that should be ephemeral but are stored
-		    in header fields can fall into the wrong hands when the
-		    messages is forwarded.  Following the recommendations
+		    Because of this, data that should be ephemeral but are
+		    stored in header fields can fall into the wrong hands when
+		    the messages is forwarded.  Following the recommendations
 		    above can help to reduce this concern. </t>
 	</section>
 
