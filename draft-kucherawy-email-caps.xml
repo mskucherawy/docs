@@ -9,7 +9,7 @@
 ]>
 
 
-<rfc ipr="trust200902" category="info"
+<rfc ipr="trust200902" category="bcp"
         docName="draft-kucherawy-email-caps-02">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -346,7 +346,7 @@
 		    all other envelope details are discarded upon delivery. 
 		    Because of this, data that should be ephemeral but are
 		    stored in header fields can fall into the wrong hands when
-		    the messages is forwarded.  Following the recommendations
+		    the message is forwarded.  Following the recommendations
 		    above can help to reduce this concern. </t>
 	</section>
 
