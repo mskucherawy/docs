@@ -9,7 +9,7 @@
 
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-kucherawy-email-auth-codes-00">
+        docName="draft-kucherawy-email-auth-codes-01">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -119,6 +119,18 @@
 		</section>
 	</section>
 
+	<section anchor="discuss" title="General Considerations">
+		<t> By the nature of the Simple Mail Transfer Protocol (SMTP),
+		    only one enhanced status code can be returned for a given
+		    exchange between client and server.  However, an
+		    operator might decide to defer or reject a message for a
+		    plurality of reasons.  Clients receiving these codes
+		    need to consider that the failure reflected by one of these
+		    status codes might not reflect the only reason, or
+		    the most important reason, for non-acceptance of the
+		    message or command. </t>
+	</section>
+
 	<section anchor="security" title="Security Considerations">
 		<t> Use of these codes reveals local policy with respect to
 		    email authentication, which can be useful information to
@@ -126,7 +138,7 @@
 		    be noted that there is no specific obligation to use these
 		    codes; if an operator wishes not to reveal this aspect
 		    of local policy, it can continue using a generic result
-		    such as 5.7.7 or even 5.7.0. </t>
+		    code such as 5.7.7 or even 5.7.0. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
@@ -152,7 +164,8 @@
 	</section>
 
 	<section anchor="thanks" title="Acknowledgments">
-		<t> [TBD] </t>
+		<t> Arnt Gulbrandsen provided feedback starting with very
+		    early versions of this document. </t>
 	</section>
 </back>
 
