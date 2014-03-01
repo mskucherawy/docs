@@ -52,11 +52,11 @@
 		<t> This document defines an extension for the Simple Mail
 		    Transfer Protocol called RRVS, and a header field called
 		    Require-Recipient-Valid-Since, to provide a method for
-		    senders to indicate to receivers the time when the sender
-		    last confirmed the ownership of the target mailbox.
-		    This can be used to detect changes of mailbox ownership,
-		    and thus prevent mail from being delivered to the wrong
-		    party. </t>
+		    senders to indicate to receivers the point in time when
+		    the sender last confirmed the ownership of the target
+		    mailbox.  This can be used to detect changes of mailbox
+		    ownership, and thus prevent mail from being delivered to
+		    the wrong party. </t>
 
 		<t> The intended use of these facilities is on automatically
 		    generated messages that might contain sensitive
@@ -88,11 +88,11 @@
 		    to indicate how "old" the address assignment is expected
 		    to be.  In effect, the sender is saying, "The last time
 		    the intended recipient was known to be using this address
-		    was this date-time."  A receiving system can then
-		    compare this information against the date and time the
-		    address was assigned to its current user.  If the
-		    assignment was made later than the date-time indicated in
-		    the message, there is a good chance the current user of
+		    was this point in time."  A receiving system can then
+		    compare this information against the point in time at which
+		    the address was assigned to its current user.  If the
+		    assignment was made later than the point in time indicated
+		    in the message, there is a good chance the current user of
 		    the address is not the correct recipient.  The receiving
 		    system can then choose to prevent delivery and, possibly,
 		    to notify the original sender of the problem. </t>
@@ -123,9 +123,9 @@
 		    client needs to indicate to the server to which it is
 		    connecting that there is an expectation that the
 		    destination of the message has been under continuous
-		    ownership (see <xref target="own"/>) since some date-time,
-		    presumably the most recent time the message author had
-		    confirmed its understanding of who owned that mailbox.
+		    ownership (see <xref target="own"/>) since some point in
+		    time, presumably the most recent time the message author
+		    had confirmed its understanding of who owned that mailbox.
 		    Two mechanisms are defined here: an extension to the
 		    Simple Mail Transfer Protocol <xref target="SMTP"/>
 		    and a new message header field.  The SMTP extension
@@ -137,7 +137,7 @@
 
 		<t> The SMTP extension is called "RRVS" (Require Recipient
 		    Valid Since), and adds a parameter to the SMTP "RCPT"
-		    command that indicates the most recent date and time when
+		    command that indicates the most recent point in time when
 		    the message author believed the destination mailbox to be
 		    under the continuous ownership of a specific party.
 		    Similarly, the Require-Recipient-Valid-Since header
@@ -154,7 +154,8 @@
 			    Servers implementing the SMTP extension advertise
 			    an additional EHLO keyword of "RRVS", which has
 			    no associated parameters, introduces no new
-			    SMTP verbs, and does not alter the MAIL verb. </t>
+			    SMTP commands, and does not alter the MAIL
+			    command. </t>
 
 			<t> A Message Transfer Agent (MTA) implementing RRVS
 			    can transmit or accept a new parameter to the RCPT
@@ -165,7 +166,7 @@
 			    <xref target="DATETIME"/>, with the added
 			    restriction that a "time-secfrac" MUST NOT
 			    be used.  Accordingly, this extension increases
-			    the maximum command length for the RCPT verb by
+			    the maximum command length for the RCPT command by
 			    31 characters. </t>
 
 			<t> The meaning of this extension, when used, is
@@ -251,14 +252,15 @@
 			    RRVS during the relaying process to the next MTA
 			    or the MDA. </t>
 
-			<t> A receiving MDA that implements the SMTP
+			<t> A receiving MTA or MDA that implements the SMTP
 			    extension declared above and observes an RRVS
 			    parameter on a RCPT TO command checks whether the
 			    current owner of the destination mailbox has held
 			    it continuously, far enough back to include the
-			    given date-time, and delivers it unless that check
-			    returns in the negative.  Specifically, an MDA will
-			    do the following before continuing with delivery:
+			    given point in time, and delivers it unless that
+			    check returns in the negative.  Specifically, an
+			    MDA will do the following before continuing with
+			    delivery:
 
 			    <list style="numbers">
 				<t> Ignore the parameter if the named mailbox
@@ -308,28 +310,27 @@
 			    of steps:
 
 			    <list style="numbers">
-				<t> Extract the set of
+				<t> Extract those
 				    Require-Recipient-Valid-Since fields from
-				    MDA the message for which no corresponding
-				    RRVS SMTP extension was used. </t>
+				    the message that contain a recipient for
+				    which no corresponding RRVS SMTP extension
+				    was used. </t>
 
-				<t> Discard any such fields that are
-				    syntactically invalid. </t>
-
-				<t> Discard any such fields that name a role
-				    account as listed in
-				    <xref target="ROLES"/> (see
-				    <xref target="roles"/>). </t>
-
-				<t> Discard any such fields for which the
-				    "addr-spec" portion does not match a
-				    current recipient, as listed in the
-				    RCPT TO commands in the SMTP session. </t>
-
-				<t> Discard any such fields for which the
-				    "addr-spec" portion does not refer to a
-				    mailbox handled for local delivery by
-				    this ADMD. </t>
+				<t> Discard any such fields that match any of
+				    these criteria:
+				    <list style="symbols">
+					<t> are syntactically invalid; </t>
+					<t> name a role account as listed in
+				            <xref target="ROLES"/> (see
+				            <xref target="roles"/>); </t>
+					<t> the "addr-spec" portion does not
+					    match a current recipient, as
+					    listed in the RCPT TO commands
+					    in the SMTP session; or </t>
+					<t> the "addr-spec" portion does not
+					    refer to a mailbox handled for
+					    local delivery by this ADMD. </t>
+				    </list> </t>
 
 				<t> For each field remaining, determine if
 				    the named address has been under
@@ -435,6 +436,21 @@
 				    recipient address to which the timestamp
 				    applies. </t>
 			</section>
+		</section>
+
+		<section anchor="synch" title="Clock Synchronization">
+			<t> The timestamp portion of this specification
+			    supports a precision at the seconds level.
+			    Although uncommon, it is not impossible for
+			    a clock at either a generator or a receiver
+			    to be incorrect, leading to an incorrect result
+			    in the RRVS evaluation. </t>
+
+			<t> To minimize the risk of such incorrect results,
+			    both generators and receivers implementing this
+			    specification MUST use a standard clock
+			    synchronization protocol such as
+			    <xref target="NTP"/>. </t>
 		</section>
 	</section>
 
@@ -700,17 +716,17 @@
 		    delivery.  In this latter case, typical SMTP temporary
 		    failure handling is appropriate. </t>
 
-		<t> To further obscure account details on the receiving
-		    system, the receiver SHOULD ignore the SMTP extension or
-		    the header field if the address specified has had one
-		    continuous owner since it was created, regardless of the
-		    purported confirmation date of the address.  This is
-		    further discussed in <xref target="security"/>. </t>
+		<t> To avoid exposing account details unnecessarily, if the
+		    address specified has had one continuous owner since it
+		    was created, any confirmation date SHOULD be considered
+		    to pass the test, even if that date is earlier than the
+		    account creation date.  This is further discussed in
+		    <xref target="security"/>. </t>
 	</section>
 
 	<section anchor="signatures" title="Digital Signatures">
 		<t> This protocol mandates removal of the header field (when
-		    used) upon delivery in all but iexceptional circumstances.
+		    used) upon delivery in all but exceptional circumstances.
 		    Altering a message in this way will invalidate a digital
 		    signature intended to guard against message modification in
 		    transit, which can interfere with delivery. </t>
@@ -792,7 +808,7 @@
   S: 250 RRVS
   C: MAIL FROM:&lt;sender@example.net&gt;
   S: 250 OK
-  C: RCPT TO:&lt;receiver@example.com&gt; RRVS=1381993177
+  C: RCPT TO:&lt;receiver@example.com&gt; RRVS=2014-04-03T23:01:00Z
   S: 550 5.7.17 receiver@example.com is no longer valid
   C: QUIT
   S: 221 So long!
@@ -893,11 +909,12 @@
 		    implement this protocol correctly, or at all.  Furthermore,
 		    use of RRVS by a sending system constitutes nothing more
 		    than a request to the receiving system; that system could
-		    choose not to prevent delivery for some local policy or
-		    operational reason, which compromises the security the
-		    sending system believed was a benefit to using RRVS.  This
-		    could mean the timestamp information involved in the
-		    protocol becomes inadvertently revealed. </t>
+		    choose not to prevent delivery for some local policy,
+		    legal or operational reason, which compromises the
+		    security the sending system believed was a benefit to
+		    using RRVS.  This could mean the timestamp information
+		    involved in the protocol becomes inadvertently
+		    revealed. </t>
 
 		<t> This concern lends further support to the notion that
 		    senders would do well to avoid using this protocol other
@@ -955,8 +972,7 @@
 		    discouraged. </t>
 	    </section>
 
-	    <section anchor="priv_header"
-	             title="Risks with Use of Header Field">
+	    <section anchor="priv_risks" title="Risks with Use">
 		<t> MDAs might not implement the recommendation to remove
 		    the header field defined here when messages are delivered,
 		    either out of ignorance or due to error.  Since user
@@ -1190,6 +1206,55 @@
 			</front>
 
 			<seriesInfo name="RFC" value="5322" />
+		</reference>
+
+		<reference anchor="NTP">
+			<front>
+				<title> Network Time Protocol Version 4:
+				        Protocol and Algorithms
+				        Specification </title>
+
+				<author
+					fullname="D. Mills"
+					initials="D."
+					surname="Mills">
+					<organization>
+						U. Delaware
+					</organization>
+				</author>
+
+				<author
+					fullname="J. Martin"
+					initials="J."
+					surname="Martin"
+					role="editor">
+					<organization>
+						ISC
+					</organization>
+				</author>
+
+				<author
+					fullname="J. Burbank"
+					initials="J."
+					surname="Burbank">
+					<organization>
+						JHU/APL
+					</organization>
+				</author>
+
+				<author
+					fullname="W. Kasch"
+					initials="W."
+					surname="Kasch">
+					<organization>
+						JHU/APL
+					</organization>
+				</author>
+
+				<date month="June" year="2010"></date>
+			</front>
+
+			<seriesInfo name="RFC" value="5905"></seriesInfo>
 		</reference>
 
 		<reference anchor="ROLES">
