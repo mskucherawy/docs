@@ -192,6 +192,23 @@
 			    defined in Section 3.4.1, of
 			    <xref target="MAIL"/>. </t>
 		</section>
+
+		<section anchor="timestamps" title="Timestamps">
+			<t> The header field version of this protocol has a
+			    different format for the date and time expression
+			    than the SMTP extension does.  This is because
+			    message header fields use a format to express
+			    time and date that is specific to message header
+			    fields, and this is consistent with that
+			    usage. </t>
+
+			<t> Use of both date and time is done to be
+			    consistent with how current implementations
+			    typically store the timestamp, and to make it
+			    easy to include the time zone.  In practice,
+			    granularity beyond the date may or may not be
+			    useful. </t>
+		</section>
 	</section>
 
 	<section anchor="op_send" title="Use By Generators">
