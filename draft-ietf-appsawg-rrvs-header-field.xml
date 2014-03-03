@@ -236,7 +236,7 @@
 
 			<t> the fact that there is less risk of the
 			    timestamp parameter being inadvertently
-			    forwarded (see <xref target="priv_header"/>). </t>
+			    forwarded (see <xref target="priv_risks"/>). </t>
 		    </list> </t>
 
 		<t> The header field mechanism is defined only to
