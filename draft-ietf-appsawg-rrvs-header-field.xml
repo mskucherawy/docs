@@ -884,7 +884,7 @@
 		<t> The response of a server implementing this protocol
 		    can disclose information about the age of an existing
 		    email mailbox.  Implementation of countermeasures against
-		    probing attacks is advised.  For example, an operator
+		    probing attacks is RECOMMENDED.  For example, an operator
 		    could track appearance of this field with respect to a
 		    particular mailbox and observe the timestamps being
 		    submitted for testing; if it appears a variety of
@@ -899,10 +899,10 @@
 		    is known to have had only a single continuous owner
 		    since creation, or not to have existed at all (under any
 		    owner) prior to the date specified in the field, then the
-		    field can be silently ignored and normal message handling
-		    applied so that this information is not disclosed.  Such
-		    fields are likely the product of either gross error or an
-		    attack. </t>
+		    field SHOULD be silently ignored and normal message
+		    handling applied so that this information is not
+		    disclosed.  Such fields are likely the product of either
+		    gross error or an attack. </t>
 
 		<t> A message author using this specification might restrict
 		    inclusion of the header field such that it is only done
