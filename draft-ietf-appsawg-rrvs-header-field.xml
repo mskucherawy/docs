@@ -615,7 +615,8 @@
 			    performed.  The continuous ownership test here
 			    might succeed if a conventional user inbox was
 			    replaced with an alias on behalf of that same
-			    user, and this information is recorded someplace.
+			    user, and this information is recorded in a way
+			    that can be queried by the relaying MTA.
 			    If the message is thus accepted, the relaying
 			    MTA can choose to do one of the following:
 
