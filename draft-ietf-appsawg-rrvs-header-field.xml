@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="std"
-        docName="draft-ietf-appsawg-rrvs-header-field-08">
+        docName="draft-ietf-appsawg-rrvs-header-field-09">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -540,7 +540,7 @@
 	         title="Header Field with Multiple Recipients">
 		<t> Numerous issues arise when using the header field form
 		    of this extension, particularly when multiple recipients
-		    are specified for a single message resulting in one
+		    are specified for a single message resulting in
 		    multiple fields each with a distinct address
 		    and timestamp. </t>
 
