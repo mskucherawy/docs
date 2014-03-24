@@ -372,7 +372,7 @@
 				    field prior to delivery to a mailbox; if
 				    the message is being forwarded, remove
 				    those instances of this header field that
-				    were not discarded by steps 1-4 above. </t>
+				    were not discarded by step 2 above. </t>
 		    	</list> </t>
 
 			<t> Handling proceeds normally upon completion of the
@@ -456,6 +456,11 @@
 					    and in either case delivers the
 					    message. </t>
 				    </list> </t>
+
+				<t> <xref target="special"/> discusses some
+				    interesting use cases, such as the case
+				    where "B" above results in further
+				    forwarding of the message. </t>
 
 				<t> SMTP has never required any correspondence
 				    between addresses in the RFC5321.MailFrom
@@ -651,10 +656,18 @@
 				    includes that time. </t>
 			    </list> </t>
 
-			<t> There is risk and additional administrative burden
-			    associated with all but the first option in that
-			    list which are believed to make them not worth
-			    pursuing. </t>
+			<t> For the first option, there is an exposure
+			    (a loss of protection beyond the first hop) whose
+			    tradeoff is simplicity in this design. </t>
+
+			<t> There are risks and additional administrative
+			    burdens associated with the other options above,
+			    which are believed to make them not worth
+			    pursuing.  The risk added by attempting to create
+			    comprehensive support for those options would
+			    likely introduce far more complexity (and thus
+			    possibility of error) than any likely gained
+			    benefit. </t>
 		</section>
 		    
 		<section title="Multiple-Recipient Aliases"
