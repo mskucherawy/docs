@@ -114,6 +114,18 @@
 		    to receiving systems with respect to handling of a
 		    message.  In the end, there is no guarantee that the
 		    request will have the desired effect. </t>
+
+		<section title="Reassignment of Mailboxes" anchor="reassign">
+			<t> It is expected that email addresses will not have
+			    a high rate of turnover or ownership change.
+			    High-precision timestamps are used out of
+			    convenience and convention rather than out of
+			    necessity. </t>
+
+			<t> It is also good practice to have a substantial
+			    period of time between mailbox owners during which
+			    the mailbox accepts no mail. </t>
+		</section>
 	</section>
 
 	<section title="Definitions" anchor="defs">
