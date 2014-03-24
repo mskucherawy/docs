@@ -52,14 +52,15 @@
 		<t> This document defines an extension for the Simple Mail
 		    Transfer Protocol called RRVS, and a header field called
 		    Require-Recipient-Valid-Since, to provide a method for
-		    senders to indicate to receivers the point in time when
-		    the sender last confirmed the ownership of the target
-		    mailbox.  This can be used to detect changes of mailbox
+		    senders to indicate to receivers a point in time when
+		    the the ownership of the target mailbox was known to the
+		    sender.  This can be used to detect changes of mailbox
 		    ownership, and thus prevent mail from being delivered to
 		    the wrong party. </t>
 
 		<t> The intended use of these facilities is on automatically
-		    generated messages that might contain sensitive
+		    generated messages, such as account statements or password
+		    change instructions, that might contain sensitive
 		    information, though it may also be useful in other
 		    applications. </t>
 	</abstract>
@@ -76,7 +77,9 @@
 		    mail to the previous owner of an address might not know
 		    that it has been reassigned.  This can lead to the sending
 		    of email to the correct address, but the wrong
-		    recipient. </t>
+		    recipient.  This situation is of particular concern with
+		    transactional mail related to purchases, online accounts,
+		    and the like. </t>
 
 		<t> What is needed is a way to indicate an attribute of the
 		    recipient that will distinguish between the previous owner
@@ -86,9 +89,10 @@
 
 		<t> The mechanisms specified here allow the sender of the mail
 		    to indicate how "old" the address assignment is expected
-		    to be.  In effect, the sender is saying, "The last time
-		    the intended recipient was known to be using this address
-		    was this point in time."  A receiving system can then
+		    to be.  In effect, the sender is saying, "I know that
+		    the intended recipient was using this address
+		    at this point in time.  I don't want this message delivered
+		    to anyone else"  A receiving system can then
 		    compare this information against the point in time at which
 		    the address was assigned to its current user.  If the
 		    assignment was made later than the point in time indicated
@@ -97,9 +101,13 @@
 		    system can then choose to prevent delivery and, possibly,
 		    to notify the original sender of the problem. </t>
 
-		<t> The primary application is automatically generated messages
-		    rather than user-authored content, though it may be useful
-		    in other contexts.  </t>
+		<t> The primary application is transactional mail (such as
+		    account information, password change requests, and other
+		    automatically generated messages) rather than
+		    user-authored content.  However, it may be useful
+		    in other contexts; for example, a personal address book
+		    could record the time an email address was added to it, and
+		    thus use that time with this extension.  </t>
 
 		<t> One important point is that the protocols presented
 		    here provide a way for a sending system to make a request
@@ -119,14 +127,18 @@
 	</section>
 
 	<section title="Description" anchor="descr">
-		<t> To address the problem described above, a mail sending
-		    client needs to indicate to the server to which it is
-		    connecting that there is an expectation that the
-		    destination of the message has been under continuous
-		    ownership (see <xref target="own"/>) since some point in
-		    time, presumably the most recent time the message author
-		    had confirmed its understanding of who owned that mailbox.
-		    Two mechanisms are defined here: an extension to the
+		<t> To address the problem described in <xref target="intro"/>,
+		    a mail sending client (usually an automated agent) needs
+		    to indicate to the server to which it is connecting that
+		    it expects the destination address of the message to have
+		    been under continuous ownership (see <xref target="own"/>)
+		    since a specified point time.  That specified time would be
+		    the time when the intended recipient gave the address to
+		    the message author, or perhaps a more recent time when the
+		    intended recipient reconfirmed ownership of the address
+		    with the sender. </t>
+
+		<t> Two mechanisms are defined here: an extension to the
 		    Simple Mail Transfer Protocol <xref target="SMTP"/>
 		    and a new message header field.  The SMTP extension
 		    permits strong assurance of enforcement by confirming
@@ -467,7 +479,8 @@
 			    both generators and receivers implementing this
 			    specification MUST use a standard clock
 			    synchronization protocol such as
-			    <xref target="NTP"/>. </t>
+			    <xref target="NTP"/> to synchronize to a
+			    common clock. </t>
 		</section>
 	</section>
 
