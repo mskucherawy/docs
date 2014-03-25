@@ -312,10 +312,10 @@
 
 				<t> If the address is not known to be a role
 				    account, and if that address has not been
-				    under continuous ownership since the timestamp
-				    specified in the extension, return a 550 error
-				    to the RCPT command.  (See also
-				    <xref target="iana_esc"/>.) </t>
+				    under continuous ownership since the
+				    timestamp specified in the extension,
+				    return a 550 error to the RCPT command.
+				    (See also <xref target="iana_esc"/>.) </t>
 
 				<t> If any Require-Recipient-Valid-Since header
 				    fields are present and refer to the named
@@ -616,6 +616,13 @@
 		    similar concerns which are covered here following that
 		    document as a model. </t>
 
+		<t> For all cases described below, a receiving MTA SHOULD NOT
+		    introduce RRVS in either form (SMTP extension or header
+		    field) if the message did not arrive with RRVS
+		    in use.  This would amount to second-guessing of the
+		    message originator's intention and might lead to an
+		    undesirable outcome. </t>
+
 		<section title="Mailing Lists" anchor="special_lists">
 			<t> Delivery to a mailing list service is considered
 			    a final delivery.  Where this protocol
@@ -643,43 +650,26 @@
 			    results in relaying of the message to a single
 			    other destination, the usual RRVS check is
 			    performed.  The continuous ownership test here
-			    might succeed if a conventional user inbox was
-			    replaced with an alias on behalf of that same
-			    user, and this information is recorded in a way
-			    that can be queried by the relaying MTA.
-			    If the message is thus accepted, the relaying
-			    MTA can choose to do one of the following:
+			    might succeed if, for example, a conventional user
+			    inbox was replaced with an alias on behalf of that
+			    same user, and the time when this was done
+			    is recorded in a way that can be queried by the
+			    relaying MTA. </t>
 
-			    <list style="numbers">
-				<t> Do not include an RRVS parameter or header
-				    field when relaying to the new address.
-				    (RECOMMENDED) </t>
+			<t> If the relaying system also performs some kind of
+			    step where ownership of the new destination
+			    address is confirmed, it SHOULD apply RRVS using
+			    the later of that timestamp and the one that was
+			    used inbound.  This also allows for changes to
+			    the alias without disrupting the protection
+			    offered by RRVS. </t>
 
-				<t> If the relaying system records the time
-				    when the alias was established, independent
-				    of confirming the validity of the new
-				    destination address, it MAY add an RRVS
-				    parameter for the new target address
-				    that includes that time. </t>
-
-				<t> If an explicit confirmation of the new
-				    destination was done, it MAY add an RRVS
-				    parameter for the new target address that
-				    includes that time. </t>
-			    </list> </t>
-
-			<t> For the first option, there is an exposure
-			    (a loss of protection beyond the first hop) whose
-			    tradeoff is simplicity in this design. </t>
-
-			<t> There are risks and additional administrative
-			    burdens associated with the other options above,
-			    which are believed to make them not worth
-			    pursuing.  The risk added by attempting to create
-			    comprehensive support for those options would
-			    likely introduce far more complexity (and thus
-			    possibility of error) than any likely gained
-			    benefit. </t>
+			<t> If the relaying system has no such time records
+			    related to the new destination address, the
+			    RRVS SMTP extension is not used on the relaying
+			    SMTP session, and the header field relative to
+			    the local alias is removed, in accordance with
+			    <xref target="op_recv"/>. </t>
 		</section>
 		    
 		<section title="Multiple-Recipient Aliases"
@@ -1007,8 +997,8 @@
 		    MSPs have chosen to allow transfers of mailbox ownership
 		    without the prior owner's involvement, the information
 		    leakage from the extensions specified here creates far
-		    fewer risks than the potential for delivering mail to the
-		    wrong party. </t>
+		    lower overall risk than the potential for delivering mail
+		    to the wrong party. </t>
 	    </section>
 
 	    <section anchor="priv_envelope" title="Envelope Recipients">
