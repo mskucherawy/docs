@@ -148,7 +148,7 @@
 		    intermediary is ever used.  However, the header field
 		    does not provide the same strong assurance described above,
 		    and is more prone to exposure of private information
-		    (see <xref target="priv_tradeoff"/). </t>
+		    (see <xref target="priv_tradeoff"/>). </t>
 
 		<t> The SMTP extension is called "RRVS" (Require Recipient
 		    Valid Since), and adds a parameter to the SMTP "RCPT"
@@ -1422,40 +1422,6 @@
 			</front>
 
 			<seriesInfo name="RFC" value="7001"></seriesInfo>
-		</reference>
-
-		<reference anchor="DKIM">
-			<front>
-				<title>
-					DomainKeys Identified Mail (DKIM)
-					Signatures
-				</title>
-
-				<author initials="D." surname="Crocker"
-					fullname="D. Crocker" role="editor">
-					<organization>
-						Brandenburg InternetWorking
-					</organization>
-				</author>
-
-				<author initials="T." surname="Hansen"
-					fullname="T. Hansen" role="editor">
-					<organization>
-						AT&T Laboratories
-					</organization>
-				</author>
-
-				<author initials="M." surname="Kucherawy"
-					fullname="M. Kucherawy" role="editor">
-					<organization>
-						Cloudmark
-					</organization>
-				</author>
-
-				<date year="2011" month="September"/>
-			</front>
-
-			<seriesInfo name="RFC" value="6376"/>
 		</reference>
 
 		<reference anchor="DSN">
