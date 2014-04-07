@@ -144,10 +144,8 @@
 		    originator otherwise).  The header field can be used when
 		    the Message Delivery Agent (MDA) supports this function,
 		    but an intermediary system between the sending system
-		    and the MDA does not, or when it is certain that no
-		    intermediary is ever used.  However, the header field
-		    does not provide the same strong assurance described above,
-		    and is more prone to exposure of private information
+		    and the MDA does not.  However, the header field
+		    does not provide the same strong assurance described above, and is more prone to exposure of private information
 		    (see <xref target="priv_tradeoff"/>). </t>
 
 		<t> The SMTP extension is called "RRVS" (Require Recipient
@@ -240,44 +238,50 @@
 	</section>
 
 	<section anchor="op_send" title="Use By Generators">
-		<t> When a message is generated whose content is
-		    sufficiently sensitive that an author or author's
-		    Administrative Management Domain (ADMD; see
-		    <xref target="EMAIL-ARCH"/>) wishes to protect against
-		    misdelivery using this protocol, it determines for each
-		    recipient mailbox on the message a timestamp at which it
-		    last confirmed ownership of that mailbox.  It then
-		    applies either the SMTP extension or the header field
-		    defined above when sending the message to its
-		    destination. </t>
-
-		<t> Use of the SMTP extension provided here is strongly
-		    preferred over the header field method because of:
+		<t> When a message is generated whose content is sufficiently
+		    sensitive that an author or author's Administrative
+		    Management Domain (ADMD; see <xref target="EMAIL-ARCH"/>)
+		    wishes to protect against misdelivery using this protocol,
+		    it determines for each recipient mailbox on the message a
+		    timestamp at which it last confirmed ownership of that
+		    mailbox.  It then applies the SMTP extension when sending
+		    the message to its destination. </t>
+  
+		<t> In cases where the outgoing MTA does not support the
+		    extension, the header field defined above can be used to
+		    pass the request through that system.  However, use of the
+		    header field is only a "best-effort" approach to solving
+		    the stated goals, and it has some shortcomings:
 
 		    <list style="numbers">
-			<t> the positive confirmation of support at each
-			    handling node, with the option to return
-			    the message to the originator when end-to-end
-			    support cannot be confirmed; </t>
+			<t> The positive confirmation of support at each
+			    handling node, with the option to return the
+			    message to the originator when end-to-end support
+			    cannot be confirmed, will be unavailable; </t>
 
-			<t> the fact that the protocol is focused on
-			    affecting delivery (that is, the transaction)
-			    rather than on content; and </t>
+			<t> The protocol is focused on affecting delivery
+			    (that is, the transaction) rather than on content,
+			    and therefore use of a header field in the content
+			    is generally inappropriate; </t>
 
-			<t> the fact that there is less risk of the
-			    timestamp parameter being inadvertently
-			    forwarded (see <xref target="priv_risks"/>). </t>
+			<t> The mechanism cannot be used with multiple
+			    recipients without unintentionally exposing
+			    information about one recipient to the others
+			    (see <xref target="multi_rcpt"/>; and </t>
+
+			<t> There is a risk of the timestamp parameter being
+			    inadvertently forwarded, automatically or
+			    intentionally by the user (since user agents might
+			    not reveal the presence of the header field), and
+			    therefore exposed to unintended recipients. (See
+			    <xref target="priv_risks"/>.) </t>
 		    </list> </t>
 
-		<t> The header field mechanism is defined only to
-		    enable passage of the request between and through
-		    systems that do not implement the SMTP extension.
-		    Given the absence of confirmed support at each node that
-		    handles the message, it is only a "best-effort" approach
-		    to solving the stated problem.  Thus, the header field
-		    format MUST NOT be used unless the originator or relay
-		    has specific knowledge that the receiving MDA or an
-		    intermediary MTA will apply it properly. </t>
+		<t> Thus, the header field format MUST NOT be used unless the
+		    originator or relay has specific knowledge that the
+		    receiving MDA or an intermediary MTA will apply it
+		    properly.  In any case, it SHOULD NOT be used for the
+		    multi-recipient case. </t>
 
 		<t> Use of the header field mechanism is further restricted by
 		    the practices described in Section 7.2 of
@@ -291,14 +295,14 @@
 		    there are two possible evaluation paths:
 
 		    <list style="numbers">
-			<t> The sending client implements the extension, and
+			<t> The sending client uses the extension, and
 			    so there was an RRVS parameter on a RCPT TO
 			    command in the SMTP session and the parameters of
 			    interest are taken only from there (and the
 			    header field, if present, is disregarded); or </t>
 
-			<t> The sending client does not (or elected not to)
-			    implement the extension, so the RRVS parameter
+			<t> The sending client does not use
+			    the extension, so the RRVS parameter
 			    was not present on the RCPT TO commands in the SMTP
 			    session, but the corresponding header field might
 			    be present in the message. </t>
@@ -465,7 +469,7 @@
 			    discussion and restrictions. </t>
 
 			<section title="Design Choices" anchor="header_design">
-				<t> The presence of the intended address in
+				<t> The presence of the address in
 				    the field content supports the case where
 				    a message bearing this header field is
 				    forwarded.  The specific use case is as
@@ -658,9 +662,7 @@
 		    of a message bearing the timestamps of multiple users;
 		    tight control over the handling of the timestamp
 		    information is very difficult to assure as the number of
-		    handling agents increases.  In general, the header field
-		    version of this extension SHOULD NOT be used for the
-		    multi-recipient case. </t>
+		    handling agents increases. </t>
 	</section>
 
 	<section title="Special Use Addresses" anchor="special">
