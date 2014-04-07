@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="std"
-        docName="draft-ietf-appsawg-rrvs-header-field-09">
+        docName="draft-ietf-appsawg-rrvs-header-field-10">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -50,13 +50,15 @@
 
 	<abstract>
 		<t> This document defines an extension for the Simple Mail
-		    Transfer Protocol called RRVS, and a header field called
-		    Require-Recipient-Valid-Since, to provide a method for
+		    Transfer Protocol called RRVS, to provide a method for
 		    senders to indicate to receivers a point in time when
 		    the the ownership of the target mailbox was known to the
 		    sender.  This can be used to detect changes of mailbox
 		    ownership, and thus prevent mail from being delivered to
-		    the wrong party. </t>
+		    the wrong party.  This document also defines a header field
+		    called Require-Recipient-Valid-Since that can be used to
+		    tunnel the request through servers that do not support
+		    the extension. </t>
 
 		<t> The intended use of these facilities is on automatically
 		    generated messages, such as account statements or password
@@ -98,8 +100,8 @@
 		    assignment was made later than the point in time indicated
 		    in the message, there is a good chance the current user of
 		    the address is not the correct recipient.  The receiving
-		    system can then choose to prevent delivery and, possibly,
-		    to notify the original sender of the problem. </t>
+		    system can then prevent delivery and, preferably,
+		    notify the original sender of the problem. </t>
 
 		<t> The primary application is transactional mail (such as
 		    account information, password change requests, and other
@@ -108,24 +110,6 @@
 		    in other contexts; for example, a personal address book
 		    could record the time an email address was added to it, and
 		    thus use that time with this extension.  </t>
-
-		<t> One important point is that the protocols presented
-		    here provide a way for a sending system to make a request
-		    to receiving systems with respect to handling of a
-		    message.  In the end, there is no guarantee that the
-		    request will have the desired effect. </t>
-
-		<section title="Reassignment of Mailboxes" anchor="reassign">
-			<t> It is expected that email addresses will not have
-			    a high rate of turnover or ownership change.
-			    High-precision timestamps are used out of
-			    convenience and convention rather than out of
-			    necessity. </t>
-
-			<t> It is also good practice to have a substantial
-			    period of time between mailbox owners during which
-			    the mailbox accepts no mail. </t>
-		</section>
 	</section>
 
 	<section title="Definitions" anchor="defs">
@@ -154,10 +138,17 @@
 		    Simple Mail Transfer Protocol <xref target="SMTP"/>
 		    and a new message header field.  The SMTP extension
 		    permits strong assurance of enforcement by confirming
-		    support at each handling step for a message.  The
-		    header field does not provide the strong assurance, but
-		    only requires adoption by the receiving Message Delivery
-		    Agent (MDA). </t>
+		    support at each handling step for a message, and the
+		    option to demand support at all nodes in the handling path
+		    of the message (and returning of the message to the
+		    originator otherwise).  The header field can be used when
+		    the Message Delivery Agent (MDA) supports this function,
+		    but an intermediary system between the sending system
+		    and the MDA does not, or when it is certain that no
+		    intermediary is ever used.  However, the header field
+		    does not provide the same strong assurance described above,
+		    and is more prone to exposure of private information
+		    (see <xref target="priv_tradeoff"/). </t>
 
 		<t> The SMTP extension is called "RRVS" (Require Recipient
 		    Valid Since), and adds a parameter to the SMTP "RCPT"
@@ -182,16 +173,29 @@
 			    command. </t>
 
 			<t> A Message Transfer Agent (MTA) implementing RRVS
-			    can transmit or accept a new parameter to the RCPT
-			    command.  An MDA can also accept this new parameter.
-			    The new parameter is "RRVS", which takes a value
-			    that is a timestamp expressed as a
-			    "date-time" as defined in
-			    <xref target="DATETIME"/>, with the added
-			    restriction that a "time-secfrac" MUST NOT
-			    be used.  Accordingly, this extension increases
+			    can transmit or accept one new parameter to the
+			    RCPT command.  An MDA can also accept this new
+			    parameter.  The parameter is "RRVS", and the
+			    value is a timestamp expressed as a "date-time" as
+			    defined in <xref target="DATETIME"/>, with the added
+			    restriction that a "time-secfrac" MUST NOT be used.
+			    The timestamp MAY optionally be followed by a
+			    semi-colon character and a letter (known as the
+			    "no-support action") indicating the action to be
+			    taken when a downstream MTA is discovered that does
+			    not support the extension.  Valid actions are "R"
+			    (reject; the default) and "C" (continue). </t>
+
+			<t> Formally, the new parameter and its value are
+			    defined as follows:
+
+			    <figure><artwork>
+    rrvs-param = "RRVS=" date-time [ ";" ( "C" / "R" ) ]
+			    </artwork></figure> </t>
+
+			<t> Accordingly, this extension increases
 			    the maximum command length for the RCPT command by
-			    31 characters. </t>
+			    33 characters. </t>
 
 			<t> The meaning of this extension, when used, is
 			    described in <xref target="op_esmtp"/>. </t>
@@ -247,12 +251,14 @@
 		    defined above when sending the message to its
 		    destination. </t>
 
-		<t> Use of the SMTP extension provided here is
-		    preferable over the header field method because of:
+		<t> Use of the SMTP extension provided here is strongly
+		    preferred over the header field method because of:
 
 		    <list style="numbers">
 			<t> the positive confirmation of support at each
-			    handling node; </t>
+			    handling node, with the option to return
+			    the message to the originator when end-to-end
+			    support cannot be confirmed; </t>
 
 			<t> the fact that the protocol is focused on
 			    affecting delivery (that is, the transaction)
@@ -265,8 +271,19 @@
 
 		<t> The header field mechanism is defined only to
 		    enable passage of the request between and through
-		    systems that do not implement the SMTP
-		    extension. </t>
+		    systems that do not implement the SMTP extension.
+		    Given the absence of confirmed support at each node that
+		    handles the message, it is only a "best-effort" approach
+		    to solving the stated problem.  Thus, the header field
+		    format MUST NOT be used unless the originator or relay
+		    has specific knowledge that the receiving MDA or an
+		    intermediary MTA will apply it properly. </t>
+
+		<t> Use of the header field mechanism is further restricted by
+		    the practices described in Section 7.2 of
+		    <xref target="SMTP"/>, Section 3.6.3 of
+		    <xref target="MAIL"/>, and <xref target="multi_rcpt"/> of
+		    this document. </t>
 	</section>
 
 	<section anchor="op_recv" title="Handling By Receivers">
@@ -307,8 +324,7 @@
 				<t> Ignore the parameter if the named mailbox
 				    is known to be a role account as listed in
 			            Mailbox Names For Common Services, Roles
-			            And Functions <xref target="ROLES"/>.
-				    (See <xref target="roles"/>.) </t>
+			            And Functions <xref target="ROLES"/>. </t>
 
 				<t> If the address is not known to be a role
 				    account, and if that address has not been
@@ -316,14 +332,6 @@
 				    timestamp specified in the extension,
 				    return a 550 error to the RCPT command.
 				    (See also <xref target="iana_esc"/>.) </t>
-
-				<t> If any Require-Recipient-Valid-Since header
-				    fields are present and refer to the named
-				    address, they SHOULD be removed prior to
-				    delivery or relaying.  (See
-				    <xref target="op_header"/> and
-				    <xref target="conversion"/> for
-				    discussion.) </t>
 			    </list> </t>
 
 			<section anchor="op_relay" title="Relays">
@@ -334,8 +342,42 @@
 				    RRVS extension parameter to the next MTA or
 				    MDA so that it can be processed there. </t>
 
+				<t> For the SMTP extension, the optional
+				    RRVS parameter defined in
+				    <xref target="op_esmtp"/> indicates the
+				    action to be taken when relaying a message
+				    to another MTA that does not advertise
+				    support for this extension.  When this is
+				    the case and the no-support action was not
+				    specified or is "R" (reject), the MTA
+				    handling the message MUST reject the message
+				    by:
+
+				    <list style="numbers">
+					<t> returning a 550 error to the
+					    DATA command, if synchronous
+					    service is being provided to the
+					    SMTP client that introduced the
+					    message; or </t>
+
+					<t> generating a <xref target="DSN"/>
+					    to indicate to the originator
+					    of the message that the
+					    non-delivery occurred, and
+					    terminating further relay
+					    attempts. </t>
+				    </list> </t>
+
+				<t> An enhanced mail system status code is
+				    defined for such rejections in
+				    <xref target="iana_esc"/>. </t>
+
 				<t> See <xref target="special_single"/> for
 				    additional discussion. </t>
+
+				<t> When relaying, an MTA MUST preserve
+				    the no-support action if it
+				    was used by the SMTP client. </t>
 			</section>
 		</section>
 		
@@ -362,8 +404,7 @@
 				    <list style="symbols">
 					<t> are syntactically invalid; </t>
 					<t> name a role account as listed in
-				            <xref target="ROLES"/> (see
-				            <xref target="roles"/>); </t>
+				            <xref target="ROLES"/>; </t>
 					<t> the "addr-spec" portion does not
 					    match a current recipient, as
 					    listed in the RCPT TO commands
@@ -411,7 +452,7 @@
 
 			<t> Implementation by this method is expected to
 			    be transparent to non-participants, since they
-			    would typically ignore this header field. </t>
+			    would typically ignore this header field.  </t>
 
 			<t> This header field is not normally added to a
 			    message that is addressed to multiple recipients.
@@ -421,7 +462,7 @@
 			    and thus generating independent messages for each
 			    individual recipient is normal practice.  
 			    See <xref target="multi_rcpt"/> for further
-			    discussion. </t>
+			    discussion and restrictions. </t>
 
 			<section title="Design Choices" anchor="header_design">
 				<t> The presence of the intended address in
@@ -441,14 +482,14 @@
 					    location, and thus creates a new
 					    mailbox elsewhere, at "B"; </t>
 
-					<t> The user replaces address "A" with
-					    forwarding to "B"; </t>
+					<t> The user configures address "A" to
+					    forward to "B"; </t>
 
 					<t> "S" constructs a message to "A"
 					    claiming that address was valid at
 					    date "D" and sends it to "A"; </t>
 
-					<t> The receiving MTA at "A"
+					<t> The receiving MTA for "A"
 					    determines that the forwarding in
 					    effect was created by the same
 					    party that owned the mailbox there,
@@ -456,9 +497,9 @@
 					    ownership test has been
 					    satisfied; </t>
 
-					<t> If possible, "A" removes this
-					    header field from the message, and
-					    in either case, forwards it to
+					<t> If possible, the MTA for "A" removes
+					    this header field from the message,
+					    and in either case, forwards it to
 					    "B"; </t>
 
 					<t> On receipt at "B", either the
@@ -501,14 +542,6 @@
 		</section>
 	</section>
 
-	<section anchor="roles" title="Role Accounts">
-		<t> It is necessary not to interfere with delivery of
-		    messages to role mailboxes (see <xref target="ROLES"/>),
-		    but it could be useful to notify users sending to
-		    those mailboxes that a change of ownership might have
-		    taken place, if such notification is possible. </t>
-	</section>
-			    
 	<section anchor="non_compliant" title="Relaying Without RRVS Support">
 		<t> When a message is received using the SMTP extension
 		    defined here but will not be delivered locally (that is,
@@ -527,8 +560,10 @@
 
 			<t> Downgrade the data thus provided in the SMTP
 			    extension to a header field, as described in
-			    <xref target="conversion"/> below (RECOMMENDED
-			    when the previous option is not available); or </t>
+			    <xref target="conversion"/> below (SHOULD NOT
+			    unless the conditions in that section are satisfied,
+			    and only when the previous option is not
+			    available); or </t>
 
 			<t> Silently continue with delivery, dropping
 			    the protection offered by this protocol. </t>
@@ -540,29 +575,43 @@
 		    introduce undue risk. </t>
 			    
 		<section anchor="conversion" title="Header Field Conversion">
-			<t> If an SMTP server ("B") that has received mailbox
-			    timestamps from a client ("A") using this extension
-			    but then needs to relay the corresponding message
-			    on to another server ("C") (thereby becoming a
-			    client), but "C" does not advertise the SMTP
-			    extension and "B" elects not to reject the message,
-			    "B" SHOULD add Require-Recipient-Valid-Since
-			    header fields matching each mailbox to which
-			    relaying is being done, and the corresponding
-			    valid-since timestamp for each. </t>
+			<t> If an SMTP server ("B") receives a message bearing
+			    one or more Require-Recipient-Valid-Since from a
+			    client ("A"), presumably because "A" does not
+			    support the SMTP extension, and needs to relay the
+			    corresponding message on to another server ("C")
+			    (thereby becoming a client), and "C" advertises
+			    support for the SMTP extension, "B" SHOULD delete
+			    the header field(s) and instead relay this
+			    information by making use of the SMTP extension.
+			    Note that such modification of the header might
+			    affect later validation of the header upon delivery;
+			    for example, a hash of the modified header would
+			    produce a different result.  This might be a valid
+			    cause for some operators to skip this delete
+			    operation. </t>
+ 
+			<t> Conversely, if "B" has received a mailbox timestamp
+			    from "A" using the SMTP extension for which it must
+			    now relay the message on to "C", but "C" does not
+			    advertise the SMTP extension, and "B" does not
+			    reject the message because rejection was
+			    specifically declined by the client (see
+			    <xref target="op_relay"/>), "B" SHOULD add a
+			    Require-Recipient-Valid-Since header field matching
+			    the mailbox to which relaying is being done, and the
+			    corresponding valid-since timestamp for it, if it
+			    has prior information that the eventual MDA or
+			    another intermediate MTA supports this mechanism and
+			    will be able to process the header field as
+			    described in this specification. </t>
 
-			<t> Similarly, if "B" receives a message bearing
-			    one or more Require-Recipient-Valid-Since header
-			    fields from "A" for which it must now relay the
-			    message, and "C" advertises support for the SMTP
-			    extension, "B" SHOULD delete the header field(s)
-			    and instead relay this information by making use
-			    of the SMTP extension.  Note that such modification
-			    of the header might affect later validation of
-			    the header upon delivery; for example, a hash of
-			    the header would produce a different result.  This
-			    might be a valid cause for some operators to
-			    skip this delete operation. </t>
+			<t> The admonitions about very cautious use of the
+			    header field described in <xref target="op_send"/>
+			    apply to this relaying mechanism as well.  If
+			    multiple mailbox timestamps are received from "A",
+			    the admonitions in <xref target="multi_rcpt"/> also
+			    apply. </t>
 		</section>
 	</section>
 
@@ -591,7 +640,7 @@
 			<t> accept the message on completion of DATA,
 			    and then generate a Delivery Status Notification
 		            <xref target="DSN"/> message for each of the
-			    failed recipients </t>
+			    failed recipients. </t>
 		    </list> </t>
 
 		<t> Additional complexity arises when a message is sent
@@ -604,6 +653,14 @@
 		    failing at "C", which is likely to confuse the message
 		    author, who (as far as the author is aware) never sent
 		    a message to "C" in the first place. </t>
+
+		<t> Finally, there is an obvious concern with the fan-out
+		    of a message bearing the timestamps of multiple users;
+		    tight control over the handling of the timestamp
+		    information is very difficult to assure as the number of
+		    handling agents increases.  In general, the header field
+		    version of this extension SHOULD NOT be used for the
+		    multi-recipient case. </t>
 	</section>
 
 	<section title="Special Use Addresses" anchor="special">
@@ -771,23 +828,17 @@
 	</section>
 
 	<section anchor="signatures" title="Digital Signatures">
-		<t> This protocol mandates removal of the header field (when
-		    used) upon delivery in all but exceptional circumstances.
-		    Altering a message in this way will invalidate a digital
-		    signature intended to guard against message modification in
-		    transit, which can interfere with delivery. </t>
+		<t> This protocol mandates removal of the header field
+		    (when used) upon delivery in all but exceptional
+		    circumstances.  If a message with the header field were
+		    digitally signed in a way that included the header field,
+		    altering a message in this way would invalidate the
+		    signature.  However, the header field is strictly for
+		    tunneling purposes and should be regarded by the rest of
+		    the transport system as purely trace information. </t>
 
-		<t> Section 5.4.1 of DomainKeys Identified Mail
-		    <xref target="DKIM"/> proposes a strategy for selecting
-		    header fields to sign.  Specifically, it advises including
-		    in the signed portion of the message only those header
-		    fields that comprise part of the core content of the
-		    message.  As the header field version of this protocol is
-		    ephemeral, it cannot be considered core content. </t>
-
-		<t> Accordingly, applying digital signatures that attempt
-		    to protect the content of this header field is
-		    NOT RECOMMENDED. </t>
+		<t> Accordingly, the header field MUST NOT be included in
+		    the content covered by digital signatures. </t>
 	</section>
 
 	<section anchor="ar_defs" title="Authentication-Results Definitions">
@@ -966,20 +1017,23 @@
 		    senders would do well to avoid using this protocol other
 		    than when sending to known, trusted receivers. </t>
 	    </section>
+
+	    <section title="Reassignment of Mailboxes" anchor="sec_reassign">
+		<t> This specification is a direct response to the risks involved
+		    with reassignment or recycling of email addresses, an
+		    inherently dangerous practice.  It is typically expected
+		    that email addresses will not have a high rate of turnover
+		    or ownership change. </t>
+
+		<t> It is RECOMMENDED to have a substantial period of time
+		    between mailbox owners during which the mailbox accepts no
+		    mail, giving message generators an opportunity to detect
+		    that the previous owner is no longer at that address. </t>
+		</section>
 	</section>
 
 	<section anchor="privacy" title="Privacy Considerations">
-	    <section anchor="priv_probing" title="Probing Attacks">
-		<t> As described above, use of this extension or header field
-		    in probing attacks can disclose information about the
-		    history of the mailbox.  The harm that can be done by
-		    leaking any kind of private information is difficult to
-		    predict, so it is prudent to be sensitive to this
-		    sort of disclosure, either inadvertently or in response
-		    to probing by an attacker.  It bears restating, then, that
-		    implementing countermeasures to abuse of this capability
-		    needs strong consideration. </t>
-
+	    <section anchor="priv_tradeoff" title="The Trade-Off">
 		<t> That some MSPs allow for expiration of account names when
 		    they have been unused for a protracted period forces a
 		    choice between two potential types of privacy
@@ -999,6 +1053,18 @@
 		    leakage from the extensions specified here creates far
 		    lower overall risk than the potential for delivering mail
 		    to the wrong party. </t>
+	    </section>
+
+	    <section anchor="priv_probing" title="Probing Attacks">
+		<t> As described above, use of this extension or header field
+		    in probing attacks can disclose information about the
+		    history of the mailbox.  The harm that can be done by
+		    leaking any kind of private information is difficult to
+		    predict, so it is prudent to be sensitive to this
+		    sort of disclosure, either inadvertently or in response
+		    to probing by an attacker.  It bears restating, then, that
+		    implementing countermeasures to abuse of this capability
+		    needs strong consideration. </t>
 	    </section>
 
 	    <section anchor="priv_envelope" title="Envelope Recipients">
