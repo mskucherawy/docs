@@ -110,6 +110,13 @@
 		    in other contexts; for example, a personal address book
 		    could record the time an email address was added to it, and
 		    thus use that time with this extension.  </t>
+
+		<t> Because the use cases for this extension are strongly tied
+		    to privacy issues, attention to the Security Considerations
+		    (<xref target="security"/>) and the Privacy Considerations
+		    (<xref target="privacy"/>), is particularly important.
+		    Note, especially, the limitation described in
+		    <xref target="sec_false"/>. </t>
 	</section>
 
 	<section title="Definitions" anchor="defs">
@@ -307,6 +314,11 @@
 			    session, but the corresponding header field might
 			    be present in the message. </t>
 		    </list> </t>
+
+		<t> When the continuous ownership test fails for transient
+		    reasons (such as an unavailable database or other condition
+		    that is likely temporary), normal transient failure handling
+		    for the message is applied. </t>
 
 		<section anchor="op_esmtp" title="SMTP Extension Used">
 			<t> For an MTA supporting the SMTP extension, the
