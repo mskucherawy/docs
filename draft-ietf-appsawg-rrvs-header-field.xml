@@ -152,7 +152,8 @@
 		    the Message Delivery Agent (MDA) supports this function,
 		    but an intermediary system between the sending system
 		    and the MDA does not.  However, the header field
-		    does not provide the same strong assurance described above, and is more prone to exposure of private information
+		    does not provide the same strong assurance described above,
+		    and is more prone to exposure of private information
 		    (see <xref target="priv_tradeoff"/>). </t>
 
 		<t> The SMTP extension is called "RRVS" (Require Recipient
@@ -319,6 +320,23 @@
 		    reasons (such as an unavailable database or other condition
 		    that is likely temporary), normal transient failure handling
 		    for the message is applied. </t>
+
+		<t> If the continuous ownership test cannot be completed because
+		    the necessary datum (the mailbox creation or reassignment
+		    date/time) was not recorded, the MDA doing the evaluation
+		    selects a date and time to use that is the latest possible
+		    point in time at which the mailbox could have been
+		    created or reassigned.  For example, this might be the
+		    earliest of all recorded mailbox creation/reassignment
+		    timestamps, or the time when the host was first installed.
+		    If no reasonable substitute for the timestamp can be
+		    selected, the MDA rejects the message using an SMTP reply
+		    code, preferably with an enhanced mail system status code
+		    (see <xref target="iana_esc"/>), that indicates the
+		    test cannot be completed.  A message originator can then
+		    decide whether to reissue the message without RRVS
+		    protection, or find another way to reach the mailbox
+		    owner. </t>
 
 		<section anchor="op_esmtp" title="SMTP Extension Used">
 			<t> For an MTA supporting the SMTP extension, the
@@ -1169,6 +1187,23 @@
                        system wishes to disclose that the owner of
                        the domain name of the recipient has changed
                        since the specified date.
+   Reference:          [this document]
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+
+		<t><figure><artwork>
+   Code:               X.7.19
+   Sample Text:        RRVS test cannot be completed
+   Associated basic status code:  5
+   Description:        This status code is returned when a message is
+                       received with a Require-Recipient-Valid-Since
+                       field or RRVS extension and the receiving
+                       system cannot complete the requested
+                       evaluation because the required timestamp was
+                       not recorded.  The message originator needs to
+                       decide whether to reissue the message without
+                       RRVS protection.
    Reference:          [this document]
    Submitter:          M. Kucherawy
    Change controller:  IESG
