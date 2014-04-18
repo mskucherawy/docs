@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <rfc ipr="trust200902" category="std"
-        docName="draft-ietf-appsawg-rrvs-header-field-10">
+        docName="draft-ietf-appsawg-rrvs-header-field-11">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -1165,7 +1165,7 @@
 			<figure><artwork>
    Code:               X.7.17
    Sample Text:        Mailbox owner has changed
-   Associated basic status code:  5
+   Associated basic status code:  5XX
    Description:        This status code is returned when a message is
                        received with a Require-Recipient-Valid-Since
                        field or RRVS extension and the receiving
@@ -1180,7 +1180,7 @@
 		<t><figure><artwork>
    Code:               X.7.18
    Sample Text:        Domain owner has changed
-   Associated basic status code:  5
+   Associated basic status code:  5XX
    Description:        This status code is returned when a message is
                        received with a Require-Recipient-Valid-Since
                        field or RRVS extension and the receiving
@@ -1195,7 +1195,7 @@
 		<t><figure><artwork>
    Code:               X.7.19
    Sample Text:        RRVS test cannot be completed
-   Associated basic status code:  5
+   Associated basic status code:  5XX
    Description:        This status code is returned when a message is
                        received with a Require-Recipient-Valid-Since
                        field or RRVS extension and the receiving
