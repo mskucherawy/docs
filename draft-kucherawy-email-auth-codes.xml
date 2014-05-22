@@ -2,15 +2,15 @@
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!ENTITY RFC3463 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3463.xml">
-  <!ENTITY RFC4408 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4408.xml">
   <!ENTITY RFC5248 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5248.xml">
   <!ENTITY RFC6376 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6376.xml">
   <!ENTITY RFC7001 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7001.xml">
+  <!ENTITY RFC7208 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7208.xml">
 ]>
 
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-kucherawy-email-auth-codes-01">
+        docName="draft-ietf-appsawg-email-auth-codes-00">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -63,7 +63,7 @@
 		    Status Codes, and <xref target="RFC5248"/> created an IANA
 		    registry for these. </t>
 
-		<t> <xref target="RFC6376"/> and <xref target="RFC4408"/>
+		<t> <xref target="RFC6376"/> and <xref target="RFC7208"/>
 		    introduced, respectively, DomainKeys Identified Mail
 		    and Sender Policy Framework, two protocols for conducting
 		    email authentication.  Another common email acceptance
@@ -73,9 +73,10 @@
 
 		<t> The current set of enhanced status codes does not include
 		    any code for indicating that a message is being rejected
-		    or deferred due to negative results in either of these
-		    two mechanisms.  This document introduces an enhanced
-		    status code for reporting those cases to clients. </t>
+		    or deferred due to local policy reasons related to either
+		    of these two mechanisms.  This document introduces
+		    enhanced status codes for reporting those cases to
+		    clients. </t>
 	</section>
 
 	<section anchor="codes" title="New Status Codes">
@@ -84,12 +85,11 @@
 		<section anchor="dkim-code" title="DKIM Failures Code">
 			<t><figure><artwork>
    Code:               X.7.19
-   Sample Text:        DKIM signature failed to validate
+   Sample Text:        No valid DKIM signature found
    Associated basic status code:  5
    Description:        This status code is returned when a message
-                       contained a valid DKIM signature, but the
-                       signature failed to validate, contrary
-                       to local policy requirements.
+                       did not contain a valid DKIM signature,
+                       contrary to local policy requirements.
    Reference:          [this document]
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -97,11 +97,13 @@
 
 			<t><figure><artwork>
    Code:               X.7.20
-   Sample Text:        DKIM signature absent
+   Sample Text:        No valid author DKIM signature found
    Associated basic status code:  5
    Description:        This status code is returned when a message
-                       contained no DKIM signature, contrary to 
-                       local policy requirements.
+                       did not contain a valid DKIM signature
+                       matching the domain(s) found in the From
+                       header field, contrary to local policy
+                       requirements.
    Reference:          [this document]
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -119,7 +121,6 @@
    Reference:          [this document]
    Submitter:          M. Kucherawy
    Change controller:  IESG
-			</artwork></figure> </t>
 		</section>
 
 		<section anchor="iprev-code" title="Reverse DNS Failure Code">
@@ -170,22 +171,18 @@
 <back>
 	<references title="Normative References">
 		&RFC3463;
-		&RFC4408;
 		&RFC5248;
 		&RFC6376;
 		&RFC7001;
+		&RFC7208;
 	</references>
 
-	<section anchor="ed-notes" title="Notes to the RFC Editor">
-		<t> [Please remove this section prior to publication.] </t>
-
-		<t> <xref target="RFC4408"/> is in the RFC Editor queue as of
-		    this writing.  It will need to updated at some point. </t>
-	</section>
-
 	<section anchor="thanks" title="Acknowledgments">
-		<t> Arnt Gulbrandsen provided feedback starting with very
-		    early versions of this document. </t>
+		<t> Ned Freed,
+		    Arnt Gulbrandsen,
+		    and
+		    Barry Leiba
+		    contributed to this work. </t>
 	</section>
 </back>
 
