@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="us-ascii"?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC3463 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3463.xml">
+  <!ENTITY RFC5248 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5248.xml">
+  <!ENTITY RFC6376 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6376.xml">
+  <!ENTITY RFC7001 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7001.xml">
+  <!ENTITY RFC7208 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7208.xml">
+]>
+
+
+<rfc ipr="trust200902" category="info"
+        docName="draft-ietf-appsawg-email-auth-codes-00">
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc strict="no" ?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="Email Auth Status Codes">
+		Email Authentication Status Codes
+	</title>
+
+	<author initials="M. S." surname="Kucherawy"
+	        fullname="Murray S. Kucherawy">
+
+		<organization/> 
+
+		<address>
+			<postal>
+				<street>270 Upland Drive</street>
+				<city>San Francisco</city>
+				<region>CA</region>
+				<code>94127</code>
+				<country>USA</country>
+			</postal>
+
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<date year="2014"/>
+
+	<area>Applications</area>
+
+	<abstract>
+		<t> There is at present no way to return a status code to
+		    an email client that indicates a message is
+		    being rejected or deferred specifically because of email
+		    authentication failures.  This document registers codes
+		    for this purpose. </t>
+	</abstract>
+</front>
+
+<middle>
+	<section anchor="intro" title="Introduction">
+		<t> <xref target="RFC3463"/> introduced Enhanced Mail System
+		    Status Codes, and <xref target="RFC5248"/> created an IANA
+		    registry for these. </t>
+
+		<t> <xref target="RFC6376"/> and <xref target="RFC7208"/>
+		    introduced, respectively, DomainKeys Identified Mail
+		    and Sender Policy Framework, two protocols for conducting
+		    email authentication.  Another common email acceptance
+		    test is the reverse Domain Name System check on an email
+		    client's IP address, as described in Section 3 of
+		    <xref target="RFC7001"/>. </t>
+
+		<t> The current set of enhanced status codes does not include
+		    any code for indicating that a message is being rejected
+		    or deferred due to local policy reasons related to either
+		    of these two mechanisms.  This document introduces
+		    enhanced status codes for reporting those cases to
+		    clients. </t>
+	</section>
+
+	<section anchor="codes" title="New Status Codes">
+		<t> The following new status codes are defined: </t>
+
+		<section anchor="dkim-code" title="DKIM Failures Code">
+			<t><figure><artwork>
+   Code:               X.7.19
+   Sample Text:        No valid DKIM signature found
+   Associated basic status code:  5
+   Description:        This status code is returned when a message
+                       did not contain a valid DKIM signature,
+                       contrary to local policy requirements.
+   Reference:          [this document]
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+
+			<t><figure><artwork>
+   Code:               X.7.20
+   Sample Text:        No valid author DKIM signature found
+   Associated basic status code:  5
+   Description:        This status code is returned when a message
+                       did not contain a valid DKIM signature
+                       matching the domain(s) found in the From
+                       header field, contrary to local policy
+                       requirements.
+   Reference:          [this document]
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+		</section>
+
+		<section anchor="spf-code" title="SPF Failures Code">
+			<t><figure><artwork>
+   Code:               X.7.21
+   Sample Text:        SPF validation failed
+   Associated basic status code:  5
+   Description:        This status code is returned when a message
+                       failed an SPF check, contrary to local
+                       policy requirements.
+   Reference:          [this document]
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+		</section>
+
+		<section anchor="iprev-code" title="Reverse DNS Failure Code">
+			<t><figure><artwork>
+   Code:               X.7.22
+   Sample Text:        reverse DNS validation failed
+   Associated basic status code:  5
+   Description:        This status code is returned when an SMTP
+                       client's IP address failed a reverse DNS
+                       validation check, contrary to local policy
+                       requirements.
+   Reference:          [this document]
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+		</section>
+	</section>
+
+	<section anchor="discuss" title="General Considerations">
+		<t> By the nature of the Simple Mail Transfer Protocol (SMTP),
+		    only one enhanced status code can be returned for a given
+		    exchange between client and server.  However, an
+		    operator might decide to defer or reject a message for a
+		    plurality of reasons.  Clients receiving these codes
+		    need to consider that the failure reflected by one of these
+		    status codes might not reflect the only reason, or
+		    the most important reason, for non-acceptance of the
+		    message or command. </t>
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+		<t> Use of these codes reveals local policy with respect to
+		    email authentication, which can be useful information to
+		    actors attempting to deliver undesirable mail.  It should
+		    be noted that there is no specific obligation to use these
+		    codes; if an operator wishes not to reveal this aspect
+		    of local policy, it can continue using a generic result
+		    code such as 5.7.7 or even 5.7.0. </t>
+	</section>
+
+	<section anchor="iana" title="IANA Considerations">
+		<t> Registration of two new enhanced status codes, for addition
+		    to the SMTP Enhanced Status Codes Registry, can be found
+		    in <xref target="codes"/>. </t>
+	</section>
+</middle>
+
+<back>
+	<references title="Normative References">
+		&RFC3463;
+		&RFC5248;
+		&RFC6376;
+		&RFC7001;
+		&RFC7208;
+	</references>
+
+	<section anchor="thanks" title="Acknowledgments">
+		<t> Ned Freed,
+		    Arnt Gulbrandsen,
+		    and
+		    Barry Leiba
+		    contributed to this work. </t>
+	</section>
+</back>
+
+</rfc>
