@@ -8,7 +8,6 @@
   <!ENTITY RFC7208 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7208.xml">
 ]>
 
-
 <rfc ipr="trust200902" category="info"
         docName="draft-ietf-appsawg-email-auth-codes-00">
 
