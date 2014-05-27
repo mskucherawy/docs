@@ -90,7 +90,7 @@
 	<section anchor="codes" title="New Status Codes">
 		<t> The following new status codes are defined: </t>
 
-		<section anchor="dkim-code" title="DKIM Failures Code">
+		<section anchor="dkim-code" title="DKIM Failure Codes">
 			<t><figure><artwork>
    Code:               X.7.19
    Sample Text:        No valid DKIM signature found
