@@ -74,9 +74,11 @@
 		<t> The current set of enhanced status codes does not include
 		    any code for indicating that a message is being rejected
 		    or deferred due to local policy reasons related to either
-		    of these two mechanisms.  This document introduces
-		    enhanced status codes for reporting those cases to
-		    clients. </t>
+		    of these two mechanisms.  This is potentially useful
+		    information to agents that need more than rudimentary handling
+		    information about the reason a message was rejected on
+		    receipt.  This document introduces enhanced status codes
+		    for reporting those cases to clients. </t>
 	</section>
 
 	<section anchor="keywords" title="Key Words">
@@ -190,6 +192,12 @@
 		    DKIM's recommendations, but rather acknowledges that they
 		    do exist and provides for improved interoperability with
 		    such operators. </t>
+
+		<t> A specific use case is mailing list software, which processes
+		    rejections in order to remove from the subscriber set those
+		    addresses that are no longer valid.  There is a need in that
+		    case to distinguish authentication failures verus indications
+		    that the recipient address is no longer valid. </t>
 
 		<t> When multiple authentication methods fail, the SMTP server
 		    SHOULD use the code that indicates multiple methods failed
