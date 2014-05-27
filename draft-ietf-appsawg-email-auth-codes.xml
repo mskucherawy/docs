@@ -209,7 +209,7 @@
 		    be noted that there is no specific obligation to use these
 		    codes; if an operator wishes not to reveal this aspect
 		    of local policy, it can continue using a generic result
-		    code such as 5.7.1 or even 5.7.0. </t>
+		    code such as 5.7.7, 5.7.1, or even 5.7.0. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
