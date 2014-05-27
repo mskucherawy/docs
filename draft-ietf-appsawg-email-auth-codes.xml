@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
   <!ENTITY RFC3463 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3463.xml">
   <!ENTITY RFC5248 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5248.xml">
   <!ENTITY RFC6376 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6376.xml">
@@ -9,7 +10,7 @@
 ]>
 
 <rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-email-auth-codes-01">
+        docName="draft-ietf-appsawg-email-auth-codes-02">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -76,6 +77,14 @@
 		    of these two mechanisms.  This document introduces
 		    enhanced status codes for reporting those cases to
 		    clients. </t>
+	</section>
+
+	<section anchor="keywords" title="Key Words">
+		<t> The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
+		    "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",
+		    "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are
+		    to be interpreted as described in
+		    <xref target="RFC2119"/>. </t>
 	</section>
 
 	<section anchor="codes" title="New Status Codes">
@@ -204,7 +213,7 @@
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
-		<t> Registration of two new enhanced status codes, for addition
+		<t> Registration of new enhanced status codes, for addition
 		    to the SMTP Enhanced Status Codes Registry, can be found
 		    in <xref target="codes"/>. </t>
 	</section>
@@ -212,6 +221,7 @@
 
 <back>
 	<references title="Normative References">
+		&RFC2119;
 		&RFC3463;
 		&RFC5248;
 		&RFC6376;
