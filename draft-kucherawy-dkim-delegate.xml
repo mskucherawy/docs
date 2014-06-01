@@ -157,8 +157,9 @@
 			    uses an "l=" tag to sign only a portion of the
 			    message body, allowing content changes, 
 			    and includes only a few key header fields
-			    in the header hash.  (See <xref target="disc"/>
-			    for details.) </t>
+			    in the header hash.  The signature also has a short
+			    expiration time, using an "x=" tag.  (See
+			    <xref target="disc"/> for details.) </t>
 
 			<t> The Author sends the message.  It may or may not
 			    be handled by some intermediary agents before
@@ -166,8 +167,8 @@
 
 			<t> The Recipient attempts to validate the first
 			    DKIM signature affixed by the Author.  If it
-			    is valid, the requirements of this profile are
-			    satisfied (and the algorithm terminates
+			    is valid and not expired, the requirements of this
+			    profile are satisfied (and the algorithm terminates
 			    here). </t>
 
 			<t> The Recipient attempts to validate the second
@@ -245,6 +246,11 @@
 		    message content, but allows for legitimate Mediator
 		    modifications, by including an "l=" tag in the
 		    signature. </t>
+
+		<t> The expiration time on the second Author signature
+		    selected needs to be long enough to permit evaluation by
+		    recipients of the re-distribution of the message.  A good
+		    choice is a small number of days or even hours. </t>
 	</section>
 
 	<section anchor="tbd" title="Issues TBD">
