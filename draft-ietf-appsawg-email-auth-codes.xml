@@ -75,17 +75,17 @@
 		    any code for indicating that a message is being rejected
 		    or deferred due to local policy reasons related to either
 		    of these two mechanisms.  This is potentially useful
-		    information to agents that need more than rudimentary handling
-		    information about the reason a message was rejected on
-		    receipt.  This document introduces enhanced status codes
-		    for reporting those cases to clients. </t>
+		    information to agents that need more than rudimentary
+		    handling information about the reason a message was
+		    rejected on receipt.  This document introduces enhanced
+		    status codes for reporting those cases to clients. </t>
 	</section>
 
 	<section anchor="keywords" title="Key Words">
 		<t> The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
 		    "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",
-		    "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are
-		    to be interpreted as described in
+		    "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document
+		    are to be interpreted as described in
 		    <xref target="RFC2119"/>. </t>
 	</section>
 
@@ -94,7 +94,7 @@
 
 		<section anchor="dkim-code" title="DKIM Failure Codes">
 			<t><figure><artwork>
-   Code:               X.7.19
+   Code:               X.7.20
    Sample Text:        No valid DKIM signature found
    Associated basic status code:  5
    Description:        This status code is returned when a message
@@ -108,7 +108,7 @@
 			</artwork></figure> </t>
 
 			<t><figure><artwork>
-   Code:               X.7.20
+   Code:               X.7.21
    Sample Text:        No valid author DKIM signature found
    Associated basic status code:  5
    Description:        This status code is returned when a message
@@ -125,7 +125,7 @@
 
 		<section anchor="spf-code" title="SPF Failure Code">
 			<t><figure><artwork>
-   Code:               X.7.21
+   Code:               X.7.22
    Sample Text:        SPF validation failed
    Associated basic status code:  5
    Description:        This status code is returned when a message
@@ -139,14 +139,14 @@
 
 		<section anchor="iprev-code" title="Reverse DNS Failure Code">
 			<t><figure><artwork>
-   Code:               X.7.22
+   Code:               X.7.23
    Sample Text:        Reverse DNS validation failed
    Associated basic status code:  5
    Description:        This status code is returned when an SMTP
                        client's IP address failed a reverse DNS
                        validation check, contrary to local policy
                        requirements.
-   Reference:          [this document]; Section 2.6.3 of RFC7001
+   Reference:          [this document]; Section 3 of RFC 7001
    Submitter:          M. Kucherawy
    Change controller:  IESG
 			</artwork></figure> </t>
@@ -183,21 +183,22 @@
 
 		<t> It is important to note that Section 6.1 of
 		    <xref target="RFC6376"/> discourages special treatment of
-		    messages bearing no valid signature.  There are some operators
-		    that disregard this advice, a few of which go so far as
-		    to require a valid Author Domain signature in order to
-		    accept the message.  Moreover, some nascent technologies
-		    built atop SPF and DKIM depend on such authentications.
-		    This work does not endorse configurations that violate
-		    DKIM's recommendations, but rather acknowledges that they
-		    do exist and provides for improved interoperability with
-		    such operators. </t>
+		    messages bearing no valid signature.  There are some
+		    operators that disregard this advice, a few of which go
+		    so far as to require a valid Author Domain signature in
+		    order to accept the message.  Moreover, some nascent
+		    technologies built atop SPF and DKIM depend on such
+		    authentications.  This work does not endorse
+		    configurations that violate DKIM's recommendations, but
+		    rather acknowledges that they do exist and provides for
+		    improved interoperability with such operators. </t>
 
-		<t> A specific use case is mailing list software, which processes
-		    rejections in order to remove from the subscriber set those
-		    addresses that are no longer valid.  There is a need in that
-		    case to distinguish authentication failures verus indications
-		    that the recipient address is no longer valid. </t>
+		<t> A specific use case is mailing list software, which
+		    processes rejections in order to remove from the
+		    subscriber set those addresses that are no longer valid.
+		    There is a need in that case to distinguish authentication
+		    failures verus indications that the recipient address is
+		    no longer valid. </t>
 
 		<t> When multiple authentication methods fail, the SMTP server
 		    SHOULD use the code that indicates multiple methods failed
@@ -242,6 +243,7 @@
 		    Ned Freed,
 		    Arnt Gulbrandsen,
 		    Barry Leiba,
+		    Alexey Melnikov,
 		    and
 		    Hector Santos
 		    contributed to this work. </t>
