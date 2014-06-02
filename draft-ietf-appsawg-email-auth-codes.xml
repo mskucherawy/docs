@@ -123,7 +123,7 @@
 			</artwork></figure> </t>
 		</section>
 
-		<section anchor="spf-code" title="SPF Failure Code">
+		<section anchor="spf-code" title="SPF Failure Codes">
 			<t><figure><artwork>
    Code:               X.7.22
    Sample Text:        SPF validation failed
@@ -135,11 +135,23 @@
    Submitter:          M. Kucherawy
    Change controller:  IESG
 			</artwork></figure> </t>
+
+			<t><figure><artwork>
+   Code:               X.7.23
+   Sample Text:        SPF validation error
+   Associated basic status code:  5
+   Description:        This status code is returned when evaluation
+                       of SPF relative to an arriving message
+                       resulted in an error.
+   Reference:          [this document]; RFC7208
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
 		</section>
 
 		<section anchor="iprev-code" title="Reverse DNS Failure Code">
 			<t><figure><artwork>
-   Code:               X.7.23
+   Code:               X.7.24
    Sample Text:        Reverse DNS validation failed
    Associated basic status code:  5
    Description:        This status code is returned when an SMTP
@@ -155,7 +167,7 @@
 		<section anchor="multi-code"
 		         title="Multiple Authentication Failures Code">
 			<t><figure><artwork>
-   Code:               X.7.23
+   Code:               X.7.25
    Sample Text:        Multiple authentication checks failed
    Associated basic status code:  5
    Description:        This status code is returned when a message
@@ -242,6 +254,7 @@
 		<t> Claudio Allocchio,
 		    Ned Freed,
 		    Arnt Gulbrandsen,
+		    Scott Kitterman,
 		    Barry Leiba,
 		    Alexey Melnikov,
 		    and
