@@ -9,8 +9,8 @@
   <!ENTITY RFC7208 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7208.xml">
 ]>
 
-<rfc ipr="trust200902" category="info"
-        docName="draft-ietf-appsawg-email-auth-codes-02">
+<rfc ipr="trust200902" category="info" updates="7208"
+        docName="draft-ietf-appsawg-email-auth-codes-03">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -130,7 +130,9 @@
    Associated basic status code:  5
    Description:        This status code is returned when a message
                        failed an SPF check, contrary to local
-                       policy requirements.
+                       policy requirements.  Used in place of
+                       5.7.1 as described in Section 8.4 of
+                       RFC7208.
    Reference:          [this document]; RFC7208
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -139,10 +141,12 @@
 			<t><figure><artwork>
    Code:               X.7.23
    Sample Text:        SPF validation error
-   Associated basic status code:  5
+   Associated basic status code:  4/5
    Description:        This status code is returned when evaluation
                        of SPF relative to an arriving message
-                       resulted in an error.
+                       resulted in an error.  Used in place of
+                       4.4.3 or 5.5.2 as described in Sections
+                       8.6 and 8.6 of RFC7208.
    Reference:          [this document]; RFC7208
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -158,7 +162,7 @@
                        client's IP address failed a reverse DNS
                        validation check, contrary to local policy
                        requirements.
-   Reference:          [this document]; Section 3 of RFC 7001
+   Reference:          [this document]; Section 3 of RFC7001
    Submitter:          M. Kucherawy
    Change controller:  IESG
 			</artwork></figure> </t>
