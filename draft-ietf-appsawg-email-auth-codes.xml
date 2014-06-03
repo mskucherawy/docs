@@ -213,7 +213,7 @@
 		    processes rejections in order to remove from the
 		    subscriber set those addresses that are no longer valid.
 		    There is a need in that case to distinguish authentication
-		    failures verus indications that the recipient address is
+		    failures versus indications that the recipient address is
 		    no longer valid. </t>
 
 		<t> When multiple authentication methods fail, the SMTP server
