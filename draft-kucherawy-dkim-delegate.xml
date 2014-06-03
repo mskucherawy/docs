@@ -8,7 +8,7 @@
   <!ENTITY RFC6541 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6541.xml">
 ]>
 
-<rfc ipr="trust200902" category="info"
+<rfc ipr="trust200902" category="exp"
         docName="draft-kucherawy-dkim-delegate-00">
 
 <?rfc toc="yes" ?>
@@ -356,7 +356,10 @@
 
 	<section anchor="thanks" title="Acknowledgments">
 		<t> The authors wish to acknowledge
-		    (names)
+		    Barry Leiba,
+		    (other names)
+		    and
+		    (other name)
 		    for their comments during the development of this
 		    document. </t>
 	</section>
