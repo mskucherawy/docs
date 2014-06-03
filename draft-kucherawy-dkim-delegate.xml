@@ -175,7 +175,7 @@
 			    DKIM signature affixed by the Author.  If it
 			    is not valid (or not found), the requirements
 			    of this profile cannot be satisfied (and the
-			    algorithm termiantes here). </t>
+			    algorithm terminates here). </t>
 
 			<t> The Recipient collects all header fields that
 			    were covered by the header hash of the second
@@ -264,7 +264,7 @@
 	</section>
 
 	<section anchor="security" title="Security Considerations">
-		<t> Use of this profile of DKIM amounts to an emphemeral
+		<t> Use of this profile of DKIM amounts to an ephemeral
 		    granting of the ability for the first Receivers (the
 		    Mediators named in the To and Cc fields) to generate
 		    content that the ultimate Receivers will consider valid
@@ -296,7 +296,7 @@
 		&RFC6541;
 	</references>
 
-	<section anchor="thanks" title="Acknowledgements">
+	<section anchor="thanks" title="Acknowledgments">
 		<t> The authors wish to acknowledge
 		    (names)
 		    for their comments during the development of this
