@@ -349,6 +349,12 @@
 		&RFC6377;
 	</references>
 
+	<section anchor="examples" title="Examples">
+		<t> TODO: Show a few examples of the conversion between
+		    some different MIME structures, the hash tree, and the
+		    "lh=" tag's value. </t>
+	</section>
+
 	<section anchor="thanks" title="Acknowledgements">
 		<t> The authors wish to acknowledge
 		    (names)
