@@ -73,8 +73,8 @@
 
 		<t> The current set of enhanced status codes does not include
 		    any code for indicating that a message is being rejected
-		    or deferred due to local policy reasons related to either
-		    of these two mechanisms.  This is potentially useful
+		    or deferred due to local policy reasons related to any
+		    of these mechanisms.  This is potentially useful
 		    information to agents that need more than rudimentary
 		    handling information about the reason a message was
 		    rejected on receipt.  This document introduces enhanced
