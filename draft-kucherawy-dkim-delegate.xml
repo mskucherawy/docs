@@ -2,6 +2,7 @@
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!ENTITY RFC2045 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2045.xml">
+  <!ENTITY RFC3864 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3864.xml">
   <!ENTITY RFC5598 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5598.xml">
   <!ENTITY RFC5617 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5617.xml">
   <!ENTITY RFC6376 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6376.xml">
@@ -74,9 +75,9 @@
 		<t> What is needed is a way for an author to indicate that a
 		    signature from some third party was anticipated by the
 		    author, and thus a receiver can conclude the content
-		    is legitimately from that author.  This document presents
-		    a specific application of DKIM that can achieve that
-		    goal. </t>
+		    is legitimately from that author.  This document defines
+		    a new header field intended for use with DKIM that can
+		    achieve that goal. </t>
 	</abstract>
 </front>
 
@@ -131,67 +132,88 @@
 	</section>
 
 	<section anchor="defs" title="Definitions">
-		<t> Numerous terms used here, especially "Author", are 
-		    defined in <xref target="RFC5598"/>. </t>
+		<t> Numerous terms used here, especially "Author",
+		    "Originator", "Receiver", and "Recipient", are defined in
+		    <xref target="RFC5598"/>. </t>
 	</section>
 
 	<section anchor="descr" title="DKIM-Delegate description">
-		<t> "DKIM-Delegate" is a profile of DKIM that creates an
-		    ephemeral relationship between a message author and
-		    an intermediary that can be used by a receiver to
-		    conclude that the intermediary legitimately handled
-		    a message created by the author.  This makes it possible
-		    to identify such messages separately from those without
-		    such assurances, and thus the latter can be treated with
-		    more skepticism. </t>
+		<t> A new email header field called "DKIM-Delegate" is defined.
+		    When present, it asserts an ephemeral relationship between
+		    a message author and an intermediary that can be used by
+		    a receiver to conclude that the intermediary legitimately
+		    handled a message created by the author.  This makes it
+		    possible to identify such messages separately from those
+		    without such assurances, and thus the latter can be
+		    treated with more skepticism. </t>
 
 		<t> The specific mechanism is as follows:
 
 		    <list style="numbers">
 			<t> The Author generates a message in the usual
-			    way. </t>
+			    way and hands it to the Originator. </t>
 
-			<t> The Author affixes a DKIM signature that
+			<t> The Originator affixes a DKIM signature that
 			    includes the entire message content in the body
 			    hash.  (That is, it does not use the "l="
-			    tag.) </t>
+			    tag.)  This will be referred to as the "primary
+			    signature". </t>
 
-			<t> The Author affixes a second DKIM signature that
+			<t> The Originator adds a DKIM-Delegate header field
+			    identifying the Author's domain.  It might also
+			    identify the specific domains with which it
+			    wishes to claim an ephemeral relationship; if it
+			    does not, these are implicit from elsewhere
+			    in the message header (see below). </t>
+
+			<t> The Originator affixes a second DKIM signature that
 			    uses an "l=" tag to sign only a portion of the
 			    message body, allowing content changes, 
 			    and includes only a few key header fields
-			    in the header hash.  The signature also has a short
+			    in the header hash, including the DKIM-Delegate
+			    field.  The signature also has a short
 			    expiration time, using an "x=" tag.  (See
-			    <xref target="disc"/> for details.) </t>
+			    <xref target="disc"/> for details.)  This will
+			    be referred to as the "delegation signature". </t>
 
-			<t> The Author sends the message.  It may or may not
-			    be handled by some intermediary agents before
-			    arriving at the Recipient. </t>
+			<t> The Originator sends the message.  It may or may
+			    not be handled by some intermediary agents before
+			    arriving at the Receiver. </t>
 
-			<t> The Recipient attempts to validate the first
-			    DKIM signature affixed by the Author.  If it
+			<t> The Receiver attempts to validate the primary
+			    signature affixed by the Originator.  If it
 			    is valid and not expired, the requirements of this
 			    profile are satisfied (and the algorithm terminates
 			    here). </t>
 
-			<t> The Recipient attempts to validate the second
-			    DKIM signature affixed by the Author.  If it
+			<t> The Receiver attempts to validate the delegation
+			    signature affixed by the Originator.  If it
 			    is not valid (or not found), the requirements
 			    of this profile cannot be satisfied (and the
 			    algorithm terminates here). </t>
 
-			<t> The Recipient collects all header fields that
-			    were covered by the header hash of the second
-			    DKIM signature and that contain recipient
-			    addresses.  These can be found in that
+			<t> The Receiver confirms that the delegation
+			    signature included in its header hash the
+			    DKIM-Delegate header field, and that the
+			    "d=" value in the delegation signature matches
+			    the "d=" value in the DKIM-Delegate field. </t>
+
+			<t> If the DKIM-Delegate field included a list
+			    of domain names to which delegation of re-signing
+			    authority is claimed, call this set "D". </t>
+
+			<t> If the DKIM-Delegate signature did not include such
+			    a list, the Receiver collects all header fields
+			    that were covered by the header hash of the
+			    delegation DKIM signature and that contain
+			    recipient addresses.  These can be found in that
 			    signature's "h=" tag.  The obvious examples are
-			    the To and Cc fields (if present). </t>
+			    the To and Cc fields (if present).  The Receiver
+			    extracts the set of domain names from the
+			    collected header fields, and calls this set
+			    "D". </t>
 
-			<t> The Recipient extracts the set of domain names
-			    from the collected header fields.  Call this
-			    set "D". </t>
-
-			<t> The Recipient performs normal validation checks
+			<t> The Receiver performs normal validation checks
 			    of all other DKIM signatures on the message that
 			    include the entire message body in their body
 			    hashes, and stores the set of domains from passing
@@ -203,8 +225,32 @@
 		    </list> </t>
 	</section>
 
+	<section anchor="syntax" title="Syntax">
+		<t> The content of the DKIM-Delegate header field is a 
+		    tag-list as defined in Section 3.2 of
+		    <xref target="RFC6376"/>.  The valid tags are:
+
+		    <list style="hanging">
+			<t hangText="d="> Author domain (plain-text; REQUIRED).
+				This value names the domain of the Author,
+				which is delegating signing authority to
+				one or more other domains. </t>
+
+			<t hangText="t="> Delegation target (plain-text;
+				OPTIONAL).  This value is a comma-separated
+				list of domain names to which the authority
+				to sign on behalf of the Author domain is
+				being delegated.  When not present, this list
+				is inferred from the domain names present in
+				the recipient fields (To, Cc) of the
+				header. </t>
+		    </list> </t>
+
+		<t> As with DKIM itself, any other tag MUST be ignored. </t>
+	</section>
+
 	<section anchor="disc" title="Discussion">
-		<t> The use of the first Author signature ensures
+		<t> The use of the primary signature ensures
 		    that if the original message arrives intact, the
 		    Receiver is assured of its legitimacy as having been
 		    generated and sent by the Author irrespective of what
@@ -215,16 +261,18 @@
 		    prepending list-identifying material to the Subject
 		    field, or appending URIs and such to the message body
 		    referring Receivers to further information about the list
-		    itself.  This will almost always invalidate the first
-		    Author signature, so downstream receivers cannot be sure
+		    itself.  This will almost always invalidate the primary
+		    signature, so downstream receivers cannot be sure
 		    (via DKIM, at least) where the message originated. </t>
 
-		<t> The second "delegation" signature always covers the
-		    visible recipient fields of the message, but typically
-		    does not cover any of the content.  Under this profile,
-		    domains that appear in those fields are permitted to alter
-		    and re-send the content so long as they also sign (and thus
-		    take responsibility for) the message thus generated. </t>
+		<t> The delegation signature always covers the DKIM-Delegate
+		    field and the visible recipient fields of the message,
+		    but typically does not cover any of the content.  Under
+		    this profile, domains that appear in explicit delegation
+		    list (or otherwise inferred from the recipient header
+		    fields) are permitted to alter and re-send the content so
+		    long as they also sign (and thus take responsibility for)
+		    the message thus generated. </t>
 
 		<t> The delegation signature typically covers only the
 		    following header fields:
@@ -238,6 +286,10 @@
 
 				<t> Date (binds the signature to a specific
 				    date) </t>
+
+				<t> DKIM-Delegate (signals to participating
+				    receivers that an ephemeral delegation of
+				    signing authority is in effect) </t>
 			</list> </t>
 
 		<t> Subject, though normally covered by signatures as per
@@ -256,19 +308,19 @@
 		    recipients of the re-distribution of the message.  A good
 		    choice is a small number of days or even hours. </t>
 
-		<t> The profile assumes messages sent to the list that are not
-		    part of a multipart message structure, as described in
-		    Multipurpose Internet Mail Extensions (MIME; see
-		    <xref target="RFC2045"/>).  It may not be possible to
+		<t> This use of DKIM assumes messages sent to the list that
+		    are not part of a multipart message structure, as
+		    described in Multipurpose Internet Mail Extensions (MIME;
+		    see <xref target="RFC2045"/>).  It may not be possible to
 		    select a practical signing length for messages in other
 		    than the basic message format. </t>
 
 		<t> The delegation signature can use an "l=" value reflecting
 		    the entire message as generated by the Author, or "0"
-		    allowing a complete reformatting of the message. 
+		    (zero) allowing a complete reformatting of the message. 
 		    Obviously the latter grants the modifying agent
 		    considerable latitude in what it will ultimately emit,
-		    while the former is much more constrained.  The Author
+		    while the former is much more constrained.  The Originator
 		    signing the message can choose whichever is more
 		    appropriate for its own policies and requirements. </t>
 
@@ -284,7 +336,7 @@
 			    content of "z=" was meant to be used only as a
 			    debugging tool by humans. </t>
 
-			<t> Under this profile, if the Subject header field
+			<t> Under this use, if the Subject header field
 			    was included in the header hash, it may be useful
 			    to use "z=" (if present) to detect changes made
 			    to the Subject field, if any.  If those changes
@@ -298,24 +350,14 @@
 		</section>
 	</section>
 
-	<section anchor="tbd" title="Issues TBD">
-		<t> <list style="symbols">
-			<t> Should we create a new DKIM signature tag that
-			    allows the Author to indicate in the delegation
-			    signature a set of authorized re-signing domains
-			    in addition to or other than the ones
-			    implicit in "To" and "Cc"? </t>
-		    </list> </t>
-	</section>
-
 	<section anchor="security" title="Security Considerations">
-		<t> Use of this profile of DKIM amounts to an ephemeral
-		    granting of the ability for the first Receivers (the
-		    Mediators named in the To and Cc fields) to generate
-		    content that the ultimate Receivers will consider valid
-		    on behalf of the Author.  A compromised Mediator can
-		    thus replace the original content in its entirety while
-		    still satisfying this profile. </t>
+		<t> Use of this header field (and DKIM as described here)
+		    amounts to an ephemeral granting of the ability for the
+		    first Receivers (the Mediators named in the To and Cc
+		    fields) to generate content that the ultimate Receivers
+		    will consider valid on behalf of the Author.  A
+		    compromised Mediator can thus replace the original content
+		    in its entirety while still satisfying this profile. </t>
 
 		<t> Section 8.2 <xref target="RFC6376"/> discusses the
 		    risks of using "l=" tags when generating signatures. 
@@ -325,26 +367,37 @@
 		    exploits where legitimate, signed messages are co-opted,
 		    modified, and then sent as spam. </t>
 
-		<t> Its use here is advocated only for the specific use cases
-		    this document seeks to address, namely survivability of
-		    Author signatures through modifying agents such as lists.
-		    It is believed that the exposure thus created is tolerable,
-		    in particular because a second signature without "l=" is
-		    required for this profile to be satisfied, and the
-		    exposure created by use of "l=" is constrained by a short
-		    signature expiration time. </t>
+		<t> Use of "l=" here is advocated only for the specific use
+		    cases this document seeks to address, namely survivability
+		    of Originator signatures through modifying agents such as
+		    lists.  It is believed that the exposure thus created is
+		    tolerable, in particular because a second signature
+		    without "l=" is required for this profile to be satisfied,
+		    and the exposure created by use of "l=" is constrained by
+		    a short signature expiration time. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
-		<t> This document contains no actions for IANA. </t>
+		<t> IANA is requested to make the following new entry in the
+		    Permanent Message Header Field Names registry, per
+		    <xref target="RFC3864"/>:
 
-		<t> [RFC Editor: Please remove this section prior to
-		    publication.] </t>
+			<figure><artwork>
+  Header field name: DKIM-Delegate
+  Applicable protocol: mail ([RFC5322])
+  Status: Experimental
+  Author/Change controller: IETF
+  Specification document(s): [this document]
+  Related information:
+    Requesting review of any proposed changes and additions to
+    this field is recommended.
+			</artwork></figure></t>
 	</section>
 </middle>
 
 <back>
 	<references title="Normative References">
+		&RFC3864;
 		&RFC6376;
 	</references>
 
