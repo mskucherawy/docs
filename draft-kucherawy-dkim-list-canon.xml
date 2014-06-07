@@ -23,15 +23,6 @@
 		DomainKeys Identified Mail (DKIM)
 	</title>
 
-	<author fullname="N. Freed"
-		initials="N." surname="Freed">
-		<organization/>
-
-		<address>
-			<email>ned+ietf@mrochek.com</email>
-		</address>
-	</author>
-
 	<author initials="M. S." surname="Kucherawy"
 	        fullname="Murray S. Kucherawy">
 
@@ -356,6 +347,8 @@
 	</section>
 
 	<section anchor="thanks" title="Acknowledgements">
+		<t> The original idea was proposed by Ned Freed. </t>
+
 		<t> The authors wish to acknowledge
 		    (names)
 		    for their comments during the development of this
