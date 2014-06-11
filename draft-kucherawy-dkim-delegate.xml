@@ -507,6 +507,26 @@
 		<t> [To Be Completed] </t>
 	</section>
 
+	<section anchor="to-do" title="To-Do List">
+		<t> <list style="symbols">
+			<t> Add example(s). </t>
+
+			<t> Discuss use by legacy (unaware) DKIM verifiers. </t>
+
+			<t> Discuss assumption that "x=" is properly applied
+			    by verifiers, legacy or otherwise.  Mention clock
+			    synchronization as a risk. </t>
+
+			<t> Clean up "profile" language. </t>
+
+			<t> Discuss the fact that "t=" can reveal envelope
+			    information. </t>
+
+			<t> Discuss limiting use to mail going to known
+			    trusted Mediators. </t>
+		    </list> </t>
+	</section>
+
 	<section anchor="thanks" title="Acknowledgments">
 		<t> The authors wish to acknowledge
 		    Steve Atkins,
