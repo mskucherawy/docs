@@ -524,6 +524,9 @@
 
 			<t> Discuss limiting use to mail going to known
 			    trusted Mediators. </t>
+
+			<t> Make a new canonicalization so that this header field
+			    isn't misinterpreted by legacy installations. </t>
 		    </list> </t>
 	</section>
 
