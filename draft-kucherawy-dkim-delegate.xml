@@ -624,20 +624,29 @@
 	</section>
 
 	<section anchor="to-do" title="To-Do List">
-		<t> <list style="symbols">
-			<t> Make a new canonicalization so that this header field
-			    isn't misinterpreted by legacy installations? </t>
+		<t> Stuff to be done:
+		    <list style="symbols">
+			<t> (nothing right now) </t>
+		    </list> </t>
 
-			<t> If not the above, consider a canonicalization
-			    hack of some kind (Elizabeth's suggestion)? </t>
+		<t> Some suggestions from others:
+		    <list style="symbols">
+			<t> Make a new canonicalization so that this header field
+			    isn't misinterpreted by legacy installations. </t>
+
+			<t> Consider a header-field-specific
+			    canonicalization hack of some kind. (From Elizabeth
+			    Zwicky) </t>
 
 			<t> Maybe DKIM-Delegate has the same basic syntax as
 			    DKIM-Signature, but the payload is only itself,
 			    attesting to the delegation list.  At least this
-			    removes the unease with "l=0". </t>
+			    removes the unease with "l=0".  (From Stephen
+			    Turnbull) </t>
 
-			<t> Perhaps this is better done by a new DKIM-Signature
-			    tag and/or a version change? </t>
+			<t> Perhaps this is better done by one or more new
+			    DKIM-Signature tags and/or a version change.
+			    (From John Levine) </t>
 		    </list> </t>
 	</section>
 
