@@ -451,11 +451,12 @@
 		    time. </t>
 
 		<t> This is the first application of DKIM wherein the "x=" tag
-		    is actually important.  The success of this protocol presumes
-		    DKIM verifiers are confirming that the timestamp contained
-		    there (if present) has not passed before reporting a
-		    successful result, and that the signer and verifier are
-		    both using some kind of clock synchronization. </t>
+		    is actually important.  The success of this protocol
+		    presumes DKIM verifiers are confirming that the timestamp
+		    contained there (if present) has not passed before
+		    reporting a successful result, and that the signer and
+		    verifier are both using some kind of clock
+		    synchronization. </t>
 
 		<t> The "t=" tag would normally be used to name Mediators that
 		    do not appear in the To or Cc fields of a message, which
@@ -466,11 +467,11 @@
 
 		<t> As described in <xref target="secondary"/>, the Secondary
 		    signature presents a time-limited but nevertheless present
-		    opportunity for someone at the Mediator's domain to generate
-		    content apparently authorized by the Author domain.
-		    Ideally, this risk needs to be mitigated with something
-		    stronger than the expiration timestamp before this protocol
-		    enters widespread use. </t>
+		    opportunity for someone at the Mediator's domain to
+		    generate content apparently authorized by the Author
+		    domain.  Ideally, this risk needs to be mitigated with
+		    something stronger than the expiration timestamp before
+		    this protocol enters widespread use. </t>
 
 		<t> DKIM Receivers that are not aware of this protocol will not
 		    know that the Secondary signature ought to be ignored if
@@ -605,15 +606,16 @@
 		    based on the modified content. </t>
 
 		<t> The Receiver of this message (a list subscriber, in this
-		    case) can conclude that the following are true, based on the
-		    remaining valid signatures:
+		    case) can conclude that the following are true, based on
+		    the remaining valid signatures:
 			<list style="numbers">
 				<t> "example.com" authorized the domains found
 				    in the recipient fields to sign mail on its
 				    behalf; </t>
 
 				<t> "ietf.example" signed the altered content,
-				    thus taking some responsibility for it; </t>
+				    thus taking some responsibility for
+				    it; </t>
 
 				<t> This chain of handling satisfies the need
 				    for the Author domain to have signed the
@@ -631,8 +633,9 @@
 
 		<t> Some suggestions from others:
 		    <list style="symbols">
-			<t> Make a new canonicalization so that this header field
-			    isn't misinterpreted by legacy installations. </t>
+			<t> Make a new canonicalization so that this header
+			    field isn't misinterpreted by legacy
+			    installations. </t>
 
 			<t> Consider a header-field-specific
 			    canonicalization hack of some kind. (From Elizabeth
