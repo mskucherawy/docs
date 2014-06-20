@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-  <!ENTITY RFC2045 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2045.xml">
   <!ENTITY RFC3864 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3864.xml">
   <!ENTITY RFC5598 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5598.xml">
   <!ENTITY RFC5617 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5617.xml">
@@ -12,7 +11,7 @@
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
-<rfc category="exp" docName="draft-kucherawy-dkim-delegate-00"
+<rfc category="exp" docName="draft-kucherawy-dkim-delegate-01"
 	ipr="trust200902">
 
 <?rfc toc="yes" ?>
@@ -153,21 +152,24 @@
 
 		<section title="Design Summary">
 			<t> An "Original Signer" (typically the Originator
-			    serving the Author) affixes two DKIM signatures
-			    to a message.  One is of the usual type, covering
-			    the entire message, and the second is tailored
-			    to better survive transit through Mediators such
-			    as authorized mailing lists.  A DKIM-Delegate
-			    field is added to the message, to indicate that
-			    this mechanism is in force; this is covered by
-			    the second signature (and possibly, but not
-			    necessarily, the first).  Optionally, a
-			    Mediator also signs the message, to provide a
-			    reliable indication of handling by the Mediator.
-			    If a Receiver finds that the Original Signer's
-			    "normal" signature does not validate or is
-			    missing, it can perform DKIM-Delegate
-			    evaluation. </t>
+			    serving the Author) affixes a DKIM signatures
+			    to a message using whatever parameters it wishes.
+			    In addition to this, it affixes a DKIM-Delegate
+			    field that indicates an ephemeral relationship
+			    exists between the Author domain and some set
+			    of other domains that are expected to handle
+			    the message.  Preferably, the Mediator also signs
+			    the message, to provide a reliable confirmation of
+			    handling by that Mediator.  If a Receiver finds
+			    that the Original Signer's "normal" signature does
+			    not validate or is missing, it can perform
+			    DKIM-Delegate evaluation. </t>
+
+			<t> The DKIM-Delegate field includes a hash and
+			    a cryptographic signature, just like DKIM-Signature
+			    fields do.  However, the only content covered
+			    by the hash is the DKIM-Delegate field and its
+			    parameters. </t>
 
 			<t> In combination with DKIM signatures, this
 			    mechanism can aid a receiver in assessing whether
@@ -181,7 +183,7 @@
 			    treating the latter with more skepticism. </t>
 		</section>
 
-		<section title="Specification">
+		<section anchor="mech" title="Mechanism">
 			<t> The specific mechanism operates as follows:
 
 			    <list style="numbers">
@@ -195,71 +197,44 @@
 
 				<t> The signer adds a DKIM-Delegate header
 				    field identifying the Originator's domain.
-				    It can also identify the specific domain(s)
+				    It also identifies the specific domain(s)
 				    with which it wishes to claim an ephemeral
-				    relationship; absent this indication, the
-				    list of candidate domains is implicit from
-				    elsewhere in the message header (see
-				    below). </t>
+				    relationship.  The DKIM-Delegate field is
+				    self-signed, as described below. </t>
 
-				<t> The signer affixes a "Secondary" DKIM
-				    signature that is configured so as to
-				    better survive transit through the
-				    delegated domain(s).  The distinctive
-				    characteristic of a Secondary signature is
-				    that its hashes cover less of the message;
-				    it also might use more permissive
-				    canonicalization and/or have an especially
-				    short expiration time.  The signature MUST
-				    cover the DKIM-Delegate header field, in
-				    order to validate its use for the message.
-				    Suggestions for details of a Secondary
-				    signature are discussed in
-				    <xref target="secondary" />. </t>
+				<t> The Originator transmits the message to
+				    the Receiver in the usual way. </t>
+
+				<t> If the Receiver is not a Mediator, then
+				    normal DKIM processing occurs, and
+				    DKIM-Delegate is ignored. </t>
 
 				<t> An authorized Mediator SHOULD affix its
 				    own, normal DKIM signature to the
-				    message. </t>
+				    message after making any content
+				    modifications it is configured to
+				    make and before re-sending the
+				    message to new Receiver(s). </t>
 
-				<t> The Receiver attempts to validate the
-				    primary signature affixed by the original
+				<t> The new Receiver attempts to validate the
+				    Primary signature affixed by the original
 				    signer.  If it is valid, the requirements
 				    of this protocol are satisfied (and the
 				    algorithm terminates here). </t>
 
-				<t> The Receiver attempts to validate the
-				    Secondary (delegation) signature affixed
+				<t> The new Receiver attempts to validate the
+				    DKIM-Delegate field affixed
 				    by the original signer.  If it is not
-				    valid (or not found), the requirements of
-				    this protocol cannot be satisfied (and the
-				    algorithm terminates here). </t>
+				    valid, expired, or absent, the
+				    requirements of this protocol cannot be
+				    satisfied (and the algorithm terminates
+				    here). </t>
 
-				<t> The Receiver confirms that the Secondary
-				    signature header hash includes at least
-				    the DKIM-Delegate header field, and that
-				    the "d=" value in the Secondary signature
-				    matches the "d=" value in the
-				    DKIM-Delegate field.  If either is not
-				    true, the requirements of this protocol
-				    cannot be satisfied (and the algorithm
-				    terminates here). </t>
-
-				<t> If the DKIM-Delegate field includes a
-				    list of domain names to which delegation
-				    of re-signing authority is claimed, call
-				    this set "D". </t>
-
-				<t> If the DKIM-Delegate signature does not
-				    include such a list, the Receiver collects
-				    all header fields that were covered by the
-				    header hash of the Secondary DKIM
-				    signature and that contain recipient
-				    addresses.  These can be found in that
-				    signature's "h=" tag.  The obvious
-				    examples are the To and Cc fields (if
-				    present).  The Receiver extracts the set
-				    of domain names from the collected header
-				    fields, and calls this set "D". </t>
+				<t> The Receiver extracts the list of domains
+				    authorized to re-sign for the Author
+				    domain from the "t=" tag of the
+				    DKIM-Delegate field.  Call this set
+				    "D". </t>
 
 				<t> The Receiver performs normal validation
 				    checks of all other DKIM signatures on the
@@ -281,103 +256,109 @@
 			    <xref target="RFC6376"/>.  The valid tags are:
 
 			    <list style="hanging">
+				<t hangText="a="> Signature algorithm
+					(plain-text; REQUIRED).
+				    As in Section 3.5 of
+				    <xref target="RFC6376"/>, this contains
+				    a string that describes the signature
+				    generation algorithm used by the
+				    signer. </t>
+
+				<t hangText="b="> Signature data
+					(base64; REQUIRED).
+				    As in Section 3.5 of
+				    <xref target="RFC6376"/>, this contains
+				    a digital signature of the content of this
+				    header field.  The same syntax rules for
+				    DKIM signatures apply here. </t>
+
 				<t hangText="d="> Author domain
 					(plain-text; REQUIRED).
 				    This value names the domain of the Author,
 				    which is delegating signing authority to
 				    one or more other domains. </t>
 
+				<t hangText="s="> Selector name
+					(plain-text; REQUIRED).
+				    As in Section 3.5 of
+				    <xref target="RFC6376"/>, this names a
+				    particular public/private key pair that is
+				    used to sign and verify the content of
+				    this header field.  It will be used to
+				    construct a DNS query for a text
+				    representation of the public key. </t>
+
 				<t hangText="t="> Delegation target
-					(plain-text; OPTIONAL).
+					(plain-text; REQUIRED).
 				    This value is a comma-separated list of
 				    domain names to which the authority to
 				    sign on behalf of the Author domain is
-				    being delegated.  When not present, this
-				    list is inferred from the domain names
-				    present in the recipient fields (To, Cc)
-				    of the header. </t>
+				    being delegated. </t>
+
+				<t hangText="x="> Expiration time
+					(plain-text unsigned decimal integer;
+					 RECOMMENDED, default is no expiration)
+				    As in Section 3.5 of
+				    <xref target="RFC6376"/>, this specifies
+				    a timestamp beyond which this header field
+				    MAY be considered invalid. </t>
 			    </list> </t>
 
 			<t> As with DKIM itself, any other tag MUST be
 			    ignored. </t>
 		</section>
+
+		<section anchor="prep" title="Preparation">
+			<t> The content of a DKIM-Delegate field is prepared
+			    for signing by applying the "relaxed" header
+			    canonicalization scheme defined in Section 3.4.2 of
+			    <xref target="RFC6376"/> and the algorithm
+			    described in Section 3.7.  For DKIM-Delegate,
+			    the only content that is hashed is the constructed
+			    DKIM-Delegate field itself, with an empty "b="
+			    tag; notably, there is no "v=" or "bh=" tag, so
+			    these are omitted.  The signature, once generated,
+			    is then added as the value of the "b=" tag. </t>
+
+			<t> The Original Signer SHOULD use the same selector
+			    (and, hence, signing key) for DKIM-Delegate fields
+			    as it uses for Primary signatures so that Domain
+			    Name Service caching can be used. </t>
+		</section>
+
+		<section anchor="verify" title="Verification">
+			<t> A Receiver verifies the DKIM-Delegate field
+			    by applying the general algorithm described in
+			    Section 6.1 of <xref target="RFC6376"/> with the
+			    following caveats:
+
+			    <list style="symbols">
+				<t> This specification has a subset of the
+				    tags found in a DKIM-Signature.  Most
+				    notably, DKIM-Delegate has no "v=",
+				    "bh=", "c=", or "h=" tag. </t>
+			    </list> </t>
+
+			<t> A DKIM-Delegate field that verifies contains
+			    an explicit list of domains authorized to sign
+			    content for the Author domain.  The Receiver then
+			    simply ensures that there is a valid DKIM-Signature
+			    from one of the delegated domains before concluding
+			    that the Author domain approved the content. </t>
+		</section>
 	</section>
 
-	<section anchor="secondary"
-	         title="Considerations for Secondary Signatures">
-
-		<t> The Secondary (delegation) signature MUST cover at least
-		    the DKIM-Delegate field and the visible recipient fields
-		    of the message, but might not cover any of the content.
-		    Under this protocol, domains that appear in the explicit
-		    delegation list (or are otherwise inferred from the
-		    recipient header fields) are permitted to alter and
-		    re-send the content. </t>
-
-		<t> Delegated domains SHOULD sign the message.  However,
-		    receivers MAY accept a Secondary signature for messages
-		    lacking a delegated signature if the receiver can
-		    otherwise determine that the message was handled through a
-		    delegated domain. </t>
-
-		<t> Original signers need to tailor the Secondary signature to
-		    best survive transit through the designated Mediators.
-		    Settling on a common signing profile for these
-		    delegation "tokens" is likely to change with
-		    experience. </t>
-
-		<t> A reasonable example signature profile could cover the
-		    following header fields:
-
-		    <list style="symbols">
-			<t> From (required by DKIM) </t>
-
-			<t> To and Cc (contain Receiver addresses) </t>
-
-			<t> Message-Id (binds the signature to a specific
-			    message) </t>
-
-		        <t> Date (binds the signature to a specific date and
-			    time) </t>
-
-		        <t> DKIM-Delegate (signals to participating receivers
-			    that an ephemeral delegation of signing authority
-			    is in effect) </t>
-		    </list> </t>
-
-		<t> Subject, though normally covered by signatures as per
-		    Section 5.4 of <xref target="RFC6376" />, can be omitted
-		    for a Secondary signature if the original signer
-		    anticipates legitimate alteration of it by a Mediator.
-		    See also <xref target="disc_header" />. </t>
-
-		<t> The Secondary signature might cover the message content,
-		    but allow for legitimate Mediator modifications by
-		    including an "l=" tag in the signature.  This would
-		    require the Mediator to restict its alterations to involve
-		    appended content only.  Hence the Secondary signature can
-		    use an "l=" value reflecting the entire message as
-		    generated by the Author, or "0" (zero) allowing a complete
-		    reformatting of the message.  Obviously the latter grants
-		    the Mediator considerable latitude in what it will
-		    ultimately emit, while the former is much more
-		    constrained.  The original signer of the message can
-		    choose whichever is more appropriate for its own policies
-		    and requirements. </t>
-
-		<t> This use of DKIM's "l=" value assumes messages sent to the
-		    Mediator that are not part of a multipart message
-		    structure, as described in Multipurpose Internet Mail
-		    Extensions (MIME; see <xref target="RFC2045"/>).  It
-		    might not be possible to select a practical signing
-		    length for messages in other than the basic message
-		    format. </t>
-
-		<t> The expiration time on the Secondary signature needs to be
-		    long enough to permit evaluation by receivers of the
+	<section anchor="exp" title="Expiration">
+		<t> The expiration time on the DKIM-Delegate field needs to be
+		    long enough to permit evaluation by Receivers of the
 		    re-submitted message, yet short enough to limit the
-		    potential for unauthorized replay attacks.  A good choice
-		    is a small number of days or even hours. </t>
+		    potential for unauthorized injection attacks.  A good
+		    choice is a small number of days or even hours. </t>
+
+		<t> If abuse is detected, the owner of the Author domain can
+		    remove the key from publication in the DNS as a way of
+		    revoking that key and thus invalidating any unverified
+		    DKIM-Delegate fields. </t>
 	</section>
 
 	<section anchor="disc" title="Discussion">
@@ -396,89 +377,29 @@
 		    itself.  This will almost always invalidate the Primary
 		    signature, so downstream receivers cannot be sure
 		    (via DKIM, at least) where the message originated. </t>
-
-		<section anchor="disc_header" title="Detecting Header Changes">
-			<t> During the development of DKIM, consideration was
-			    given to the notion of using the "z=" tag (if
-			    present) to identify changes to the header made
-			    in transit that render a signature invalid.
-			    Ultimately it was decided that a signature should
-			    be considered invalid even if analysis of the
-			    content of "z=" could be used to confirm that the
-			    change made in transit was innocuous.  The content
-			    of "z=" was meant to be used only as a debugging
-			    tool by humans. </t>
-
-			<t> Under this use, if the Subject header field was
-			    included in the header hash, it may be useful to
-			    use "z=" (if present) to detect changes made to
-			    the Subject field, if any.  If those changes
-			    appear to be trivial, such as the insertion of a
-			    prefix string at the front of the header field's
-			    original value, the Primary and/or Secondary
-			    signature could be re-attempted with the original
-			    Subject field value.  If the re-attempt succeeds,
-			    the verifier could decide that this protocol's
-			    requirements have been satisfied. </t>
-		</section>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
 		<t> Use of this header field (and DKIM as described here)
 		    amounts to an ephemeral granting of the ability for the
-		    first Receivers (the Mediators named in the To and Cc
-		    fields) to generate content that the ultimate Receivers
-		    will consider valid on behalf of the Author.  A
+		    first Receivers (typically the Mediators named in the To
+		    and Cc fields) to generate content that the ultimate
+		    Receivers will consider valid on behalf of the Author.  A
 		    compromised Mediator can thus replace the original content
 		    in its entirety while still satisfying this protocol. </t>
 
-		<t> Section 8.2 <xref target="RFC6376" /> discusses the risks
-		    of using "l=" tags when generating signatures.  The "l="
-		    tag and its implications were discussed at length during
-		    the development of DKIM, and its use today is not popular
-		    because it opens up the possibility of replay-type
-		    exploits where legitimate, signed messages are co-opted,
-		    modified, and then sent as spam. </t>
-
-		<t> Use of "l=" here is advocated only for the specific use
-		    cases this document seeks to address, namely survivability
-		    of Originator signatures through modifying Mediators such
-		    as lists.  It is believed that the exposure thus created
-		    is tolerable, in particular because a Mediator signature
-		    without "l=" is required for this protocol to be satisfied,
-		    and the exposure created by use of "l=" in the Secondary
-		    signature is constrained by a short signature expiration
-		    time. </t>
-
-		<t> This is the first application of DKIM wherein the "x=" tag
-		    is actually important.  The success of this protocol
-		    presumes DKIM verifiers are confirming that the timestamp
-		    contained there (if present) has not passed before
-		    reporting a successful result, and that the signer and
-		    verifier are both using some kind of clock
-		    synchronization. </t>
-
-		<t> The "t=" tag would normally be used to name Mediators that
+		<t> The "t=" tag might be used to name Mediators that
 		    do not appear in the To or Cc fields of a message, which
 		    means they would normally appear in the message envelope
 		    only.  Thus, use of that tag records envelope details in
 		    the message, which could be information intended to be kept
 		    private. </t>
 
-		<t> As described in <xref target="secondary"/>, the Secondary
+		<t> As described in <xref target="mech"/>, this mechanism
 		    signature presents a time-limited but nevertheless present
 		    opportunity for someone at the Mediator's domain to
 		    generate content apparently authorized by the Author
-		    domain.  Ideally, this risk needs to be mitigated with
-		    something stronger than the expiration timestamp before
-		    this protocol enters widespread use. </t>
-
-		<t> DKIM Receivers that are not aware of this protocol will not
-		    know that the Secondary signature ought to be ignored if
-		    not accompanied by a Mediator's signature, and thus
-		    validate on completely unauthorized content.  This, too,
-		    should receive due consideration and mitigation prior to
-		    widespread deployment. </t>
+		    domain. </t>
 
 		<t> Given the exposures described above, message originators
 		    would do well to consider limiting use of this protocol to
@@ -512,7 +433,6 @@
 	</references>
 
 	<references title="Informative References">
-		&RFC2045;
 		&RFC5598;
 		&RFC5617;
 		&RFC6377;
@@ -542,7 +462,7 @@
 
 	<section anchor="example" title="Example">
 		<t> Given the following message header (numbers in braces
-		    are line numbers)::
+		    are line numbers):
 			<figure><artwork>
     {1}  From: somebody@example.com
     {2}  To: mailinglist@ietf.example
@@ -550,32 +470,23 @@
     {4}  Date: Thu, 12 Jun 2014 11:08:10 -0700
     {5}  DKIM-Signature: v=1; s=rashani; d=example.com;
     {6}      h=from:to:subject:date; ...
-    {7}  DKIM-Delegate: d=example.com
-    {8}  DKIM-Signature: v=1; s=rashani; d=example.com; l=0;
-    {9}      x=1402686254; h=from:to:subject:date:dkim-delegate; ...
-    {10}
-    {11} [message body omitted]
+    {7}  DKIM-Delegate: a=rsa-sha256; d=example.com; s=rashani;
+    {8}      x=1402686254; t=ietf.example; b=&lt;base64-data&gt;
+    {9}
+    {10} [message body omitted]
 			</artwork></figure> </t>
 
-		<t> This message contains two DKIM signatures.  The first one
-		    (line 5) is an Author signature that covers the entire
-		    message body (the "Primary" signature).  If it validates on
-		    delivery, the remainder of the DKIM material can be
-		    ignored. </t>
+		<t> The DKIM signature (line 5) is an Author
+		    signature that covers the entire message body (the
+		    "Primary" signature).  If it validates on delivery, the
+		    remainder of the DKIM material can be ignored. </t>
 
 		<t> There is also a DKIM-Delegate header field (line 7) that
-		    identifies the delegating party in its "d=" tag.  It is
-		    implicitly saying that signing authority is delegated by
-		    "example.com" to "ietf.example" (the Mediator domain) as
-		    that domain appears in the To field.  The integrity of this
-		    field is assured by the other signature (the delegation, or
-		    "Secondary", signature; line 8), which bears a "d=" value
-		    identical to the one in the DKIM-Delegate field,   This
-		    signature covers none of the body, however, allowing the
-		    Mediator domain to present different content than what the
-		    Originator originally got from the Author.  The Secondary
-		    signature expires about a day after the message was sent by
-		    the Author. </t>
+		    identifies the delegating party in its "d=" tag.  It
+		    states that signing authority is delegated by
+		    "example.com" to "ietf.example" (the Mediator domain).
+		    The integrity of this field is assured by the fact that
+		    its signature verified. </t>
 
 		<t> On receipt at the Mediator, both signatures will typically
 		    validate.  The Mediator then augments the content as needed
@@ -588,30 +499,28 @@
     {4}  Date: Thu, 12 Jun 2014 11:08:10 -0700
     {5}  DKIM-Signature: v=1; s=rashani; d=example.com;
     {6}      h=from:to:subject:date; ...
-    {7}  DKIM-Delegate: d=example.com
-    {8}  DKIM-Signature: v=1; s=rashani; d=example.com; l=0;
-    {9}      x=1402686254; h=from:to:cc:subject:date:dkim-delegate; ...
-    {10} List-Id: mailinglist.ietf.example
-    {11} DKIM-Signature: v=1; s=evetastic; d=ietf.example;
-    {12}     h=from:to:subject:date:dkim-delegate:list-id; ...
-    {13}
-    {14} [augmented message body omitted]
+    {7}  DKIM-Delegate: a=rsa-sha256; d=example.com; s=rashani;
+    {8}      x=1402686254; t=ietf.example; b=&lt;base64-data&gt;
+    {9}  List-Id: mailinglist.ietf.example
+    {10} DKIM-Signature: v=1; s=evetastic; d=ietf.example;
+    {11}     h=from:to:subject:date:dkim-delegate:list-id; ...
+    {12}
+    {13} [augmented message body omitted]
 			</artwork></figure></t>
 
 		<t> Because of the changed content, the Primary signature no
-		    longer validates.  However, the Secondary signature will
-		    presumably still validate, since it does not cover any of
-		    the modified content.  The Mediator signature
-		    (at line 11) will also validate, since it was generated
-		    based on the modified content. </t>
+		    longer validates.  However, the Mediator signature will
+		    presumably validate on receipt, since it covers all of
+		    the modified content.  In addition, the DKIM-Delegate
+		    field would be expected to validate as it is unlikely to
+		    be altered by Mediators. </t>
 
 		<t> The Receiver of this message (a list subscriber, in this
 		    case) can conclude that the following are true, based on
 		    the remaining valid signatures:
 			<list style="numbers">
-				<t> "example.com" authorized the domains found
-				    in the recipient fields to sign mail on its
-				    behalf; </t>
+				<t> "example.com" authorized "ietf.example"
+				    to sign mail on its behalf; </t>
 
 				<t> "ietf.example" signed the altered content,
 				    thus taking some responsibility for
@@ -621,7 +530,8 @@
 				    for the Author domain to have signed the
 				    message; the original message may have been
 				    modified or replaced, but such action was
-				    approved by the Author domain. </t>
+				    explicitly approved by the Author
+				    domain. </t>
 			</list> </t>
 	</section>
 
@@ -633,20 +543,6 @@
 
 		<t> Some suggestions from others:
 		    <list style="symbols">
-			<t> Make a new canonicalization so that this header
-			    field isn't misinterpreted by legacy
-			    installations. </t>
-
-			<t> Consider a header-field-specific
-			    canonicalization hack of some kind. (From Elizabeth
-			    Zwicky) </t>
-
-			<t> Maybe DKIM-Delegate has the same basic syntax as
-			    DKIM-Signature, but the payload is only itself,
-			    attesting to the delegation list.  At least this
-			    removes the unease with "l=0".  (From Stephen
-			    Turnbull) </t>
-
 			<t> Perhaps this is better done by one or more new
 			    DKIM-Signature tags and/or a version change.
 			    (From John Levine) </t>
@@ -659,6 +555,7 @@
 		    Barry Leiba,
 		    Pete Resnick,
 		    Hector Santos,
+		    Stephen Turnbull,
 		    Alessandro Vesely,
 		    (other names)
 		    for their comments during the development of this
