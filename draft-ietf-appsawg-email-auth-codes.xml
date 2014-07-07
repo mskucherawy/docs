@@ -10,7 +10,7 @@
 ]>
 
 <rfc ipr="trust200902" category="std" updates="7208"
-        docName="draft-ietf-appsawg-email-auth-codes-03">
+        docName="draft-ietf-appsawg-email-auth-codes-04">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -64,12 +64,12 @@
 		    registry for these. </t>
 
 		<t> <xref target="RFC6376"/> and <xref target="RFC7208"/>
-		    introduced, respectively, DomainKeys Identified Mail
-		    and Sender Policy Framework, two protocols for conducting
-		    email authentication.  Another common email acceptance
-		    test is the reverse Domain Name System check on an email
-		    client's IP address, as described in Section 3 of
-		    <xref target="RFC7001"/>. </t>
+		    introduced, respectively, DomainKeys Identified Mail (DKIM)
+		    and Sender Policy Framework (SPF), two protocols for
+		    conducting email authentication.  Another common email
+		    acceptance test is the reverse Domain Name System (DNS)
+		    check on an email client's IP address, as described in
+		    Section 3 of <xref target="RFC7001"/>. </t>
 
 		<t> The current set of enhanced status codes does not include
 		    any code for indicating that a message is being rejected
@@ -199,7 +199,7 @@
 
 		<t> It is important to note that Section 6.1 of
 		    <xref target="RFC6376"/> discourages special treatment of
-		    messages bearing no valid signature.  There are some
+		    messages bearing no valid DKIM signature.  There are some
 		    operators that disregard this advice, a few of which go
 		    so far as to require a valid Author Domain signature (that
 		    is, one matching the domain(s) in the From header field) in
@@ -211,12 +211,12 @@
 		    provide for improved interoperability with such
 		    operators. </t>
 
-		<t> A specific use case is mailing list software, which
-		    processes rejections in order to remove from the
-		    subscriber set those addresses that are no longer valid.
-		    There is a need in that case to distinguish authentication
-		    failures versus indications that the recipient address is
-		    no longer valid. </t>
+		<t> A specific use case for these codes is mailing list
+		    software, which processes rejections in order to remove
+		    from the subscriber set those addresses that are no
+		    longer valid.  There is a need in that case to distinguish
+		    authentication failures versus indications that the
+		    recipient address is no longer valid. </t>
 
 		<t> When multiple authentication methods fail, the SMTP server
 		    SHOULD use the code that indicates multiple methods failed
