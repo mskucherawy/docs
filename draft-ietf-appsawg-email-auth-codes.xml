@@ -120,7 +120,8 @@
                        whose identifier(s) match the address(es)
                        found in the From header field, contrary to
                        local policy requirements.  (Note that this
-                       violates the advice of Section 6.1 of RFC6376.) 
+                       violates the advice of Section 6.1 of
+                       RFC6376.) 
    Reference:          [this document]; RFC6376
    Submitter:          M. Kucherawy
    Change controller:  IESG
