@@ -66,7 +66,7 @@
 		<t> <xref target="RFC6376"/> and <xref target="RFC7208"/>
 		    introduced, respectively, DomainKeys Identified Mail (DKIM)
 		    and Sender Policy Framework (SPF), two protocols for
-		    conducting email authentication.  Another common email
+		    conducting message authentication.  Another common email
 		    acceptance test is the reverse Domain Name System (DNS)
 		    check on an email client's IP address, as described in
 		    Section 3 of <xref target="RFC7001"/>. </t>
@@ -79,6 +79,10 @@
 		    handling information about the reason a message was
 		    rejected on receipt.  This document introduces enhanced
 		    status codes for reporting those cases to clients. </t>
+
+		<t> This document updates <xref target="RFC7208"/> as new
+		    enhanced status codes relevant to that specification
+		    are being registered. </t>
 	</section>
 
 	<section anchor="keywords" title="Key Words">
@@ -96,7 +100,7 @@
 			<t><figure><artwork>
    Code:               X.7.20
    Sample Text:        No valid DKIM signature found
-   Associated basic status code:  5XX
+   Associated basic status code:  550
    Description:        This status code is returned when a message
                        did not contain a valid DKIM signature,
                        contrary to local policy requirements.
@@ -110,7 +114,7 @@
 			<t><figure><artwork>
    Code:               X.7.21
    Sample Text:        No valid author-aligned DKIM signature found
-   Associated basic status code:  5XX
+   Associated basic status code:  550
    Description:        This status code is returned when a message
                        did not contain a valid DKIM signature
                        whose identifier(s) match the address(es)
@@ -127,7 +131,7 @@
 			<t><figure><artwork>
    Code:               X.7.22
    Sample Text:        SPF validation failed
-   Associated basic status code:  5XX
+   Associated basic status code:  550
    Description:        This status code is returned when a message
                        completed an SPF check that produced a
                        "fail" result, contrary to local policy
@@ -141,7 +145,7 @@
 			<t><figure><artwork>
    Code:               X.7.23
    Sample Text:        SPF validation error
-   Associated basic status code:  4XX/5XX
+   Associated basic status code:  451/550
    Description:        This status code is returned when evaluation
                        of SPF relative to an arriving message
                        resulted in an error.  Used in place of
@@ -157,7 +161,7 @@
 			<t><figure><artwork>
    Code:               X.7.24
    Sample Text:        Reverse DNS validation failed
-   Associated basic status code:  5XX
+   Associated basic status code:  550
    Description:        This status code is returned when an SMTP
                        client's IP address failed a reverse DNS
                        validation check, contrary to local policy
@@ -173,7 +177,7 @@
 			<t><figure><artwork>
    Code:               X.7.25
    Sample Text:        Multiple authentication checks failed
-   Associated basic status code:  5XX
+   Associated basic status code:  550
    Description:        This status code is returned when a message
                        failed more than one message authentication
                        check, contrary to local policy requirements.
@@ -264,6 +268,7 @@
 		    Scott Kitterman,
 		    Barry Leiba,
 		    Alexey Melnikov,
+		    S. Moonesamy,
 		    and
 		    Hector Santos
 		    contributed to this work. </t>
