@@ -89,14 +89,14 @@
 		    <xref target="RFC2119"/>. </t>
 	</section>
 
-	<section anchor="codes" title="New Status Codes">
-		<t> The following new status codes are defined: </t>
+	<section anchor="codes" title="New Enhanced Status Codes">
+		<t> The following new enhanced status codes are defined: </t>
 
 		<section anchor="dkim-code" title="DKIM Failure Codes">
 			<t><figure><artwork>
    Code:               X.7.20
    Sample Text:        No valid DKIM signature found
-   Associated basic status code:  5
+   Associated basic status code:  5XX
    Description:        This status code is returned when a message
                        did not contain a valid DKIM signature,
                        contrary to local policy requirements.
@@ -110,13 +110,13 @@
 			<t><figure><artwork>
    Code:               X.7.21
    Sample Text:        No valid author-aligned DKIM signature found
-   Associated basic status code:  5
+   Associated basic status code:  5XX
    Description:        This status code is returned when a message
                        did not contain a valid DKIM signature
-                       matching the domain(s) found in the From
-                       header field, contrary to local policy
-                       requirements.  (Note that this violates the
-                       advice of Section 6.1 of RFC6376.) 
+                       whose identifier(s) match the address(es)
+                       found in the From header field, contrary to
+                       local policy requirements.  (Note that this
+                       violates the advice of Section 6.1 of RFC6376.) 
    Reference:          [this document]; RFC6376
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -127,7 +127,7 @@
 			<t><figure><artwork>
    Code:               X.7.22
    Sample Text:        SPF validation failed
-   Associated basic status code:  5
+   Associated basic status code:  5XX
    Description:        This status code is returned when a message
                        completed an SPF check that produced a
                        "fail" result, contrary to local policy
@@ -141,12 +141,12 @@
 			<t><figure><artwork>
    Code:               X.7.23
    Sample Text:        SPF validation error
-   Associated basic status code:  4/5
+   Associated basic status code:  4XX/5XX
    Description:        This status code is returned when evaluation
                        of SPF relative to an arriving message
                        resulted in an error.  Used in place of
                        4.4.3 or 5.5.2 as described in Sections
-                       8.6 and 8.6 of RFC7208.
+                       8.6 and 8.7 of RFC7208.
    Reference:          [this document]; RFC7208
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -157,7 +157,7 @@
 			<t><figure><artwork>
    Code:               X.7.24
    Sample Text:        Reverse DNS validation failed
-   Associated basic status code:  5
+   Associated basic status code:  5XX
    Description:        This status code is returned when an SMTP
                        client's IP address failed a reverse DNS
                        validation check, contrary to local policy
@@ -173,7 +173,7 @@
 			<t><figure><artwork>
    Code:               X.7.25
    Sample Text:        Multiple authentication checks failed
-   Associated basic status code:  5
+   Associated basic status code:  5XX
    Description:        This status code is returned when a message
                        failed more than one message authentication
                        check, contrary to local policy requirements.
