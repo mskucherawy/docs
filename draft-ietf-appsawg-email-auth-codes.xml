@@ -10,7 +10,7 @@
 ]>
 
 <rfc ipr="trust200902" category="std" updates="7208"
-        docName="draft-ietf-appsawg-email-auth-codes-04">
+        docName="draft-ietf-appsawg-email-auth-codes-05">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -113,15 +113,15 @@
 
 			<t><figure><artwork>
    Code:               X.7.21
-   Sample Text:        No valid author-aligned DKIM signature found
+   Sample Text:        No valid author-matched DKIM signature found
    Associated basic status code:  550
    Description:        This status code is returned when a message
                        did not contain a valid DKIM signature
-                       whose identifier(s) match the address(es)
-                       found in the From header field, contrary to
-                       local policy requirements.  (Note that this
-                       violates the advice of Section 6.1 of
-                       RFC6376.) 
+                       whose identifier(s) match the author
+                       address(es) found in the From header field,
+                       contrary to local policy requirements.  (Note
+                       that this violates the advice of Section 6.1
+                       of RFC6376.) 
    Reference:          [this document]; RFC6376
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -232,6 +232,12 @@
 
 		<t> The reverse IP DNS check is defined in Section 2.6.3 of
 		    <xref target="RFC7001"/>. </t>
+
+		<t> Any message authentication or policy enforcement
+		    technologies developed in the future should also include
+		    registration of their own enhanced status codes so that
+		    this kind of specific reporting is available to
+		    operators that wish to use them. </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
