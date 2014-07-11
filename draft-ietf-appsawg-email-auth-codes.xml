@@ -80,9 +80,10 @@
 		    rejected on receipt.  This document introduces enhanced
 		    status codes for reporting those cases to clients. </t>
 
-		<t> This document updates <xref target="RFC7208"/> as new
-		    enhanced status codes relevant to that specification
-		    are being registered. </t>
+		<t> <xref target="spf-code"/> updates <xref target="RFC7208"/>,
+		    as new enhanced status codes relevant to that
+		    specification are being registered and recommended for
+		    use. </t>
 	</section>
 
 	<section anchor="keywords" title="Key Words">
