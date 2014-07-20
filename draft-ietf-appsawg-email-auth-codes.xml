@@ -224,9 +224,11 @@
 		    authentication failures versus indications that the
 		    recipient address is no longer valid. </t>
 
-		<t> When multiple authentication methods fail, the SMTP server
-		    SHOULD use the code that indicates multiple methods failed
-		    rather than only the first one that failed.  It may be the
+		<t> If a receiving server performs multiple authentication
+		    checks, and more than one of them fails thus warranting
+		    rejection of the message, the SMTP server SHOULD use the
+		    code that indicates multiple methods failed rather than
+		    only reporting the first one that failed.  It may be the
 		    case that one method is always expected to fail, and thus
 		    returning that method's specific code is not information
 		    useful to the sending agent. </t>
@@ -244,7 +246,7 @@
 	<section anchor="security" title="Security Considerations">
 		<t> Use of these codes reveals local policy with respect to
 		    email authentication, which can be useful information to
-		    actors attempting to deliver undesirable mail.  It should
+		    actors attempting to deliver undesired mail.  It should
 		    be noted that there is no specific obligation to use these
 		    codes; if an operator wishes not to reveal this aspect
 		    of local policy, it can continue using a generic result
@@ -277,8 +279,9 @@
 		    Barry Leiba,
 		    Alexey Melnikov,
 		    S. Moonesamy,
+		    Hector Santos,
 		    and
-		    Hector Santos
+		    Stephen Turnbull
 		    contributed to this work. </t>
 	</section>
 </back>
