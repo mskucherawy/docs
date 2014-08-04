@@ -10,7 +10,7 @@
 ]>
 
 <rfc ipr="trust200902" category="std" updates="7208"
-        docName="draft-ietf-appsawg-email-auth-codes-05">
+        docName="draft-ietf-appsawg-email-auth-codes-06">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -49,11 +49,14 @@
 	<area>Applications</area>
 
 	<abstract>
-		<t> There is at present no way to return a status code to
-		    an email client that indicates a message is
-		    being rejected or deferred specifically because of email
-		    authentication failures.  This document registers codes
-		    for this purpose. </t>
+		<t> This document registers code points to allow status codes
+		    to be returned to an email client to indicate that a
+		    message is being rejected or deferred specifically because
+		    of email authentication failures. </t>
+
+		<t> This document updates <xref target="RFC7208"/> since
+		    some of the code points registered replace the ones
+		    recommended for use in that document. </t>
 	</abstract>
 </front>
 
@@ -255,7 +258,8 @@
 
 	<section anchor="iana" title="IANA Considerations">
 		<t> Registration of new enhanced status codes, for addition
-		    to the SMTP Enhanced Status Codes Registry, can be found
+		    to the Enumerated Stauts Codes sub-registry of the
+		    SMTP Enhanced Status Codes Registry, can be found
 		    in <xref target="codes"/>. </t>
 	</section>
 </middle>
