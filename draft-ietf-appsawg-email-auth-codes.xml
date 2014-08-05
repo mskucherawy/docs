@@ -101,15 +101,29 @@
 		<t> The following new enhanced status codes are defined: </t>
 
 		<section anchor="dkim-code" title="DKIM Failure Codes">
+			<t> In the code point definitions below, the term
+			    "acceptable" means both of the following:
+
+			    <list style="letters">
+				<t> The signature passed the basic DKIM
+				    verification algorithm as defined in
+				    <xref target="RFC6376"/>; and </t>
+
+				<t> The signature satisfied any local policy
+				    requirements in addition to the basic
+				    algorithm (e.g., certain header fields
+				    included in the signed content, no
+				    partial signatures, etc.). </t>
+			    </list> </t>
+
 			<t><figure><artwork>
    Code:               X.7.20
    Sample Text:        No valid DKIM signature found
    Associated basic status code:  550
    Description:        This status code is returned when a message
-                       did not contain a valid DKIM signature,
-                       contrary to local policy requirements.
-                       (Note that this violates the advice of
-                       Section 6.1 of RFC6376.) 
+                       did not contain any acceptable DKIM
+                       signatures.  (Note that this violates the
+                       advice of Section 6.1 of RFC6376.) 
    Reference:          [this document]; RFC6376
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -120,12 +134,12 @@
    Sample Text:        No valid author-matched DKIM signature found
    Associated basic status code:  550
    Description:        This status code is returned when a message
-                       did not contain a valid DKIM signature
-                       whose identifier(s) match the author
-                       address(es) found in the From header field,
-                       contrary to local policy requirements.  (Note
-                       that this violates the advice of Section 6.1
-                       of RFC6376.) 
+                       did not contain any acceptable DKIM
+                       signatures whose identifier(s) match the
+                       author address(es) found in the From header
+                       field.  (Note that this violates the advice
+                       of Section 6.1 of RFC6376.)  This is a
+                       special case of the X.7.20 status code.
    Reference:          [this document]; RFC6376
    Submitter:          M. Kucherawy
    Change controller:  IESG
