@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="us-ascii"?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC3777 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3777.xml">
+]>
+
+<rfc ipr="trust200902" category="bcp" obsoletes="3777"
+        docName="draft-kucherawy-rfc3777bis-00">
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc strict="no" ?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="NomCom">
+		IAB and IESG Selection, Confirmation, and Recall Process:
+		Operation of the Nominating and Recall Committees
+	</title>
+
+	<author initials="M. S." surname="Kucherawy"
+	        fullname="Murray S. Kucherawy"
+		role="editor">
+
+		<organization/> 
+
+		<address>
+			<postal>
+				<street>270 Upland Drive</street>
+				<city>San Francisco</city>
+				<region>CA</region>
+				<code>94127</code>
+				<country>USA</country>
+			</postal>
+
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<date year="2014"/>
+
+	<area>General</area>
+
+	<abstract>
+		<t> The process by which the members of the IAB and IESG
+		    are selected, confirmed, and recalled is specified in
+		    this document.  This document is a self-consistent,
+		    organized compilation of the process as it was known
+		    at the time of publication of <xref target="RFC3777"/>,
+		    with various updates since that version was published. </t>
+	</abstract>
+
+</front>
+
+<middle>
+	<section anchor="intro" title="Introduction">
+		<t> Intro. </t>
+	</section>
+
+	<section anchor="iana" title="IANA Considerations">
+		<t> This document contains no actions for IANA. </t>
+
+		<t> [RFC Editor: Please remove this section prior to
+		    publication.] </t>
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+		<t> Security. </t>
+	</section>
+</middle>
+
+<back>
+	<references title="Normative References">
+		&RFC3777;
+	</references>
+
+	<section anchor="thanks" title="Acknowledgments">
+		<t> TBD </t>
+	</section>
+</back>
+
+</rfc>
