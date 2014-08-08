@@ -151,11 +151,13 @@
    Sample Text:        No valid author-matched DKIM signature found
    Associated basic status code:  550
    Description:        This status code is returned when a message
-                       contains one or more acceptable DKIM
-                       signatures, but none have an identifier(s)
+                       contains one or more passing DKIM
+                       signatures, but none are acceptable because
+                       none have an identifier(s)
                        that matches the author address(es) found in
-                       the From header field.  (This violates
-                       the advice of Section 6.1 of RFC6376.)
+                       the From header field.  This is a special
+                       case of X.7.21.  (This violates the advice
+                       of Section 6.1 of RFC6376.)
    Reference:          [this document]; RFC6376
    Submitter:          M. Kucherawy
    Change controller:  IESG
