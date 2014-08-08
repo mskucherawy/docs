@@ -10,7 +10,7 @@
 ]>
 
 <rfc ipr="trust200902" category="std" updates="7208"
-        docName="draft-ietf-appsawg-email-auth-codes-06">
+        docName="draft-ietf-appsawg-email-auth-codes-07">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -101,28 +101,32 @@
 		<t> The following new enhanced status codes are defined: </t>
 
 		<section anchor="dkim-code" title="DKIM Failure Codes">
-			<t> In the code point definitions below, the term
-			    "acceptable" means both of the following:
+			<t> In the code point definitions below, the following
+			    definitions are used:
 
-			    <list style="letters">
-				<t> The signature passed the basic DKIM
-				    verification algorithm as defined in
-				    <xref target="RFC6376"/>; and </t>
+			    <list style="hanging">
+				<t hangText="passing:"> A signature is
+					"passing" if the basic DKIM
+					verification algorithm as defined in
+					<xref target="RFC6376"/> succeeds. </t>
 
-				<t> The signature satisfied any local policy
-				    requirements in addition to the basic
-				    algorithm (e.g., certain header fields
-				    included in the signed content, no
-				    partial signatures, etc.). </t>
+				<t hangText="acceptable:"> A signature is
+					"acceptable" if it satisfies all
+					locally defined requirements (if any)
+					in addition to passing the basic DKIM
+					verification algorithm (e.g., certain
+					header fields are included in the
+					signed content; no partial signatures;
+					etc.). </t>
 			    </list> </t>
 
 			<t><figure><artwork>
    Code:               X.7.20
-   Sample Text:        No valid DKIM signature found
+   Sample Text:        No passing DKIM signature found
    Associated basic status code:  550
    Description:        This status code is returned when a message
-                       did not contain any acceptable DKIM
-                       signatures.  (Note that this violates the
+                       did not contain any passing DKIM
+                       signatures.  (This violates the
                        advice of Section 6.1 of RFC6376.) 
    Reference:          [this document]; RFC6376
    Submitter:          M. Kucherawy
@@ -131,15 +135,27 @@
 
 			<t><figure><artwork>
    Code:               X.7.21
+   Sample Text:        No acceptable DKIM signature found
+   Associated basic status code:  550
+   Description:        This status code is returned when a message
+                       contains one or more passing DKIM signatures,
+                       but none are acceptable.  (This violates the
+                       advice of Section 6.1 of RFC6376.) 
+   Reference:          [this document]; RFC6376
+   Submitter:          M. Kucherawy
+   Change controller:  IESG
+			</artwork></figure> </t>
+
+			<t><figure><artwork>
+   Code:               X.7.22
    Sample Text:        No valid author-matched DKIM signature found
    Associated basic status code:  550
    Description:        This status code is returned when a message
-                       did not contain any acceptable DKIM
-                       signatures whose identifier(s) match the
-                       author address(es) found in the From header
-                       field.  (Note that this violates the advice
-                       of Section 6.1 of RFC6376.)  This is a
-                       special case of the X.7.20 status code.
+                       contains one or more acceptable DKIM
+                       signatures, but none have an identifier(s)
+                       that matches the author address(es) found in
+                       the From header field.  (This violates
+                       the advice of Section 6.1 of RFC6376.)
    Reference:          [this document]; RFC6376
    Submitter:          M. Kucherawy
    Change controller:  IESG
@@ -148,7 +164,7 @@
 
 		<section anchor="spf-code" title="SPF Failure Codes">
 			<t><figure><artwork>
-   Code:               X.7.22
+   Code:               X.7.23
    Sample Text:        SPF validation failed
    Associated basic status code:  550
    Description:        This status code is returned when a message
@@ -162,7 +178,7 @@
 			</artwork></figure> </t>
 
 			<t><figure><artwork>
-   Code:               X.7.23
+   Code:               X.7.24
    Sample Text:        SPF validation error
    Associated basic status code:  451/550
    Description:        This status code is returned when evaluation
@@ -178,7 +194,7 @@
 
 		<section anchor="iprev-code" title="Reverse DNS Failure Code">
 			<t><figure><artwork>
-   Code:               X.7.24
+   Code:               X.7.25
    Sample Text:        Reverse DNS validation failed
    Associated basic status code:  550
    Description:        This status code is returned when an SMTP
@@ -194,7 +210,7 @@
 		<section anchor="multi-code"
 		         title="Multiple Authentication Failures Code">
 			<t><figure><artwork>
-   Code:               X.7.25
+   Code:               X.7.26
    Sample Text:        Multiple authentication checks failed
    Associated basic status code:  550
    Description:        This status code is returned when a message
