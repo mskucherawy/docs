@@ -58,7 +58,282 @@
 
 <middle>
 	<section anchor="intro" title="Introduction">
-		<t> Intro. </t>
+		<t> This document is a revision of and supercedes
+		    <xref target="RFC3777"/>.  It is a complete specification
+		    of the process by which members of the IAB and IESG
+		    are selected, confirmed, and recalled as of the date
+		    of its approval. </t>
+
+		<t> The following two assumptions continue to be true of this
+		    specification:
+
+		    <list style="numbers">
+			<t> The Internet Research Task Force (IRTF) and
+			    Internet Research Steering Group (IRSG) are not a
+			    part of the process described here. </t>
+
+			<t> The organization (and re-organization) of the IESG
+			    is not a part of the process described here. </t>
+		    </list> </t>
+
+		<t> The time frames specified here use IETF meetings as
+		    a frame of reference.  The time frames assume that the
+		    IETF meets three times per calendar year with
+		    approximately equal amounts of time between them.  The
+		    meetings are referred to as the First IETF, Second IETF,
+		    or Third IETF as needed. </t>
+
+		<t> The next section lists the words and phrases commonly used
+		    throughout this document with their intended meaning. </t>
+
+		<t> The majority of this document is divided into four major
+		    topics as follows:
+
+		    <list style="hanging">
+			<t hangText="General:"> This a set of rules and
+				constraints that apply to the selection and
+				confirmation process as a whole. </t>
+
+			<t hangText="Nominating Committee Selection:"> This
+				is the process by which the volunteers who
+				will serve on the committee are
+				selected. </t>
+
+			<t hangText="Nominating Committee Operation:"> This
+				is the set of principles, rules, and
+				constraints that guide the activities of
+				the nominating committee, including the
+				confirmation process. </t>
+
+			<t hangText="Member Recall:"> This is the process by
+				which the behavior of a sitting member of the
+				IESG or IAB may be questioned, perhaps
+				resulting in the removal of the sitting
+				member. </t>
+		    </list> </t>
+
+		<t> A final section describes how this document differs from
+		    its predecessor <xref target="RFC3777"/>. </t>
+
+		<t> An appendix of useful facts and practices collected from
+		    previous nominating committees is also included. </t>
+	</section>
+
+	<section anchor="defs" title="Definitions">
+		<t> The following words and phrases are commonly used
+		    throughout this document.  They are listed here with
+		    their intended meaning for the convenience of the
+		    reader.
+
+		    <list style="hanging">
+			<t hangText="candidate:"> A nominee who has been
+				selected to be considered for confirmation by
+				a confirming body. </t>
+
+			<t hangText="confirmed candidate:"> A candidate that
+				has been reviewed and approved by a
+				confirming body. </t>
+
+			<t hangText="nominating committee term:"> The term
+				begins when its members are officially
+				announced, which is expected to be prior to
+				the Third IETF to ensure it is fully
+				operational at the Third IETF.  The term ends
+				at the Third IETF (not three meetings) after
+				the next nominating committee's term
+				begins. </t>
+
+			<t hangText="nominee:"> A person who is being or has
+				been considered for one or more open positions
+				of the IESG or IAB. </t>
+
+			<t hangText="sitting member:"> A person who is
+				currently serving a term of membership in the
+				IESG, IAB, or ISOC Board of Trustees. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="general" title="General">
+		<t> The following set of rules apply to the process as a
+		    whole.  If necessary, a paragraph discussing the
+		    interpretation of each rule is included. </t>
+
+		<section anchor="gen_completion" title="Completion Due">
+			<t> The completion of the annual process is due
+			    within seven months. </t>
+
+			<t> The completion of the annual process is due
+			    one month prior to the Friday of the week
+			    before the First IETF.  It is expected to begin
+			    at least eight months prior to the Friday of the
+			    week before the First IETF. </t>
+
+			<t> The process officially begins with the
+			    announcement of the Chair of the committee.
+			    The process officially ends when all confirmed
+			    candidates have been announced. </t>
+
+			<t> The annual process is comprised of three major
+			    components as follows:
+
+			    <list style="numbers">
+				<t> The selection and organization of the
+				    nominating committee members. </t>
+
+				<t> The selection of candidates by the
+				    nominating committee. </t>
+
+				<t> The confirmation of the candidates. </t>
+			    </list> </t>
+
+			<t> There is an additional month set aside between
+			    when the annual process is expected to end and
+			    the term of the new candidates is to begin.  This
+			    time may be used during unusual circumstances to
+			    extend the time allocated for any of the
+			    components listed above. </t>
+		</section>
+
+		<section anchor="gen_func"
+		         title="Nominating Committee Principal Functions">
+		</section>
+
+		<section anchor="gen_positions"
+		         title="Positions To Be Reviewed">
+		</section>
+
+		<section anchor="gen_terms" title="Term Lengths">
+		</section>
+
+		<section anchor="gen_vacancies" title="Mid-Term Vacancies">
+		</section>
+
+		<section anchor="gen_confidential" title="Confidentiality">
+		</section>
+
+		<section anchor="gen_model" title="Advice and Consent Model">
+		</section>
+
+		<section anchor="gen_sitting" title="Sitting Members">
+		</section>
+
+		<section anchor="gen_announce" title="Announcements">
+		</section>
+	</section>
+
+	<section anchor="selection" title="Nominating Committee Selection">
+		<section anchor="sel_timeline" title="Timeline">
+		</section>
+
+		<section anchor="sel_term" title="Term">
+		</section>
+
+		<section anchor="sel_structure" title="Structure">
+		</section>
+
+		<section anchor="sel_chair_duties" title="Chair Duties">
+		</section>
+
+		<section anchor="sel_chair_selection" title="Chair Selection">
+		</section>
+
+		<section anchor="sel_chair_temp" title="Temporary Chair">
+		</section>
+
+		<section anchor="sel_liaisons_1" title="Liaisons">
+		</section>
+
+		<section anchor="sel_liaisons_2" title="Liaison Appointment">
+		</section>
+
+		<section anchor="sel_advisors" title="Advisors">
+		</section>
+
+		<section anchor="sel_chair_past" title="Past Chair">
+		</section>
+
+		<section anchor="sel_volunteers" title="Voting Volunteers">
+		</section>
+
+		<section anchor="sel_milestones" title="Milestones">
+		</section>
+
+		<section anchor="sel_positions" title="Open Positions">
+		</section>
+
+		<section anchor="sel_qualify" title="Volunteer Qualification">
+		</section>
+
+		<section anchor="sel_disqualify" title="Not Qualified">
+		</section>
+
+		<section anchor="sel_process" title="Selection Process">
+		</section>
+
+		<section anchor="sel_announce"
+		         title="Announcement of Selection Results">
+		</section>
+
+		<section anchor="sel_organize"
+		         title="Committee Organization">
+		</section>
+	</section>
+
+	<section anchor="operation" title="Nominating Committee Operation">
+		<section anchor="op_discretion" title="Discretion">
+		</section>
+
+		<section anchor="op_timeline_1" title="Selection Timeline">
+		</section>
+
+		<section anchor="op_timeline_2" title="Confirmation Timeline">
+		</section>
+
+		<section anchor="op_milestones" title="Milestones">
+		</section>
+
+		<section anchor="op_voting" title="Voting Mechanism">
+		</section>
+
+		<section anchor="op_quorum" title="Voting Quorum">
+		</section>
+
+		<section anchor="op_recall_1" title="Voting Member Recall">
+		</section>
+
+		<section anchor="op_recall_2" title="Chair Recall">
+		</section>
+
+		<section anchor="op_deliberations" title="Deliberations">
+		</section>
+
+		<section anchor="op_call" title="Call for Nominees">
+		</section>
+
+		<section anchor="op_nominations" title="Nominations">
+		</section>
+
+		<section anchor="op_candidates" title="Candidate Selection">
+		</section>
+
+		<section anchor="op_consent" title="Consent to Nomination">
+		</section>
+
+		<section anchor="op_announce_1"
+		         title="Notifying Confirming Bodies">
+		</section>
+
+		<section anchor="op_announce_2" title="Confirming Candidates">
+		</section>
+
+		<section anchor="op_archive" title="Archives">
+		</section>
+	</section>
+
+	<section anchor="dispute" title="Dispute Resolution Process">
+	</section>
+
+	<section anchor="recall" title="Member Recall">
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
@@ -69,7 +344,22 @@
 	</section>
 
 	<section anchor="security" title="Security Considerations">
-		<t> Security. </t>
+		<t> Any selection, confirmation, or recall process
+		    necessarily involves investigation into the qualifications
+		    and activities of prospective candidates.  The
+		    investigation may reveal confidential or otherwise private
+		    information about candidates to those participating in the
+		    process.  Each person who participates in any aspect of
+		    the process must maintain the confidentiality of any and
+		    all information not explicitly identified as suitable for
+		    public dissemination. </t>
+
+		<t> When the nominating committee decides it is necessary to
+		    share confidential or otherwise private information with
+		    others, the dissemination must be minimal and must
+		    include a prior commitment from all persons consulted to
+		    observe the same confidentiality rules as the nominating
+		    committee itself. </t>
 	</section>
 </middle>
 
@@ -77,6 +367,19 @@
 	<references title="Normative References">
 		&RFC3777;
 	</references>
+
+	<section anchor="changes" title="Changes Since RFC 3777">
+		<t> <list style="symbols">
+			<t> Converted from nroff to xml2rfc, resulting in
+			    some reformatting. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="oral" title="Oral Tradition">
+	</section>
+
+	<section anchor="timeline" title="Nominating Committee Timeline">
+	</section>
 
 	<section anchor="thanks" title="Acknowledgments">
 		<t> TBD </t>
