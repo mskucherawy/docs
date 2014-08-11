@@ -14,7 +14,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" updates="7001"
-        docName="draft-kucherawy-authres-ptypes-registry-00">
+        docName="draft-ietf-appsawg-authres-ptypes-registry-00">
 
 <front>
 	<title abbrev="Authentication-Results Property Types">
@@ -50,7 +50,7 @@
 		    electronic mail messages to indicate the results of
 		    message authentication efforts.  Any receiver-side
 		    software, such as mail filters or Mail User Agents
-		    (MUAs), can use this header field to relay that
+		    (MUAs), can add or use this header field to relay that
 		    information in a convenient and meaningful way to users,
 		    or make sorting and filtering decisions. </t>
 
@@ -73,8 +73,8 @@
 		    message authentication mechanisms are in use so that a
 		    Mail User Agent (MUA) and downstream filters can make
 		    filtering decisions and/or provide a recommendation to the
-		    user as to the validity of the message's origin and possibly
-		    the safety and integrity of its content. </t>
+		    user as to the validity of the message's origin and
+		    possibly the safety and integrity of its content. </t>
 
 		<t> The specification in that document enumerated a small set
 		    of types of properties that can be reported using this
