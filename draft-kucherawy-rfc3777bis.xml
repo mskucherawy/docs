@@ -231,6 +231,20 @@
 
 		<section anchor="gen_positions"
 		         title="Positions To Be Reviewed">
+			<t> One-half of each of the then current IESG and
+			    IAB positions is selected to be reviewed each
+			    year. </t>
+
+			<t> The intent of this rule to ensure the review of
+			    approximately one-half of each of the IESG and IAB
+			    sitting members each year.  It is recognized that
+			    circumstances may exist that will require the
+			    nominating committee to review more or less than
+			    one-half of the current positions, e.g., if the
+			    IESG or IAB have re-organized prior to this
+			    process and created new positions, if there are
+			    an odd number of current positions, or if a member
+			    unexpectedly resigns. </t>
 		</section>
 
 		<section anchor="gen_terms" title="Term Lengths">
