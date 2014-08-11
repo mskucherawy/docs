@@ -196,6 +196,37 @@
 
 		<section anchor="gen_func"
 		         title="Nominating Committee Principal Functions">
+			<t> The principal functions of the nominating
+			    committee are to review each open IESG and IAB
+			    position and to either nominate its incumbent or
+			    a superior candidate. </t>
+
+			<t> Although there is no term limit for serving in
+			    any IESG or IAB position, the nominating committee
+			    may use length of service as one of its criteria
+			    for evaluating an incumbent. </t>
+
+			<t> The nominating committee does not select the
+			    open positions to be reviewed; it is instructed
+			    as to which positions to review. </t>
+
+			<t> The nominating committee will be given the title
+			    of the positions to be reviewed and a brief
+			    summary of the desired expertise of the candidate
+			    that is nominated to fill each position. </t>
+
+			<t> Incumbents must notify the nominating committee
+			    if they wish to be nominated. </t>
+
+			<t> The nominating committee does not confirm its
+			    candidates; it presents its candidates to the
+			    appropriate confirming body as indicated
+			    below. </t>
+
+			<t> A superior candidate is one who the nominating
+			    committee believes would contribute in such a
+			    way as to improve or enhance the body to which
+			    he or she is nominated. </t>
 		</section>
 
 		<section anchor="gen_positions"
