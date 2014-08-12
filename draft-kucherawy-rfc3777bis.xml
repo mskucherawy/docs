@@ -248,41 +248,498 @@
 		</section>
 
 		<section anchor="gen_terms" title="Term Lengths">
+			<t> Confirmed candidates are expected to serve at
+			    least a two year term. </t>
+
+			<t> The intent of this rule is to ensure that members
+			    of the IESG and IAB serve the number of years
+			    that best facilitates the review of one-half of
+			    the members each year. </t>
+
+			<t> The term of a confirmed candidate selected
+			    according to the mid-term vacancy rules may be
+			    less than two years, as stated elsewhere in this
+			    document. </t>
+
+			<t> It is consistent with this rule for the nominating
+			    committee to choose one or more of the currently
+			    open positions to which it may assign a term of
+			    not more than three years in order to ensure the
+			    ideal application of this rule in the future. </t>
+
+			<t> It is consistent with this rule for the nominating
+			    committee to choose one or more of the currently
+			    open positions that share responsibilities with
+			    other positions (both those being reviewed and
+			    those sitting) to which it may assign a term of
+			    not more than three years to ensure that all such
+			    members will not be reviewed at the same time. </t>
+
+			<t> All sitting member terms end during the First IETF
+			    meeting corresponding to the end of the term for
+			    which they were confirmed.  All confirmed
+			    candidate terms begin during the First IETF
+			    meeting corresponding to the beginning of the term
+			    for which they were confirmed. </t>
+
+			<t> For confirmed candidates of the IESG the terms
+			    begin no later than when the currently sitting
+			    members' terms end on the last day of the meeting.
+			    A term may begin or end no sooner than the first
+			    day of the meeting and no later than the last day
+			    of the meeting as determined by the mutual
+			    agreement of the currently sitting member and the 
+			    confirmed candidate.  A confirmed candidate's term
+			    may overlap the sitting member's term during the
+			    meeting as determined by their mutual
+			    agreement. </t>
+
+			<t> For confirmed candidates of the IAB the terms
+			    overlap with the terms of the sitting members for
+			    the entire week of the meeting. </t>
+
+			<t> For candidates confirmed under the mid-term
+			    vacancy rules, the term begins as soon as possible
+			    after the confirmation. </t>
 		</section>
 
 		<section anchor="gen_vacancies" title="Mid-Term Vacancies">
+			<t> Mid-term vacancies are filled by the same rules
+			    as documented here with four qualifications,
+			    namely:
+
+			    <list style="numbers">
+				<t> When there is only one official nominating
+				    committee, the body with the mid-term
+				    vacancy relegates the responsibility to
+				    fill the vacancy to it.  If the mid-term
+				    vacancy occurs during the period of time
+				    that the term of the prior year's
+				    nominating committee overlaps with the
+				    term of the current year's nominating
+				    committee, the body with the mid-term
+				    vacancy must relegate the responsibility
+				    to fill the vacancy to the prior year's
+				    nominating committee. </t>
+
+				<t> If it is the case that the nominating
+				    committee is reconvening to fill the
+				    mid-term vacancy, then the completion of
+				    the candidate selection and confirmation
+				    process is due within six weeks, with all
+				    other time periods otherwise unspecified
+				    prorated accordingly. </t>
+
+				<t> The confirming body has two weeks from the
+				    day it is notified of a candidate to
+				    reject the candidate, otherwise the
+				    candidate is assumed to have been
+				    confirmed. </t>
+
+				<t> The term of the confirmed candidate will
+				    be either:
+
+				    <list style="letters">
+					<t> the remainder of the term of the
+					    open position if that remainder
+					    is not less than one year; or </t>
+
+					<t> the remainder of the term of the
+					    open position plus the next two
+					    year term if that remainder is
+					    less than one year. </t>
+				    </list> </t>
+			        </list> </t>
+
+			<t> In both cases a year is the period of time from a
+			    First IETF meeting to the next First IETF
+			    meeting. </t>
 		</section>
 
 		<section anchor="gen_confidential" title="Confidentiality">
+			<t> All deliberations and supporting information that
+			    relates to specific nominees, candidates, and
+			    confirmed candidates are confidential. </t>
+
+			<t> The nominating committee and confirming body
+			    members will be exposed to confidential
+			    information as a result of their deliberations,
+			    their interactions with those they consult, and
+			    from those who provide requested supporting
+			    information.  All members and all other
+			    participants are expected to handle this
+			    information in a manner consistent with its
+			    sensitivity. </t>
+
+			<t> It is consistent with this rule for current
+			    nominating committee members who have served on
+			    prior nominating committees to advise the current
+			    committee on deliberations and results of the
+			    prior committee, as necessary and appropriate. </t>
 		</section>
 
 		<section anchor="gen_model" title="Advice and Consent Model">
+			<t> Unless otherwise specified, the advice and
+			    consent model is used throughout the process.
+			    This model is characterized as follows. </t>
+
+			<section anchor="gen_model_1"
+			         title="Positions To Be Reviewed">
+				<t> The IETF Executive Director informs the
+				    nominating committee of the IESG and IAB
+				    positions to be reviewed. </t>
+
+				<t> The IESG and IAB are responsible for
+				    providing summary of the expertise desired
+				    of the candidates selected for their
+				    respective open positions to the Executive
+				    Director.  The summaries are provided to
+				    the nominating committee for its
+				    consideration. </t>
+			</section>
+
+			<section anchor="gen_model_2"
+			         title="Candidate Selection">
+				<t> The nominating committee selects
+				    candidates based on its understanding of
+				    the IETF community's consensus of the
+				    qualifications required and advises each
+				    confirming body of its respective
+				    candidates. </t>
+			</section>
+
+			<section anchor="gen_model_3" title="Candidate Review">
+				<t> The confirming bodies review their
+				    respective candidates, they may at their
+				    discretion communicate with the nominating
+				    committee, and then consent to some, all,
+				    or none of the candidates. </t>
+
+				<t> The sitting IAB members review the IESG
+				    candidates. </t>
+
+				<t> The Internet Society Board of Trustees
+				    reviews the IAB candidates. </t>
+
+				<t> The confirming bodies conduct their review
+				    using all information and any means
+				    acceptable to them, including but not
+				    limited to the supporting information
+				    provided by the nominating committee,
+				    information known personally to members of
+				    the confirming bodies and shared within
+				    the confirming body, the results of
+				    interactions within the confirming bodies,
+				    and the confirming bodies interpretation
+				    of what is in the best interests of the
+				    IETF community. </t>
+
+				<t> If all of the candidates are confirmed,
+				    the job of the nominating committee with
+				    respect to those open positions is
+				    complete. </t>
+
+				<t> If some or none of the candidates
+				    submitted to a confirming body are
+				    confirmed, the confirming body should
+				    communicate with the nominating committee
+				    both to explain the reason why all the
+				    candidates were not confirmed and to
+				    understand the nominating committee's
+				    rationale for its candidates. </t>
+
+				<t> The confirming body may reject individual
+				    candidates, in which case the nominating
+				    committee must select alternate candidates
+				    for the rejected candidates. </t>
+
+				<t> Any additional time required by the
+				    nominating committee should not exceed its
+				    maximum time allotment. </t>
+			</section>
+
+			<section anchor="gen_model_4" title="Confirmation">
+				<t> A confirming body decides whether it
+				    confirms each candidate using a
+				    confirmation decision rule chosen by the
+				    confirming body. </t>
+
+				<t> If a confirming body has no specific
+				    confirmation decision rule, then
+				    confirming a given candidate should
+				    require at least one-half of the
+				    confirming body's sitting members to
+				    agree to that confirmation. </t>
+
+				<t> The decision may be made by conducting a
+				    formal vote, by asserting consensus based
+				    on informal exchanges (e.g., email), or
+				    by any other mechanism that is used to
+				    conduct the normal business of the
+				    confirming body. </t>
+
+				<t> Regardless of which decision rule the
+				    confirming body uses, any candidate that
+				    is not confirmed under that rule is
+				    considered to be rejected. </t>
+
+				<t> The confirming body must make its decision
+				    within a reasonable time frame.  The
+				    results from the confirming body must be
+				    reported promptly to the nominating
+				    committee. </t>
+			</section>
 		</section>
 
 		<section anchor="gen_sitting" title="Sitting Members">
+			<t> The following rules apply to nominees candidates
+			    who are currently sitting members of the IESG or
+			    IAB, and who are not sitting in an open position
+			    being filled by the nominating committee. </t>
+
+			<t> The confirmation of a candidate to an open
+			    position does not automatically create a vacancy
+			    in the IESG or IAB position currently occupied by
+			    the candidate.  The mid-term vacancy can not exist
+			    until, first, the candidate formally resigns from
+			    the current position and, second, the body with
+			    the vacancy formally decides for itself that it
+			    wants the nominating committee to fill the
+			    mid-term vacancy according to the rules for a
+			    mid-term vacancy documented elsewhere in this
+			    document. </t>
+
+			<t> The resignation should be effective as of when
+			    the term of the new position begins.  The
+			    resignation may remain confidential to the IAB,
+			    IESG, and nominating committee until the confirmed
+			    candidate is announced for the new position.  The
+			    process, according to rules set out elsewhere in
+			    this document, of filling the seat vacated by the
+			    confirmed candidate may begin as soon as the
+			    vacancy is publicly announced. </t>
+
+			<t> Filling a mid-term vacancy is a separate and
+			    independent action from the customary action of
+			    filling open positions.  In particular, a
+			    nominating committee must complete its job with
+			    respect to filling the open positions and then
+			    separately proceed with the task of filling the
+			    mid-term vacancy according to the rules for a
+			    mid-term vacancy documented elsewhere in this
+			    document. </t>
+
+			<t> However, the following exception is permitted in
+			    the case where the candidate for an open position
+			    is currently a sitting member of the IAB.  It is
+			    consistent with these rules for the announcements
+			    of a resignation of a sitting member of the IAB
+			    and of the confirmed candidate for the mid-term
+			    vacancy created by that sitting member on the IAB
+			    to all occur at the same time as long as the
+			    actual sequence of events that occurred did so in
+			    the following order:
+
+			    <list style="numbers">
+				<t> The nominating committee completes the
+				    advice and consent process for the open
+				    position being filled by the candidate
+				    currently sitting on the IAB. </t>
+
+				<t> The newly confirmed candidate resigns
+				    from their current position on the
+				    IAB. </t>
+
+				<t> The IAB with the new mid-term vacancy
+				    requests that the nominating committee
+				    fill the position. </t>
+
+				<t> The Executive Director of the IETF
+				    informs the nominating committee of the
+				    mid-term vacancy. </t>
+
+				<t> The nominating committee acts on the
+				    request to fill the mid-term vacancy. </t>
+			    </list> </t>
 		</section>
 
 		<section anchor="gen_announce" title="Announcements">
+			<t> All announcements must be made using at least
+			    the mechanism used by the IETF Secretariat for
+			    its announcements, including a notice on the
+			    IETF web site. </t>
+
+			<t> As of the publication of this document, the
+			    current mechanism is an email message to both
+			    the "ietf" and the "ietf-announce" mailing
+			    lists. </t>
 		</section>
 	</section>
 
 	<section anchor="selection" title="Nominating Committee Selection">
+		<t> The following set of rules apply to the creation of the
+		    nominating committee and the selection of its members. </t>
+
 		<section anchor="sel_timeline" title="Timeline">
+			<t> The completion of the process of selecting and
+			    organizing the members of the nominating committee
+			    is due within three months. </t>
+
+			<t> The completion of the selection and organization
+			    process is due at least one month prior to the
+			    Third IETF.  This ensures the nominating committee
+			    is fully operational and available for interviews
+			    and consultation during the Third IETF. </t>
 		</section>
 
 		<section anchor="sel_term" title="Term">
+			<t> The term of a nominating committee is expected to
+			    be 15 months. </t>
+
+			<t> It is the intent of this rule that the end of a
+			    nominating committee's term overlap by
+			    approximately three months the beginning of the
+			    term of the next nominating committee. </t>
+
+			<t> The term of a nominating committee begins when its
+			    members are officially announced.  The term ends
+			    at the Third IETF (not three meetings), i.e., the
+			    IETF meeting after the next nominating committee's
+			    term begins. </t>
+
+			<t> A term is expected to begin at least two months
+			    prior to the Third IETF to ensure the nominating
+			    committee has at least one month to get organized
+			    before preparing for the Third IETF. </t>
+
+			<t> A nominating committee is expected to complete
+			    any work-in-progress before it is dissolved at
+			    the end of its term. </t>
+
+			<t> During the period of time that the terms of the
+			    nominating committees overlap, all mid-term
+			    vacancies are to be relegated to the prior year's
+			    nominating committee.  The prior year's nominating
+			    committee has no other responsibilities during the
+			    overlap period.  At all times other than the
+			    overlap period there is exactly one official
+			    nominating committee and it is responsible for
+			    all mid-term vacancies. </t>
+
+			<t> When the prior year's nominating committee is
+			    filling a mid-term vacancy during the period of
+			    time that the terms overlap, the nominating
+			    committees operate independently.  However, some
+			    coordination is needed between them.  Since the
+			    prior year's Chair is a non-voting advisor to the
+			    current nominating committee the coordination is
+			    expected to be straightforward. </t>
 		</section>
 
 		<section anchor="sel_structure" title="Structure">
+			<t> The nominating committee comprises at least a
+			    Chair, 10 voting volunteers, three liaisons, and
+			    an advisor. </t>
+
+			<t> Any committee member may propose the addition of
+			    an advisor to participate in some or all of the
+			    deliberations of the committee.  The addition
+			    must be approved by the committee according to
+			    its established voting mechanism.  Advisors
+			    participate as individuals. </t>
+
+			<t> Any committee member may propose the addition of a
+			    liaison from other unrepresented organizations to
+			    participate in some or all of the deliberations of
+			    the committee.  The addition must be approved by
+			    the committee according to its established voting
+			    mechanism.  Liaisons participate as
+			    representatives of their respective
+			    organizations. </t>
+
+			<t> The Chair is selected according to rules stated
+			    elsewhere in this document. </t>
+
+			<t> The 10 voting volunteers are selected according
+			    to rules stated elsewhere in this document. </t>
+
+			<t> The IESG and IAB liaisons are selected according
+			    to rules stated elsewhere in this document. </t>
+
+			<t> The Internet Society Board of Trustees may appoint
+			    a liaison to the nominating committee at its own
+			    discretion. </t>
+
+			<t> The Chair of last year's nominating committee
+			    serves as an advisor according to rules stated
+			    elsewhere in this document. </t>
+
+			<t> None of the Chair, liaisons, or advisors vote on
+			    the selection of candidates.  They do vote on all
+			    other issues before the committee unless otherwise
+			    specified in this document. </t>
 		</section>
 
 		<section anchor="sel_chair_duties" title="Chair Duties">
+			<t> The Chair of the nominating committee is
+			    responsible for ensuring the nominating committee
+			    completes its assigned duties in a timely fashion
+			    and performs in the best interests of the IETF
+			    community. </t>
+
+			<t> The Chair must be thoroughly familiar with the
+			    rules and guidance indicated throughout this
+			    document.  The Chair must ensure the nominating
+			    committee completes its assigned duties in a
+			    manner that is consistent with this document. </t>
+
+			<t> The Chair must attest by proclamation at a plenary
+			    session of the First IETF that the results of
+			    the committee represent its best effort and the
+			    best interests of the IETF community. </t>
+
+			<t> The Chair does not vote on the selection of
+			    candidates. </t>
 		</section>
 
 		<section anchor="sel_chair_selection" title="Chair Selection">
+			<t> The Internet Society President appoints the
+			    Chair, who must meet the same requirements for
+			    membership in the nominating committee as a
+			    voting volunteer. </t>
+
+			<t> The nominating committee Chair must agree to
+			    invest the time necessary to ensure that the
+			    nominating committee completes its assigned duties
+			    and to perform in the best interests of the
+			    IETF community in that role. </t>
+
+			<t> The appointment is due no later than the Second
+			    IETF meeting to ensure it can be announced during
+			    a plenary session at that meeting.  The completion
+			    of the appointment is necessary to ensure the
+			    annual process can complete at the time specified
+			    elsewhere in this document. </t>
 		</section>
 
 		<section anchor="sel_chair_temp" title="Temporary Chair">
+			<t> A Chair, in consultation with the Internet
+			    Society President, may appoint a temporary
+			    substitute for the Chair position. </t>
+
+			<t> There are a variety of ordinary circumstances
+			    that may arise from time to time that could
+			    result in a Chair being unavailable to oversee
+			    the activities of the committee.  The Chair, in
+			    consultation with the Internet Society President,
+			    may appoint a substitute from a pool comprised of
+			    the liaisons currently serving on the committee
+			    and the prior year's Chair or designee. </t>
+
+			<t> Any such appointment must be temporary and does
+			    not absolve the Chair of any or all responsibility
+			    for ensuring the nominating committee completes
+			    its assigned duties in a timely fashion. </t>
 		</section>
 
 		<section anchor="sel_liaisons_1" title="Liaisons">
