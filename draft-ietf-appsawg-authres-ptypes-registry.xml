@@ -3,6 +3,7 @@
   <!ENTITY RFC5226 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
   <!ENTITY RFC5234 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
   <!ENTITY RFC5321 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5321.xml">
+  <!ENTITY RFC5598 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5598.xml">
   <!ENTITY RFC7001 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7001.xml">
 ]>
 
@@ -14,7 +15,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" updates="7001"
-        docName="draft-ietf-appsawg-authres-ptypes-registry-00">
+        docName="draft-ietf-appsawg-authres-ptypes-registry-01">
 
 <front>
 	<title abbrev="Authentication-Results Property Types">
@@ -49,32 +50,31 @@
 		    Authentication-Results for use with
 		    electronic mail messages to indicate the results of
 		    message authentication efforts.  Any receiver-side
-		    software, such as mail filters or Mail User Agents
-		    (MUAs), can add or use this header field to relay that
-		    information in a convenient and meaningful way to users,
-		    or make sorting and filtering decisions. </t>
+		    software, mainly Mail Transfer Agents (MTAs) or mail
+		    filters, can add or use this header field to relay that
+		    information in a convenient and meaningful way to
+		    later-stage systems, such as for sorting and filtering
+		    decisions. </t>
 
 		<t> One portion of the definition in that document limits
 		    the types of authentication properties about a message
 		    to a small, fixed set.  This document updates the
-		    specification to allow new property types to be declared
-		    and used. </t>
+		    specification, making it extensible to allow new property
+		    types to be declared and used. </t>
 	</abstract>
 
 </front>
 
 <middle>
 	<section anchor="intro" title="Introduction">
-		<t> <xref target="RFC7001"/> describes a header field called
-		    Authentication-Results for electronic mail messages that
-		    presents the results of a message authentication effort
-		    in a machine-readable format.  The intent of the header
-		    field is to create a place to collect such data when
-		    message authentication mechanisms are in use so that a
-		    Mail User Agent (MUA) and downstream filters can make
-		    filtering decisions and/or provide a recommendation to the
-		    user as to the validity of the message's origin and
-		    possibly the safety and integrity of its content. </t>
+		<t> <xref target="RFC7001"/> defines the email
+		    Authentication-Results header field that
+		    presents the results of an authentication effort
+		    in a machine-readable format.  The header field
+		    creates a place to collect the output from authentication
+		    processes that are disjoint from later processes that
+		    might use the output, such as analysis, filtering or
+		    sorting mechanisms.  </t>
 
 		<t> The specification in that document enumerated a small set
 		    of types of properties that can be reported using this
@@ -84,6 +84,13 @@
 		    to allow for additional property types ("ptypes") beyond
 		    the original set, and creates a registry where new ones
 		    can be listed and their defining documents referenced. </t>
+	</section>
+
+	<section anchor="defs" title="Definitions">
+		<t> Many of the definitions and acronyms regarding general
+		    email architecture can be found in
+		    <xref target="RFC5598"/>. </t>
+		</t>
 	</section>
 
 	<section anchor="definition" title="Updated 'ptype' Definition">
@@ -105,8 +112,8 @@
 		<t> The ABNF token "Keyword" is defined in Section 4.1.2 of
 		    <xref target="RFC5321"/>. </t>
 
-		<t> Legal values of "ptype" are as defined in this document,
-		    or in the IANA "Email Authentication Property Types"
+		<t> Legal values of "ptype" are as defined 
+		    in the IANA "Email Authentication Property Types"
 		    registry (see <xref target="iana"/>).  The initial values
 		    are as follows, matching those defined in
 		    <xref target="RFC7001"/>:
@@ -133,7 +140,7 @@
 		    </list> </t>
 
 		<t> A consumer of this header field encountering a "ptype"
-		    it does not understand simply ignores the result it is
+		    it does not understand MUST ignore the result it is
 		    reporting. </t>
 	</section>
 
@@ -159,7 +166,7 @@
 		    <xref target="definition"/>.  This document should be
 		    listed as their defining document values. </t>
 
-		<t> For new entries, the Designated Expert simply needs to
+		<t> For new entries, the Designated Expert needs to
 		    assure that the description provided for the new entry
 		    adequately describes the intended use.  An example
 		    would be helpful to include, although entries in the
@@ -171,11 +178,11 @@
 	<section anchor="security" title="Security Considerations">
 		<t> A consumer of this header field might be confused
 		    by a result bearing a "ptype" it does not understand.
-		    The advice is simply to ignore such a result since
+		    The advice is to ignore such a result since
 		    its semantics are unknown to such a consumer.
 		    It is unknown how legacy code, which expects one of a
 		    fixed set of "ptype" tokens, will handle new tokens
-		    as they begin to appear.  This could conceivably result
+		    as they begin to appear.  This might result
 		    in undesirable deliveries for consumers that have been
 		    implemented to "fail open". </t>
 	</section>
@@ -189,10 +196,16 @@
 		&RFC7001;
 	</references>
 
+	<references title="Informative References">
+		&RFC5598;
+	</references>
+
 	<section anchor="thanks" title="Acknowledgements">
    		<t> The author wishes to acknowledge the following for their
 		    review and constructive criticism of this update:
-		    (names) </t>
+		    Dave Crocker,
+		    Tim Draegen,
+		    Scott Kitterman. </t>
 	</section>
 </back>
 
