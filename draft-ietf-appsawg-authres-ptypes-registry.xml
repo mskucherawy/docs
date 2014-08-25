@@ -90,7 +90,6 @@
 		<t> Many of the definitions and acronyms regarding general
 		    email architecture can be found in
 		    <xref target="RFC5598"/>. </t>
-		</t>
 	</section>
 
 	<section anchor="definition" title="Updated 'ptype' Definition">
