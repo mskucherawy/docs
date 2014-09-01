@@ -870,11 +870,33 @@
 		</section>
 
 		<section anchor="sel_positions" title="Open Positions">
-			<t> The Chair obtains the list of IESG and IAB
-			    positions to be reviewed and announces it along
-			    with a solicitation for names of volunteers from
-			    the IETF community willing to serve on the
-			    nominating committee. </t>
+			<t> The Chair (or the IETF Executive Director, if no
+			    Chair has been named four weeks after the first IETF
+			    meeting of the year) obtains the list of positions
+			    to be reviewed and announces it along with a
+			    solicitation for names of volunteers from the IETF
+			    community willing to serve on the nominating
+			    committee. </t>
+
+			<t> If the IETF Executive Director issues the
+			    solicitation for volunteers, the IETF Executive
+			    Director must also collect responses to the
+			    solicitation and provide the names of volunteers to
+			    the incoming nominating committee Chair when the
+			    incoming nominating committee Chair is named. </t>
+
+			<t> At the Chair's request, the IETF Secretariat may
+			    perform other clerical support tasks, as long as
+			    the task being performed does not require nominating
+			    committee Chair judgment, in the nominating
+			    committee Chair's opinion, and as long as the
+			    community is appropriately notified that this
+			    request is being made.  This request may come from
+			    the incoming nominating committee Chair (if one has
+			    been selected for this nominating committee cycle)
+			    or the previous nominating committee Chair (if the
+			    search for an incoming nominating committee Chair is
+			    still underway). </t>
 
 			<t> The solicitation must permit the community at
 			    least 30 days during which they may choose to
@@ -1631,6 +1653,8 @@
 			    some reformatting. </t>
 
 			<t> Applied RFC 3777 errata. </t>
+
+			<t> Apply RFC 5633 update. </t>
 		    </list> </t>
 	</section>
 
@@ -1638,8 +1662,6 @@
 		<t> <list style="symbols">
 			<t> Incorporate RFC 5078 </t>
 			<t> Incorporate RFC 5078 errata </t>
-			<t> Incorporate RFC 5633 </t>
-			<t> Incorporate RFC 5633 errata </t>
 			<t> Incorporate RFC 5680 </t>
 			<t> Incorporate RFC 5680 errata </t>
 			<t> Incorporate RFC 6859 </t>
