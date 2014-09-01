@@ -1069,60 +1069,524 @@
 	</section>
 
 	<section anchor="operation" title="Nominating Committee Operation">
+		<t> The following rules apply to the operation of the
+		    nominating committee.  If necessary, a paragraph
+		    discussing the interpretation of each rule is
+		    included. </t>
+
+		<t> The rules are organized approximately in the order
+		    in which they would be invoked. </t>
+
 		<section anchor="op_discretion" title="Discretion">
+			<t> All rules and special circumstances not otherwise
+			    specified are at the discretion of the
+			    committee. </t>
+
+			<t> Exceptional circumstances will occasionally arise
+			    during the normal operation of the nominating
+			    committee.  This rule is intended to foster the
+			    continued forward progress of the committee. </t>
+
+			<t> Any member of the committee may propose a rule for
+			    adoption by the committee.  The rule must be
+			    approved by the committee according to its
+			    established voting mechanism. </t>
+
+			<t> All members of the committee should consider whether
+			    the exception is worthy of mention in the next
+			    revision of this document and follow-up
+			    accordingly. </t>
 		</section>
 
 		<section anchor="op_timeline_1" title="Selection Timeline">
+			<t> The completion of the process of selecting
+			    candidates to be confirmed by their respective
+			    confirming body is due within three months. </t>
+
+			<t> The completion of the selection process is due at
+			    least two month's prior to the First IETF.  This
+			    ensures the nominating committee has sufficient time
+			    to complete the confirmation process. </t>
 		</section>
 
 		<section anchor="op_timeline_2" title="Confirmation Timeline">
+			<t> The completion of the process of confirming the
+			    candidates is due within one month. </t>
+
+			<t> The completion of the confirmation process is due
+			    at least one month prior to the First IETF. </t>
 		</section>
 
 		<section anchor="op_milestones" title="Milestones">
+			<t> The Chair must establish for the nominating
+			    committee a set of milestones for the candidate
+			    selection and confirmation process. </t>
+
+			<t> There is a defined time period during which the
+			    candidate selection and confirmation process must be
+			    completed.  The Chair must establish a set of
+			    milestones which, if met in a timely fashion, will
+			    result in the completion of the process on time.
+			    The Chair should allow time for iterating the
+			    activities of the committee if one or more
+			    candidates is not confirmed. </t>
+
+			<t> The Chair should ensure that all committee members
+			    are aware of the milestones. </t>
 		</section>
 
 		<section anchor="op_voting" title="Voting Mechanism">
+			<t> The Chair must establish a voting mechanism. </t>
+
+			<t> The committee must be able to objectively determine
+			    when a decision has been made during its
+			    deliberations.  The criteria for determining closure
+			    must be established and known to all members of the
+			    nominating committee. </t>
 		</section>
 
 		<section anchor="op_quorum" title="Voting Quorum">
+			<t> At least a quorum of committee members must
+			    participate in a vote. </t>
+
+			<t> Only voting volunteers vote on a candidate
+			    selection.  For a candidate selection vote a
+			    quorum is comprised of at least seven of the
+			    voting volunteers. </t>
+
+			<t> At all other times a quorum is present if at
+			    least 75% of the nominating committee members are
+			    participating. </t>
 		</section>
 
 		<section anchor="op_recall_1" title="Voting Member Recall">
+			<t> Any member of the nominating committee may propose
+			    to the committee that any other member except the
+			    Chair be recalled.  The process for recalling the
+			    Chair is defined elsewhere in this document. </t>
+
+			<t> There are a variety of ordinary circumstances that
+			    may arise that could result in one or more members
+			    of the committee being unavailable to complete their
+			    assigned duties, for example health concerns, family
+			    issues, or a change of priorities at work.  A
+			    committee member may choose to resign for
+			    unspecified personal reasons.  In addition, the
+			    committee may not function well as a group because
+			    a member may be disruptive or otherwise
+			    uncooperative. </t>
+
+			<t> Regardless of the circumstances, if individual
+			    committee members can not work out their differences
+			    between themselves, the entire committee may be
+			    called upon to discuss and review the
+			    circumstances.  If a resolution is not forthcoming a
+			    vote may be conducted.  A member may be recalled if
+			    at least a quorum of all committee members agree,
+			    including the vote of the member being recalled. </t>
+
+			<t> If a liaison member is recalled the committee must
+			    notify the affected organization and must allow a
+			    reasonable amount of time for a replacement to be
+			    identified by the organization before
+			    proceeding. </t>
+
+			<t> If an advisor member other than the prior year's
+			    Chair is recalled, the committee may choose to
+			    proceed without the advisor.  In the case of the
+			    prior year's Chair, the Internet Society President
+			    must be notified and the current Chair must be
+			    allowed a reasonable amount of time to consult with
+			    the Internet Society President to identify a
+			    replacement before proceeding. </t>
+
+			<t> If a single voting volunteer position on the
+			    nominating committee is vacated, regardless of the
+			    circumstances, the committee may choose to proceed
+			    with only nine voting volunteers at its own
+			    discretion.  In all other cases a new voting member
+			    must be selected, and the Chair must repeat the
+			    random selection process including an announcement
+			    of the iteration prior to the actual selection as
+			    stated elsewhere in this document. </t>
+
+			<t> A change in the primary affiliation of a voting
+			    volunteer during the term of the nominating
+			    committee is not a cause to request the recall of
+			    that volunteer, even if the change would result in
+			    more than two voting volunteers with the same
+			    affiliation. </t>
 		</section>
 
 		<section anchor="op_recall_2" title="Chair Recall">
+			<t> Only the prior year's Chair may request the
+			    recall of the current Chair. </t>
+
+			<t> It is the responsibility of the prior year's
+			    Chair to ensure the current Chair completes the
+			    assigned tasks in a manner consistent with this
+			    document and in the best interests of the IETF
+			    community. </t>
+
+			<t> Any member of the committee who has an issue or
+			    concern regarding the Chair should report it to
+			    the prior year's Chair immediately.  The prior
+			    year's Chair is expected to report it to the Chair
+			    immediately.  If they can not resolve the issue
+			    between themselves, the prior year's Chair must
+			    report it according to the dispute resolution
+			    process stated elsewhere in this document. </t>
 		</section>
 
 		<section anchor="op_deliberations" title="Deliberations">
+			<t> All members of the nominating committee may
+			    participate in all deliberations. </t>
+
+			<t> The emphasis of this rule is that no member can be
+			    explicitly excluded from any deliberation.  However,
+			    a member may individually choose not to participate
+			    in a deliberation. </t>
 		</section>
 
 		<section anchor="op_call" title="Call for Nominees">
+			<t> The Chair announces the open positions to be
+			    reviewed, the desired expertise provided by the
+			    IETF Executive Director, and the call for
+			    nominees. </t>
+
+			<t> The call for nominees must include a request for
+			    comments regarding the past performance of
+			    incumbents, which will be considered during the
+			    deliberations of the nominating committee. </t>
+
+			<t> The call must request that a nomination include a
+			    valid, working email address, a telephone number,
+			    or both for the nominee.  The nomination must
+			    include the set of skills or expertise the nominator
+			    believes the nominee has that would be
+			    desirable. </t>
 		</section>
 
 		<section anchor="op_nominations" title="Nominations">
+			<t> Any member of the IETF community may nominate any
+			    member of the IETF community for any open position,
+			    whose eligibility to serve will be confirmed by the
+			    nominating committee. </t>
+
+			<t> A self-nomination is permitted. </t>
+
+			<t> Nominating committee members are not eligible to
+			    be considered for filling any open position by
+			    the nominating committee on which they serve.  They
+			    become ineligible as soon as the term of the
+			    nominating committee on which they serve officially
+			    begins.  They remain ineligible for the duration of
+			    that nominating committee's term. </t>
+
+			<t> Although each nominating committee's term overlaps
+			    with the following nominating committee's term,
+			    nominating committee members are eligible for
+			    nomination by the following committee if not
+			    otherwise disqualified. </t>
+
+			<t> Members of the IETF community who were recalled
+			    from any IESG or IAB position during the previous
+			    two years are not eligible to be considered for
+			    filling any open position. </t>
 		</section>
 
 		<section anchor="op_candidates" title="Candidate Selection">
+			<t> The nominating committee selects candidates based on
+			    its understanding of the IETF community's consensus
+			    of the qualifications required to fill the open
+			    positions. </t>
+
+			<t> The intent of this rule is to ensure that the
+			    nominating committee consults with a broad base of
+			    the IETF community for input to its deliberations.
+			    In particular, the nominating committee must
+			    determine if the desired expertise for the open
+			    positions matches its understanding of the
+			    qualifications desired by the IETF community. </t>
+
+			<t> The consultations are permitted to include names of
+			    nominees, if all parties to the consultation agree
+			    to observe the same confidentiality rules as the
+			    nominating committee itself. </t>
+
+			<t> A broad base of the community should include the
+			    existing members of the IAB and IESG, especially
+			    sitting members who share responsibilities with open
+			    positions, e.g., co-Area Directors, and working
+			    group chairs, especially those in the areas with
+			    open positions. </t>
+
+			<t> Only voting volunteer members vote to select
+			    candidates. </t>
 		</section>
 
 		<section anchor="op_consent" title="Consent to Nomination">
+			<t> Nominees should be advised that they are being
+			    considered and must consent to their nomination
+			    prior to being chosen as candidates. </t>
+
+			<t> Although the nominating committee will make every
+			    reasonable effort to contact and to remain in
+			    contact with nominees, any nominee whose contact
+			    information changes during the process and who
+			    wishes to still be considered should inform the
+			    nominating committee of the changes. </t>
+
+			<t> A nominee's consent must be written (email is
+			    acceptable) and must include a commitment to provide
+			    the resources necessary to fill the open position
+			    and an assurance that the nominee will perform the
+			    duties of the position for which they are being
+			    considered in the best interests of the IETF
+			    community. </t>
+
+			<t> Consenting to a nomination must occur prior to a
+			    nominee being a candidate and may occur as soon
+			    after the nomination as needed by the nominating
+			    committee. </t>
+
+			<t> Consenting to a nomination must not imply the
+			    nominee will be a candidate. </t>
+
+			<t> The nominating committee should help nominees
+			    provide justification to their employers. </t>
 		</section>
 
 		<section anchor="op_announce_1"
 		         title="Notifying Confirming Bodies">
+			<t> The nominating committee advises the confirming
+			    bodies of their candidates, specifying a single
+			    candidate for each open position and testifying as
+			    to how each candidate meets the qualifications of
+			    an open position. </t>
+
+			<t> For each candidate, the testimony must include a
+			    brief statement of the qualifications for the
+			    position that is being filled, which may be exactly
+			    the expertise that was requested.  If the
+			    qualifications differ from the expertise originally
+			    requested a brief statement explaining the
+			    difference must be included. </t>
+
+			<t> The testimony may include either or both of a brief
+			    resume of the candidate and a brief summary of the
+			    deliberations of the nominating committee. </t>
 		</section>
 
 		<section anchor="op_announce_2" title="Confirming Candidates">
+			<t> Confirmed candidates must consent to their
+			    confirmation and rejected candidates and nominees
+			    must be notified before confirmed candidates are
+			    announced. </t>
+
+			<t> It is not necessary to notify and get consent from
+			    all confirmed candidates together. </t>
+
+			<t> A nominee may not know they were a candidate.  This
+			    permits a candidate to be rejected by a confirming
+			    body without the nominee knowing about the
+			    rejection. </t>
+
+			<t> Rejected nominees, who consented to their
+			    nomination, and rejected candidates must be notified
+			    prior to announcing the confirmed candidates. </t>
+
+			<t> It is not necessary to announce all confirmed
+			    candidates together. </t>
+
+			<t> The nominating committee must ensure that all
+			    confirmed candidates are prepared to serve prior to
+			    announcing their confirmation. </t>
 		</section>
 
 		<section anchor="op_archive" title="Archives">
+			<t> The nominating committee should archive the
+			    information it has collected or produced for a
+			    period of time not to exceed its term. </t>
+
+			<t> The purpose of the archive is to assist the
+			    nominating committee should it be necessary for it
+			    to fill a mid-term vacancy. </t>
+
+			<t> The existence of an archive, how it is implemented,
+			    and what information to archive is at the discretion
+			    of the committee.  The decision must be approved by
+			    a quorum of the voting volunteer members. </t>
+
+			<t> The implementation of the archive should make every
+			    reasonable effort to ensure that the confidentiality
+			    of the information it contains is maintained. </t>
 		</section>
 	</section>
 
 	<section anchor="dispute" title="Dispute Resolution Process">
+		<t> The dispute resolution process described here is to be used
+		    as indicated elsewhere in this document.  Its applicability
+		    in other circumstances is beyond the scope of this
+		    document. </t>
+
+		<t> The nominating committee operates under a strict rule of
+		    confidentiality.  For this reason when process issues arise
+		    it is best to make every reasonable effort to resolve them
+		    within the committee.  However, when circumstances do not
+		    permit this or no resolution is forthcoming, the process
+		    described here is to be used. </t>
+
+		<t> The following rules apply to the process.
+
+		    <list style="numbers">
+			<t> The results of this process are final and binding.
+			    There is no appeal. </t>
+
+			<t> The process begins with the submission of a request
+			    as described below to the Internet Society
+			    President. </t>
+
+			<t> As soon as the process begins, the nominating
+			    committee may continue those activities that are
+			    unrelated to the issue to be resolved except that
+			    it must not submit any candidates to a confirming
+			    body until the issue is resolved. </t>
+
+			<t> All parties to the process are subject to the
+			    same confidentiality rules as each member of the
+			    nominating committee. </t>
+
+			<t> The process should be completed within two
+			    weeks. </t>
+		    </list> </t>
+
+		<t> The process is as follows: 
+
+		    <list style="numbers">
+			<t> The party seeking resolution submits a written
+			    request (email is acceptable) to the Internet
+			    Society President detailing the issue to be
+			    resolved. </t>
+
+			<t> The Internet Society President appoints an arbiter
+			    to investigate and resolve the issue.  A
+			    self-appointment is permitted. </t>
+
+			<t> The arbiter investigates the issue making every
+			    reasonable effort to understand both sides of the
+			    issue.  Since the arbiter is subject to the same
+			    confidentiality obligations as all nominating
+			    committee members, all members are expected to
+			    cooperate fully with the arbiter and to provide all
+			    relevant information to the arbiter for review. </t>
+
+			<t> After consultation with the two principal parties
+			    to the issue, the arbiter decides on a resolution.
+			    Whatever actions are necessary to execute the
+			    resolution are immediately begun and completed as
+			    quickly as possible. </t>
+
+			<t> The arbiter summarizes the issue, the resolution,
+			    and the rationale for the resolution for the
+			    Internet Society President. </t>
+
+			<t> In consultation with the Internet Society President,
+			    the arbiter prepares a report of the dispute and
+			    its resolution.  The report should include all
+			    information that in the judgment of the arbiter
+			    does not violate the confidentiality requirements
+			    of the nominating committee. </t>
+
+			<t> The Chair includes the dispute report when
+			    reporting on the activities of the nominating
+			    committee to the IETF community. </t>
+		    </list> </t>
 	</section>
 
 	<section anchor="recall" title="Member Recall">
+		<t> The following rules apply to the recall process.  If
+		    necessary, a paragraph discussing the interpretation of
+		    each rule is included. </t>
+
+		<section anchor="recall_petition" title="Petition">
+			<t> At any time, at least 20 members of the IETF
+			    community, who are qualified to be voting members of
+			    a nominating committee, may request by signed
+			    petition (email is acceptable) to the Internet
+			    Society President the recall of any sitting IAB or
+			    IESG member. </t>
+
+			<t> All individual and collective qualifications of
+			    nominating committee eligibility are applicable,
+			    including that no more than two signatories may have
+			    the same primary affiliation. </t>
+
+			<t> Each signature must include a full name, email
+			    address, and primary company or organization
+			    affiliation. </t>
+
+			<t> The IETF Secretariat is responsible for confirming
+			    that each signatory is qualified to be a voting
+			    member of a nominating committee.  A valid petition
+			    must be signed by at least 20 qualified
+			    signatories. </t>
+
+			<t> The petition must include a statement of
+			    justification for the recall and all relevant and
+			    appropriate supporting documentation. </t>
+
+			<t> The petition and its signatories must be announced
+			    to the IETF community. </t>
+		</section>
+
+		<section anchor="recall_chair" title="Recall Committee Chair">
+			<t> Internet Society President shall appoint a Recall
+			    Committee Chair. </t>
+
+			<t> The Internet Society President must not evaluate the
+			    recall request.  It is explicitly the responsibility
+			    of the IETF community to evaluate the behavior of
+			    its leaders. </t>
+		</section>
+
+		<section anchor="recall_cmte" title="Recall Committee Creation">
+			<t> The recall committee is created according to the
+			    same rules as is the nominating committee with the
+			    qualifications that both the person being
+			    investigated and the parties requesting the recall
+			    must not be a member of the recall committee in any
+			    capacity. </t>
+		</section>
+
+		<section anchor="recall_rules" title="Recall Committee Rules">
+			<t> The recall committee operates according to the same
+			    rules as the nominating committee with the
+			    qualification that there is no confirmation
+			    process. </t>
+		</section>
+
+		<section anchor="recall_ops" title="Recall Committee Operation">
+			<t> The recall committee investigates the circumstances
+			    of the justification for the recall and votes on
+			    its findings. </t>
+
+			<t> The investigation must include at least both an
+			    opportunity for the member being recalled to present
+			    a written statement and consultation with third
+			    parties. </t>
+		</section>
+
+		<section anchor="recall_maj" title="3/4 Majority">
+			<t> A 3/4 majority of the members who vote on the
+			    question is required for a recall. </t>
+		</section>
+
+		<section anchor="recall_position" title="Position To Be Filled">
+			<t> If a sitting member is recalled the open position is
+			    to be filled according to the mid-term vacancy
+			    rules. </t>
+		</section>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
@@ -1165,13 +1629,13 @@
 		<t> <list style="symbols">
 			<t> Converted from nroff to xml2rfc, resulting in
 			    some reformatting. </t>
+
+			<t> Applied RFC 3777 errata. </t>
 		    </list> </t>
 	</section>
 
 	<section anchor="todo" title="To-Do List">
 		<t> <list style="symbols">
-			<t> Refer to RFC 3797 </t>
-			<t> Incorporate RFC 3777 errata </t>
 			<t> Incorporate RFC 5078 </t>
 			<t> Incorporate RFC 5078 errata </t>
 			<t> Incorporate RFC 5633 </t>
@@ -1184,9 +1648,192 @@
 	</section>
 
 	<section anchor="oral" title="Oral Tradition">
+		<t> Over the years various nominating committees have learned
+		    through oral tradition passed on by liaisons that there are
+		    certain consistencies in the process and information
+		    considered during deliberations.  Some items from that oral
+		    tradition are collected here to facilitate its consideration
+		    by future nominating committees.
+
+		    <list style="numbers">
+			<t> It has been found that experience as an IETF
+			    Working Group Chair or an IRTF Research Group Chair
+			    is helpful in giving a nominee experience of what
+			    the job of an Area Director involves.  It also
+			    helps a nominating committee judge the technical,
+			    people, and process management skills of the
+			    nominee. </t>
+
+			<t> No person should serve both on the IAB and as an
+			    Area Director, except the IETF Chair whose roles as
+			    an IAB member and Area Director of the General Area
+			    are set out elsewhere. </t>
+
+			<t> The strength of the IAB is found in part in the
+			    balance of the demographics of its members (e.g.,
+			    national distribution, years of experience, gender,
+			    etc.), the combined skill set of its members, and
+			    the combined sectors (e.g., industry, academia,
+			    etc.) represented by its members. </t>
+
+			<t> There are no term limits explicitly because the
+			    issue of continuity versus turnover should be
+			    evaluated each year according to the expectations of
+			    the IETF community, as it is understood by each
+			    nominating committee. </t>
+
+			<t> The number of nominating committee members with the
+			    same primary affiliation is limited in order to
+			    avoid the appearance of improper bias in choosing
+			    the leadership of the IETF.  Rather than defining
+			    precise rules for how to define "affiliation", the
+			    IETF community depends on the honor and integrity of
+			    the participants to make the process work. </t>
+		    </list> </t>
 	</section>
 
 	<section anchor="timeline" title="Nominating Committee Timeline">
+		<t> This appendix is included for the convenience of the reader
+		    and is not to be interpreted as the definitive timeline.
+		    It is intended to capture the detail described elsewhere in
+		    this document in one place.  Although every effort has been
+		    made to ensure the description here is consistent with the
+		    description elsewhere, if there are any conflicts the
+		    definitive rule is the one in the main body of this
+		    document. </t>
+
+		<t> The only absolute in the timeline rules for the annual
+		    process is that its completion is due by the First IETF of
+		    the year after the nominating committee begins its term.
+		    This is supported by the fact that the confirmed candidate
+		    terms begin during the week of the First IETF. </t>
+
+		<t> The overall annual process is designed to be completed in
+		    seven months.  It is expected to start 8 months prior to
+		    the First IETF.  The seven months is split between three
+		    major components of the process as follows:
+
+		    <list style="numbers">
+			<t> First is the selection and organization of the
+			    committee members.  Three months are allotted for
+			    this process. </t>
+
+			<t> Second is the selection of the candidates by the
+			    nominating committee.  Three months are allotted
+			    for this process. </t>
+
+			<t> Third is the confirmation of the candidates by
+			    their respective confirming bodies.  One month is
+			    allotted for this process. </t>
+		    </list> </t>
+
+		<t> The following list captures the details of the milestones
+		    within each component.  For illustrative purposes the
+		    list presumes the Friday before the First IETF is
+		    March 1.
+
+		    <list style="hanging">
+			<t hangText="0."> BEGIN Eight Months Prior to First
+				IETF (approx. July 1); Internet Society
+				President appoints the Chair.  The appointment
+				must be done no later than the Second IETF or
+				eight months prior to the First IETF, whichever
+				comes first.  The Chair must be announced and
+				recognized during a plenary session of the
+				Second IETF. </t>
+
+			<t hangText="1."> The Chair establishes and announces
+				milestones to ensure the timely selection of the
+				nominating committee members. </t>
+
+			<t hangText="2."> The Chair contacts the IESG, IAB, and
+				Internet Society Board of Trustees and requests
+				a liaison.  The Chair contacts the prior year's
+				Chair and requests an advisor.  The Chair
+				obtains the list of IESG and IAB open positions
+				and descriptions from the IETF Executive
+				Director. </t>
+
+			<t hangText="3."> The Chair announces the solicitation
+				for voting volunteer members that must remain
+				open for at least 30 days.  The announcement
+				must be done no later than seven months and two
+				weeks prior to the First IETF (approx. July
+				15). </t>
+
+			<t hangText="4."> After the solicitation closes the
+				Chair announces the pool of volunteers and the
+				date of the random selection, which must be at
+				least one week in the future.  The announcement
+				must be done no later than six months and two
+				weeks prior to the First IETF (approx. August
+				15). </t>
+
+			<t hangText="5."> On the appointed day the random
+				selection occurs and the Chair announces the
+				members of the committee and the one week
+				challenge period.  The announcement must be done
+				no later than six months and one week prior to
+				the First IETF (approx. August 22). </t>
+
+			<t hangText="6."> During the challenge period the Chair
+				contacts each of the committee members and
+				confirms their availability to participate. </t>
+
+			<t hangText="7."> After the challenge period closes the
+				Chair announces the members of the committee and
+				its term begins.  The announcement must be done
+				no later than six months prior to the First
+				IETF (approx. September 1). </t>
+
+			<t hangText="8."> The committee has one month during
+				which it is to self-organize in preparation for
+				completing its assigned duties.  This must be
+				done no later than five months prior to the
+				First IETF (approx. October 1). </t>
+
+			<t hangText="9."> END the Committee Member Selection
+				Process; BEGIN the Selection of Candidates; Time
+				is at least five months prior to the First IETF
+				(approx. October 1). </t>
+
+			<t hangText="10."> The Chair establishes and announces
+				the milestones to ensure the timely selection of
+				the candidates, including a call for nominations
+				for the open positions.  The announcement must
+				be done no later than five months prior to the
+				First IETF (approx. October 1). </t>
+
+			<t hangText="11."> Over the next three months the
+				nominating committee collects input and
+				deliberates.  It should plan to conduct
+				interviews and other consultations during the
+				Third IETF.  The committee is due to complete
+				its candidate selection no later than two
+				months prior to the First IETF (approx. January
+				1). </t>
+
+			<t hangText="12."> END the Selection of Candidates;
+				BEGIN the Confirmation of Candidates; Time is
+				at least two months prior to the First IETF
+				(approx. January 1); </t>
+
+			<t hangText="13."> The committee presents its candidates
+				to their respective confirming bodies.  The
+				presentation must be done no later than two
+				months prior to the First IETF (approx.
+				January 1). </t>
+
+			<t hangText="14."> The confirming bodies have one month
+				to deliberate and, in communication with the
+				nominating committee, accept or reject
+				candidates. </t>
+
+			<t hangText="15."> The Chair announces the confirmed
+				candidates.  The announcement must be done no
+				later than one month prior to the First IETF
+				(approx. February 1). </t>
+		    </list> </t>
 	</section>
 
 	<section anchor="thanks" title="Acknowledgments">
