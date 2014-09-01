@@ -11,6 +11,7 @@
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
 <?rfc toc="yes" ?>
+<?rfc tocdepth="2" ?>
 <?rfc symrefs="yes" ?>
 <?rfc sortrefs="yes"?>
 <?rfc strict="no" ?>
@@ -1696,6 +1697,8 @@
 
 			<t> Applied RFC 3777 errata. </t>
 
+			<t> Applied RFC 5078 update. </t>
+
 			<t> Applied RFC 5633 update. </t>
 
 			<t> Applied RFC 5680 update. </t>
@@ -1703,13 +1706,6 @@
 			<t> Applied RFC 6859 update. </t>
 
 			<t> A few grammatical corrections. </t>
-		    </list> </t>
-	</section>
-
-	<section anchor="todo" title="To-Do List">
-		<t> <list style="symbols">
-			<t> Incorporate RFC 5078 </t>
-			<t> Incorporate RFC 5078 errata </t>
 		    </list> </t>
 	</section>
 
@@ -1775,9 +1771,9 @@
 		    terms begin during the week of the First IETF. </t>
 
 		<t> The overall annual process is designed to be completed in
-		    seven months.  It is expected to start 8 months prior to
-		    the First IETF.  The seven months is split between three
-		    major components of the process as follows:
+		    seven months.  It is expected to start nine months prior to
+		    the First IETF.  The time is split between three
+		    major components of the process roughly as follows:
 
 		    <list style="numbers">
 			<t> First is the selection and organization of the
@@ -1785,32 +1781,33 @@
 			    this process. </t>
 
 			<t> Second is the selection of the candidates by the
-			    nominating committee.  Three months are allotted
+			    nominating committee.  Four months are allotted
 			    for this process. </t>
 
 			<t> Third is the confirmation of the candidates by
-			    their respective confirming bodies.  One month is
+			    their respective confirming bodies.  Two months are
 			    allotted for this process. </t>
 		    </list> </t>
 
 		<t> The following list captures the details of the milestones
 		    within each component.  For illustrative purposes the
 		    list presumes the Friday before the First IETF is
-		    March 1.
+		    March 1.  Numbers shown in square brackets indicate the
+		    expected number of weeks at each step.
 
 		    <list style="hanging">
 			<t hangText="0."> BEGIN Eight Months Prior to First
-				IETF (approx. July 1); Internet Society
+				IETF (approx. June 1); Internet Society
 				President appoints the Chair.  The appointment
 				must be done no later than the Second IETF or
 				eight months prior to the First IETF, whichever
 				comes first.  The Chair must be announced and
 				recognized during a plenary session of the
-				Second IETF. </t>
+				Second IETF. [0] </t>
 
 			<t hangText="1."> The Chair establishes and announces
 				milestones to ensure the timely selection of the
-				nominating committee members. </t>
+				nominating committee members. [1] </t>
 
 			<t hangText="2."> The Chair contacts the IESG, IAB, and
 				Internet Society Board of Trustees and requests
@@ -1818,57 +1815,58 @@
 				Chair and requests an advisor.  The Chair
 				obtains the list of IESG and IAB open positions
 				and descriptions from the IETF Executive
-				Director. </t>
+				Director. [0] </t>
 
 			<t hangText="3."> The Chair announces the solicitation
 				for voting volunteer members that must remain
 				open for at least 30 days.  The announcement
 				must be done no later than seven months and two
-				weeks prior to the First IETF (approx. July
-				15). </t>
+				weeks prior to the First IETF (approx. June
+				15). [6] </t>
 
 			<t hangText="4."> After the solicitation closes the
 				Chair announces the pool of volunteers and the
 				date of the random selection, which must be at
 				least one week in the future.  The announcement
 				must be done no later than six months and two
-				weeks prior to the First IETF (approx. August
-				15). </t>
+				weeks prior to the First IETF (approx. July
+				15). [1] </t>
 
 			<t hangText="5."> On the appointed day the random
 				selection occurs and the Chair announces the
 				members of the committee and the one week
 				challenge period.  The announcement must be done
 				no later than six months and one week prior to
-				the First IETF (approx. August 22). </t>
+				the First IETF (approx. July 22). [1] </t>
 
 			<t hangText="6."> During the challenge period the Chair
 				contacts each of the committee members and
-				confirms their availability to participate. </t>
+				confirms their availability to participate.
+				[0] </t>
 
 			<t hangText="7."> After the challenge period closes the
 				Chair announces the members of the committee and
 				its term begins.  The announcement must be done
 				no later than six months prior to the First
-				IETF (approx. September 1). </t>
+				IETF (approx. August 1). [1] </t>
 
 			<t hangText="8."> The committee has one month during
 				which it is to self-organize in preparation for
 				completing its assigned duties.  This must be
 				done no later than five months prior to the
-				First IETF (approx. October 1). </t>
+				First IETF (approx. September 15). [6] </t>
 
 			<t hangText="9."> END the Committee Member Selection
 				Process; BEGIN the Selection of Candidates; Time
 				is at least five months prior to the First IETF
-				(approx. October 1). </t>
+				(approx. September 22). [0] </t>
 
 			<t hangText="10."> The Chair establishes and announces
 				the milestones to ensure the timely selection of
 				the candidates, including a call for nominations
 				for the open positions.  The announcement must
 				be done no later than five months prior to the
-				First IETF (approx. October 1). </t>
+				First IETF (approx. October 1). [1] </t>
 
 			<t hangText="11."> Over the next three months the
 				nominating committee collects input and
@@ -1877,28 +1875,32 @@
 				Third IETF.  The committee is due to complete
 				its candidate selection no later than two
 				months prior to the First IETF (approx. January
-				1). </t>
+				1). [17] </t>
 
 			<t hangText="12."> END the Selection of Candidates;
 				BEGIN the Confirmation of Candidates; Time is
 				at least two months prior to the First IETF
-				(approx. January 1); </t>
+				(approx. January 1); [0] </t>
 
 			<t hangText="13."> The committee presents its candidates
 				to their respective confirming bodies.  The
 				presentation must be done no later than two
 				months prior to the First IETF (approx.
-				January 1). </t>
+				January 1). [0] </t>
 
 			<t hangText="14."> The confirming bodies have one month
 				to deliberate and, in communication with the
 				nominating committee, accept or reject
-				candidates. </t>
+				candidates. [4] </t>
 
-			<t hangText="15."> The Chair announces the confirmed
+			<t hangText="15."> The Chair notifies advises
+				unsuccessful nominees that they have not been
+				selected. [1] </t>
+			
+			<t hangText="16."> The Chair announces the confirmed
 				candidates.  The announcement must be done no
 				later than one month prior to the First IETF
-				(approx. February 1). </t>
+				(approx. February 1). [4] </t>
 		    </list> </t>
 	</section>
 
