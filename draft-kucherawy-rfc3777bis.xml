@@ -3,6 +3,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!ENTITY RFC3777 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3777.xml">
   <!ENTITY RFC3797 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3797.xml">
+  <!ENTITY RFC4071 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4071.xml">
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="3777, 5078, 5633, 5680, 6859"
@@ -20,8 +21,8 @@
 
 <front>
 	<title abbrev="NomCom">
-		IAB and IESG Selection, Confirmation, and Recall Process:
-		Operation of the Nominating and Recall Committees
+		IAB, IESG, and IAOC Selection, Confirmation, and Recall
+		Process: Operation of the Nominating and Recall Committees
 	</title>
 
 	<author initials="M. S." surname="Kucherawy"
@@ -48,12 +49,13 @@
 	<area>General</area>
 
 	<abstract>
-		<t> The process by which the members of the IAB and IESG
-		    are selected, confirmed, and recalled is specified in
-		    this document.  This document is a self-consistent,
-		    organized compilation of the process as it was known
-		    at the time of publication of <xref target="RFC3777"/>,
-		    with various updates since that version was published. </t>
+		<t> The process by which the members of the IAB and IESG,
+		    and some members of the IAOC, are selected, confirmed, and
+		    recalled is specified in this document.  This document
+		    is a self-consistent, organized compilation of the process
+		    as it was known at the time of publication of
+		    <xref target="RFC3777"/>, with various updates since that
+		    version was published. </t>
 	</abstract>
 
 </front>
@@ -65,8 +67,13 @@
 		    <xref target="RFC3777"/> and the other RFCs that updated
 		    that document into a single specification.  The result is
 		    a complete specification of the process by which members
-		    of the IAB and IESG are selected, confirmed, and recalled
-		    as of the date of its approval. </t>
+		    of the IAB and IESG, and some members of the IAOC, are
+		    selected, confirmed, and recalled as of the date of its
+		    approval. </t>
+
+		<t> Section 4 of <xref target="RFC4071"/> provides further
+		    details about the IAOC positions that are filled by
+		    the nominating committee. </t>
 
 		<t> The following two assumptions continue to be true of this
 		    specification:
@@ -111,7 +118,7 @@
 
 			<t hangText="Member Recall:"> This is the process by
 				which the behavior of a sitting member of the
-				IESG or IAB may be questioned, perhaps
+				IAOC, IESG, or IAB may be questioned, perhaps
 				resulting in the removal of the sitting
 				member. </t>
 		    </list> </t>
@@ -149,7 +156,7 @@
 
 			<t hangText="nominee:"> A person who is being or has
 				been considered for one or more open positions
-				of the IESG or IAB. </t>
+				of the IESG, IAB, or IAOC. </t>
 
 			<t hangText="sitting member:"> A person who is
 				currently serving a term of membership in the
@@ -201,14 +208,14 @@
 		<section anchor="gen_func"
 		         title="Nominating Committee Principal Functions">
 			<t> The principal functions of the nominating
-			    committee are to review each open IESG and IAB
-			    position and to either nominate its incumbent or
-			    a superior candidate. </t>
+			    committee are to review each open IESG, IAB, and
+			    IAOC position and to nominate either its incumbent
+			    or a superior candidate. </t>
 
 			<t> Although there is no term limit for serving in
-			    any IESG or IAB position, the nominating committee
-			    may use length of service as one of its criteria
-			    for evaluating an incumbent. </t>
+			    any IESG, IAB, or IAOC position, the nominating
+			    committee may use length of service as one of its
+			    criteria for evaluating an incumbent. </t>
 
 			<t> The nominating committee does not select the
 			    open positions to be reviewed; it is instructed
@@ -236,16 +243,17 @@
 		<section anchor="gen_positions"
 		         title="Positions To Be Reviewed">
 			<t> One-half of each of the then current IESG and
-			    IAB positions is selected to be reviewed each
-			    year. </t>
+			    IAB positions, and one IAOC position, is selected
+			    to be reviewed each year. </t>
 
 			<t> The intent of this rule to ensure the review of
 			    approximately one-half of each of the IESG and IAB
-			    sitting members each year.  It is recognized that
+			    sitting members, and one of the two nominated
+			    IAOC positions, each year.  It is recognized that
 			    circumstances may exist that will require the
 			    nominating committee to review more or less than
 			    one-half of the current positions, e.g., if the
-			    IESG or IAB have re-organized prior to this
+			    IESG, IAB, or IAOC have re-organized prior to this
 			    process and created new positions, if there are
 			    an odd number of current positions, or if a member
 			    unexpectedly resigns. </t>
@@ -256,9 +264,9 @@
 			    least a two year term. </t>
 
 			<t> The intent of this rule is to ensure that members
-			    of the IESG and IAB serve the number of years
-			    that best facilitates the review of one-half of
-			    the members each year. </t>
+			    of the IESG, IAB, and IAOC serve the number of
+			    years that best facilitates the review of
+			    one-half of the members each year. </t>
 
 			<t> The term of a confirmed candidate selected
 			    according to the mid-term vacancy rules may be
@@ -298,9 +306,9 @@
 			    meeting as determined by their mutual
 			    agreement. </t>
 
-			<t> For confirmed candidates of the IAB the terms
-			    overlap with the terms of the sitting members for
-			    the entire week of the meeting. </t>
+			<t> For confirmed candidates of the IAB and IAOC, the
+			    terms overlap with the terms of the sitting
+			    members for the entire week of the meeting. </t>
 
 			<t> For candidates confirmed under the mid-term
 			    vacancy rules, the term begins as soon as possible
@@ -429,10 +437,10 @@
 			<section anchor="gen_model_1"
 			         title="Positions To Be Reviewed">
 				<t> The IETF Executive Director informs the
-				    nominating committee of the IESG and IAB
-				    positions to be reviewed. </t>
+				    nominating committee of the IESG, IAB, and
+				    IAOC positions to be reviewed. </t>
 
-				<t> The IESG and IAB are responsible for
+				<t> The IESG, IAB, and IAOC are responsible for
 				    providing summary of the expertise desired
 				    of the candidates selected for their
 				    respective open positions to the Executive
@@ -463,6 +471,9 @@
 
 				<t> The Internet Society Board of Trustees
 				    reviews the IAB candidates. </t>
+
+				<t> The IAOC candidate is reviewed as
+				    specified in <xref target="RFC4071"/>. </t>
 
 				<t> The confirming bodies conduct their review
 				    using all information and any means
@@ -536,18 +547,19 @@
 
 		<section anchor="gen_sitting" title="Sitting Members">
 			<t> The following rules apply to nominees candidates
-			    who are currently sitting members of the IESG or
-			    IAB, and who are not sitting in an open position
-			    being filled by the nominating committee. </t>
+			    who are currently sitting members of the IESG, IAB,
+			    or IAOC, and who are not sitting in an open
+			    position being filled by the nominating
+			    committee. </t>
 
 			<t> The confirmation of a candidate to an open
 			    position does not automatically create a vacancy
-			    in the IESG or IAB position currently occupied by
-			    the candidate.  The mid-term vacancy can not exist
-			    until, first, the candidate formally resigns from
-			    the current position and, second, the body with
-			    the vacancy formally decides for itself that it
-			    wants the nominating committee to fill the
+			    in the IESG, IAB, or IAOC position currently
+			    occupied by the candidate.  The mid-term vacancy
+			    can not exist until, first, the candidate formally
+			    resigns from the current position and, second, the
+			    body with the vacancy formally decides for itself
+			    that it wants the nominating committee to fill the
 			    mid-term vacancy according to the rules for a
 			    mid-term vacancy documented elsewhere in this
 			    document. </t>
@@ -555,12 +567,12 @@
 			<t> The resignation should be effective as of when
 			    the term of the new position begins.  The
 			    resignation may remain confidential to the IAB,
-			    IESG, and nominating committee until the confirmed
-			    candidate is announced for the new position.  The
-			    process, according to rules set out elsewhere in
-			    this document, of filling the seat vacated by the
-			    confirmed candidate may begin as soon as the
-			    vacancy is publicly announced. </t>
+			    IAOC, IESG, and nominating committee until the
+			    confirmed candidate is announced for the new
+			    position.  The process, according to rules set out
+			    elsewhere in this document, of filling the seat
+			    vacated by the confirmed candidate may begin as
+			    soon as the vacancy is publicly announced. </t>
 
 			<t> Filling a mid-term vacancy is a separate and
 			    independent action from the customary action of
@@ -681,7 +693,7 @@
 
 		<section anchor="sel_structure" title="Structure">
 			<t> The nominating committee comprises at least a
-			    Chair, 10 voting volunteers, three liaisons, and
+			    Chair, 10 voting volunteers, four liaisons, and
 			    an advisor. </t>
 
 			<t> Any committee member may propose the addition of
@@ -706,8 +718,9 @@
 			<t> The 10 voting volunteers are selected according
 			    to rules stated elsewhere in this document. </t>
 
-			<t> The IESG and IAB liaisons are selected according
-			    to rules stated elsewhere in this document. </t>
+			<t> The IESG, IAB, and IAOC liaisons are selected
+			    according to rules stated elsewhere in this
+			    document. </t>
 
 			<t> The Internet Society Board of Trustees may appoint
 			    a liaison to the nominating committee at its own
@@ -797,8 +810,8 @@
 			    provide information as requested or when they
 			    believe it would be helpful to the committee. </t>
 
-			<t> Liaisons from the IESG and IAB are expected to
-			    provide information to the nominating committee
+			<t> Liaisons from the IESG, IAB, and IAOC are expected
+			    to provide information to the nominating committee
 			    regarding the operation, responsibility, and
 			    composition of their respective bodies. </t>
 
@@ -807,9 +820,9 @@
 			    responses to those questions to the committee, as
 			    requested by the committee. </t>
 
-			<t> Liaisons from the IESG, IAB, and Internet Society
-			    Board of Trustees (if one was appointed) are
-			    expected to review the operation and executing
+			<t> Liaisons from the IESG, IAB, IAOC, and Internet
+			    Society Board of Trustees (if one was appointed)
+			    are expected to review the operation and executing
 			    process of the nominating committee and to report
 			    any concerns or issues to the Chair of the
 			    nominating committee immediately.  If they can not
@@ -833,10 +846,10 @@
 		</section>
 
 		<section anchor="sel_liaisons_2" title="Liaison Appointment">
-			<t> The sitting IAB and IESG members each appoint a
-			    liaison from their current membership, someone who
-			    is not sitting in an open position, to serve on
-			    the nominating committee. </t>
+			<t> The sitting IAOC, IAB, and IESG members each
+			    appoint a liaison from their current membership,
+			    someone who is not sitting in an open position, to
+			    serve on the nominating committee. </t>
 		</section>
 
 		<section anchor="sel_advisors" title="Advisors">
@@ -1357,16 +1370,16 @@
 			    otherwise disqualified. </t>
 
 			<t> Members of the IETF community who were recalled
-			    from any IESG or IAB position during the previous
-			    two years are not eligible to be considered for
-			    filling any open position. </t>
+			    from any IESG, IAB, or IAOC position during the
+			    previous two years are not eligible to be
+			    considered for filling any open position. </t>
 		</section>
 
 		<section anchor="op_candidates" title="Candidate Selection">
-			<t> The nominating committee selects candidates based on
-			    its understanding of the IETF community's consensus
-			    of the qualifications required to fill the open
-			    positions. </t>
+			<t> The nominating committee selects candidates based
+			    on its understanding of the IETF community's
+			    consensus of the qualifications required to fill
+			    the open positions. </t>
 
 			<t> The intent of this rule is to ensure that the
 			    nominating committee consults with a broad base of
@@ -1382,11 +1395,12 @@
 			    nominating committee itself. </t>
 
 			<t> A broad base of the community should include the
-			    existing members of the IAB and IESG, especially
-			    sitting members who share responsibilities with open
-			    positions, e.g., co-Area Directors, and working
-			    group chairs, especially those in the areas with
-			    open positions. </t>
+			    existing members of the IAB, IAOC, and IESG,
+			    especially sitting members who share
+			    responsibilities with open positions, e.g.,
+			    co-Area Directors, and working group chairs,
+			    especially those in the areas with open
+			    positions. </t>
 
 			<t> Only voting volunteer members vote to select
 			    candidates. </t>
@@ -1578,16 +1592,16 @@
 
 		<section anchor="recall_petition" title="Petition">
 			<t> At any time, at least 20 members of the IETF
-			    community, who are qualified to be voting members of
-			    a nominating committee, may request by signed
+			    community, who are qualified to be voting members
+			    of a nominating committee, may request by signed
 			    petition (email is acceptable) to the Internet
-			    Society President the recall of any sitting IAB or
-			    IESG member. </t>
+			    Society President the recall of any sitting IAB,
+			    IAOC, or IESG member. </t>
 
 			<t> All individual and collective qualifications of
 			    nominating committee eligibility are applicable,
-			    including that no more than two signatories may have
-			    the same primary affiliation. </t>
+			    including that no more than two signatories may
+			    have the same primary affiliation. </t>
 
 			<t> Each signature must include a full name, email
 			    address, and primary company or organization
@@ -1686,6 +1700,7 @@
 <back>
 	<references title="Normative References">
 		&RFC3777;
+		&RFC4071;
 	</references>
 
 	<references title="Informative References">
@@ -1811,13 +1826,13 @@
 				milestones to ensure the timely selection of the
 				nominating committee members. [1] </t>
 
-			<t hangText="2."> The Chair contacts the IESG, IAB, and
-				Internet Society Board of Trustees and requests
-				a liaison.  The Chair contacts the prior year's
-				Chair and requests an advisor.  The Chair
-				obtains the list of IESG and IAB open positions
-				and descriptions from the IETF Executive
-				Director. [0] </t>
+			<t hangText="2."> The Chair contacts the IESG, IAB,
+				IAOC, and Internet Society Board of Trustees
+				and requests a liaison.  The Chair contacts
+				the prior year's Chair and requests an
+				advisor.  The Chair obtains the list of IESG,
+				IAB, and IAOC open positions and descriptions
+				from the IETF Executive Director. [0] </t>
 
 			<t hangText="3."> The Chair announces the solicitation
 				for voting volunteer members that must remain
@@ -1910,7 +1925,21 @@
 		<t> A great deal of work went into the RFCs that preceded
 		    this one.  The 2014 nominating committee and this editor
 		    would like to thank all of them once again for the time
-		    and energy it took to get us to where we are now. </t>
+		    and energy it took to get us to where we are now.  In
+		    no particular order, we acknowledge:
+
+		    <figure><artwork>
+  Jeff Case           Fred Baker        John Curran
+  Guy Almes           Geoff Huston      Mike St. Johns
+  Donald Eastlake     Avri Doria        Bernard Adoba
+  Ted T'so            Phil Roberts      Jim Galvin
+  Harald Alvestrand   Leslie Daigle     Joel Halpern
+  Thomas Narten       Spencer Dawkins   Barry Leiba
+  Lars Eggert         Ross Callon       Brian Carpenter
+  Robert Elz          Bernie Hoeneisen  John Klensin
+  Danny McPherson     S. Moonesamy      Scott Bradner
+  Ralph Droms         Pekka Savola
+		    </artwork></figure> </t>
 
 		<t> Allison Mankin and Russ White provided early reviews
 		    and feedback about this document. </t>
