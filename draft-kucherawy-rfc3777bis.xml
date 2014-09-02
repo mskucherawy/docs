@@ -61,10 +61,12 @@
 <middle>
 	<section anchor="intro" title="Introduction">
 		<t> This document is a revision of and supercedes
-		    <xref target="RFC3777"/>.  It is a complete specification
-		    of the process by which members of the IAB and IESG
-		    are selected, confirmed, and recalled as of the date
-		    of its approval. </t>
+		    BCP 10.  It is in essence a republishing of
+		    <xref target="RFC3777"/> and the other RFCs that updated
+		    that document into a single specification.  The result is
+		    a complete specification of the process by which members
+		    of the IAB and IESG are selected, confirmed, and recalled
+		    as of the date of its approval. </t>
 
 		<t> The following two assumptions continue to be true of this
 		    specification:
@@ -1905,7 +1907,13 @@
 	</section>
 
 	<section anchor="thanks" title="Acknowledgments">
-		<t> TBD </t>
+		<t> A great deal of work went into the RFCs that preceded
+		    this one.  The 2014 nominating committee and this editor
+		    would like to thank all of them once again for the time
+		    and energy it took to get us to where we are now. </t>
+
+		<t> Allison Mankin and Russ White provided early reviews
+		    and feedback about this document. </t>
 	</section>
 </back>
 
