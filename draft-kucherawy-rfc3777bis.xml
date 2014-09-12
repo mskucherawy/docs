@@ -7,7 +7,7 @@
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="3777, 5078, 5633, 5680, 6859"
-        docName="draft-kucherawy-rfc3777bis-00">
+        docName="draft-kucherawy-rfc3777bis-01">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -242,9 +242,9 @@
 
 		<section anchor="gen_positions"
 		         title="Positions To Be Reviewed">
-			<t> One-half of each of the then current IESG and
-			    IAB positions, and one IAOC position, is selected
-			    to be reviewed each year. </t>
+			<t> Approximately one-half of each of the then current
+			    IESG and IAB positions, and one IAOC position, is
+			    selected to be reviewed each year. </t>
 
 			<t> The intent of this rule to ensure the review of
 			    approximately one-half of each of the IESG and IAB
@@ -252,7 +252,7 @@
 			    IAOC positions, each year.  It is recognized that
 			    circumstances may exist that will require the
 			    nominating committee to review more or less than
-			    one-half of the current positions, e.g., if the
+			    the usual number of positions, e.g., if the
 			    IESG, IAB, or IAOC have re-organized prior to this
 			    process and created new positions, if there are
 			    an odd number of current positions, or if a member
