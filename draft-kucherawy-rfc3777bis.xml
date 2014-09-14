@@ -1389,10 +1389,14 @@
 			    positions matches its understanding of the
 			    qualifications desired by the IETF community. </t>
 
-			<t> The consultations are permitted to include names of
-			    nominees, if all parties to the consultation agree
-			    to observe the same confidentiality rules as the
-			    nominating committee itself. </t>
+			<t> The consultations are permitted to include names
+			    of nominees, if all parties to the consultation
+			    agree to observe the same confidentiality rules as
+			    the nominating committee itself, or the names are
+			    public as discussed in
+			    <xref target="gen_confidential"/>.  Feedback on
+			    individual nominees should always be
+			    confidential. </t>
 
 			<t> A broad base of the community should include the
 			    existing members of the IAB, IAOC, and IESG,
