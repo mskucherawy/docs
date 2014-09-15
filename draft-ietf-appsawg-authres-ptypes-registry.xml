@@ -16,7 +16,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" updates="7001"
-        docName="draft-ietf-appsawg-authres-ptypes-registry-02">
+        docName="draft-ietf-appsawg-authres-ptypes-registry-03">
 
 <front>
 	<title abbrev="Authentication-Results Property Types">
@@ -47,7 +47,7 @@
 	<keyword>Reputation</keyword>
 
 	<abstract>
-		<t> <xref target="RFC7001"/> describes a header field called
+		<t> RFC7001 describes a header field called
 		    Authentication-Results for use with
 		    electronic mail messages to indicate the results of
 		    message authentication efforts.  Any receiver-side
