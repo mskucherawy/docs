@@ -14,7 +14,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" updates="7001"
-        docName="draft-ietf-appsawg-authres-ptypes-registry-04">
+        docName="draft-ietf-appsawg-authres-ptypes-registry-03">
 
 <front>
 	<title abbrev="Authentication-Results Property Types">
