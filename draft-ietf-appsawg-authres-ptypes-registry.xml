@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-  <!ENTITY RFC2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
   <!ENTITY RFC5226 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
   <!ENTITY RFC5234 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
   <!ENTITY RFC5321 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5321.xml">
@@ -16,7 +15,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" updates="7001"
-        docName="draft-ietf-appsawg-authres-ptypes-registry-03">
+        docName="draft-ietf-appsawg-authres-ptypes-registry-04">
 
 <front>
 	<title abbrev="Authentication-Results Property Types">
@@ -47,21 +46,11 @@
 	<keyword>Reputation</keyword>
 
 	<abstract>
-		<t> RFC7001 describes a header field called
-		    Authentication-Results for use with
-		    electronic mail messages to indicate the results of
-		    message authentication efforts.  Any receiver-side
-		    software, mainly Mail Transfer Agents (MTAs) or mail
-		    filters, can add or use this header field to relay that
-		    information in a convenient and meaningful way to
-		    later-stage systems, such as for sorting and filtering
-		    decisions. </t>
-
-		<t> One portion of the definition in that document limits
-		    the types of authentication properties about a message
-		    to a small, fixed set.  This document updates the
-		    specification, making it extensible to allow new property
-		    types to be declared and used. </t>
+		<t> This document updates RFC7001 by creating a registry
+		    for property types in the Authentication-Results
+		    header field, used in email authentication work, rather
+		    than limiting participants to using the original, small
+		    set of fixed values. </t>
 	</abstract>
 
 </front>
@@ -87,22 +76,6 @@
 		    can be listed and their defining documents referenced. </t>
 	</section>
 
-	<section anchor="defs" title="Definitions">
-		<section anchor="keywords" title="Key Words">
-			<t> The key words "MUST", "MUST NOT", "REQUIRED",
-			    "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT",
-			    "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-			    "OPTIONAL" in this document are to be interpreted
-			    as described in <xref target="RFC2119"/>. </t>
-		</section>
-
-		<section anchor="arch" title="Email Architecture">
-			<t> Many of the definitions and acronyms regarding
-			    general email architecture can be found in
-			    <xref target="RFC5598"/>. </t>
-		</section>
-	</section>
-
 	<section anchor="definition" title="Updated 'ptype' Definition">
 		<t> Advanced Backus Naur Form (ABNF) is defined in 
 		    <xref target="RFC5234"/>. </t>
@@ -116,7 +89,7 @@
           ; a parameter to an [SMTP] command, was a value taken
           ; from a message header field, was some property of
           ; the message body, or was some other property evaluated by
-          ; the receiving MTA
+          ; the receiving Message Transfer Agent (MTA)
 		    </artwork></figure></t>
 
 		<t> The ABNF token "Keyword" is defined in Section 4.1.2 of
@@ -141,7 +114,10 @@
 				might be the value of a header field or some
 				portion of a header field. </t>
 
-			<t hangText="policy:"> As defined in Section 2.3 of
+			<t hangText="policy:"> A local policy mechanism was
+				applied that augments or overrides the result
+				returned by the authentication mechanism.
+				See Section 2.3 of
 				<xref target="RFC7001"/>. </t>
 
 			<t hangText="smtp:"> Indicates information that was
@@ -149,9 +125,9 @@
 				to relay the message. </t>
 		    </list> </t>
 
-		<t> A consumer of this header field encountering a "ptype"
-		    it does not understand MUST ignore the result it is
-		    reporting. </t>
+		<t> When a consumer of this header field encounters a ptype
+		    that it does not understand, it ignores the result
+		    reported with that ptype. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
@@ -169,17 +145,19 @@
 			<t> A brief description of what sort of information
 			    this "ptype" is meant to cover. </t>
 
-			<t> A reference to the defining document, if any. </t>
+			<t> An optional reference to the defining document.
+			    This is recomended, but not required. </t>
 		    </list> </t>
 	
 		<t> The initial entries in this table are enumerated in
-		    <xref target="definition"/>.  This document should be
-		    listed as their defining document values. </t>
+		    <xref target="definition"/>.  <xref target="RFC7001"/>
+		    should be listed as their defining document values. </t>
 
 		<t> For new entries, the Designated Expert needs to
 		    assure that the description provided for the new entry
 		    adequately describes the intended use.  An example
-		    would be helpful to include, although entries in the
+		    would be helpful to include in the entry's defining
+		    document, if any, although entries in the
 		    Email Authentication Methods registry or the Email
 		    Authentication Result Names registry might also serve
 		    as examples of intended use. </t>
@@ -189,18 +167,22 @@
 		<t> A consumer of this header field might be confused
 		    by a result bearing a "ptype" it does not understand.
 		    The advice is to ignore such a result since
-		    its semantics are unknown to such a consumer.
-		    It is unknown how legacy code, which expects one of a
+		    its semantics are unknown to such a consumer. </t>
+
+		<t> It is unknown how legacy code, which expects one of a
 		    fixed set of "ptype" tokens, will handle new tokens
-		    as they begin to appear.  This might result
-		    in undesirable deliveries for consumers that have been
-		    implemented to "fail open". </t>
+		    as they begin to appear.  Some may reject messages
+		    bearing unknown "ptypes" based on an assertion that only
+		    when the Authentication-Results field is fully understood
+		    can a message be delivered, but this is a highly
+		    restrictive posture.  Rather, ignoring unknown "ptypes"
+		    is the least intrusive approach, and makes use
+		    of those "ptypes" that are known to the consumer. </t>
 	</section>
 </middle>
 
 <back>
 	<references title="Normative References">
-		&RFC2119;
 		&RFC5226;
 		&RFC5234;
 		&RFC5321;
