@@ -3,7 +3,6 @@
   <!ENTITY RFC5226 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
   <!ENTITY RFC5234 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
   <!ENTITY RFC5321 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5321.xml">
-  <!ENTITY RFC5598 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5598.xml">
   <!ENTITY RFC7001 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7001.xml">
 ]>
 
@@ -187,10 +186,6 @@
 		&RFC5234;
 		&RFC5321;
 		&RFC7001;
-	</references>
-
-	<references title="Informative References">
-		&RFC5598;
 	</references>
 
 	<section anchor="thanks" title="Acknowledgements">
