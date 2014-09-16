@@ -163,20 +163,26 @@
 	</section>
 
 	<section anchor="security" title="Security Considerations">
-		<t> A consumer of this header field might be confused
-		    by a result bearing a "ptype" it does not understand.
-		    The advice is to ignore such a result since
-		    its semantics are unknown to such a consumer. </t>
-
 		<t> It is unknown how legacy code, which expects one of a
 		    fixed set of "ptype" tokens, will handle new tokens
-		    as they begin to appear.  Some may reject messages
-		    bearing unknown "ptypes" based on an assertion that only
-		    when the Authentication-Results field is fully understood
-		    can a message be delivered, but this is a highly
-		    restrictive posture.  Rather, ignoring unknown "ptypes"
-		    is the least intrusive approach, and makes use
-		    of those "ptypes" that are known to the consumer. </t>
+		    as they begin to appear.  There are typically two
+		    options: prevent delivery of the message, or ignore those
+		    portions of the field that use unknown "ptype" tokens
+		    and allow processing of the message to continue. </t>
+
+		<t> The choice comes down to whether the consumer
+		    considers it a threat when there are unknown "ptypes"
+		    present.  The semantics of the report are unknown;
+		    the report might be indicating the message is
+		    authentic, fraudulent, or that a test failed to complete.
+		    The report itself is not actionable because it cannot
+		    be understood, and only its presence is certain. </t>
+
+		<t> Generally, the advice in this situation is to ignore
+		    unknown "ptypes".  It is anticipated that a new
+		    property type evaluated by earlier handling agents would
+		    also result in the filtering of messages by those agents
+		    until consumers can be updated to interpret them. </t>
 	</section>
 </middle>
 
