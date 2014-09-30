@@ -14,7 +14,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" updates="7001"
-        docName="draft-ietf-appsawg-authres-ptypes-registry-03">
+        docName="draft-ietf-appsawg-authres-ptypes-registry-04">
 
 <front>
 	<title abbrev="Authentication-Results Property Types">
@@ -131,8 +131,9 @@
 
 	<section anchor="iana" title="IANA Considerations">
 		<t> IANA is requested to create the Email Authentication
-		    Property Types registry.  Entries in this registry
-		    are subject to the Expert Review rules as 
+		    Property Types sub-registry within the existing
+		    Email Authentication Parameters registry.  Entries in
+		    this registry are subject to the Expert Review rules as 
 		    described in <xref target="RFC5226"/>.  Each entry in
 		    the registry requires the following values:
 
@@ -148,9 +149,27 @@
 			    This is recomended, but not required. </t>
 		    </list> </t>
 	
-		<t> The initial entries in this table are enumerated in
-		    <xref target="definition"/>.  <xref target="RFC7001"/>
-		    should be listed as their defining document values. </t>
+		<t> The initial entries in this table are as follows, taken
+		    from <xref target="RFC7001"/>:
+
+		    <figure><artwork>
+    +--------+-------------+----------------------------------------+
+    | ptype  | Definition  | Description                            |
+    +--------+-------------+----------------------------------------+
+    | body   | RFC7001     | The property being reported was found  |
+    |        | Section 2.2 | in the body of the message.            |
+    +--------+-------------+----------------------------------------+
+    | header | RFC7001     | The property being reported was found  |
+    |        | Section 2.2 | in a header field of the message.      |
+    +--------+-------------+----------------------------------------+
+    | policy | RFC7001     | The property being reported relates to |
+    |        | Section 2.3 | a locally-defined policy.              |
+    +--------+-------------+----------------------------------------+
+    | smtp   | RFC7001     | The property being reported is a       |
+    |        | Section 2.2 | parameter to an SMTP command used to   |
+    |        |             | relay the message.                     |
+    +--------+-------------+----------------------------------------+
+		    </artwork></figure></t>
 
 		<t> For new entries, the Designated Expert needs to
 		    assure that the description provided for the new entry
