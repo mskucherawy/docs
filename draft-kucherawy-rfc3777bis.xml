@@ -693,8 +693,8 @@
 
 		<section anchor="sel_structure" title="Structure">
 			<t> The nominating committee comprises at least a
-			    Chair, 10 voting volunteers, three liaisons, and
-			    an advisor. </t>
+			    Chair, 10 voting volunteers, at least two liaisons,
+			    and an advisor. </t>
 
 			<t> Any committee member may propose the addition of
 			    an advisor to participate in some or all of the
@@ -1727,6 +1727,8 @@
 			<t> Applied RFC 6859 update. </t>
 
 			<t> Applied errata #232. </t>
+
+			<t> Applied errata #4179. </t>
 
 			<t> A few grammatical corrections. </t>
 		    </list> </t>
