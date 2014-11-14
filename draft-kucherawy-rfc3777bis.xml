@@ -7,7 +7,7 @@
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="3777, 5078, 5633, 5680, 6859"
-        docName="draft-kucherawy-rfc3777bis-02">
+        docName="draft-kucherawy-rfc3777bis-03">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -693,7 +693,7 @@
 
 		<section anchor="sel_structure" title="Structure">
 			<t> The nominating committee comprises at least a
-			    Chair, 10 voting volunteers, four liaisons, and
+			    Chair, 10 voting volunteers, three liaisons, and
 			    an advisor. </t>
 
 			<t> Any committee member may propose the addition of
@@ -1952,7 +1952,9 @@
 
 		<t> Jari Arkko was very helpful by independently verifying
 		    that the previous text from all the merged documents was
-		    marshaled correctly into this one. </t>
+		    marshaled correctly into this one, and Adrian Farrell
+		    and Brian Carpenter caught the nits that fell through
+		    the cracks. </t>
 	</section>
 </back>
 
