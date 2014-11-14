@@ -7,7 +7,7 @@
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="3777, 5078, 5633, 5680, 6859"
-        docName="draft-kucherawy-rfc3777bis-01">
+        docName="draft-kucherawy-rfc3777bis-02">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -718,7 +718,7 @@
 			<t> The 10 voting volunteers are selected according
 			    to rules stated elsewhere in this document. </t>
 
-			<t> The IESG, IAB, and IAOC liaisons are selected
+			<t> The IESG and IAB liaisons are selected
 			    according to rules stated elsewhere in this
 			    document. </t>
 
@@ -810,7 +810,7 @@
 			    provide information as requested or when they
 			    believe it would be helpful to the committee. </t>
 
-			<t> Liaisons from the IESG, IAB, and IAOC are expected
+			<t> Liaisons from the IESG and IAB are expected
 			    to provide information to the nominating committee
 			    regarding the operation, responsibility, and
 			    composition of their respective bodies. </t>
@@ -820,7 +820,7 @@
 			    responses to those questions to the committee, as
 			    requested by the committee. </t>
 
-			<t> Liaisons from the IESG, IAB, IAOC, and Internet
+			<t> Liaisons from the IESG, IAB, and Internet
 			    Society Board of Trustees (if one was appointed)
 			    are expected to review the operation and executing
 			    process of the nominating committee and to report
@@ -846,7 +846,7 @@
 		</section>
 
 		<section anchor="sel_liaisons_2" title="Liaison Appointment">
-			<t> The sitting IAOC, IAB, and IESG members each
+			<t> The sitting IAB and IESG members each
 			    appoint a liaison from their current membership,
 			    someone who is not sitting in an open position, to
 			    serve on the nominating committee. </t>
@@ -1726,6 +1726,8 @@
 
 			<t> Applied RFC 6859 update. </t>
 
+			<t> Applied errata #232. </t>
+
 			<t> A few grammatical corrections. </t>
 		    </list> </t>
 	</section>
@@ -1831,7 +1833,7 @@
 				nominating committee members. [1] </t>
 
 			<t hangText="2."> The Chair contacts the IESG, IAB,
-				IAOC, and Internet Society Board of Trustees
+				and Internet Society Board of Trustees
 				and requests a liaison.  The Chair contacts
 				the prior year's Chair and requests an
 				advisor.  The Chair obtains the list of IESG,
