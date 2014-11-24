@@ -1,0 +1,51 @@
+dbound charter
+
+Various Internet protocols and applications require some mechanism for
+determining whether two Domain Name System (DNS) names are related.  A
+popular example is the need to determine whether example.com and
+foo.example.com are related; though to humans the answer to this may be
+obvious, it is difficult to establish this programatically.
+
+The particular issue is that there is structure imposed by users and by the
+domain name registration system that is independent of the architecture and
+protocol upon which the DNS is built.
+
+In the realm of email, there is a desire to map an arbitrary domain name to
+the registered domain name somewhere in the tree above it, in order to
+identify a deterministic location where some sort of statement of policy
+regarding that domain name can be found.  With respect to the web, there
+is a similar practice of identifying domains as related as long as they
+share a common ancestor.  However, there is an additional need for the
+capability to declare relationships between arbitrary names.
+
+Previous work such as Author Domain Signing Practices (ADSP; RFC5617) and
+Sender Policy Framework (SPF; RFC7008), and current work such as DMARC
+(draft-kucherawy-dmarc-base), would certainly benefit from having this
+capability.
+
+Currently, the only solution in existence is maintained by a web browser
+producer, known as the Public Suffix List.  This list, which is maintained
+by volunteers on a best-effort basis, contains a list of points in the DNS
+tree at which registrations take place.  When this list is inaccurate, it
+exposes a deviation with reality that degrades service to some and can be
+exploited by others.
+
+The DBOUND working group will develop one or more solutions to this family
+of problems.  If possible, a unified solution will be developed.  However,
+the working group may discover that the email, web, and equivalence problems
+require independent solutions, in which case the working group will follow
+that path.  The solutions may or may not involve changes to the DNS, such
+as creation of new resource record types; in any case, all such changes
+will be incremental only.
+
+This working group will not seek to amend the consumer protocols themselves
+(i.e., any web or mail standards) without rechartering, and only after
+completion of the base work.  Any such work undertaken in parallel will
+need to be done as individual or independent submissions, or in another
+working group.
+
+Milestones:
+- TBD
+
+Co-chairs:
+- TBD
