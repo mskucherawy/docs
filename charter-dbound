@@ -46,7 +46,7 @@ that path.  The solutions may or may not involve changes to the DNS, such
 as creation of new resource record types; in any case, all such changes
 will be incremental only.
 
-This working group will not seek to amend the consumer protocols themselves
+This working group will not seek to amend the consuming protocols themselves
 (i.e., any web or mail standards) without rechartering, and only after
 completion of the base work.  Any such work undertaken in parallel will
 need to be done as individual or independent submissions, or in another
