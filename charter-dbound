@@ -31,8 +31,9 @@ somewhere in the tree above it, in order to identify a deterministic
 location where some sort of statement of policy regarding that domain
 name can be found.  With respect to the web, there is a similar practice
 of identifying domains as related as long as they share a common ancestor.
-However, there is an additional need for the capability to declare
-relationships between arbitrary names.
+However, there is an additional desire for the capability to declare
+relationships between arbitrary names irrespective of their relative
+locations in the DNS tree.
 
 Previous work such as Author Domain Signing Practices (ADSP; RFC5617), and
 current work such as DMARC (draft-kucherawy-dmarc-base), would certainly
