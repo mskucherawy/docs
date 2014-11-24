@@ -4,7 +4,8 @@ Various Internet protocols and applications require some mechanism for
 determining whether two Domain Name System (DNS) names are related.  A
 popular example is the need to determine whether example.com and
 foo.example.com are related; though to humans the answer to this may be
-obvious, it is difficult to establish this programatically.
+obvious, it is difficult to establish this programatically since the
+right answer is not always "compare the rightmost two labels".
 
 The particular issue is that there is structure imposed by users and by the
 domain name registration system that is independent of the architecture and
