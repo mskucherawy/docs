@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="us-ascii"?>
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC3710 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3710.xml">
   <!ENTITY RFC3777 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3777.xml">
   <!ENTITY RFC3797 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3797.xml">
   <!ENTITY RFC4071 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4071.xml">
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="3777, 5078, 5633, 5680, 6859"
-        docName="draft-kucherawy-rfc3777bis-03">
+        docName="draft-kucherawy-rfc3777bis-04">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -153,6 +154,11 @@
 				at the Third IETF (not three meetings) after
 				the next nominating committee's term
 				begins. </t>
+
+			<t hangText="IETF Executive Director:"> The person
+				charged with operation of the IETF
+				Secretariat function.  (See Section 2 of
+				<xref target="RFC3710"/>). </t>
 
 			<t hangText="nominee:"> A person who is being or has
 				been considered for one or more open positions
@@ -1703,6 +1709,7 @@
 
 <back>
 	<references title="Normative References">
+		&RFC3710;
 		&RFC3777;
 		&RFC4071;
 	</references>
@@ -1716,7 +1723,7 @@
 			<t> Converted from nroff to xml2rfc, resulting in
 			    some reformatting. </t>
 
-			<t> Applied RFC 3777 errata. </t>
+			<t> Applied RFC 3777 errata (#232 and #4179). </t>
 
 			<t> Applied RFC 5078 update. </t>
 
@@ -1728,9 +1735,9 @@
 
 			<t> Applied errata #232. </t>
 
-			<t> Applied errata #4179. </t>
-
 			<t> A few grammatical corrections. </t>
+
+			<t> Add reference to RFC 3710. </t>
 		    </list> </t>
 	</section>
 
