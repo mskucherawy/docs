@@ -10,11 +10,10 @@ answer is not always "compare the rightmost two labels".
 The particular issue is that there is structure imposed by users and by the
 domain name registration system that is independent of the architecture and
 protocol upon which the DNS is built.  Stated more generally, given two
-identifiers that happen to correspond to DNS domain names, the temptation
-thus far has been to seek a solution that emphasizes the nature and design of
-the DNS protocol.  This needs to be resisted; instead, a solution is needed
-that emphasizes the needs of the applications using the identifiers, not
-merely what the DNS can offer.
+domain names, the temptation thus far has been to seek a solution that
+emphasizes the nature and design of the DNS protocol.  This needs to be
+resisted; instead, a solution is needed that emphasizes the needs of the
+applications using the names, not merely what the DNS can offer.
 
 Currently, the only solution in existence is maintained by a web browser
 producer, known as the Public Suffix List.  This list, which is kept current
@@ -27,13 +26,13 @@ solving the wrong problem.
 
 In terms of specific use cases: Within the realm of email, there is a
 desire to map an arbitrary domain name to the registered domain name
-somewhere in the tree above it, in order to identify a deterministic
+somewhere in the tree, in order to identify a deterministic
 location where some sort of statement of policy regarding that domain
 name can be found.  With respect to the web, there is a similar practice
-of identifying domains as related as long as they share a common ancestor.
-However, there is an additional desire for the capability to declare
-relationships between arbitrary names irrespective of their relative
-locations in the DNS tree.
+of identifying domains as related as long as they share a common ancestor
+under the same management.  However, there is an additional desire for the
+capability to declare relationships between arbitrary names irrespective of
+their relative locations in the DNS tree.
 
 Previous work such as Author Domain Signing Practices (ADSP; RFC5617), and
 current work such as DMARC (draft-kucherawy-dmarc-base), would certainly
