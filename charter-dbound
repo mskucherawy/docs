@@ -9,30 +9,39 @@ answer is not always "compare the rightmost two labels".
 
 The particular issue is that there is structure imposed by users and by the
 domain name registration system that is independent of the architecture and
-protocol upon which the DNS is built.  Stated more generally, given two
-domain names, the temptation thus far has been to seek a solution that
-emphasizes the nature and design of the DNS protocol.  This needs to be
-resisted; instead, a solution is needed that emphasizes the needs of the
-applications using the names, not merely what the DNS can offer.
+protocol upon which the DNS is built.  Historically, solutions for
+identifying relationships between domain names have been based almost
+exclusively on the DNS namespace and protocol.  While this basis is often
+sufficient, the fact that it relies on assumptions stemming from the nature
+of the DNS makes such solutions unreliable and unnecessarily constrained.
+For example, confirming or dismissing a relationship between two domain names
+based on the existence of a zone cut or common ancestry is often unfounded.
 
-Currently, the only solution in existence is maintained by a web browser
-producer, known as the Public Suffix List.  This list, which is kept current
-by volunteers on a best-effort basis, contains a list of points in the DNS
-tree at which registrations take place.  When this list is inaccurate, it
-exposes a deviation with reality that degrades service to some and can be
-exploited by others.  It amounts to a third set of semantics imposed upon
-the DNS from without, creating unrealistic expectations and eventually
-solving the wrong problem.
+Currently, the most well known solution in existence is the Public Suffix
+List (PSL).  The PSL is maintained by a Web browser producer and is kept
+current by volunteers on a best-effort basis.  It contains a list of points
+in the DNS tree at which registrations take place and is used to identify
+the boundary between so-called "public" names (below which registrations
+can occur) and the private names (i.e., registered names) below them.
+When this list is inaccurate, it exposes a deviation with reality that
+degrades service to some and can be exploited by others.  Being the de
+facto resource, and lacking a more comprehensive, alternative solution for
+relationship identification, the functionality of the PSL has often been
+misused to accomplish means beyond its capabilities.  For example, there
+is no way to confirm the relationship between two domain names, only
+signal that there is or is not a public boundary between the two.
+Additionally, there are questions about the scalability, central management,
+and third-party management of the PSL as it currently exists.
 
 In terms of specific use cases: Within the realm of email, there is a
-desire to map an arbitrary domain name to the registered domain name
-somewhere in the tree, in order to identify a deterministic
+desire to map an arbitrary domain name to the organizational domain name
+(traditionally in the namespace above it), in order to identify a deterministic
 location where some sort of statement of policy regarding that domain
-name can be found.  With respect to the web, there is a similar practice
-of identifying domains as related as long as they share a common ancestor
-under the same management.  However, there is an additional desire for the
-capability to declare relationships between arbitrary names irrespective of
-their relative locations in the DNS tree.
+name can be found.  With respect to the web, there is a similar need
+to identify relationships between different domains, currently accomplished
+by comparing ancestries.  However, there is also desire to reliably
+identify relationships outside of the realm and constraints of the DNS
+namespace tree.
 
 Previous work such as Author Domain Signing Practices (ADSP; RFC5617), and
 current work such as DMARC (draft-kucherawy-dmarc-base), would certainly
