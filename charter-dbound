@@ -9,7 +9,7 @@ currently provide the ability to mark these sorts of relationships, which
 makes them impossible to discern with simple programming.  For example,
 the right answer is not always "compare the rightmost two labels".
 
-The particular issue is that there is administrative structure imposed by
+The particular issue is that there is policy structure imposed by
 organizations and by the domain name registration system that is independent
 of the architecture and protocol upon which the DNS is built.  Historically,
 solutions for identifying relationships between domain names have been based
