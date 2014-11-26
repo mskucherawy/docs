@@ -22,9 +22,10 @@ often unfounded.
 
 For the purposes of this work, domain names are approached as identifiers
 used in other services, and not as DNS names in themselves.  The working group
-is not chartered to do any work on management of the DNS itself.  The
+is not chartered to do any work on management of the DNS itself; the work
+here is entirely focused on the DNS namespace, and not the DNS protocol.  The
 structure of the DNS and the administrative boundaries in the DNS are
-entirely out of scope for the working group.
+thus entirely out of scope for the working group.
 
 Currently, the most well known solution in existence is the Public Suffix
 List (PSL).  The PSL is maintained by a Web browser producer and is kept
