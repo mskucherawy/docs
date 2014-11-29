@@ -1,13 +1,14 @@
 dbound charter
 
 Various Internet protocols and applications require some mechanism for
-determining whether two Domain Name System (DNS) names are related.  A
-popular example is the need to determine whether example.com and
-foo.example.com, or even example.net, are subject to the same administrative
-control.  To humans, the answer to this may be obvious.  However, the DNS
-does not currently provide the ability to mark these sorts of relationships.
-This makes it impossible to discern relationships algorithmically.  For
-example, the right answer is not always "compare the rightmost two labels".
+determining whether two domain names are related.  A popular example is
+the need to determine whether example.com and foo.example.com, or even
+example.net, are subject to the same administrative control.  To humans,
+the answer to this may be obvious.  However, the Domain Name System (DNS),
+which is the service that handles domain name queries, does not currently
+provide the ability to mark these sorts of relationships.  This makes it
+impossible to discern relationships algorithmically.  For example, the
+right answer is not always "compare the rightmost two labels".
 
 The particular issue is that applications and organizations impose
 policies and procedures that create additional structure in their use of
@@ -15,13 +16,13 @@ domain names.  This creates many possible relationships that are not
 evident in the names themselves or in the operational, public
 representation of the names.
 
-Historically, solutions for identifying relationships between domain names
-have relied primarily upon the DNS namespace and protocol.  While
-this basis is often sufficient, the fact that it relies on assumptions
-stemming from the nature of the DNS makes such solutions unreliable and
-unnecessarily constrained.  For example, confirming or dismissing a
-relationship between two domain names based on the existence of a zone cut
-or common ancestry is often unfounded.
+Prior solutions for identifying relationships between domain names
+have relied primarily upon the DNS namespace and protocol to provide
+a service that actually exists outside of both.  Relying on the DNS
+to do so thus renders such solutions unreliable and unnecessarily constrained.
+For example, confirming or dismissing a relationship between two domain
+names based on the existence of a zone cut or common ancestry is often
+unfounded.
 
 For the purposes of this work, domain names are approached as identifiers
 used in other services, independent of the DNS protocol and infrastructure.
@@ -33,10 +34,10 @@ in the DNS are thus entirely out of scope for the working group.
 Currently, the most well known solution in existence is the Public Suffix
 List (PSL).  The PSL is maintained by a Web browser producer and is kept
 current by volunteers on a best-effort basis.  It contains a list of points
-in the DNS tree at which registrations take place and is used to identify
-the boundary between so-called "public" names (below which registrations
-can occur) and the private names (i.e., registered names) below them.
-When this list is inaccurate, it exposes a deviation from reality that
+in the hierarchical namespace at which registrations take place, and is
+used to identify the boundary between so-called "public" names (below which
+registrations can occur) and the private names (i.e., registered names) below
+them.  When this list is inaccurate, it exposes a deviation from reality that
 degrades service to some and can be exploited by others.  Being the de
 facto resource, and lacking a more comprehensive, alternative solution for
 relationship identification, the functionality of the PSL has often been
