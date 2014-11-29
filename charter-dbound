@@ -19,17 +19,17 @@ representation of the names.
 Prior solutions for identifying relationships between domain names
 have relied primarily upon the DNS namespace and protocol to provide
 a service that actually exists outside of both.  Relying on the DNS
-to do so thus renders such solutions unreliable and unnecessarily constrained.
-For example, confirming or dismissing a relationship between two domain
-names based on the existence of a zone cut or common ancestry is often
-unfounded.
+to do so thus renders such solutions unreliable and unnecessarily
+constrained.  For example, confirming or dismissing a relationship between
+two domain names based on the existence of a zone cut or common ancestry
+is often unfounded, and the notion of an upward "tree walk" as a search
+mechanism is considered unacceptable.
 
 For the purposes of this work, domain names are approached as identifiers
-used in other services, independent of the DNS protocol and infrastructure.
-The working group is not chartered to do any work on management of the DNS
-itself; the work here is entirely focused on the DNS namespace, and not the
-DNS protocol.  The structure of the DNS and the administrative boundaries
-in the DNS are thus entirely out of scope for the working group.
+used by organizations and services, independent of underlying protocols
+or mechanisms.  Specifically, the work will not propose any changes to
+DNS protocols except the possible creation of new resource record types
+(RRTYPES).
 
 Currently, the most well known solution in existence is the Public Suffix
 List (PSL).  The PSL is maintained by a Web browser producer and is kept
