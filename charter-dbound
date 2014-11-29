@@ -36,11 +36,11 @@ List (PSL).  The PSL is maintained by a Web browser producer and is kept
 current by volunteers on a best-effort basis.  It contains a list of points
 in the hierarchical namespace at which registrations take place, and is
 used to identify the boundary between so-called "public" names (below which
-registrations can occur) and the private names (i.e., registered names) below
-them.  When this list is inaccurate, it exposes a deviation from reality that
-degrades service to some and can be exploited by others.  Being the de
-facto resource, and lacking a more comprehensive, alternative solution for
-relationship identification, the functionality of the PSL has often been
+registrations can occur) and the private names (i.e., organizational names)
+below them.  When this list is inaccurate, it exposes a deviation from
+reality that degrades service to some and can be exploited by others.  Being
+the de facto resource, and lacking a more comprehensive, alternative solution
+for relationship identification, the functionality of the PSL has often been
 misused to accomplish means beyond its capabilities.  For example, there
 is no way to confirm the relationship between two domain names, only
 signal that there is or is not a public boundary between the two.
@@ -49,7 +49,7 @@ and third-party management of the PSL as it currently exists.
 
 In terms of specific use cases: Within the realm of email, there is a
 desire to link an arbitrary fully-qualified domain name (FQDN) to the
-registered domain name (traditionally in the namespace above it),
+organizational domain name (at some point in the namespace above it),
 in order to identify a deterministic location where some sort of statement
 of policy regarding that FQDN can be found.  With respect to the
 web, there is a similar need to identify relationships between different
