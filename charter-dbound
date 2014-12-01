@@ -29,7 +29,10 @@ For the purposes of this work, domain names are approached as identifiers
 used by organizations and services, independent of underlying protocols
 or mechanisms.  Specifically, the work will not propose any changes to
 DNS protocols except the possible creation of new resource record types
-(RRTYPES).
+(RRTYPES).  Furthermore, we define an "organizational domain" to be a
+name that is at the top of an administrative hierarchy, defining transition
+from one "outside" administrative authority to another that is "inside" the
+organization.
 
 Currently, the most well known solution in existence is the Public Suffix
 List (PSL).  The PSL is maintained by a Web browser producer and is kept
