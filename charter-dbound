@@ -17,13 +17,14 @@ evident in the names themselves or in the operational, public
 representation of the names.
 
 Prior solutions for identifying relationships between domain names
-have relied primarily upon the DNS namespace and protocol to provide
-a service that actually exists outside of both.  Relying on the DNS
-to do so thus renders such solutions unreliable and unnecessarily
-constrained.  For example, confirming or dismissing a relationship between
-two domain names based on the existence of a zone cut or common ancestry
-is often unfounded, and the notion of an upward "tree walk" as a search
-mechanism is considered unacceptable.
+have sought to use the DNS namespace and protocol to extract that
+information when it isn't actually there; the concept of an administrative
+boundary is by definition not present in the DNS.  Relying on the DNS to 
+divine administrative structure thus renders such solutions unreliable and
+unnecessarily constrained.  For example, confirming or dismissing a
+relationship between two domain names based on the existence of a zone
+cut or common ancestry is often unfounded, and the notion of an upward
+"tree walk" as a search mechanism is considered unacceptable.
 
 For the purposes of this work, domain names are approached as identifiers
 used by organizations and services, independent of underlying protocols
