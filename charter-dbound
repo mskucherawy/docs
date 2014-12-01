@@ -5,8 +5,8 @@ determining whether two domain names are related.  A popular example is
 the need to determine whether example.com and foo.example.com, or even
 example.net, are subject to the same administrative control.  To humans,
 the answer to this may be obvious.  However, the Domain Name System (DNS),
-which is the service that handles domain name queries, does not currently
-provide the ability to mark these sorts of relationships.  This makes it
+which is the service that handles domain name queries, does not provide
+the ability to mark these sorts of relationships.  This makes it
 impossible to discern relationships algorithmically.  For example, the
 right answer is not always "compare the rightmost two labels".
 
