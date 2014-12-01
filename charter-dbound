@@ -1,17 +1,14 @@
 dbound charter
 
-Various Internet protocols and applications make administrative
-judgements on domain names they use, such as performing an authorization
-check.  Often times the judgement is applied to a domain name based on
-knowing something about another domain name, such as assuming
-foo.example.com is to be treated the same as example.com.  That use case
-is simple and could be summed up as "check the rightmost labels", but a
-slightly more complex use case could be to use the same judgements for
-example.net and example.com.  Relying on what exists in the Domain Name
-System (DNS) and using how it internally manages names has been tried
-unsuccessfully, with the root cause of failure being that the
-administrative judgements are based on protocol and application details
-beyond the scope of the DNS system.
+Various Internet protocols and applications require some mechanism for
+determining whether two domain names are related.  A popular example is
+the need to determine whether example.com and foo.example.com, or even
+example.net, are subject to the same administrative control.  To humans,
+the answer to this may be obvious.  However, the Domain Name System (DNS),
+which is the service that handles domain name queries, does not currently
+provide the ability to mark these sorts of relationships.  This makes it
+impossible to discern relationships algorithmically.  For example, the
+right answer is not always "compare the rightmost two labels".
 
 The particular issue is that applications and organizations impose
 policies and procedures that create additional structure in their use of
