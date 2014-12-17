@@ -26,11 +26,14 @@ relationship between two domain names based on the existence of a zone
 cut or common ancestry is often unfounded, and the notion of an upward
 "tree walk" as a search mechanism is considered unacceptable.
 
+A related problem is known as the "equivalence problem", which is a desire
+to express that two domains are equivalent, without using existing facilities
+like CNAME or DNAME that necessitate one of the names being authoritative
+over the other.
+
 For the purposes of this work, domain names are approached as identifiers
 used by organizations and services, independent of underlying protocols
-or mechanisms.  Specifically, the work will not propose any changes to
-DNS protocols except the possible creation of new resource record types
-(RRTYPES).  Furthermore, we define an "organizational domain" to be a
+or mechanisms.  Furthermore, we define an "organizational domain" to be a
 name that is at the top of an administrative hierarchy, defining transition
 from one "outside" administrative authority to another that is "inside" the
 organization.
@@ -69,9 +72,9 @@ The DBOUND working group will develop one or more solutions to this family
 of problems.  If possible, a unified solution will be developed.  However,
 the working group may discover that the email, web, equivalence, and
 possibly other problems require independent solutions, in which case the
-working group will follow that path.  The solutions may or may not involve
-changes to the DNS, such as creation of new resource record types; in any
-case, all such changes will be incremental only.
+working group will follow that path.  Solutions will not involve the proposal
+of any changes to the DNS except the possible creation of new resource
+record types, and a focus will be maintained on incremental changes only.
 
 This working group will not seek to amend the consuming protocols themselves
 (i.e., any web or mail standards) without rechartering, and only after
