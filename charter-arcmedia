@@ -1,0 +1,36 @@
+Archive formats are used to aggregate multiple files and other data
+into a single object, often with data compression and/or confidentiality
+protection (encryption).  This working group will create an "archive"
+top-level media type.
+
+There has been recent work to register media types for archive formats such
+as .tar (a POSIX standard format).  There are already several similar media
+types for archive formats, such as .gzip. and .zip. (see, for example,
+RFC6713), all of which are registered under the top-level media type
+"application".
+
+We create top-level media types only rarely, only with Standards Track RFCs,
+and only when one or more media types get special (or common, in the case
+of more than one) handling that does not fit under an existing top-level
+media type.  RFC6838 defines this process.
+
+The working group will use draft-seantek-kerwin-arcmedia-type as its
+initial input.  It will specify rules for registering subtypes under that
+new top-level type, considering at a minimum the issue of type suffixes.
+The W3C TAG work on packaging and archives, currently in progress, will also
+be observed.
+
+Either in that same document or in a second one, it will produce an initial
+set of registrations under the new top-level media type.
+
+The main document will include an Implementation Status section, described
+by RFC6982, to record known projects that will either produce or consume
+content using the new media type.  If by the first milestone there appears
+to be no implementations of the new media type expected, the working group
+will fold having produced no RFCs.
+
+No other work is in scope for this working group.
+
+Milestones:
+- Jun 2015: Base document
+- Dec 2015: Registrations document (if separate)
