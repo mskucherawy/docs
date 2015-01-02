@@ -1,14 +1,17 @@
 dbound charter
 
 Various Internet protocols and applications require some mechanism for
-determining whether two domain names are related.  A popular example is
-the need to determine whether example.com and foo.example.com, or even
-example.net, are subject to the same administrative control.  To humans,
-the answer to this may be obvious.  However, the Domain Name System (DNS),
-which is the service that handles domain name queries, does not provide
-the ability to mark these sorts of relationships.  This makes it
-impossible to discern relationships algorithmically.  For example, the
-right answer is not always "compare the rightmost two labels".
+determining whether two domain names are related. The DBOUND working
+group will develop one or more solutions to this family of problems.
+
+For example, it is often necessary or useful to determine whether
+example.com and foo.example.com, or even example.net, are subject to the
+same administrative control.  To humans, the answer to this may be
+obvious.  However, the Domain Name System (DNS), which is the service
+that handles domain name queries, does not provide the ability to mark
+these sorts of relationships.  This makes it impossible to discern
+relationships algorithmically. The right answer is not always "compare
+the rightmost two labels".
 
 The particular issue is that applications and organizations impose
 policies and procedures that create additional structure in their use of
@@ -16,79 +19,88 @@ domain names.  This creates many possible relationships that are not
 evident in the names themselves or in the operational, public
 representation of the names.
 
-Prior solutions for identifying relationships between domain names
-have sought to use the DNS namespace and protocol to extract that
-information when it isn't actually there; the concept of an administrative
-boundary is by definition not present in the DNS.  Relying on the DNS to 
-divine administrative structure thus renders such solutions unreliable and
-unnecessarily constrained.  For example, confirming or dismissing a
-relationship between two domain names based on the existence of a zone
-cut or common ancestry is often unfounded, and the notion of an upward
-"tree walk" as a search mechanism is considered unacceptable.
+A related problem is known as the "equivalence problem", which is a
+desire to express that two domains are equivalent, without using
+existing facilities like CNAME or DNAME that necessitate one of the
+names being authoritative over the other.
 
-A related problem is known as the "equivalence problem", which is a desire
-to express that two domains are equivalent, without using existing facilities
-like CNAME or DNAME that necessitate one of the names being authoritative
-over the other.
+Prior solutions for identifying relationships between domain names have
+sought to use the DNS namespace and protocol to extract that information
+when it isn't actually there.  See the "Additional Background
+Information" section, below, for more details.
 
-For the purposes of this work, domain names are approached as identifiers
-used by organizations and services, independent of underlying protocols
-or mechanisms.  Furthermore, we define an "organizational domain" to be a
-name that is at the top of an administrative hierarchy, defining transition
-from one "outside" administrative authority to another that is "inside" the
+For the purpose of this work, domain names are identifiers used by
+organizations and services, independent of underlying protocols or
+mechanisms.  We define an "organizational domain" to be a name that is
+at the top of an administrative hierarchy, defining transition from one
+"outside" administrative authority to another that is "inside" the
 organization.
 
-Currently, the most well known solution in existence is the Public Suffix
-List (PSL).  The PSL is maintained by a Web browser producer and is kept
-current by volunteers on a best-effort basis.  It contains a list of points
-in the hierarchical namespace at which registrations take place, and is
-used to identify the boundary between so-called "public" names (below which
-registrations can occur) and the private names (i.e., organizational names)
-below them.  When this list is inaccurate, it exposes a deviation from
-reality that degrades service to some and can be exploited by others.  Being
-the de facto resource, and lacking a more comprehensive, alternative solution
-for relationship identification, the functionality of the PSL has often been
-misused to accomplish means beyond its capabilities.  For example, there
-is no way to confirm the relationship between two domain names, only
-signal that there is or is not a public boundary between the two.
-Additionally, there are questions about the scalability, central management,
-and third-party management of the PSL as it currently exists.
+The DBOUND working group will develop a unified solution, if possible,
+for determining organizational domain boundaries.  However, the working
+group may discover that different solutions are needed for the email,
+web, and equivalence problems, and possibly also for other problems in
+this space.  Should that happen, the working group will develop those
+different solutions, using as many common pieces as it can.
 
-In terms of specific use cases: Within the realm of email, there is a
-desire to link an arbitrary fully-qualified domain name (FQDN) to the
-organizational domain name (at some point in the namespace above it),
-in order to identify a deterministic location where some sort of statement
-of policy regarding that FQDN can be found.  With respect to the
-web, there is a similar need to identify relationships between different
-FQDNs, currently accomplished by comparing ancestries.  However, there
-is also desire to reliably identify relationships outside of the realm
-and constraints of the namespace tree.
+Solutions will not involve the proposal of any changes to the DNS
+protocol.  They might involve the creation of new resource record types.
 
-Previous work such as Author Domain Signing Practices (ADSP; RFC5617), and
-current work such as DMARC (draft-kucherawy-dmarc-base), would certainly
-benefit from having this capability.
-
-The DBOUND working group will develop one or more solutions to this family
-of problems.  If possible, a unified solution will be developed.  However,
-the working group may discover that the email, web, equivalence, and
-possibly other problems require independent solutions, in which case the
-working group will follow that path.  Solutions will not involve the proposal
-of any changes to the DNS except the possible creation of new resource
-record types, and a focus will be maintained on incremental changes only.
-
-This working group will not seek to amend the consuming protocols themselves
-(i.e., any web or mail standards) without rechartering, and only after
-completion of the base work.  Any such work undertaken in parallel will
-need to be done as individual or independent submissions, or in another
-working group.
+This working group will not seek to amend the consuming protocols
+themselves (standards for any web, mail, or other such protocols)
+without rechartering, and such rechartering may only be considered after
+completion of the base work.
 
 The working group has some pre-IETF drafts to consider as possible
 starting points, which can be found here:
 
 	https://github.com/equalsJeffH/dbound
 
+
 Milestones:
 - TBD
 
 Co-chairs:
 - TBD
+
+
+Additional Background Information
+---------------------------------
+
+The concept of an administrative boundary is by definition not present
+in the DNS.  Relying on the DNS to divine administrative structure thus
+renders such solutions unreliable and unnecessarily constrained.  For
+example, confirming or dismissing a relationship between two domain
+names based on the existence of a zone cut or common ancestry is often
+unfounded, and the notion of an upward "tree walk" as a search mechanism
+is, therefore, unacceptable.
+
+Currently, the most well known solution in existence is the Public
+Suffix List (PSL).  The PSL is maintained by a web browser producer and
+is kept current by volunteers on a best-effort basis.  It contains a
+list of points in the hierarchical namespace at which registrations take
+place, and is used to identify the boundary between so-called "public"
+names (below which registrations can occur, such as ".com" or ".org.uk") and
+the private names (organizational names) below them.  When this list is
+inaccurate, it exposes a deviation from reality that degrades service to
+some and can be exploited by others.  As the PSL is the de-facto resource,
+and as there is not a more comprehensive, alternative solution for
+relationship identification, the PSL has often been misused to accomplish
+things beyond its capabilities.  For example, there is no way to confirm the
+relationship between two domain names -- the PSL may only signal that
+there is or is not a public boundary between the two. Additionally,
+there are questions about the scalability, central management, and
+third-party management of the PSL as it currently exists.
+
+In terms of specific use cases, within the realm of email there is a
+desire to link an arbitrary fully-qualified domain name (FQDN) to the
+organizational domain name (at some point in the namespace above it), in
+order to identify a deterministic location where some sort of statement
+of policy regarding that FQDN can be found.  With respect to the web,
+there is a similar need to identify relationships between different
+FQDNs, currently accomplished by comparing ancestries.  However, there
+is also desire to reliably identify relationships outside of the realm
+and constraints of the namespace tree.
+
+Work such as DMARC (draft-kucherawy-dmarc-base), would certainly benefit
+from having this capability.
