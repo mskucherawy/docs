@@ -81,16 +81,16 @@ is kept current by volunteers on a best-effort basis.  It contains a
 list of points in the hierarchical namespace at which registrations take
 place, and is used to identify the boundary between so-called "public"
 names (below which registrations can occur, such as ".com" or ".org.uk") and
-the private names (organizational names) below them.  When this list is
-inaccurate, it exposes a deviation from reality that degrades service to
-some and can be exploited by others.  As the PSL is the de-facto resource,
-and as there is not a more comprehensive, alternative solution for
-relationship identification, the PSL has often been misused to accomplish
-things beyond its capabilities.  For example, there is no way to confirm the
-relationship between two domain names -- the PSL may only signal that
-there is or is not a public boundary between the two. Additionally,
-there are questions about the scalability, central management, and
-third-party management of the PSL as it currently exists.
+the private names (organizational names) that domain registrars create within
+them.  When this list is inaccurate, it exposes a deviation from reality that
+degrades service to some and can be exploited by others.  As the PSL is the
+de-facto resource, and as there is not a more comprehensive, alternative
+solution for relationship identification, the PSL has often been misused
+to accomplish things beyond its capabilities.  For example, there is no way
+to confirm the relationship between two domain names -- the PSL may only
+signal that there is or is not a public boundary between the two.
+Additionally, there are questions about the scalability, central management,
+and third-party management of the PSL as it currently exists.
 
 In terms of specific use cases, within the realm of email there is a
 desire to link an arbitrary fully-qualified domain name (FQDN) to the
