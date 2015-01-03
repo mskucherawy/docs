@@ -18,7 +18,7 @@ The working group will use draft-seantek-kerwin-arcmedia-type as its
 initial input.  It will specify rules for registering subtypes under that
 new top-level type, considering at a minimum the issue of type suffixes,
 fragment identifiers, and internationalization.  The W3C TAG work on
-packaging and archives, currently in progress, will also be observed.
+packaging and archives, currently in progress, will also be considered.
 
 Either in that same document or in a second one, it will produce an initial
 set of registrations under the new top-level media type.
