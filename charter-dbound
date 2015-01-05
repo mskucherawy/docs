@@ -38,17 +38,16 @@ organization.
 
 The DBOUND working group will develop a unified solution, if possible,
 for determining organizational domain boundaries.  However, the working
-group may discover that different solutions are needed for the email,
-web, and equivalence problems, and possibly also for other problems in
-this space.  Should that happen, the working group will develop those
-different solutions, using as many common pieces as it can.
+group may discover that different solutions are needed to solve different
+usage requirements.  Should that happen, the working group will
+develop those different solutions, using as many common pieces as it can.
 
 Solutions will not involve the proposal of any changes to the DNS
 protocol.  They might involve the creation of new resource record types.
 
 This working group will not seek to amend the consuming protocols
-themselves (standards for any web, mail, or other such protocols)
-without rechartering, and such rechartering may only be considered after
+themselves (standards for any web, email, or other such protocols)
+without rechartering, and such rechartering will only be considered after
 completion of the base work.
 
 The working group has some pre-IETF drafts to consider as possible
