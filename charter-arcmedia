@@ -20,8 +20,9 @@ new top-level type, considering at a minimum the issue of type suffixes,
 fragment identifiers, and internationalization.  The W3C TAG work on
 packaging and archives, currently in progress, will also be considered.
 
-Either in that same document or in a second one, it will produce an initial
-set of registrations under the new top-level media type.
+Either in that same document or in one or more follow-on documents, it
+will produce an initial set of registrations under the new top-level
+media type.
 
 The main document will include an Implementation Status section, described
 by RFC6982, to record known projects that will either produce or consume
