@@ -1705,6 +1705,12 @@
 		    observe the same confidentiality rules as the nominating
 		    committee itself. </t>
 	</section>
+
+	<section anchor="changes" title="Changes Since RFC 7437">
+		<t> <list style="symbols">
+			<t> TBD </t>
+		    </list> </t>
+	</section>
 </middle>
 
 <back>
@@ -1717,12 +1723,6 @@
 	<references title="Informative References">
 		&RFC3797;
 	</references>
-
-	<section anchor="changes" title="Changes Since RFC 7437">
-		<t> <list style="symbols">
-			<t> TBD </t>
-		    </list> </t>
-	</section>
 
 	<section anchor="oral" title="Oral Tradition">
 		<t> Over the years, various nominating committees have learned
