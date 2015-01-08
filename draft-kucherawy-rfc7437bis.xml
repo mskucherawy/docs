@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="US-ASCII"?>
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!ENTITY RFC3710 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3710.xml">
@@ -8,7 +8,7 @@
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="7437"
-        docName="draft-kucherawy-rfc7437bis-00">
+        docName="draft-kucherawy-rfc7437bis-01">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -16,7 +16,7 @@
 <?rfc tocdepth="2" ?>
 <?rfc symrefs="yes" ?>
 <?rfc sortrefs="yes"?>
-<?rfc strict="no" ?>
+<?rfc compact="yes" ?>
 <?rfc rfcedstyle="yes"?>
 <?rfc subcompact="no"?>
 
@@ -38,7 +38,7 @@
 				<city>San Francisco</city>
 				<region>CA</region>
 				<code>94127</code>
-				<country>USA</country>
+				<country>United States</country>
 			</postal>
 
 			<email>superuser@gmail.com</email>
@@ -48,6 +48,10 @@
 	<date year="2015"/>
 
 	<area>General</area>
+
+
+<keyword>example</keyword>
+
 
 	<abstract>
 		<t> The process by which the members of the IAB and IESG,
@@ -80,7 +84,7 @@
 			    Internet Research Steering Group (IRSG) are not a
 			    part of the process described here. </t>
 
-			<t> The organization (and re-organization) of the IESG
+			<t> The organization (and reorganization) of the IESG
 			    is not a part of the process described here. </t>
 		    </list> </t>
 
@@ -98,7 +102,7 @@
 		    topics as follows:
 
 		    <list style="hanging">
-			<t hangText="General:"> This a set of rules and
+			<t hangText="General:"> This is a set of rules and
 				constraints that apply to the selection and
 				confirmation process as a whole. </t>
 
@@ -223,7 +227,7 @@
 			    open positions to be reviewed; it is instructed
 			    as to which positions to review. </t>
 
-			<t> The nominating committee will be given the title
+			<t> The nominating committee will be given the titles
 			    of the positions to be reviewed and a brief
 			    summary of the desired expertise of the candidate
 			    that is nominated to fill each position. </t>
@@ -248,14 +252,14 @@
 			    IESG and IAB positions, and one IAOC position, is
 			    selected to be reviewed each year. </t>
 
-			<t> The intent of this rule to ensure the review of
+			<t> The intent of this rule is to ensure the review of
 			    approximately one-half of each of the IESG and IAB
 			    sitting members, and one of the two nominated
 			    IAOC positions, each year.  It is recognized that
 			    circumstances may exist that will require the
 			    nominating committee to review more or less than
 			    the usual number of positions, e.g., if the
-			    IESG, IAB, or IAOC have re-organized prior to this
+			    IESG, IAB, or IAOC have reorganized prior to this
 			    process and created new positions, if there are
 			    an odd number of current positions, or if a member
 			    unexpectedly resigns. </t>
@@ -263,7 +267,7 @@
 
 		<section anchor="gen_terms" title="Term Lengths">
 			<t> Confirmed candidates are expected to serve at
-			    least a two year term. </t>
+			    least a two-year term. </t>
 
 			<t> The intent of this rule is to ensure that members
 			    of the IESG, IAB, and IAOC serve the number of
@@ -296,7 +300,7 @@
 			    meeting corresponding to the beginning of the term
 			    for which they were confirmed. </t>
 
-			<t> For confirmed candidates of the IESG the terms
+			<t> For confirmed candidates of the IESG, the terms
 			    begin no later than when the currently sitting
 			    members' terms end on the last day of the meeting.
 			    A term may begin or end no sooner than the first
@@ -317,7 +321,7 @@
 			    after the confirmation. </t>
 		</section>
 
-		<section anchor="gen_vacancies" title="Mid-Term Vacancies">
+		<section anchor="gen_vacancies" title="Mid-term Vacancies">
 			<t> Mid-term vacancies are filled by the same rules
 			    as documented here with four qualifications,
 			    namely:
@@ -356,16 +360,16 @@
 				    <list style="letters">
 					<t> the remainder of the term of the
 					    open position if that remainder
-					    is not less than one year; or </t>
+					    is not less than one year or </t>
 
 					<t> the remainder of the term of the
-					    open position plus the next two
-					    year term if that remainder is
+					    open position plus the next two-year
+					    term if that remainder is
 					    less than one year. </t>
 				    </list> </t>
 			        </list> </t>
 
-			<t> In both cases a year is the period of time from a
+			<t> In both cases, a year is the period of time from a
 			    First IETF meeting to the next First IETF
 			    meeting. </t>
 		</section>
@@ -419,14 +423,14 @@
 			    committee has completed its deliberations. </t>
 
 			<t> Nominees may choose to ask people to provide
-			    feedback to the nominating committee, but should
+			    feedback to the nominating committee but should
 			    not encourage any public statements of support.
 			    Nominating committees should consider
 			    nominee-encouraged lobbying and campaigning to be
 			    unacceptable behavior. </t>
 
 			<t> IETF community members are encouraged to provide
-			    feedback on nominees to the nominating committee,
+			    feedback on nominees to the nominating committee
 			    but should not post statements of support/non-support
 			    for nominees in any public forum. </t>
 		</section>
@@ -443,7 +447,7 @@
 				    IAOC positions to be reviewed. </t>
 
 				<t> The IESG, IAB, and IAOC are responsible for
-				    providing summary of the expertise desired
+				    providing a summary of the expertise desired
 				    of the candidates selected for their
 				    respective open positions to the Executive
 				    Director.  The summaries are provided to
@@ -486,7 +490,7 @@
 				    the confirming bodies and shared within
 				    the confirming body, the results of
 				    interactions within the confirming bodies,
-				    and the confirming bodies interpretation
+				    and the confirming bodies' interpretation
 				    of what is in the best interests of the
 				    IETF community. </t>
 
@@ -548,9 +552,9 @@
 		</section>
 
 		<section anchor="gen_sitting" title="Sitting Members">
-			<t> The following rules apply to nominees candidates
+			<t> The following rules apply to nominees and candidates
 			    who are currently sitting members of the IESG, IAB,
-			    or IAOC, and who are not sitting in an open
+			    or IAOC and who are not sitting in an open
 			    position being filled by the nominating
 			    committee. </t>
 
@@ -670,16 +674,16 @@
 			    before preparing for the Third IETF. </t>
 
 			<t> A nominating committee is expected to complete
-			    any work-in-progress before it is dissolved at
+			    any work in progress before it is dissolved at
 			    the end of its term. </t>
 
-			<t> During the period of time that the terms of the
+			<t> During the period of time when the terms of the
 			    nominating committees overlap, all mid-term
 			    vacancies are to be relegated to the prior year's
 			    nominating committee.  The prior year's nominating
 			    committee has no other responsibilities during the
 			    overlap period.  At all times other than the
-			    overlap period there is exactly one official
+			    overlap period, there is exactly one official
 			    nominating committee and it is responsible for
 			    all mid-term vacancies. </t>
 
@@ -689,7 +693,7 @@
 			    committees operate independently.  However, some
 			    coordination is needed between them.  Since the
 			    prior year's Chair is a non-voting advisor to the
-			    current nominating committee the coordination is
+			    current nominating committee, the coordination is
 			    expected to be straightforward. </t>
 		</section>
 
@@ -732,7 +736,7 @@
 			    serves as an advisor according to rules stated
 			    elsewhere in this document. </t>
 
-			<t> None of the Chair, liaisons, or advisors vote on
+			<t> The Chair, liaisons, and advisors do not vote on
 			    the selection of candidates.  They do vote on all
 			    other issues before the committee unless otherwise
 			    specified in this document. </t>
@@ -928,7 +932,7 @@
 
 		<section anchor="sel_positions" title="Open Positions">
 			<t> The Chair (or the IETF Executive Director, if no
-			    Chair has been named four weeks after the first IETF
+			    Chair has been named four weeks after the First IETF
 			    meeting of the year) obtains the list of positions
 			    to be reviewed and announces it along with a
 			    solicitation for names of volunteers from the IETF
@@ -1083,21 +1087,21 @@
 			    the Chair who will determine the appropriate
 			    action. </t>
 
-			<t> During at least the one week challenge period the
+			<t> During at least the one week challenge period, the
 			    Chair must contact each of the members and confirm
 			    their willingness and availability to serve.  The
 			    Chair should make every reasonable effort to contact
 			    each member.
 
 			    <list style="symbols">
-				<t> If the Chair is unable to contact a liaison
+				<t> If the Chair is unable to contact a liaison,
 				    the problem is referred to the respective
 				    organization to resolve.  The Chair should
 				    allow a reasonable amount of time for the
 				    organization to resolve the problem and then
 				    may proceed without the liaison. </t>
 
-				<t> If the Chair is unable to contact an advisor
+				<t> If the Chair is unable to contact an advisor,
 				    the Chair may elect to proceed without the
 				    advisor, except for the prior year's Chair
 				    for whom the Chair must consult with the
@@ -1105,7 +1109,7 @@
 				    elsewhere in this document. </t>
 
 				<t> If the Chair is unable to contact a voting
-				    volunteer the Chair must repeat the random
+				    volunteer, the Chair must repeat the random
 				    selection process in order to replace the
 				    unavailable volunteer.  There should be at
 				    least one day between the announcement of
@@ -1186,7 +1190,7 @@
 			    confirming body is due within three months. </t>
 
 			<t> The completion of the selection process is due at
-			    least two month's prior to the First IETF.  This
+			    least two months prior to the First IETF.  This
 			    ensures the nominating committee has sufficient time
 			    to complete the confirmation process. </t>
 		</section>
@@ -1200,18 +1204,18 @@
 		</section>
 
 		<section anchor="op_milestones" title="Milestones">
-			<t> The Chair must establish for the nominating
-			    committee a set of milestones for the candidate
+			<t> The Chair must establish
+			    a set of nominating committee milestones for the candidate
 			    selection and confirmation process. </t>
 
 			<t> There is a defined time period during which the
 			    candidate selection and confirmation process must be
 			    completed.  The Chair must establish a set of
-			    milestones which, if met in a timely fashion, will
+			    milestones that, if met in a timely fashion, will
 			    result in the completion of the process on time.
 			    The Chair should allow time for iterating the
 			    activities of the committee if one or more
-			    candidates is not confirmed. </t>
+			    candidates are not confirmed. </t>
 
 			<t> The Chair should ensure that all committee members
 			    are aware of the milestones. </t>
@@ -1232,11 +1236,11 @@
 			    participate in a vote. </t>
 
 			<t> Only voting volunteers vote on a candidate
-			    selection.  For a candidate selection vote a
+			    selection.  For a candidate selection vote, a
 			    quorum is comprised of at least seven of the
 			    voting volunteers. </t>
 
-			<t> At all other times a quorum is present if at
+			<t> At all other times, a quorum is present if at
 			    least 75% of the nominating committee members are
 			    participating. </t>
 		</section>
@@ -1250,7 +1254,7 @@
 			<t> There are a variety of ordinary circumstances that
 			    may arise that could result in one or more members
 			    of the committee being unavailable to complete their
-			    assigned duties, for example health concerns, family
+			    assigned duties, for example, health concerns, family
 			    issues, or a change of priorities at work.  A
 			    committee member may choose to resign for
 			    unspecified personal reasons.  In addition, the
@@ -1262,12 +1266,12 @@
 			    committee members can not work out their differences
 			    between themselves, the entire committee may be
 			    called upon to discuss and review the
-			    circumstances.  If a resolution is not forthcoming a
+			    circumstances.  If a resolution is not forthcoming, a
 			    vote may be conducted.  A member may be recalled if
 			    at least a quorum of all committee members agree,
 			    including the vote of the member being recalled. </t>
 
-			<t> If a liaison member is recalled the committee must
+			<t> If a liaison member is recalled, the committee must
 			    notify the affected organization and must allow a
 			    reasonable amount of time for a replacement to be
 			    identified by the organization before
@@ -1286,7 +1290,7 @@
 			    nominating committee is vacated, regardless of the
 			    circumstances, the committee may choose to proceed
 			    with only nine voting volunteers at its own
-			    discretion.  In all other cases a new voting member
+			    discretion.  In all other cases, a new voting member
 			    must be selected, and the Chair must repeat the
 			    random selection process including an announcement
 			    of the iteration prior to the actual selection as
@@ -1457,17 +1461,17 @@
 			    position that is being filled, which may be exactly
 			    the expertise that was requested.  If the
 			    qualifications differ from the expertise originally
-			    requested a brief statement explaining the
+			    requested, a brief statement explaining the
 			    difference must be included. </t>
 
-			<t> The testimony may include either or both of a brief
-			    resume of the candidate and a brief summary of the
+			<t> The testimony may include a brief
+			    resume of the candidate and/or a brief summary of the
 			    deliberations of the nominating committee. </t>
 		</section>
 
 		<section anchor="op_announce_2" title="Confirming Candidates">
 			<t> Confirmed candidates must consent to their
-			    confirmation and rejected candidates and nominees
+			    confirmation, and rejected candidates and nominees
 			    must be notified before confirmed candidates are
 			    announced. </t>
 
@@ -1494,7 +1498,7 @@
 		<section anchor="op_archive" title="Archives">
 			<t> The nominating committee should archive the
 			    information it has collected or produced for a
-			    period of time not to exceed its term. </t>
+			    period of time but not to exceed its term. </t>
 
 			<t> The purpose of the archive is to assist the
 			    nominating committee should it be necessary for it
@@ -1518,7 +1522,7 @@
 		    document. </t>
 
 		<t> The nominating committee operates under a strict rule of
-		    confidentiality.  For this reason when process issues arise
+		    confidentiality.  For this reason, when process issues arise,
 		    it is best to make every reasonable effort to resolve them
 		    within the committee.  However, when circumstances do not
 		    permit this or no resolution is forthcoming, the process
@@ -1628,7 +1632,7 @@
 		</section>
 
 		<section anchor="recall_chair" title="Recall Committee Chair">
-			<t> Internet Society President shall appoint a Recall
+			<t> The Internet Society President shall appoint a Recall
 			    Committee Chair. </t>
 
 			<t> The Internet Society President must not evaluate the
@@ -1670,7 +1674,7 @@
 		</section>
 
 		<section anchor="recall_position" title="Position To Be Filled">
-			<t> If a sitting member is recalled the open position is
+			<t> If a sitting member is recalled, the open position is
 			    to be filled according to the mid-term vacancy
 			    rules. </t>
 		</section>
@@ -1721,7 +1725,7 @@
 	</section>
 
 	<section anchor="oral" title="Oral Tradition">
-		<t> Over the years various nominating committees have learned
+		<t> Over the years, various nominating committees have learned
 		    through oral tradition passed on by liaisons that there are
 		    certain consistencies in the process and information
 		    considered during deliberations.  Some items from that oral
@@ -1801,13 +1805,13 @@
 		    </list> </t>
 
 		<t> The following list captures the details of the milestones
-		    within each component.  For illustrative purposes the
+		    within each component.  For illustrative purposes, the
 		    list presumes the Friday before the First IETF is
 		    March 1.  Numbers shown in square brackets indicate the
 		    expected number of weeks at each step.
 
-		    <list style="hanging">
-			<t hangText="0."> BEGIN Eight Months Prior to First
+		    <list style="numbers">
+			<t> BEGIN Eight Months Prior to First
 				IETF (approx. June 1); Internet Society
 				President appoints the Chair.  The appointment
 				must be done no later than the Second IETF or
@@ -1816,11 +1820,11 @@
 				recognized during a plenary session of the
 				Second IETF. [0] </t>
 
-			<t hangText="1."> The Chair establishes and announces
+			<t> The Chair establishes and announces
 				milestones to ensure the timely selection of the
 				nominating committee members. [1] </t>
 
-			<t hangText="2."> The Chair contacts the IESG, IAB,
+			<t> The Chair contacts the IESG, IAB,
 				and Internet Society Board of Trustees
 				and requests a liaison.  The Chair contacts
 				the prior year's Chair and requests an
@@ -1828,14 +1832,14 @@
 				IAB, and IAOC open positions and descriptions
 				from the IETF Executive Director. [0] </t>
 
-			<t hangText="3."> The Chair announces the solicitation
+			<t> The Chair announces the solicitation
 				for voting volunteer members that must remain
 				open for at least 30 days.  The announcement
 				must be done no later than seven months and two
 				weeks prior to the First IETF (approx. June
 				15). [6] </t>
 
-			<t hangText="4."> After the solicitation closes the
+			<t> After the solicitation closes, the
 				Chair announces the pool of volunteers and the
 				date of the random selection, which must be at
 				least one week in the future.  The announcement
@@ -1843,43 +1847,43 @@
 				weeks prior to the First IETF (approx. July
 				15). [1] </t>
 
-			<t hangText="5."> On the appointed day the random
+			<t> On the appointed day, the random
 				selection occurs and the Chair announces the
 				members of the committee and the one week
 				challenge period.  The announcement must be done
 				no later than six months and one week prior to
 				the First IETF (approx. July 22). [1] </t>
 
-			<t hangText="6."> During the challenge period the Chair
+			<t> During the challenge period, the Chair
 				contacts each of the committee members and
 				confirms their availability to participate.
 				[0] </t>
 
-			<t hangText="7."> After the challenge period closes the
+			<t> After the challenge period closes, the
 				Chair announces the members of the committee and
 				its term begins.  The announcement must be done
 				no later than six months prior to the First
 				IETF (approx. August 1). [1] </t>
 
-			<t hangText="8."> The committee has one month during
+			<t> The committee has one month during
 				which it is to self-organize in preparation for
 				completing its assigned duties.  This must be
 				done no later than five months prior to the
 				First IETF (approx. September 15). [6] </t>
 
-			<t hangText="9."> END the Committee Member Selection
+			<t> END the Committee Member Selection
 				Process; BEGIN the Selection of Candidates; Time
 				is at least five months prior to the First IETF
 				(approx. September 22). [0] </t>
 
-			<t hangText="10."> The Chair establishes and announces
+			<t> The Chair establishes and announces
 				the milestones to ensure the timely selection of
 				the candidates, including a call for nominations
 				for the open positions.  The announcement must
 				be done no later than five months prior to the
 				First IETF (approx. October 1). [1] </t>
 
-			<t hangText="11."> Over the next three months the
+			<t> Over the next three months, the
 				nominating committee collects input and
 				deliberates.  It should plan to conduct
 				interviews and other consultations during the
@@ -1888,27 +1892,27 @@
 				months prior to the First IETF (approx. January
 				1). [17] </t>
 
-			<t hangText="12."> END the Selection of Candidates;
+			<t> END the Selection of Candidates;
 				BEGIN the Confirmation of Candidates; Time is
 				at least two months prior to the First IETF
-				(approx. January 1); [0] </t>
+				(approx. January 1). [0] </t>
 
-			<t hangText="13."> The committee presents its candidates
+			<t> The committee presents its candidates
 				to their respective confirming bodies.  The
 				presentation must be done no later than two
 				months prior to the First IETF (approx.
 				January 1). [0] </t>
 
-			<t hangText="14."> The confirming bodies have one month
+			<t> The confirming bodies have one month
 				to deliberate and, in communication with the
 				nominating committee, accept or reject
 				candidates. [4] </t>
 
-			<t hangText="15."> The Chair notifies advises
+			<t> The Chair notifies and advises
 				unsuccessful nominees that they have not been
 				selected. [1] </t>
 			
-			<t hangText="16."> The Chair announces the confirmed
+			<t> The Chair announces the confirmed
 				candidates.  The announcement must be done no
 				later than one month prior to the First IETF
 				(approx. February 1). [4] </t>
