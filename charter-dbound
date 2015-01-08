@@ -50,10 +50,9 @@ themselves (standards for any web, email, or other such protocols)
 without rechartering, and such rechartering will only be considered after
 completion of the base work.
 
-The working group has some pre-IETF drafts to consider as possible
-starting points, which can be found here:
+The working group has the following pre-IETF draft to consider:
 
-	https://github.com/equalsJeffH/dbound
+	draft-sullivan-dbound-problem-statement
 
 
 Milestones:
