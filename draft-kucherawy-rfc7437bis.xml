@@ -1942,6 +1942,9 @@
 	</section>
 
 	<section anchor="history" title="Change History">
+		<t> [RFC Editor: Please delete this section before
+		    publication.] </t>
+
 		<section title="RFC7437 to -00">
 			<t> <list style="symbols">
 				<t> Remove obsolete document references </t>
