@@ -1,28 +1,22 @@
-dbound charter
-
 Various Internet protocols and applications require some mechanism for
-determining whether two domain names are related. The DBOUND working
-group will develop one or more solutions to this family of problems.
+determining whether two domain names are related. The meaning of
+"related" in this context is not a unitart concept. The DBOUND working
+group will develop one or more solutions to this family of problems,
+and will clarify the types of relations relevant.
 
 For example, it is often necessary or useful to determine whether
-example.com and foo.example.com, or even example.net, are subject to the
-same administrative control.  To humans, the answer to this may be
-obvious.  However, the Domain Name System (DNS), which is the service
+example.com and foo.example.com, or even example.net, are subject to
+the same administrative control. To humans, the answer to this may be
+obvious. However, the Domain Name System (DNS), which is the service
 that handles domain name queries, does not provide the ability to mark
-these sorts of relationships.  This makes it impossible to discern
+these sorts of relationships. This makes it impossible to discern
 relationships algorithmically. The right answer is not always "compare
 the rightmost two labels".
 
-The particular issue is that applications and organizations impose
-policies and procedures that create additional structure in their use of
-domain names.  This creates many possible relationships that are not
-evident in the names themselves or in the operational, public
-representation of the names.
-
-A related problem is known as the "equivalence problem", which is a
-desire to express that two domains are equivalent, without using
-existing facilities like CNAME or DNAME that necessitate one of the
-names being authoritative over the other.
+Applications and organizations impose policies and procedures that
+create additional structure in their use of domain names. This creates
+many possible relationships that are not evident in the names
+themselves or in the operational, public representation of the names.
 
 Prior solutions for identifying relationships between domain names have
 sought to use the DNS namespace and protocol to extract that information
@@ -36,11 +30,17 @@ at the top of an administrative hierarchy, defining transition from one
 "outside" administrative authority to another that is "inside" the
 organization.
 
-The DBOUND working group will develop a unified solution, if possible,
-for determining organizational domain boundaries.  However, the working
-group may discover that different solutions are needed to solve different
-usage requirements.  Should that happen, the working group will
-develop those different solutions, using as many common pieces as it can.
+There are two broad use cases that seem to be common. The first is a
+"top ancestor organization" case. In this case, the goal is to find a
+single superordinate name in the DNS tree that can properly make
+assertions about the policies and procedures of subordinate names. The
+second is to determine, given two different names, whether they are
+governed by the same administrative authority. The goal of the DBOUND
+working group will develop a unified solution, if possible, for
+determining organizational domain boundaries. However, the working
+group may discover that the use cases require different solutions.
+Should that happen, the working group will develop those different
+solutions, using as many common pieces as it can.
 
 Solutions will not involve the proposal of any changes to the DNS
 protocol.  They might involve the creation of new resource record types.
@@ -50,20 +50,16 @@ themselves (standards for any web, email, or other such protocols)
 without rechartering, and such rechartering will only be considered after
 completion of the base work.
 
-The working group has the following pre-IETF draft to consider:
-
-	draft-sullivan-dbound-problem-statement
-
+The working group has a pre-IETF draft to consider as a possible
+starting point:  draft-sullivan-dbound-problem-statement
 
 Milestones:
-- TBD
-
-Co-chairs:
 - TBD
 
 
 Additional Background Information
 ---------------------------------
+[to be moved to a Wiki on chartering]
 
 The concept of an administrative boundary is by definition not present
 in the DNS.  Relying on the DNS to divine administrative structure thus
@@ -100,5 +96,5 @@ FQDNs, currently accomplished by comparing ancestries.  However, there
 is also desire to reliably identify relationships outside of the realm
 and constraints of the namespace tree.
 
-Work such as DMARC (draft-kucherawy-dmarc-base), would certainly benefit
+Work such as DMARC (draft-kucherawy-dmarc-base), will certainly benefit
 from having this capability.
