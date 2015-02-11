@@ -8,7 +8,7 @@
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="7437"
-        docName="draft-kucherawy-rfc7437bis-01">
+        docName="draft-kucherawy-rfc7437bis-02">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -699,7 +699,7 @@
 
 		<section anchor="sel_structure" title="Structure">
 			<t> The nominating committee comprises at least a
-			    Chair, 10 voting volunteers, two liaisons,
+			    Chair, 10 selecting volunteers, three liaisons,
 			    and an advisor. </t>
 
 			<t> Any committee member may propose the addition of
@@ -721,10 +721,14 @@
 			<t> The Chair is selected according to rules stated
 			    elsewhere in this document. </t>
 
-			<t> The 10 voting volunteers are selected according
-			    to rules stated elsewhere in this document. </t>
+			<t> The 10 selecting volunteers are selected according
+			    to rules stated elsewhere in this document.  The
+			    Chair may select an additional two volunteers to
+			    act as extras in case one or two of the original
+			    ten become unable to complete their
+			    obligations. </t>
 
-			<t> The IESG and IAB liaisons are selected
+			<t> The IESG, IAB, and IAOC liaisons are selected
 			    according to rules stated elsewhere in this
 			    document. </t>
 
@@ -768,7 +772,9 @@
 			<t> The Internet Society President appoints the
 			    Chair, who must meet the same requirements for
 			    membership in the nominating committee as a
-			    voting volunteer. </t>
+			    selecting volunteer.  Selection of someone
+			    with prior nominating committee experience is
+			    preferred. </t>
 
 			<t> The nominating committee Chair must agree to
 			    invest the time necessary to ensure that the
@@ -782,6 +788,21 @@
 			    of the appointment is necessary to ensure the
 			    annual process can complete at the time specified
 			    elsewhere in this document. </t>
+
+			<t> The Internet Society President has the discretion
+			    to appoint the Chair earlier than the Second
+			    IETF meeting in order to allow for additional
+			    training and transition time, especially when
+			    selecting a person who has no prior nominating
+			    committee experience. </t>
+
+			<t> At the Second IETF meeting, the new Chair
+			    appointment is to be announced.  Upon this
+			    announcement, the previous nominating committee
+			    Chair and volunteers should discard or destroy
+			    any materials they have accumulated (email
+			    messages, private keys, etc.) as the new Chair
+			    is now responsible for any open positions. </t>
 		</section>
 
 		<section anchor="sel_chair_temp" title="Temporary Chair">
@@ -816,7 +837,7 @@
 			    provide information as requested or when they
 			    believe it would be helpful to the committee. </t>
 
-			<t> Liaisons from the IESG and IAB are expected
+			<t> Liaisons from the IESG, IAB, and IAOC are expected
 			    to provide information to the nominating committee
 			    regarding the operation, responsibility, and
 			    composition of their respective bodies. </t>
@@ -826,7 +847,7 @@
 			    responses to those questions to the committee, as
 			    requested by the committee. </t>
 
-			<t> Liaisons from the IESG, IAB, and Internet
+			<t> Liaisons from the IESG, IAB, IAOC, and Internet
 			    Society Board of Trustees (if one was appointed)
 			    are expected to review the operation and executing
 			    process of the nominating committee and to report
@@ -847,12 +868,19 @@
 			    not conflict with any other provisions of this
 			    document. </t>
 
+			<t> Liaisons typically participate in candidate
+			    interviews or private nominating committee
+			    deliberations about candidates only to the extent
+			    necessary to meet their obligations as described
+			    above. </t>
+
 			<t> Liaisons do not vote on the selection of
 			    candidates. </t>
+
 		</section>
 
 		<section anchor="sel_liaisons_2" title="Liaison Appointment">
-			<t> The sitting IAB and IESG members each
+			<t> The sitting IAB, IESG, and IAOC members each
 			    appoint a liaison from their current membership,
 			    someone who is not sitting in an open position, to
 			    serve on the nominating committee. </t>
@@ -881,7 +909,7 @@
 			    document. </t>
 
 			<t> The prior year's Chair may select a designee from
-			    a pool composed of the voting volunteers of the
+			    a pool composed of the selecting volunteers of the
 			    prior year's committee and all prior Chairs if the
 			    Chair is unavailable.  If the prior year's Chair is
 			    unavailable or is unable or unwilling to make such a
@@ -905,22 +933,23 @@
 			    designee. </t>
 		</section>
 
-		<section anchor="sel_volunteers" title="Voting Volunteers">
-			<t> Voting volunteers are responsible for completing the
-			    tasks of the nominating committee in a timely
+		<section anchor="sel_volunteers" title="Selecting Volunteers">
+			<t> Selecting volunteers are responsible for completing
+			    the tasks of the nominating committee in a timely
 			    fashion. </t>
 
-			<t> Each voting volunteer is expected to participate in
-			    all activities of the nominating committee with a
-			    level of effort approximately equal to all other
-			    voting volunteers.  Specific tasks to be completed
-			    are established and managed by the Chair according
-			    to rules stated elsewhere in this document. </t>
+			<t> Each selecting volunteer is expected to participate
+			    in all activities of the nominating committee with
+			    a level of effort approximately equal to all other
+			    selecting volunteers.  Specific tasks to be
+			    completed are established and managed by the Chair
+			    according to rules stated elsewhere in this
+			    document. </t>
 		</section>
 
 		<section anchor="sel_milestones" title="Milestones">
-			<t> The Chair must establish and announce milestones for
-			    the selection of the nominating committee
+			<t> The Chair must establish and announce milestones
+			    for the selection of the nominating committee
 			    members. </t>
 
 			<t> There is a defined time period during which the
@@ -932,12 +961,12 @@
 
 		<section anchor="sel_positions" title="Open Positions">
 			<t> The Chair (or the IETF Executive Director, if no
-			    Chair has been named four weeks after the First IETF
-			    meeting of the year) obtains the list of positions
-			    to be reviewed and announces it along with a
-			    solicitation for names of volunteers from the IETF
-			    community willing to serve on the nominating
-			    committee. </t>
+			    Chair has been named four weeks after the First
+			    IETF meeting of the year) obtains the list of
+			    positions to be reviewed and announces it along
+			    with a solicitation for names of volunteers from
+			    the IETF community willing to serve on the
+			    nominating committee. </t>
 
 			<t> If the IETF Executive Director issues the
 			    solicitation for volunteers, the IETF Executive
@@ -1008,7 +1037,7 @@
 
 		<section anchor="sel_process" title="Selection Process">
 			<t> The Chair announces both the list of the pool
-			    of volunteers from which the 10 voting volunteers
+			    of volunteers from which the 10 selecting volunteers
 			    will be randomly selected and the method with which
 			    the selection will be completed. </t>
 
@@ -1101,23 +1130,25 @@
 				    organization to resolve the problem and then
 				    may proceed without the liaison. </t>
 
-				<t> If the Chair is unable to contact an advisor,
-				    the Chair may elect to proceed without the
-				    advisor, except for the prior year's Chair
-				    for whom the Chair must consult with the
-				    Internet Society President as stated
-				    elsewhere in this document. </t>
+				<t> If the Chair is unable to contact an
+				    advisor, the Chair may elect to proceed
+				    without the advisor, except for the prior
+				    year's Chair for whom the Chair must
+				    consult with the Internet Society
+				    President as stated elsewhere in this
+				    document. </t>
 
 				<t> If the Chair is unable to contact a voting
 				    volunteer, the Chair must repeat the random
 				    selection process in order to replace the
 				    unavailable volunteer.  There should be at
 				    least one day between the announcement of
-				    the iteration and the selection process. </t>
+				    the iteration and the selection
+				    process. </t>
 			    </list> </t>
 
 			<t> After at least one week and confirming that 10
-			    voting volunteers are ready to serve, the Chair
+			    selecting volunteers are ready to serve, the Chair
 			    makes the second announcement of the members of the
 			    nominating committee, which officially begins the
 			    term of the nominating committee. </t>
@@ -1125,9 +1156,9 @@
 
 		<section anchor="sel_organize"
 		         title="Committee Organization">
-			<t> The Chair works with the members of the committee to
-			    organize itself in preparation for completing its
-			    assigned duties. </t>
+			<t> The Chair works with the members of the committee
+			    to organize itself in preparation for completing
+			    its assigned duties. </t>
 
 			<t> The committee has approximately one month during
 			    which it can self-organize.  Its responsibilities
@@ -1204,8 +1235,8 @@
 		</section>
 
 		<section anchor="op_milestones" title="Milestones">
-			<t> The Chair must establish
-			    a set of nominating committee milestones for the candidate
+			<t> The Chair must establish a set of nominating
+			    committee milestones for the candidate
 			    selection and confirmation process. </t>
 
 			<t> There is a defined time period during which the
@@ -1222,7 +1253,13 @@
 		</section>
 
 		<section anchor="op_voting" title="Voting Mechanism">
-			<t> The Chair must establish a voting mechanism. </t>
+			<t> The Chair must establish a voting mechanism.  The
+			    mechanism by which this is accomplished is left to
+			    the discretion of the Chair, but must be accepted
+			    by at least 75% of the selecting volunteers before
+			    the work of the committee can begin.  Once
+			    established, this procedure cannot be altered until
+			    the current nominating committee is dissolved. </t>
 
 			<t> The committee must be able to objectively determine
 			    when a decision has been made during its
@@ -1235,10 +1272,10 @@
 			<t> At least a quorum of committee members must
 			    participate in a vote. </t>
 
-			<t> Only voting volunteers vote on a candidate
+			<t> Only selecting volunteers vote on a candidate
 			    selection.  For a candidate selection vote, a
-			    quorum is comprised of at least seven of the
-			    voting volunteers. </t>
+			    quorum is comprised of at least two thirds of the
+			    selecting volunteers. </t>
 
 			<t> At all other times, a quorum is present if at
 			    least 75% of the nominating committee members are
@@ -1254,9 +1291,9 @@
 			<t> There are a variety of ordinary circumstances that
 			    may arise that could result in one or more members
 			    of the committee being unavailable to complete their
-			    assigned duties, for example, health concerns, family
-			    issues, or a change of priorities at work.  A
-			    committee member may choose to resign for
+			    assigned duties, for example, health concerns,
+			    family issues, or a change of priorities at work.
+			    A committee member may choose to resign for
 			    unspecified personal reasons.  In addition, the
 			    committee may not function well as a group because
 			    a member may be disruptive or otherwise
@@ -1266,10 +1303,12 @@
 			    committee members can not work out their differences
 			    between themselves, the entire committee may be
 			    called upon to discuss and review the
-			    circumstances.  If a resolution is not forthcoming, a
-			    vote may be conducted.  A member may be recalled if
-			    at least a quorum of all committee members agree,
-			    including the vote of the member being recalled. </t>
+			    circumstances.  If a resolution is not forthcoming,
+			    a vote may be conducted.  A member may be recalled
+			    if at least a quorum of all committee members
+			    (not exclusively the selecting volunteers)
+			    agree, including the vote of the member being
+			    recalled. </t>
 
 			<t> If a liaison member is recalled, the committee must
 			    notify the affected organization and must allow a
@@ -1286,10 +1325,10 @@
 			    the Internet Society President to identify a
 			    replacement before proceeding. </t>
 
-			<t> If a single voting volunteer position on the
+			<t> If a single selecting volunteer position on the
 			    nominating committee is vacated, regardless of the
 			    circumstances, the committee may choose to proceed
-			    with only nine voting volunteers at its own
+			    with only nine selecting volunteers at its own
 			    discretion.  In all other cases, a new voting member
 			    must be selected, and the Chair must repeat the
 			    random selection process including an announcement
@@ -1300,7 +1339,7 @@
 			    volunteer during the term of the nominating
 			    committee is not a cause to request the recall of
 			    that volunteer, even if the change would result in
-			    more than two voting volunteers with the same
+			    more than two selecting volunteers with the same
 			    affiliation. </t>
 		</section>
 
@@ -1412,7 +1451,7 @@
 			    especially those in the areas with open
 			    positions. </t>
 
-			<t> Only voting volunteer members vote to select
+			<t> Only selecting volunteer members vote to select
 			    candidates. </t>
 		</section>
 
@@ -1507,7 +1546,7 @@
 			<t> The existence of an archive, how it is implemented,
 			    and what information to archive is at the discretion
 			    of the committee.  The decision must be approved by
-			    a quorum of the voting volunteer members. </t>
+			    a quorum of the selecting volunteer members. </t>
 
 			<t> The implementation of the archive should make every
 			    reasonable effort to ensure that the confidentiality
@@ -1833,7 +1872,7 @@
 				from the IETF Executive Director. [0] </t>
 
 			<t> The Chair announces the solicitation
-				for voting volunteer members that must remain
+				for selecting volunteer members that must remain
 				open for at least 30 days.  The announcement
 				must be done no later than seven months and two
 				weeks prior to the First IETF (approx. June
@@ -1937,8 +1976,16 @@
   Danny McPherson     S. Moonesamy      Scott Bradner
   Ralph Droms         Pekka Savola      Allison Mankin
   Russ White          Jari Arkko        Adrian Farrell
-  Brian Carpenter
 		    </artwork></figure> </t>
+
+		<t> Contributions to this latest version came from
+		    Eric Burger,
+		    Brian Carpenter,
+		    John Klensin,
+		    Allison Mankin,
+		    Michael Richardson,
+		    and
+		    Michael St. Johns. </t>
 	</section>
 
 	<section anchor="history" title="Change History">
@@ -1958,6 +2005,33 @@
 				<t> Add Change History section </t>
 
 				<t> Apply RFC7437's AUTH48 updates </t>
+			    </list> </t>
+		</section>
+
+		<section title="-01 to -02">
+			<t> <list style="symbols">
+				<t> Add IAOC liaison </t>
+
+				<t> Limit Liaison involvement in candidate
+				    discussions and interviews </t>
+
+				<t> Change "voting volunteer" to
+				    "selecting volunteer"  </t>
+
+				<t> Add selection of backup volunteers </t>
+
+				<t> Prefer selecting Chairs with prior
+				    NomCom experience </t>
+
+				<t> Chair can be selected early </t>
+
+				<t> Chair selection announcement and formal
+				    dissolution of the prior NomCom </t>
+
+				<t> Voting mechanism selection details </t>
+
+				<t> Voting quorum shrinks if the total number
+				    of selecting volunteers shrinks </t>
 			    </list> </t>
 		</section>
 	</section>
