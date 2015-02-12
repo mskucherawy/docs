@@ -8,7 +8,7 @@
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="7437"
-        docName="draft-kucherawy-rfc7437bis-02">
+        docName="draft-kucherawy-rfc7437bis-03">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -1768,8 +1768,8 @@
 		    through oral tradition passed on by liaisons that there are
 		    certain consistencies in the process and information
 		    considered during deliberations.  Some items from that oral
-		    tradition are collected here to facilitate its consideration
-		    by future nominating committees.
+		    tradition are collected here to facilitate their
+		    consideration by future nominating committees.
 
 		    <list style="numbers">
 			<t> It has been found that experience as an IETF
@@ -1805,6 +1805,74 @@
 			    precise rules for how to define "affiliation", the
 			    IETF community depends on the honor and integrity of
 			    the participants to make the process work. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="thoughts"
+	         title="Thoughts On the Role of the Nominating Committee">
+		<t> The selecting members of the nominating committee serve as
+		    search committee for the leadership of the IETF.  That
+		    responsibility includes not only assessing whether those
+		    nominated are technically capable of the leadership roles
+		    in question but also whether they will serve well to lead
+		    others and work synergistically within the IESG, the IAB,
+		    and the IAOC. </t>
+
+		<t> To make good judgements on these axes, the nominating
+		    committee needs to cultivate very good listening (to
+		    interviews, to feedback).  Even more so, the nominating
+		    committee should cultivate their skills of "slow thinking"
+		    as they evaluate, interview and deliberate.  The nominating
+		    committee should be careful to really digest the resumes,
+		    feedback and other input about candidates, because
+		    otherwise it is too easy to pick a familiar or "famous"
+		    candidate when a less well-known candidate may have a
+		    great deal more to offer. </t>
+
+		<t> The term "slow thinking" comes from the 2011 book
+		    "Thinking Fast and Slow" by the economics Nobelist Daniel
+		    Kahneman.  Slow thinking refers to careful, thorough,
+		    deliberative processes of thought, in contrast to rapid
+		    judgements, intuition, gut feelings, all of which make up
+		    fast thinking.  During fast thinking, unconscious biases
+		    have extra sway so that equal or more competent nominees
+		    may be dismissed too quickly compared with nominees who
+		    are "known quantities."   Fast thinking is likely to
+		    result in not truly digesting and perceiving every
+		    candidate's skills; based on gut feelings, nominating
+		    panels give less time to the unfamiliar resumes, are less
+		    conscious of all the qualifications of the less familiar
+		    candidates.  It is very important for the IETF as an
+		    organization that excellent nominees not be inadvertently
+		    overlooked. </t>
+	</section>
+
+	<section anchor="interviewing" title="A Note About Interviewing">
+		<t> Interviews that the nominating committee decides to
+		    conduct need to be carefully planned and organized to
+		    emphasize fairness and consistency to the candidates.
+		    While the specific procedures will be determined by each
+		    nominating committee aided by its Chair, here are some
+		    overarching principals:
+
+		    <list style="symbols">
+			<t> It is advisable to prepare a starting slate of
+			    questions that each nominee in particular
+			    positions will all be asked.  This ensures a
+			    basic fairness and also helps to make interviews
+			    complete. </t>
+
+			<t> Each interview should have sufficient
+			    participants, including a set minimum number of
+			    selecting members.  One approach to organizing
+			    interviews is for the Chair to assign a lead
+			    interviewer, a scribe, and one or more observers
+			    for each.  The outcome of having consistently
+			    sized and organized interview panels is that all
+			    nominees will receive fair amounts of attention
+			    and sufficient efforts on interview reports to be
+			    shared with the rest of the nominating
+			    committee. </t>
 		    </list> </t>
 	</section>
 
@@ -2032,6 +2100,15 @@
 
 				<t> Voting quorum shrinks if the total number
 				    of selecting volunteers shrinks </t>
+			    </list> </t>
+		</section>
+
+		<section title="-02 to -03">
+			<t> <list style="symbols">
+				<t> Add "A Note About Interviewing" section </t>
+
+				<t> Add "Thoughts On the Role of the
+				    Nominating Committee" section </t>
 			    </list> </t>
 		</section>
 	</section>
