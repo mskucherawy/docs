@@ -1023,6 +1023,33 @@
 			    learned by active participation in a working group
 			    and especially by serving as a document editor
 			    or working group chair. </t>
+
+			<section anchor="sel_future" title="Evolution">
+				<t> The requirement to attend three of five
+				    recent meetings in order to qualify to
+				    volunteer to serve on the nominating
+				    committee is increasingly criticized
+				    as selecting for participants that are
+				    well-funded enough to travel, and excludes
+				    those that participate in the IETF in
+				    other meaningful ways without attending
+				    in person.  Indeed, there are plenty
+				    of participants who attend meetings yet
+				    contribute less overall than some who 
+				    cannot attend in person while doing
+				    a great deal of work within the IETF. </t>
+
+				<t> A future revision to this document
+				    should revisit the qualification
+				    requirement specified above with the
+				    intent of being more inclusive of
+				    participants that do not always attend
+				    meetings in-person.  This is especially
+				    important as the IETF continues to
+				    develop its capabilities around
+				    remote participation in meetings and
+				    recording participant activity. </t>
+			</section>
 		</section>
 
 		<section anchor="sel_disqualify" title="Not Qualified">
@@ -1820,31 +1847,16 @@
 
 		<t> To make good judgements on these axes, the nominating
 		    committee needs to cultivate very good listening (to
-		    interviews, to feedback).  Even more so, the nominating
-		    committee should cultivate their skills of "slow thinking"
-		    as they evaluate, interview and deliberate.  The nominating
-		    committee should be careful to really digest the resumes,
-		    feedback and other input about candidates, because
-		    otherwise it is too easy to pick a familiar or "famous"
-		    candidate when a less well-known candidate may have a
-		    great deal more to offer. </t>
-
-		<t> The term "slow thinking" comes from the 2011 book
-		    "Thinking Fast and Slow" by the economics Nobelist Daniel
-		    Kahneman.  Slow thinking refers to careful, thorough,
-		    deliberative processes of thought, in contrast to rapid
-		    judgements, intuition, gut feelings, all of which make up
-		    fast thinking.  During fast thinking, unconscious biases
-		    have extra sway so that equal or more competent nominees
-		    may be dismissed too quickly compared with nominees who
-		    are "known quantities."   Fast thinking is likely to
-		    result in not truly digesting and perceiving every
-		    candidate's skills; based on gut feelings, nominating
-		    panels give less time to the unfamiliar resumes, are less
-		    conscious of all the qualifications of the less familiar
-		    candidates.  It is very important for the IETF as an
-		    organization that excellent nominees not be inadvertently
-		    overlooked. </t>
+		    interviews, to feedback).  The nominating committee should
+		    be careful to fully consider the resumes, feedback and
+		    other input about candidates, because otherwise it is too
+		    easy to pick a familiar or "famous" candidate when a less
+		    well-known candidate may have a great deal more to
+		    offer.  Due consideration needs to be given to every
+		    candidate, rather than making selections based on gut
+		    feelings or giving less time to unfamiliar resumes.
+		    It is very important for the IETF as an organization that
+		    excellent nominees not be inadvertently overlooked. </t>
 	</section>
 
 	<section anchor="interviewing" title="A Note About Interviewing">
@@ -2105,10 +2117,16 @@
 
 		<section title="-02 to -03">
 			<t> <list style="symbols">
-				<t> Add "A Note About Interviewing" section </t>
+				<t> Add "A Note About Interviewing"
+				    section </t>
 
 				<t> Add "Thoughts On the Role of the
 				    Nominating Committee" section </t>
+
+				<t> Add "Evolution" section regarding inclusion
+				    of people that don't attend enough meetings
+				    to qualify but contribute in other
+				    ways </t>
 			    </list> </t>
 		</section>
 	</section>
