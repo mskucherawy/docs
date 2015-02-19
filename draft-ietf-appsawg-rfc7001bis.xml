@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-kucherawy-rfc7001bis-00" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-00" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
