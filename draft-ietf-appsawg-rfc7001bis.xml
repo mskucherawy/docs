@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-00" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-01" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -513,25 +513,20 @@
          ; indicates the results of the attempt to authenticate
          ; the message; see below for details
 
-  ptype = "smtp" / "header" / "body" / "policy"
+  ptype = Keyword
         ; indicates whether the property being evaluated was
         ; a parameter to an [SMTP] command, was a value taken
         ; from a message header field, was some property of
         ; the message body, or was some other property evaluated by
-        ; the receiving MTA
+        ; the receiving MTA; expected to be one of the "property
+        ; types" explicitly defined as valid, or an extension
+        ; ptype, as defined below
 
   property = special-smtp-verb / Keyword
-          ; if "ptype" is "smtp", this indicates which [SMTP]
-          ; command provided the value that was evaluated by the
-          ; authentication scheme being applied; if "ptype" is
-          ; "header", this indicates from which header field the
-          ; value being evaluated was extracted; if "ptype" is
-          ; "body", this indicates where in the message body
-          ; a value being evaluated can be found (e.g., a specific
-          ; offset into the message or a reference to a MIME part);
-          ; if "ptype" is "policy", then this indicates the name
-          ; of the policy that caused this header field to be
-          ; added (see below)
+          ; indicates more specifically than "ptype" what the
+          ; source of the evaluated property is; the exact meaning
+          ; is specific to the method whose result is being reported
+          ; and is defined more clearly below
 
   special-smtp-verb = "mailfrom" / "rcptto"
           ; special cases of [SMTP] commands that are made up
@@ -594,10 +589,55 @@
                             <xref target="examples"/>. </t>
                 </section>
 
+		<section anchor="ptypes" title="Property Types (ptypes)">
+			<t> The "ptype" in the ABNF above indicates the
+			    type of property being described by the result
+			    being reported, upon which the reported result
+			    was based.  Coupled with the "property", it
+			    inidcates from which part of the message the
+			    reported data were extracted. </t>
+
+			<t> Legal values of "ptype" are as defined in the
+			    IANA "Email Authentication Property Types"
+			    registry, created by
+			    <xref target="PTYPES-REGISTRY"/>.  The initial
+			    values are as follows, copied from
+			    <xref target="RFC7001"/>:
+
+			    <list style="hanging">
+				<t hangText="body:"> Indicates information
+					that was extracted from the body of the
+				        message.  This might be an arbitrary
+					string of bytes, a hash of a string of
+					bytes, a Uniform Resource Identifier,
+					or some other content of interest. </t>
+
+				<t hangText="header:"> Indicates information
+					that was extracted from the header of
+					the message.  This might be the value
+					of a header field or some portion of a
+					header field. </t>
+
+				<t hangText="policy:"> A local policy mechanism
+					was applied that augments or overrides
+					the result returned by the
+					authentication mechanism.  (See
+					<xref target="policyptype"/>.) </t>
+
+				<t hangText="smtp:"> Indicates information that
+					was extracted from an SMTP command
+					that was used to relay the
+					message. </t>
+			    </list> </t>
+
+			<t> When a consumer of this header field encounters a
+			    "ptype" that it does not understand, it ignores
+			    the result reported with that "ptype". </t>
+		</section>
+
 		<section anchor="policyptype"
 		         title="The &quot;policy&quot; ptype">
-
-			<t> A special ptype value of "policy" is defined.
+			<t> A special ptype value of "policy" is also defined.
 			    This ptype is provided to indicate that some
 			    local policy mechanism was applied that augments
 			    or even replaces (i.e., overrides) the result
@@ -640,6 +680,50 @@
 			    that matches its intended purpose.  These added
 			    details are provided to guide implementers toward
 			    proper use. </t>
+		</section>
+
+		<section anchor="properties" title="Properties">
+			<t> While the "ptype" names the general area from
+			    which some data of interest were extracted to
+			    perform authentication, the associated "property"
+			    is more specific.  Its meaning, however, can also
+			    vary slightly depeneding on which authentication
+			    method's result is being reported. </t>
+
+			<t> Generally, the properties are defined as follows:
+			    <list style="hanging">
+				<t hangText="header:"> Indicates from which
+					header field the value being evaluated
+					was extracted. </t>
+
+				<t hangText="body:"> Indicates where in the
+					message body a value being evaluated
+					can be found (e.g., a specific offset
+					into the message or a reference to a
+					MIME part). </t>
+
+				<t hangText="policy:"> Indicates the local
+					name of the policy that caused this
+					header field to be added (see
+					<xref target="policyptype"/>). </t>
+
+				<t hangText="smtp:"> Indicates which
+					<xref target="SMTP"/> command provided
+					the value that was evaluated by the
+					authentication scheme being
+					applied. </t>
+			    </list> </t>
+
+			<t> Entries in the "Email Authentication Methods"
+			    registry can define properties that deviate from
+			    these definitions when appropriate.  For example,
+			    when reporting the result of a
+			    <xref target="DKIM"/> evaluation, it would be
+			    redundant to report the name of the header field
+			    from which details were extracted.  Thus, instead,
+			    DKIM results use the "header" property to name
+			    the signature tag from which a detail of interest
+			    was extracted. </t>
 		</section>
 
                 <section anchor="identifier"
@@ -836,7 +920,7 @@
                                     treated as an unsigned message.  A report
                                     of "fail" here permits the receiver of the
                                     report to decide how to handle the failure.
-                                     A report of "neutral" or "none" preempts
+                                    A report of "neutral" or "none" preempts
                                     that choice, ensuring the message will
                                     be treated as if it had not been
                                     signed. </t>
@@ -847,7 +931,7 @@
                                 <t> SPF and Sender ID use the "spf" and
                                     "sender-id" method names, respectively.
                                     The result values for SPF are defined in
-                                    Section 2.5 of <xref target="SPF"/>, and
+                                    Section 2.6 of <xref target="SPF"/>, and
 				    those definitions are included here by
 				    reference: 
 
@@ -855,21 +939,21 @@
   +-----------+--------------------------------+
   |    Code   | Meaning                        |
   +-----------+--------------------------------+
-  | none      | [RFC4408], Section 2.5.1       |
+  | none      | [RFC7208], Section 2.6.1       |
   +-----------+--------------------------------+
-  | pass      | [RFC4408], Section 2.5.3       |
+  | pass      | [RFC7208], Section 2.6.3       |
   +-----------+--------------------------------+
-  | fail      | [RFC4408], Section 2.5.4       |
+  | fail      | [RFC7208], Section 2.6.4       |
   +-----------+--------------------------------+
-  | softfail  | [RFC4408], Section 2.5.5       |
+  | softfail  | [RFC7208], Section 2.6.5       |
   +-----------+--------------------------------+
-  | policy    | [RFC7001], Section 2.6.2       |
+  | policy    | [this RFC], Section 2.4        |
   +-----------+--------------------------------+
-  | neutral   | [RFC4408], Section 2.5.2       |
+  | neutral   | [RFC7208], Section 2.6.2       |
   +-----------+--------------------------------+
-  | temperror | [RFC4408], Section 2.5.6       |
+  | temperror | [RFC7208], Section 2.6.6       |
   +-----------+--------------------------------+
-  | permerror | [RFC4408], Section 2.5.7       |
+  | permerror | [RFC7208], Section 2.6.7       |
   +-----------+--------------------------------+
                                 </artwork> </figure> </t>
 
@@ -881,7 +965,8 @@
                                 <t> Similarly, the results for Sender ID
                                     are listed and described in Section 4.2 of
                                     <xref target="SENDERID"/>, which in turn
-                                    uses the SPF definitions. </t>
+                                    uses the SPF definitions that now appear
+				    in <xref target="SPF"/>. </t>
 
                                 <t> Note that both of those documents specify
                                     result codes that use mixed case, but they
@@ -1122,9 +1207,9 @@
                                     <xref target="iana"/> for further
                                     details. </t>
 
-                                <t> Extension results MUST only be used within
-                                    ADMDs that have explicitly consented to
-                                    use them.  These results and the
+                                <t> Experimental results MUST only be used
+				    within ADMDs that have explicitly consented
+				    to use them.  These results and the
                                     parameters associated with them are
                                     not formally documented.  Therefore, they
                                     are subject to change at any time and not
@@ -1169,8 +1254,8 @@
                     by generation of corresponding A or AAAA queries is limited
                     so as not to be unduly taxing to the DNS infrastructure,
                     though it MAY be configurable by an administrator.
-                    As an example, Section 5.5 of <xref target="SPF"/> chose a
-                    limit of 10 for its implementation of this algorithm. </t>
+                    As an example, Section 4.6.4 of <xref target="SPF"/> chose
+		    a limit of 10 for its implementation of this algorithm. </t>
 
                 <t> "DNS Extensions to Support IP Version 6"
                     (<xref target="DNS-IP6"/>) discusses the query formats for
@@ -1460,7 +1545,7 @@
   Applicable protocol: mail ([MAIL])
   Status: Standard
   Author/Change controller: IETF
-  Specification document(s): RFC 7001
+  Specification document(s): [this RFC]
   Related information:
     Requesting review of any proposed changes and additions to
     this field is recommended.
@@ -1475,8 +1560,9 @@
                             IANA, with the exception of experimental names as
                             described in <xref target="x_methods"/>.  A
                             registry was created by <xref target="RFC5451"/>
-                            for this purpose.  This document changes the
-                            rules governing that registry. </t>
+                            for this purpose.  <xref target="RFC7001"/> amended
+                            ther rules governing that registry, and also added
+			    a "version" field to the registry. </t>
 
                         <t> New entries are assigned only for values
                             that have received Expert Review, per
@@ -1498,18 +1584,12 @@
                             appropriate for use with that method, which
                             "property" value(s) should be reported by that
                             method, and a description of the "value" to be
-                            used with each.
-
- </t>
+                            used with each.  </t>
 
                         <t> All existing registry entries that reference
-                            <xref target="RFC5451"/> have been updated to 
+                            <xref target="RFC7001"/> are to be updated to 
                             reference this document, except where entries
 			    have already been deprecated.  </t>
-
-                        <t> IANA has also added a "version" field
-                            to all existing registry entries.  All current
-                            methods are recorded as version "1". </t>
                 </section>
 
                 <section anchor="result_registry"
@@ -1519,8 +1599,8 @@
                             with IANA, with the exception of experimental
                             codes as described in <xref target="x_results"/>.
                             A registry was created by <xref target="RFC5451"/>
-                            for this purpose.  This document changes the
-                            rules governing that registry. </t>
+                            for this purpose.  <xref target="RFC7001"/> updated
+                            the rules governing that registry. </t>
 
                         <t> New entries are assigned only for values
                             that have received Expert Review, per
@@ -1536,7 +1616,7 @@
                             registration as "deprecated". </t>
 
                         <t> All existing registry entries that reference
-                            <xref target="RFC5451"/> have been updated to
+                            <xref target="RFC7001"/> are to be updated to
                             reference this document. </t>
 
                         <t> The definitions for the SPF and Sender ID
@@ -1714,7 +1794,7 @@
 
                 <section anchor="iprev-dos"
                         title="Reverse IP Query Denial-of-Service Attacks">
-                        <t> Section 5.5 of <xref target="SPF"/> describes
+                        <t> Section 4.6.4 of <xref target="SPF"/> describes
                             a DNS-based denial-of-service attack for verifiers
                             that attempt DNS-based identity verification
                             of arriving client connections.  A verifier
@@ -2028,6 +2108,22 @@
 			        target='http://www.rfc-editor.org/rfc/rfc5451.txt' />
 		</reference>
 
+                <reference anchor="RFC7001">
+			<front>
+				<title> Message Header Field for Indicating
+				        Message Authentication Status </title>
+
+				<author initials='M.' surname='Kucherawy'
+				        fullname='M. Kucherawy'>
+					<organization />
+				</author>
+
+				<date year='2013' month='September' />
+			</front>
+
+			<seriesInfo name='RFC' value='7001' />
+		</reference>
+
                 <reference anchor="AR-VBR">
 			<front>
 				<title> Authentication-Results Registration
@@ -2071,6 +2167,7 @@
 				        Authentication </title>
 
 				<author initials='R.' surname='Siemborski'
+
 				        fullname='R. Siemborski'>
 					<organization />
 				</author>
@@ -2323,6 +2420,23 @@
 			        target='http://www.rfc-editor.org/rfc/rfc1939.txt' />
 		</reference>
 
+                <reference anchor="PTYPES-REGISTRY">
+			<front>
+				<title> A Property Types Registry for the
+				        Authentication-Results Header
+				        Field </title>
+
+				<author initials='M.' surname='Kucherawy'
+				        fullname='M. Kucherawy'>
+					<organization />
+				</author>
+
+				<date year='2014' month='December' />
+			</front>
+
+			<seriesInfo name='RFC' value='7410' />
+		</reference>
+
                 <reference anchor="SECURITY">
 			<front>
 				<title> Guidelines for Writing RFC Text on
@@ -2376,22 +2490,15 @@
 				        Authorizing Use of Domains in E-Mail,
 				        Version 1 </title>
 
-				<author initials='M.' surname='Wong'
-				        fullname='M. Wong'>
+				<author initials='S.' surname='Kitterman'
+				        fullname='S. Kitterman'>
 					<organization />
 				</author>
 
-				<author initials='W.' surname='Schlitt'
-				        fullname='W. Schlitt'>
-					<organization />
-				</author>
-
-				<date year='2006' month='April' />
+				<date year='2014' month='April' />
 			</front>
 
-			<seriesInfo name='RFC' value='4408' />
-			<format type='TXT' octets='105009'
-			        target='http://www.rfc-editor.org/rfc/rfc4408.txt' />
+			<seriesInfo name='RFC' value='7208' />
 		</reference>
 
                 <reference anchor="VBR">
@@ -2929,28 +3036,32 @@
                     analysis needs to be transported with the message to the
                     next stage.  </t>
         </section>
-        <section anchor="todo" title="To Do List">
-		<t> <list style="symbols">
-			<t> Define "property" for each supported
-			    authentication scheme.  (Errata #4201) </t>
-
-			<t> Update all the RFC4408 references to RFC7208. </t>
-
-			<t> Apply RFC7410. </t>
-		    </list> </t>
-	</section>
 
         <section anchor="changes" title="Change History">
 		<section title="RFC7001 to -00">
-			<t> Remove "Changes since RFC5451" section; 
-			    add this "Change History" section. </t>
+			<t> <list style="symbols">
+			    <t> Remove "Changes since RFC5451" section; 
+			        add this "Change History" section. </t>
 
-			<t> Restore XML to previous format.  (No visible
-			    changes). </t>
+			    <t> Restore XML to previous format.  (No visible
+			        changes). </t>
 
-			<t> Reset "Acknowledgments". </t>
+			    <t> Reset "Acknowledgments". </t>
 
-			<t> Add "To-Do" section. </t>
+			    <t> Add "To-Do" section. </t>
+			</list> </t>
+		</section>
+
+		<section title="-00 to -01">
+			<t> <list style="symbols">
+			    <t> Apply RFC7410. </t>
+
+			    <t> Update all the RFC4408 references to
+			        RFC7208. </t>
+
+			    <t> Add section explaining "property" values.
+			        (Errata #4201) </t>
+			</list> </t>
 		</section>
 	</section>
 </back>
