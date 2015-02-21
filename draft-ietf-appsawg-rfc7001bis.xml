@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-01" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-02" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -589,34 +589,50 @@
                             <xref target="examples"/>. </t>
                 </section>
 
-		<section anchor="ptypes" title="Property Types (ptypes)">
+		<section anchor="ptypes"
+		         title="Property Types (ptypes) and Properties">
 			<t> The "ptype" in the ABNF above indicates the
-			    type of property being described by the result
-			    being reported, upon which the reported result
-			    was based.  Coupled with the "property", it
-			    inidcates from which part of the message the
-			    reported data were extracted. </t>
+			    general type of property being described by the
+			    result being reported, upon which the reported
+			    result was based.  Coupled with the "property", 
+			    which is more specific, they inidcate from which
+			    part of the message the reported data were
+			    extracted. </t>
+
+			<t> Combinations of ptypes and properties are
+			    registered and described in the "Email
+			    Authentication Methods" registry, coupled with
+			    the authentication methods with which they are
+			    used.  This is further described in 
+			    <xref target="iana"/>. </t>
 
 			<t> Legal values of "ptype" are as defined in the
 			    IANA "Email Authentication Property Types"
 			    registry, created by
 			    <xref target="PTYPES-REGISTRY"/>.  The initial
-			    values are as follows, copied from
-			    <xref target="RFC7001"/>:
+			    values and what they typically indicate are as
+			    follows, copied from <xref target="RFC7001"/>:
 
 			    <list style="hanging">
-				<t hangText="body:"> Indicates information
+				<t hangText="body:"> Information
 					that was extracted from the body of the
 				        message.  This might be an arbitrary
 					string of bytes, a hash of a string of
 					bytes, a Uniform Resource Identifier,
-					or some other content of interest. </t>
+					or some other content of interest.  The
+					"property" is an indication of where
+					within the message body the extracted
+					content was found, and can indicate an
+					offset, identify a MIME part, or </t>
 
 				<t hangText="header:"> Indicates information
 					that was extracted from the header of
 					the message.  This might be the value
 					of a header field or some portion of a
-					header field. </t>
+					header field.  The "property" gives
+					a more precise indication of the place
+					in the header from which the extraction
+					took place. </t>
 
 				<t hangText="policy:"> A local policy mechanism
 					was applied that augments or overrides
@@ -627,12 +643,25 @@
 				<t hangText="smtp:"> Indicates information that
 					was extracted from an SMTP command
 					that was used to relay the
-					message. </t>
+					message.  The "property" indicates
+					which SMTP command included the
+					extracted content as a parameter. </t>
 			    </list> </t>
 
 			<t> When a consumer of this header field encounters a
 			    "ptype" that it does not understand, it ignores
 			    the result reported with that "ptype". </t>
+
+			<t> Entries in the "Email Authentication Methods"
+			    registry can define properties that deviate from
+			    these definitions when appropriate.  For example,
+			    when reporting the result of a
+			    <xref target="DKIM"/> evaluation, it would be
+			    redundant to report the name of the header field
+			    from which details were extracted.  Thus, instead,
+			    DKIM results use the "header" property to name
+			    the signature tag from which a detail of interest
+			    was extracted. </t>
 		</section>
 
 		<section anchor="policyptype"
@@ -680,50 +709,6 @@
 			    that matches its intended purpose.  These added
 			    details are provided to guide implementers toward
 			    proper use. </t>
-		</section>
-
-		<section anchor="properties" title="Properties">
-			<t> While the "ptype" names the general area from
-			    which some data of interest were extracted to
-			    perform authentication, the associated "property"
-			    is more specific.  Its meaning, however, can also
-			    vary slightly depeneding on which authentication
-			    method's result is being reported. </t>
-
-			<t> Generally, the properties are defined as follows:
-			    <list style="hanging">
-				<t hangText="header:"> Indicates from which
-					header field the value being evaluated
-					was extracted. </t>
-
-				<t hangText="body:"> Indicates where in the
-					message body a value being evaluated
-					can be found (e.g., a specific offset
-					into the message or a reference to a
-					MIME part). </t>
-
-				<t hangText="policy:"> Indicates the local
-					name of the policy that caused this
-					header field to be added (see
-					<xref target="policyptype"/>). </t>
-
-				<t hangText="smtp:"> Indicates which
-					<xref target="SMTP"/> command provided
-					the value that was evaluated by the
-					authentication scheme being
-					applied. </t>
-			    </list> </t>
-
-			<t> Entries in the "Email Authentication Methods"
-			    registry can define properties that deviate from
-			    these definitions when appropriate.  For example,
-			    when reporting the result of a
-			    <xref target="DKIM"/> evaluation, it would be
-			    redundant to report the name of the header field
-			    from which details were extracted.  Thus, instead,
-			    DKIM results use the "header" property to name
-			    the signature tag from which a detail of interest
-			    was extracted. </t>
 		</section>
 
                 <section anchor="identifier"
@@ -3063,6 +3048,12 @@
 			        (Errata #4201) </t>
 
 			    <t> Remove "To-Do" section. </t>
+			</list> </t>
+		</section>
+
+		<section title="-01 to -02">
+			<t> <list style="symbols">
+			    <t> Consolidate new sections. </t>
 			</list> </t>
 		</section>
 	</section>
