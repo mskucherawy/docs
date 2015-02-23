@@ -654,14 +654,9 @@
 
 			<t> Entries in the "Email Authentication Methods"
 			    registry can define properties that deviate from
-			    these definitions when appropriate.  For example,
-			    when reporting the result of a
-			    <xref target="DKIM"/> evaluation, it would be
-			    redundant to report the name of the header field
-			    from which details were extracted.  Thus, instead,
-			    DKIM results use the "header" property to name
-			    the signature tag from which a detail of interest
-			    was extracted. </t>
+			    these definitions when appropriate.  See
+			    <xref target="dkim_dk_results"/> for an
+			    example. </t>
 		</section>
 
 		<section anchor="policyptype"
@@ -899,6 +894,16 @@
                                             unlikely to produce a final
                                             result. </t>
                                 </list> </t>
+
+				<t> Both of these methods use the "header"
+				    ptype to refer to a value taken from the
+				    associated signature header field, and
+				    not a complete header field.  For example,
+				    the ptype-property combination "header.d" 
+				    refers to the content of the "d"
+				    (signing domain) tag from within the
+				    signature header field, and not a distinct
+				    header field called "d". </t>
 
                                 <t> <xref target="DKIM"/> advises that if a
                                     message fails verification, it is to be
