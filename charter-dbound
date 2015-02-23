@@ -30,17 +30,19 @@ at the top of an administrative hierarchy, defining transition from one
 "outside" administrative authority to another that is "inside" the
 organization.
 
-There are two broad use cases that seem to be common. The first is a
-"top ancestor organization" case. In this case, the goal is to find a
-single superordinate name in the DNS tree that can properly make
-assertions about the policies and procedures of subordinate names. The
-second is to determine, given two different names, whether they are
-governed by the same administrative authority. The goal of the DBOUND
-working group will develop a unified solution, if possible, for
-determining organizational domain boundaries. However, the working
-group may discover that the use cases require different solutions.
-Should that happen, the working group will develop those different
-solutions, using as many common pieces as it can.
+The current way most of this is handled is via a list published at
+publicsuffix.org, and the general goal is to accommodate anything people
+are using that for today.  However, there are broadly speaking two use
+patterns. The first is a "top ancestor organization" case. In this case,
+the goal is to find a single superordinate name in the DNS tree that can
+properly make assertions about the policies and procedures of subordinate
+names. The second is to determine, given two different names, whether they
+are governed by the same administrative authority. The goal of the DBOUND
+working group is to develop a unified solution, if possible, for determining
+organizational domain boundaries. However, the working group may discover
+that the use cases require different solutions. Should that happen, the
+working group will develop those different solutions, using as many common
+pieces as it can.
 
 Solutions will not involve the proposal of any changes to the DNS
 protocol.  They might involve the creation of new resource record types.
@@ -51,7 +53,7 @@ without rechartering, and such rechartering will only be considered after
 completion of the base work.
 
 The working group has a pre-IETF draft to consider as a possible
-starting point:  draft-sullivan-dbound-problem-statement
+starting point: draft-sullivan-dbound-problem-statement
 
 Milestones:
 - TBD
