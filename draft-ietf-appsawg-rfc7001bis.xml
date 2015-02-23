@@ -2522,7 +2522,12 @@
         <section anchor="thanks" title="Acknowledgements">
 		<t> The author wishes to acknowledge the following
 		    individuals for their review and constructive criticism of
-		    this document: (names) </t>
+		    this document:
+		    Stephane Bortzmeyer,
+		    Scott Kitterman,
+		    and
+		    John Levine.
+		    </t>
         </section>
 
         <section anchor="legacy_muas" title="Legacy MUAs">
