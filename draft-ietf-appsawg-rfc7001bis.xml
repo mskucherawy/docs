@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-02" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-03" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -1517,8 +1517,10 @@
                 <t> IANA has registered the defined header field and created
 		    two tables as described below.  These registry actions
 		    were originally defined by <xref target="RFC5451"/> and
-		    are repeated here to provide a single, current
-		    reference. </t>
+		    updated by <xref target="RFC6577"/> and
+		    <xref target="RFC7001"/>.  The created registries are
+		    being further updated here to increase their
+		    completeness. </t>
 
                 <section anchor="new_header"
 		         title="The Authentication-Results Header Field">
@@ -1527,8 +1529,8 @@
                             Authentication-Results header field to the
                             IANA "Permanent Message Header Field Names"
                             registry, per the procedure found in
-                            <xref target="IANA-HEADERS"/>.  That entry has
-                            been updated to reference this document.
+                            <xref target="IANA-HEADERS"/>.  That entry is to
+                            be updated to reference this document.
                             The following is the registration template:
                                 <figure><artwork>
   Header field name: Authentication-Results
@@ -1543,14 +1545,19 @@
                         </t>
                 </section>
 
-                <section anchor="name_registry"
-                     title="&quot;Email Authentication Methods&quot; Registry">
+                <section anchor="name_registry_1"
+                     title="&quot;Email Authentication Methods&quot; Registr Description">
                         <t> Names of message authentication methods supported
                             by this specification are to be registered with
                             IANA, with the exception of experimental names as
-                            described in <xref target="x_methods"/>.  A
-                            registry was created by <xref target="RFC5451"/>
-                            for this purpose.  <xref target="RFC7001"/> amended
+                            described in <xref target="x_methods"/>.  Along
+			    with each method is recorded the properties
+			    that accompany the method's result.  </t>
+
+			<t> A registry was created by <xref target="RFC5451"/>
+                            for this purpose.  <xref target="RFC6577"/> added
+			    a "status" field for each entry.
+			    <xref target="RFC7001"/> amended
                             ther rules governing that registry, and also added
 			    a "version" field to the registry. </t>
 
@@ -1567,19 +1574,119 @@
                             can also handle requests to mark any current
                             registration as "deprecated". </t>
 
-                        <t> Each method must register a name, the specification
-                            that defines it, a version number associated with
-                            the method being registered (preferably starting
-                            at "1"), zero or more "ptype" values
-                            appropriate for use with that method, which
-                            "property" value(s) should be reported by that
-                            method, and a description of the "value" to be
-                            used with each.  </t>
+                        <t> An entry in this registry contains the following;
+			    note that the reference columns are uptade by this
+			    specification:
 
-                        <t> All existing registry entries that reference
-                            <xref target="RFC7001"/> are to be updated to 
-                            reference this document, except where entries
-			    have already been deprecated.  </t>
+			    <list style="hanging">
+				<t hangText="Method:"> the name of the
+					method; </t>
+
+				<t hangText="Method Defined:"> a reference to
+					the document that defines the
+					method; </t>
+
+				<t hangText="Entry Added/Updated:"> a
+					reference to the document that created
+					or updated the entry; </t>
+
+				<t hangText="Version:"> a version number
+					associated with the method (preferably
+					starting at "1"); </t>
+
+				<t hangText="ptype:"> a "ptype" value
+					appropriate for use with that
+					method; </t>
+
+				<t hangText="property:"> a "property" value
+					matching that "ptype" also appropriate
+					for use with that method; </t>
+
+				<t hangText="Value:"> a brief description of
+					the value to be supplied with that
+					method/ptype/property tuple; </t>
+
+				<t hangText="Status:"> the status of this
+					entry, which is either:
+
+				    <list style="hanging">
+					<t hangText="active:"> The entry is
+						in current use. </t>
+
+					<t hangText="deprecated:"> The entry is
+						no longer in current use. </t>
+				    </list> </t>
+			    </list> </t>
+		</section>
+				    
+                <section anchor="name_registry_2"
+                     title="&quot;Email Authentication Methods&quot; Registry Update">
+                        <t> In light of the division of the previous "Defined"
+			    field in the registry, existing registry entries
+			    are to be updated as follows:
+
+			    <list style="numbers">
+				<t> For the "auth" method, set the Method
+				    Defined to <xref target="AUTH"/> and
+				    Entry Added/Updated to
+				    <xref target="RFC5451"/>. </t>
+
+				<t> For the "dkim" method, set the Method
+				    Defined to <xref target="DKIM"/> and
+				    Entry Added/Updated to
+				    <xref target="RFC5451"/>. </t>
+
+				<t> For the "dkim-adsp" method, set the Method
+				    Defined to <xref target="ADSP"/> and
+				    Entry Added/Updated to
+				    <xref target="RFC5451"/>. </t>
+
+				<t> For the "dkim-atps" method, set the Method
+				    Defined to <xref target="ATPS"/> and
+				    Entry Added/Updated to
+				    <xref target="ATPS"/>. </t>
+
+				<t> For the "dmarc" method, set the Method
+				    Defined to
+				    <xref target="DMARC"/>
+				    and Entry Added/Updated to
+				    <xref target="DMARC"/>. </t>
+
+				<t> For the "domainkeys" method, set the Method
+				    Defined to <xref target="DOMAINKEYS"/> and
+				    Entry Added/Updated to
+				    <xref target="RFC5451"/>. </t>
+
+				<t> For the "iprev" method, set the Method
+				    Defined to [this document] and
+				    Entry Added/Updated to
+				    [this document]. </t>
+
+				<t> For the "rrvs" method, set the Method
+				    Defined to <xref target="RRVS"/> and
+				    Entry Added/Updated to
+				    <xref target="RRVS"/>. </t>
+
+				<t> For the "sender-id" method, set the Method
+				    Defined to <xref target="SENDERID"/> and
+				    Entry Added/Updated to
+				    <xref target="RFC5451"/>. </t>
+
+				<t> For the "smime" method, set the Method
+				    Defined to <xref target="SMIME"/> and
+				    Entry Added/Updated to
+				    <xref target="RFC7281"/>. </t>
+
+				<t> For the "spf" method, set the Method
+				    Defined to <xref target="SPF"/> and
+				    Entry Added/Updated to
+				    <xref target="RFC5451"/>. </t>
+
+				<t> For the "vbr" method, set the Method
+				    Defined to <xref target="VBR"/> and
+				    Entry Added/Updated to
+				    <xref target="VBR"/>. </t>
+			    </list> </t>
                 </section>
 
                 <section anchor="result_registry"
@@ -1589,7 +1696,9 @@
                             with IANA, with the exception of experimental
                             codes as described in <xref target="x_results"/>.
                             A registry was created by <xref target="RFC5451"/>
-                            for this purpose.  <xref target="RFC7001"/> updated
+                            for this purpose.  <xref target="RFC6577"/>
+			    added the "status" column, and
+			    <xref target="RFC7001"/> updated
                             the rules governing that registry. </t>
 
                         <t> New entries are assigned only for values
@@ -1610,7 +1719,7 @@
                             reference this document. </t>
 
                         <t> The definitions for the SPF and Sender ID
-                            authentication methods are updated using the
+                            authentication methods are to be updated using the
                             references found in
                             <xref target="spf_sid_results"/>.  </t>
                 </section>
@@ -2098,6 +2207,23 @@
 			        target='http://www.rfc-editor.org/rfc/rfc5451.txt' />
 		</reference>
 
+                <reference anchor="RFC6577">
+			<front>
+				<title> Authentication-Results Registration
+				        Update for Sender Policy Framework
+I				        (SPF) Results </title>
+
+				<author initials='M.' surname='Kucherawy'
+				        fullname='M. Kucherawy'>
+					<organization />
+				</author>
+
+				<date year='2012' month='March' />
+			</front>
+
+			<seriesInfo name='RFC' value='6577' />
+		</reference>
+
                 <reference anchor="RFC7001">
 			<front>
 				<title> Message Header Field for Indicating
@@ -2112,6 +2238,23 @@
 			</front>
 
 			<seriesInfo name='RFC' value='7001' />
+		</reference>
+
+                <reference anchor="RFC7281">
+			<front>
+				<title> Authentication-Results Registration
+					for S/MIME Signature
+					Verification </title>
+
+				<author initials='A.' surname='Melnikov'
+				        fullname='A. Melnikov'>
+					<organization />
+				</author>
+
+				<date year='2014' month='June' />
+			</front>
+
+			<seriesInfo name='RFC' value='7281' />
 		</reference>
 
                 <reference anchor="AR-VBR">
@@ -2202,6 +2345,31 @@
 			<seriesInfo name='RFC' value='6376' />
 			<format type='TXT' octets='176999'
 			        target='http://www.rfc-editor.org/rfc/rfc6376.txt' />
+		</reference>
+
+                <reference anchor="DMARC">
+			<front>
+				<title> Domain-based Message Authentication,
+					Reporting and Conformance
+					(DMARC) </title>
+
+				<author initials='M.' surname='Kucherawy'
+				        fullname='M. Kucherawy'
+					role='editor'>
+					<organization />
+				</author>
+
+				<author initials='E.' surname='Zwicky'
+				        fullname='E. Zwicky'
+					role='editor'>
+					<organization />
+				</author>
+
+				<date year='2015' month='February' />
+			</front>
+
+			<seriesInfo name='I-D'
+				value='draft-kucherawy-dmarc-base' />
 		</reference>
 
                 <reference anchor="DNS">
@@ -2427,6 +2595,28 @@
 			<seriesInfo name='RFC' value='7410' />
 		</reference>
 
+                <reference anchor="RRVS">
+			<front>
+				<title> The Require-Recipient-Valid-Since
+					Header Field and SMTP Service
+					Extension </title>
+
+				<author initials='W.' surname='Mills'
+				        fullname='W. Mills'>
+					<organization />
+				</author>
+
+				<author initials='M.' surname='Kucherawy'
+				        fullname='M. Kucherawy'>
+					<organization />
+				</author>
+
+				<date year='2014' month='July' />
+			</front>
+
+			<seriesInfo name='RFC' value='7293' />
+		</reference>
+
                 <reference anchor="SECURITY">
 			<front>
 				<title> Guidelines for Writing RFC Text on
@@ -2472,6 +2662,28 @@
 			<seriesInfo name='RFC' value='4406' />
 			<format type='TXT' octets='40428'
 			        target='http://www.rfc-editor.org/rfc/rfc4406.txt' />
+		</reference>
+
+                <reference anchor="SMIME">
+			<front>
+				<title> Secure/Multipurpose Internet Mail
+					Extensions (S/MIME) Version 3.2
+					Message Specification </title>
+
+				<author initials='B.' surname='Ramsdell'
+				        fullname='B. Ramsdell'>
+					<organization />
+				</author>
+
+				<author initials='S.' surname='Turner'
+				        fullname='S. Turner'>
+					<organization />
+				</author>
+
+				<date year='2010' month='January' />
+			</front>
+
+			<seriesInfo name='RFC' value='5751' />
 		</reference>
 
                 <reference anchor="SPF">
@@ -2525,8 +2737,9 @@
 		    this document:
 		    Stephane Bortzmeyer,
 		    Scott Kitterman,
+		    John Levine,
 		    and
-		    John Levine.
+		    Tom Petch.
 		    </t>
         </section>
 
@@ -3064,6 +3277,31 @@
 		<section title="-01 to -02">
 			<t> <list style="symbols">
 			    <t> Consolidate new sections. </t>
+			</list> </t>
+		</section>
+
+		<section title="-02 to -03">
+			<t> <list style="symbols">
+			    <t> Move the DKIM exception text down to where
+				the DKIM results are defined, and add a
+				forward reference to them. </t>
+
+			    <t> More detail about registry creation and
+				previous augmentations. </t>
+
+			    <t> Augment the methods registry by splitting
+				"Defined" into a reference to the various
+				protocol definitions and to the place
+				where the entry was created.  Provide
+				IANA with corresponding update
+				instructions. </t>
+
+			    <t> Add references:
+				<xref target="DMARC"/>,
+				<xref target="RFC6577"/>,
+				<xref target="RFC7281"/>,
+				<xref target="RRVS"/>,
+				<xref target="SMIME"/>.
 			</list> </t>
 		</section>
 	</section>
