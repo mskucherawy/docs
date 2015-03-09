@@ -46,8 +46,6 @@
         <keyword>Authentication</keyword>
         <keyword>Reputation</keyword>
 
-
-
         <abstract>
                 <t> This document specifies a message header field called
                     Authentication-Results for use with
@@ -58,7 +56,6 @@
                     information in a convenient and meaningful way to users
                     or to make sorting and filtering decisions. </t>
         </abstract>
-
 </front>
 
 
@@ -596,8 +593,8 @@
 			    result being reported, upon which the reported
 			    result was based.  Coupled with the "property", 
 			    which is more specific, they inidcate from which
-			    part of the message the reported data were
-			    extracted. </t>
+			    particular part of the message the reported data
+			    were extracted. </t>
 
 			<t> Combinations of ptypes and properties are
 			    registered and described in the "Email
@@ -654,7 +651,9 @@
 
 			<t> Entries in the "Email Authentication Methods"
 			    registry can define properties that deviate from
-			    these definitions when appropriate.  See
+			    these definitions when appropriate.  Such
+			    deviations need to be clear in the registry and/or
+			    in the defining document.  See
 			    <xref target="dkim_dk_results"/> for an
 			    example. </t>
 		</section>
@@ -895,15 +894,26 @@
                                             result. </t>
                                 </list> </t>
 
-				<t> Both of these methods use the "header"
-				    ptype to refer to a value taken from the
-				    associated signature header field, and
-				    not a complete header field.  For example,
+				<t> DKIM results are reported using a ptype
+				    of "header".  The property, however,
+				    represents one of the tags found in the
+				    DKIM-Signature header field rather than
+				    a distinct header field.  For example,
 				    the ptype-property combination "header.d" 
 				    refers to the content of the "d"
 				    (signing domain) tag from within the
 				    signature header field, and not a distinct
 				    header field called "d". </t>
+
+				<t> DomainKeys results are reported using the
+				    "header" ptype, but a mixture of DKIM-style
+				    values (e.g., "d" represents the value
+				    of the "d" tag from the DomainKey-Signature
+				    header field) and typical uses (e.g.,
+				    "from" and "sender", containing those
+				    header fields' values).  In the latter
+				    case, <xref target="MAIL"/>-style comments
+				    are removed, leaving only the address. </t>
 
                                 <t> <xref target="DKIM"/> advises that if a
                                     message fails verification, it is to be
@@ -962,6 +972,16 @@
                                     result codes that use mixed case, but they
                                     are typically used all lowercase in this
                                     context. </t>
+
+                                <t> For SPF, the ptype used is "smtp", and the
+				    property is any of "mailfrom", "helo",
+				    and "ehlo", since those values are the ones
+				    SPF can evaluate.  For Sender ID,
+				    the ptype used is "header", and the
+				    property will be the name of the header
+				    field from which the Purported Responsible
+				    Address (see <xref target="PRA"/>) was
+				    extracted. </t>
 
                                 <t> In both cases, an additional result of
                                     "policy" is defined, which means the
@@ -1043,6 +1063,11 @@
                                     so some kind of evaluation will always
                                     be possible. </t>
 
+				<t> The result is reported using a ptype of
+				    "policy" (as this is not part of any
+				    established protocol) and a property of
+				    "iprev". </t>
+
                                 <t> For discussion of the format of DNS
                                     replies, see "Domain Names - Implementation
                                     and Specification"
@@ -1099,6 +1124,12 @@
 					  result. </t>
                                </list> </t>
 
+                                <t> The result of AUTH is reported using a
+				    ptype of "smtp" and a property of
+				    "mailfrom", and the reported value is
+				    the value of the AUTH parameter to that
+				    command. </t>
+				    
                                 <t> An agent making use of the data
                                     provided by this header field SHOULD
                                     consider "fail" and "temperror"
@@ -1110,15 +1141,29 @@
                         <section anchor="other_results"
                                 title="Other Registered Codes">
                                 <t> Result codes were also registered in other
-                                    RFCs for Vouch By Reference (in
-                                    <xref target="AR-VBR"/>, represented by
-                                    "vbr"), Authorized
-                                    Third-Party Signatures (in
-                                    <xref target="ATPS"/>, represented by
-                                    "dkim-atps"), and the DKIM-related
-                                    Author Domain Signing Practices (in
-                                    <xref target="ADSP"/>, represented by
-                                    "dkim-adsp"). </t>
+                                    RFCs as follows:
+
+				    <list style="symbols">
+					<t> Vouch By Reference (in
+                                            <xref target="AR-VBR"/>,
+					    represented by "vbr"); </t>
+
+					<t> Authorized Third-Party Signatures
+				            (in <xref target="ATPS"/>,
+					    represented by "dkim-atps"); </t>
+
+					<t> Author Domain Signing Practices
+					    (in <xref target="ADSP"/>,
+					    represented by "dkim-adsp"); </t>
+
+					<t> Require-Recipient-Valid-Since
+					    (in <xref target="RRVS"/>,
+					    represented by "rrvs"); </t>
+
+					<t> S/MIME
+					    (in <xref target="SMIME-REG"/>,
+					    represented by "smime"). </t>
+				    </list> </t>
                         </section>
 
                         <section anchor="x_methods" title="Extension Methods">
@@ -1318,7 +1363,6 @@
                     <xref target="forged_headers"/>.  This document does not
                     mandate any specific solution to this issue as each
                     environment has its own facilities and limitations. </t>
-
 
                 <t> Most known message authentication methods focus on a
                     particular identifier to evaluate.  SPF and Sender ID
@@ -1546,7 +1590,7 @@
                 </section>
 
                 <section anchor="name_registry_1"
-                     title="&quot;Email Authentication Methods&quot; Registr Description">
+                     title="&quot;Email Authentication Methods&quot; Registry Description">
                         <t> Names of message authentication methods supported
                             by this specification are to be registered with
                             IANA, with the exception of experimental names as
@@ -1558,7 +1602,7 @@
                             for this purpose.  <xref target="RFC6577"/> added
 			    a "status" field for each entry.
 			    <xref target="RFC7001"/> amended
-                            ther rules governing that registry, and also added
+                            the rules governing that registry, and also added
 			    a "version" field to the registry. </t>
 
                         <t> New entries are assigned only for values
@@ -1574,25 +1618,18 @@
                             can also handle requests to mark any current
                             registration as "deprecated". </t>
 
-                        <t> An entry in this registry contains the following;
-			    note that the reference columns are uptade by this
-			    specification:
+			<t> No two entries can have the same combination of
+			    method, ptype, and property. </t>
+
+                        <t> An entry in this registry contains the following:
 
 			    <list style="hanging">
 				<t hangText="Method:"> the name of the
 					method; </t>
 
-				<t hangText="Method Defined:"> a reference to
-					the document that defines the
-					method; </t>
-
-				<t hangText="Entry Added/Updated:"> a
-					reference to the document that created
-					or updated the entry; </t>
-
-				<t hangText="Version:"> a version number
-					associated with the method (preferably
-					starting at "1"); </t>
+				<t hangText="Defined:"> a reference to
+					the document that created this
+					entry, if any (see below); </t>
 
 				<t hangText="ptype:"> a "ptype" value
 					appropriate for use with that
@@ -1616,76 +1653,38 @@
 					<t hangText="deprecated:"> The entry is
 						no longer in current use. </t>
 				    </list> </t>
+
+				<t hangText="Version:"> a version number
+					associated with the method (preferably
+					starting at "1"). </t>
 			    </list> </t>
+
+			<t> The "Defined" field will typically refer to
+			    a permanent document, or at least some descriptive
+			    text, where additional information about the
+			    entry being added can be found.  This in turn
+			    would reference the document where the method is
+			    defined so that all of the semantics around
+			    creating or interpreting an
+			    Authentication-Results header field using this
+			    method, ptype, and property can be understood. </t>
 		</section>
 				    
                 <section anchor="name_registry_2"
                      title="&quot;Email Authentication Methods&quot; Registry Update">
-                        <t> In light of the division of the previous "Defined"
-			    field in the registry, existing registry entries
-			    are to be updated as follows:
+                        <t> The following changes are to be made to this
+			    registry upon approval of this document:
 
 			    <list style="numbers">
-				<t> For the "auth" method, set the Method
-				    Defined to <xref target="AUTH"/> and
-				    Entry Added/Updated to
-				    <xref target="RFC5451"/>. </t>
+				<t> The sole entry for the "auth" method
+				    shall have its "property" field changed to
+				    "mailfrom", and its "Defined" field
+				    changed to this document. </t>
 
-				<t> For the "dkim" method, set the Method
-				    Defined to <xref target="DKIM"/> and
-				    Entry Added/Updated to
-				    <xref target="RFC5451"/>. </t>
-
-				<t> For the "dkim-adsp" method, set the Method
-				    Defined to <xref target="ADSP"/> and
-				    Entry Added/Updated to
-				    <xref target="RFC5451"/>. </t>
-
-				<t> For the "dkim-atps" method, set the Method
-				    Defined to <xref target="ATPS"/> and
-				    Entry Added/Updated to
-				    <xref target="ATPS"/>. </t>
-
-				<t> For the "dmarc" method, set the Method
-				    Defined to
-				    <xref target="DMARC"/>
-				    and Entry Added/Updated to
-				    <xref target="DMARC"/>. </t>
-
-				<t> For the "domainkeys" method, set the Method
-				    Defined to <xref target="DOMAINKEYS"/> and
-				    Entry Added/Updated to
-				    <xref target="RFC5451"/>. </t>
-
-				<t> For the "iprev" method, set the Method
-				    Defined to [this document] and
-				    Entry Added/Updated to
-				    [this document]. </t>
-
-				<t> For the "rrvs" method, set the Method
-				    Defined to <xref target="RRVS"/> and
-				    Entry Added/Updated to
-				    <xref target="RRVS"/>. </t>
-
-				<t> For the "sender-id" method, set the Method
-				    Defined to <xref target="SENDERID"/> and
-				    Entry Added/Updated to
-				    <xref target="RFC5451"/>. </t>
-
-				<t> For the "smime" method, set the Method
-				    Defined to <xref target="SMIME"/> and
-				    Entry Added/Updated to
-				    <xref target="RFC7281"/>. </t>
-
-				<t> For the "spf" method, set the Method
-				    Defined to <xref target="SPF"/> and
-				    Entry Added/Updated to
-				    <xref target="RFC5451"/>. </t>
-
-				<t> For the "vbr" method, set the Method
-				    Defined to <xref target="VBR"/> and
-				    Entry Added/Updated to
-				    <xref target="VBR"/>. </t>
+				<t> All "dkim", "domainkeys", "iprev",
+				    "sender-id", and "spf" method entries
+				    shall have their "Defined" fields changed
+				    to this document. </t>
 			    </list> </t>
                 </section>
 
@@ -2211,7 +2210,7 @@
 			<front>
 				<title> Authentication-Results Registration
 				        Update for Sender Policy Framework
-I				        (SPF) Results </title>
+					(SPF) Results </title>
 
 				<author initials='M.' surname='Kucherawy'
 				        fullname='M. Kucherawy'>
@@ -2238,23 +2237,6 @@ I				        (SPF) Results </title>
 			</front>
 
 			<seriesInfo name='RFC' value='7001' />
-		</reference>
-
-                <reference anchor="RFC7281">
-			<front>
-				<title> Authentication-Results Registration
-					for S/MIME Signature
-					Verification </title>
-
-				<author initials='A.' surname='Melnikov'
-				        fullname='A. Melnikov'>
-					<organization />
-				</author>
-
-				<date year='2014' month='June' />
-			</front>
-
-			<seriesInfo name='RFC' value='7281' />
 		</reference>
 
                 <reference anchor="AR-VBR">
@@ -2578,6 +2560,26 @@ I				        (SPF) Results </title>
 			        target='http://www.rfc-editor.org/rfc/rfc1939.txt' />
 		</reference>
 
+                <reference anchor="PRA">
+			<front>
+				<title>
+					Purported Responsible Address in
+					E-Mail Messages
+				</title>
+
+				<author initials='J.' surname='Lyon'
+				        fullname='J. Lyon'>
+					<organization>
+						Microsoft Corp.
+					</organization>
+				</author>
+
+				<date year='2006' month='April' />
+			</front>
+
+			<seriesInfo name='RFC' value='4407' />
+		</reference>
+
                 <reference anchor="PTYPES-REGISTRY">
 			<front>
 				<title> A Property Types Registry for the
@@ -2664,26 +2666,21 @@ I				        (SPF) Results </title>
 			        target='http://www.rfc-editor.org/rfc/rfc4406.txt' />
 		</reference>
 
-                <reference anchor="SMIME">
+                <reference anchor="SMIME-REG">
 			<front>
-				<title> Secure/Multipurpose Internet Mail
-					Extensions (S/MIME) Version 3.2
-					Message Specification </title>
+				<title> Authentication-Results Registration
+					for S/MIME Signature Verification
+				</title>
 
-				<author initials='B.' surname='Ramsdell'
-				        fullname='B. Ramsdell'>
+				<author initials='A.' surname='Melnikov'
+				        fullname='A. Melnikov'>
 					<organization />
 				</author>
 
-				<author initials='S.' surname='Turner'
-				        fullname='S. Turner'>
-					<organization />
-				</author>
-
-				<date year='2010' month='January' />
+				<date year='2014' month='June' />
 			</front>
 
-			<seriesInfo name='RFC' value='5751' />
+			<seriesInfo name='RFC' value='7281' />
 		</reference>
 
                 <reference anchor="SPF">
@@ -3289,19 +3286,24 @@ I				        (SPF) Results </title>
 			    <t> More detail about registry creation and
 				previous augmentations. </t>
 
-			    <t> Augment the methods registry by splitting
-				"Defined" into a reference to the various
-				protocol definitions and to the place
-				where the entry was created.  Provide
+			    <t> Add text explaining each of the
+			        method-ptype-property tuples registered by
+				this document. </t>
+
+			    <t> Change the meaning of the "Defined" column of
+				the methods registry to be the place where
+				each entry was created and described; it is
+				expected that this will then refer to the
+				method's defining document. Provide
 				IANA with corresponding update
 				instructions. </t>
 
 			    <t> Add references:
 				<xref target="DMARC"/>,
+				<xref target="PRA"/>,
 				<xref target="RFC6577"/>,
-				<xref target="RFC7281"/>,
 				<xref target="RRVS"/>,
-				<xref target="SMIME"/>. </t>
+				<xref target="SMIME-REG"/>. </t>
 			</list> </t>
 		</section>
 	</section>
