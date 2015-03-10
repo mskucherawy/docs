@@ -3385,6 +3385,10 @@
 			    <t> Add description of values that can be extracted
 			        from SMTP AUTH sessions. </t>
 
+			    <t> Minor editorial adjustments. </t>
+
+			    <t> Fix up "smime" entries. </t>
+
 			    <t> Add references:
 				<xref target="RFC6008"/>. </t>
 			</list> </t>
