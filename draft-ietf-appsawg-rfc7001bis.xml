@@ -1138,7 +1138,22 @@
                                     </list> </t>
 
 				<t> If both identities are available, both
-				    can be reported. </t>
+				    can be reported.  For example, consider
+				    this command issued by a client that has
+				    completed session authentication with
+				    the AUTH command resulting in an
+				    authorized identity of "client@c.example":
+
+				    <figure><artwork>
+  MAIL FROM:&lt;alice@a.example&gt; AUTH=&lt;bob@b.example&gt;
+				    </artwork></figure> </t>
+
+				<t> This could result in a resinfo construction
+				    like so:
+
+				    <figure><artwork>
+  ; auth=pass smtp.auth=client@c.example smtp.mailfrom=bob@b.example
+				    </artwork></figure> </t>
 
 				<t> An agent making use of the data
 				    provided by this header field SHOULD
@@ -3383,7 +3398,7 @@
 				Considerations. </t>
 
 			    <t> Add description of values that can be extracted
-			        from SMTP AUTH sessions. </t>
+			        from SMTP AUTH sessions and an example. </t>
 
 			    <t> Minor editorial adjustments. </t>
 
