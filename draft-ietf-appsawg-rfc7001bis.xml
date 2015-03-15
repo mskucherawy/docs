@@ -962,28 +962,33 @@
                                     returned by the component conducting SPF
                                     evaluation. </t>
 
-                                <t> Similarly, the results for Sender ID
+                                <t> For SPF, the ptype used is "smtp", and the
+				    property is any of "mailfrom", "helo",
+				    and "ehlo", since those values are the ones
+				    SPF can evaluate. </t>
+
+                                <t> The "sender-id" method is described in
+				    <xref target="SENDERID"/>.  For this
+				    method, the ptype used is "header" and the
+				    property will be the name of the header
+				    field from which the Purported Responsible
+				    address (see <xref target="PRA"/>) was
+				    extracted, namely one of "Resent-Sender",
+				    "Resent-From", "Sender", or "From". </t>
+
+                                <t> The results for Sender ID
                                     are listed and described in Section 4.2 of
-                                    <xref target="SENDERID"/>, which in turn
-                                    uses the SPF definitions that now appear
-				    in <xref target="SPF"/>. </t>
+                                    <xref target="SENDERID"/>, but for the
+				    purposes of this specificatin, the SPF
+				    definitions enumerated above are used
+				    instead. </t>
 
                                 <t> Note that both of those documents specify
                                     result codes that use mixed case, but they
                                     are typically used all lowercase in this
                                     context. </t>
 
-                                <t> For SPF, the ptype used is "smtp", and the
-				    property is any of "mailfrom", "helo",
-				    and "ehlo", since those values are the ones
-				    SPF can evaluate.  For Sender ID,
-				    the ptype used is "header", and the
-				    property will be the name of the header
-				    field from which the Purported Responsible
-				    Address (see <xref target="PRA"/>) was
-				    extracted. </t>
-
-                                <t> In both cases, an additional result of
+                                <t> For both methods, an additional result of
                                     "policy" is defined, which means the
                                     client was authorized to inject or relay
                                     mail on behalf of the sender's
@@ -3423,6 +3428,8 @@
 			    <t> Update current definitions for the
 			        Email Authentication Property Types
 			        sub-registry to point to this document. </t>
+
+			    <t> Add more detail about Sender ID. </t>
 
 			    <t> Add references:
 				<xref target="RFC6008"/>. </t>
