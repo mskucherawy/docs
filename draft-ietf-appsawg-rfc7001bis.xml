@@ -1628,12 +1628,18 @@
 			    with each method is recorded the properties
 			    that accompany the method's result.  </t>
 
-			<t> A registry was created by <xref target="RFC5451"/>
-                            for this purpose.  <xref target="RFC6577"/> added
+			<t> The "Email Authentication Parameters" registry
+			    group, and within it the "Email Authentication
+			    Methods" registry, were created by
+			    <xref target="RFC5451"/> for this purpose.
+			    <xref target="RFC6577"/> added
 			    a "status" field for each entry.
 			    <xref target="RFC7001"/> amended
                             the rules governing that registry, and also added
 			    a "version" field to the registry. </t>
+
+			<t> The reference for that registry shall be updated
+			    to reference this document. </t>
 
                         <t> New entries are assigned only for values
                             that have received Expert Review, per
@@ -1754,6 +1760,16 @@
 				    </list> </t>
 			    </list> </t>
                 </section>
+
+                <section anchor="ptype_registry"
+                     title="&quot;Email Authentication Property Types&quot; Registry">
+			<t> <xref target="PTYPES-REGISTRY"> created the
+			    Email Authentication Property Types sub-registry.
+			    IANA shall update this registry to show
+			    <xref target="ptypes"/> of this document as the
+			    current definitions for the "body", "header",
+			    "policy" and "smtp" entries of that registry. </t>
+		</section>
 
                 <section anchor="result_registry"
                         title="&quot;Email Authentication Result Names&quot; Registry">
@@ -3403,6 +3419,10 @@
 			    <t> Minor editorial adjustments. </t>
 
 			    <t> Fix up "smime" entries. </t>
+
+			    <t> Update current definitions for the
+			        Email Authentication Property Types
+			        sub-registry to point to this document. </t>
 
 			    <t> Add references:
 				<xref target="RFC6008"/>. </t>
