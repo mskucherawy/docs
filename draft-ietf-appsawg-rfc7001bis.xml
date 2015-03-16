@@ -914,7 +914,7 @@
 
 				<t> DomainKeys results are reported using the
 				    "header" ptype, but the property can be
-				    either the name of a DKIM tag ("d"
+				    either the name of a DomainKeys tag ("d"
 				    represents the value of the "d" tag from
 				    the DomainKey-Signature header field) or
 				    the name of a relevant header field
