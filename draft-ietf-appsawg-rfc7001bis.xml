@@ -833,6 +833,13 @@
                                     and is represented by the "domainkeys"
                                     method. </t>
 
+				<t> Section 3.8 of <xref target="DOMAINKEYS"/>
+				    enumerates some possible results of a
+				    DomainKeys evaluation.  Those results are
+				    not used when generating this header field;
+				    rather, the results retuerned are listed
+				    below. </t>
+
                                 <t> A signature is "acceptable to the
                                     ADMD" if it passes local policy
                                     checks (or there are no specific local
@@ -906,14 +913,19 @@
 				    header field called "d". </t>
 
 				<t> DomainKeys results are reported using the
-				    "header" ptype, but a mixture of DKIM-style
-				    values (e.g., "d" represents the value
-				    of the "d" tag from the DomainKey-Signature
-				    header field) and typical uses (e.g.,
-				    "from" and "sender", containing those
-				    header fields' values).  In the latter
-				    case, <xref target="MAIL"/>-style comments
-				    are removed, leaving only the address. </t>
+				    "header" ptype, but the property can be
+				    either the name of a DKIM tag ("d"
+				    represents the value of the "d" tag from
+				    the DomainKey-Signature header field) or
+				    the name of a relevant header field
+				    ("from" or "sender", containing those
+				    header fields' values, per Section 3.1
+				    of <xref target="DOMAINKEYS"/>).  In the
+				    latter case, <xref target="MAIL"/>-style
+				    comments are removed, leaving only the
+				    address; moreover, the local-part of the
+				    address is removed if it has not been
+				    authenticated in some way. </t>
 
                                 <t> <xref target="DKIM"/> advises that if a
                                     message fails verification, it is to be
@@ -1581,7 +1593,6 @@
                     However, signing agents MAY therefore elect to omit these
                     header fields from signing to avoid this situation. </t>
 
-
                 <t> An MTA SHOULD remove any instance of this header field
                     bearing a version (express or implied) that it does not
                     support.  However, an MTA MUST remove such a header
@@ -1768,7 +1779,7 @@
 
                 <section anchor="ptype_registry"
                      title="&quot;Email Authentication Property Types&quot; Registry">
-			<t> <xref target="PTYPES-REGISTRY"> created the
+			<t> <xref target="PTYPES-REGISTRY"/> created the
 			    Email Authentication Property Types sub-registry.
 			    IANA shall update this registry to show
 			    <xref target="ptypes"/> of this document as the
