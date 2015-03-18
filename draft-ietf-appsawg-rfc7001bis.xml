@@ -912,21 +912,6 @@
 				    signature header field, and not a distinct
 				    header field called "d". </t>
 
-				<t> DomainKeys results are reported using the
-				    "header" ptype, but the property can be
-				    either the name of a DomainKeys tag ("d"
-				    represents the value of the "d" tag from
-				    the DomainKey-Signature header field) or
-				    the name of a relevant header field
-				    ("from" or "sender", containing those
-				    header fields' values, per Section 3.1
-				    of <xref target="DOMAINKEYS"/>).  In the
-				    latter case, <xref target="MAIL"/>-style
-				    comments are removed, leaving only the
-				    address; moreover, the local-part of the
-				    address is removed if it has not been
-				    authenticated in some way. </t>
-
                                 <t> <xref target="DKIM"/> advises that if a
                                     message fails verification, it is to be
                                     treated as an unsigned message.  A report
@@ -936,6 +921,21 @@
                                     that choice, ensuring the message will
                                     be treated as if it had not been
                                     signed. </t>
+
+				<t> DomainKeys results are reported along
+				    with the signing domain name, the
+				    sending address of the message, and the
+				    name of the header field from which the
+				    latter was extracted.  This means that
+				    a DomainKeys result includes a
+				    ptype-property combination of "header.d",
+				    plus one of "header.from" and
+				    "header.sender".  The sending address
+				    extracted from the header is included
+				    with any <xref target="MAIL"/>-style
+				    comments removed; moreover, the local-part
+				    of the address is removed if it has not
+				    been authenticated in some way. </t>
                         </section>
 
                         <section anchor="spf_sid_results"
@@ -1774,6 +1774,30 @@
 
 					<t hangText="Version:"> 1 </t>
 				    </list> </t>
+
+				<t> The "domainkeys" entries for ptype "header"
+				    are updated as follows:
+				    <list style="hanging">
+					<t hangText="from:"> contents of the
+						<xref target="MAIL"/> From:
+						header field, after removing
+						comments, and removing the
+						local-part if not
+						authenticated </t>
+
+					<t hangText="sender:"> contents of the
+						<xref target="MAIL"/> Sender:
+						header field, after removing
+						comments, and removing the
+						local-part if not
+						authenticated </t>
+				    </list> </t>
+
+				<t> All entries for "dkim-adsp" and
+				    "domainkeys" shall have their Status values
+				    changed to "deprecated", reflecting the
+				    fact that the corresponding specifications
+				    now have Historical status </t>
 			    </list> </t>
                 </section>
 
@@ -1788,7 +1812,7 @@
 		</section>
 
                 <section anchor="result_registry"
-                        title="&quot;Email Authentication Result Names&quot; Registry">
+                        title="&quot;Email Authentication Result Names&quot; Description">
                         <t> Names of message authentication result codes
                             supported by this specification must be registered
                             with IANA, with the exception of experimental
@@ -1812,14 +1836,88 @@
                             can also handle requests to mark any current
                             registration as "deprecated". </t>
 
-                        <t> All existing registry entries that reference
-                            <xref target="RFC7001"/> are to be updated to
-                            reference this document. </t>
+			<t> No two entries can have the same combination of
+			    method and code. </t>
 
-                        <t> The definitions for the SPF and Sender ID
-                            authentication methods are to be updated using the
-                            references found in
-                            <xref target="spf_sid_results"/>.  </t>
+                        <t> An entry in this registry contains the following:
+
+			    <list style="hanging">
+				<t hangText="Method:"> an authentication method
+					for which results are being returned
+					using the header field defined in this
+					document; </t>
+
+				<t hangText="Code:"> a result code that can be
+					returned for this authentication
+					method; </t>
+
+				<t hangText="Specification:"> either free form
+					text explaining the meaning of this
+					method-code combination, or a reference
+					to such a definition. </t>
+			    </list> </t>
+                </section>
+
+                <section anchor="result_registry_2"
+                        title="&quot;Email Authentication Result Names&quot; Update">
+			<t> The following changes are to be made to this
+			    registry on publication of this document:
+
+			    <list style="symbols">
+				<t> The "Defined" field shall be removed. </t>
+
+				<t> The "Meaning" field shall be renamed
+				    to "Specification", as described above. </t>
+
+				<t> The "Method" field shall appear before the
+				    "Code" field. </t>
+
+				<t> All entries for the "dkim", "domainkeys",
+				    "spf", "sender-id", "auth", and "iprev"
+				    methods shall have their "Specification"
+				    fields changed to refer to this document, as
+				    follows:
+				    <list style="hanging">
+					<t hangText="dkim:"> [this document]
+						<xref target="dkim_dk_results"/> </t>
+
+					<t hangText="domainkeys:">
+						[this document]
+						<xref target="dkim_dk_results"/> </t>
+
+					<t hangText="spf:">
+						[this document]
+						<xref target="spf_sid_results"/> </t>
+
+					<t hangText="sender-id:">
+						[this document]
+						<xref target="spf_sid_results"/> </t>
+
+					<t hangText="auth:">
+						[this document]
+						<xref target="auth_results"/> </t>
+
+					<t hangText="iprev:">
+						[this document]
+						<xref target="iprev_results"/> </t>
+				    </list> </t>
+
+                        	<t> All existing registry entries that
+				    reference <xref target="RFC7001"/> are to
+				    be updated to reference this document. </t>
+
+				<t> All entries for "dkim-adsp" that are
+				    missing an explicit reference to a
+				    defining document shall have
+				    <xref target="ADSP"/> added to their
+				    Specification fields. </t>
+
+				<t> All entries for "dkim-adsp" and
+				    "domainkeys" shall have their Status values
+				    changed to "deprecated", reflecting the
+				    fact that the corresponding specifications
+				    now have Historical status. </t>
+			    </list> </t>
                 </section>
         </section>
 
@@ -3432,6 +3530,9 @@
 			    <t> Add description of values that can be extracted
 			        from SMTP AUTH sessions and an example. </t>
 
+			    <t> Much more complete descriptions of reporting
+			        DomainKeys results. </t>
+
 			    <t> Minor editorial adjustments. </t>
 
 			    <t> Fix up "smime" entries. </t>
@@ -3440,7 +3541,14 @@
 			        Email Authentication Property Types
 			        sub-registry to point to this document. </t>
 
+			    <t> Rework the Email Authentication Result Names
+			        registry. </t>
+
 			    <t> Add more detail about Sender ID. </t>
+
+			    <t> Mark all ADSP and DomainKeys entries as
+			        deprecated since their defining documents
+			        are as well. </t>
 
 			    <t> Add references:
 				<xref target="RFC6008"/>. </t>
