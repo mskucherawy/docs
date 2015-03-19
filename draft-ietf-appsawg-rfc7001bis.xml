@@ -994,7 +994,7 @@
                                 <t> The results for Sender ID
                                     are listed and described in Section 4.2 of
                                     <xref target="SENDERID"/>, but for the
-				    purposes of this specificatin, the SPF
+				    purposes of this specification, the SPF
 				    definitions enumerated above are used
 				    instead. </t>
 
