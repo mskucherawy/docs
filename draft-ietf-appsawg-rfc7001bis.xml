@@ -922,7 +922,10 @@
                                     be treated as if it had not been
                                     signed. </t>
 
-				<t> DomainKeys results are reported along
+				<t> Section 3.1 of <xref target="DOMAINKEYS"/>
+				    describes a process by which the sending
+				    address of the message is determined.
+				    DomainKeys results are thus reported along
 				    with the signing domain name, the
 				    sending address of the message, and the
 				    name of the header field from which the
