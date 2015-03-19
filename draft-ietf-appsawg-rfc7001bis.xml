@@ -1778,8 +1778,8 @@
 					<t hangText="Version:"> 1 </t>
 				    </list> </t>
 
-				<t> The "domainkeys" entries for ptype "header"
-				    are updated as follows:
+				<t> The values of the "domainkeys" entries for
+				    ptype "header" are updated as follows:
 				    <list style="hanging">
 					<t hangText="from:"> contents of the
 						<xref target="MAIL"/> From:
@@ -1800,7 +1800,7 @@
 				    "domainkeys" shall have their Status values
 				    changed to "deprecated", reflecting the
 				    fact that the corresponding specifications
-				    now have Historical status </t>
+				    now have Historical status. </t>
 			    </list> </t>
                 </section>
 
