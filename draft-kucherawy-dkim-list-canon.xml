@@ -8,7 +8,7 @@
 ]>
 
 <rfc ipr="trust200902" category="exp"
-        docName="draft-kucherawy-dkim-list-canon-00">
+        docName="draft-kucherawy-dkim-list-canon-01">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -31,7 +31,7 @@
 		</address>
 	</author>
 
-	<date year="2014"/>
+	<date year="2015"/>
 
 	<area>Applications</area>
 
@@ -277,6 +277,16 @@
 		    removed by the intermediary.  The verifying agent can
 		    then determine whether those changes are acceptable before
 		    allowing the message to continue toward delivery. </t>
+
+		<t> It is also possible to determine which agents in the
+		    handling chain took responsibility for which parts of the
+		    content.  For example, while a Mediator's signature might
+		    indicate that the mediator is responsible for the entire
+		    (rewritten) message, it might also be possible to determine
+		    that the Author takes responsibility for all but one part
+		    of the message as well.  The excluded part would be the
+		    part added by the Mediator, and can be handled separately
+		    from the Author's content. </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
@@ -340,10 +350,132 @@
 		&RFC6377;
 	</references>
 
-	<section anchor="examples" title="Examples">
-		<t> TODO: Show a few examples of the conversion between
-		    some different MIME structures, the hash tree, and the
-		    "lh=" tag's value. </t>
+	<section anchor="example" title="Example">
+		<t> To illustrate the use of this addition to DKIM,
+		    consider a message whose header and content are as follows:
+
+		    <figure>
+			<artwork>
+  From: sender@example.com
+  To: recipient@example.net
+  Date: Mon, 23 Mar 2015 11:21:33 -0700
+  Subject: test message
+  MIME-Version: 1.0
+  Content-Type: multipart/mixed; boundary="foobar"
+
+  --foobar
+  Content-Type: text/plain
+
+  Text part #1
+
+  --foobar
+  Content-Type: text/plain
+
+  Text part #2
+
+  --foobar--
+			</artwork>
+			<postamble>
+				Figure 1: Example Message
+			</postamble>
+		    </figure> </t>
+
+		<t> The MIME structure in this message can be represented
+		    as a tree.  A node with media type "multipart" has
+		    a set of one or more children nodes, each of which starts
+		    with the corresponding boundary.  A node of any other
+		    type contains actual content, and has no descendents, but
+		    has siblings under the same parent node.  Thus,
+		    as a tree, the example message might be represented thus:
+
+		    <figure>
+			<artwork>
+  +-----------+
+  | multipart |
+  |   mixed   |---&gt;//
+  +-----------+
+        |
+        |
+        V
+  +-----------+    +-----------+
+  |   text    |    |   text    |
+  |   plain   |---&gt;|   plain   |---&gt;//
+  +-----------+    +-----------+
+			</artwork>
+			<postamble>
+				Figure 2: MIME structure
+			</postamble>
+		    </figure> </t>
+
+		<t> Continuing with this illustration, a Mediator receives
+		    the message, and adds its desired "footer" content by
+		    appending a third text/plain MIME part after the existing
+		    content.  This results in the following MIME structure:
+
+		    <figure>
+			<artwork>
+  +-----------+
+  | multipart |
+  |   mixed   |---&gt;//
+  +-----------+
+        |
+        |
+        V
+  +-----------+    +-----------+    +-----------+
+  |   text    |    |   text    |    |   text    |
+  |   plain   |---&gt;|   plain   |---&gt;|   plain   |---&gt;//
+  +-----------+    +-----------+    +-----------+
+			</artwork>
+			<postamble>
+				Figure 3: Augmented MIME structure
+			</postamble>
+		    </figure> </t>
+
+		<t> Applying the signatures as described in
+		    <xref target="descr"/> at both the Author and the Mediator,
+		    the final Verifier will see signatures that cover content
+		    as follows:
+
+		    <figure>
+			<artwork>
+  +--------------------------------------------------------+
+  |+--------------------------------+                      |
+  || +-----------+                  |                      |
+  || | multipart |                  |                      |
+  || |   mixed   |---//             |                      |
+  || +-----------+                  |                      |
+  ||       |                        |                      |
+  ||       |                        |                      |
+  ||       V                        |                      |
+  || +-----------+    +-----------+ |  +-----------+       | 
+  || |   text    |    |   text    | |  |   text    |       |
+  || |   plain   |---&gt;|   plain   |-|-&gt;|   plain   |---&gt;// |
+  || +-----------+    +-----------+ |  +-----------+       |
+  |+--------------------------------+                      |
+  |  A u t h o r   s i g n a t u r e                       |
+  +--------------------------------------------------------+
+     M e d i a t o r   s i g n a t u r e
+			</artwork>
+			<postamble>
+				Figure 4: Signature coverage of content
+			</postamble>
+		    </figure> </t>
+
+		<t> With the additional information provided using this
+		    mechanism, it is now possible to verify both signatures,
+		    and also ascribe responsibility for different parts of the
+		    content to two different signature-generating
+		    entities. </t>
+	</section>
+
+	<section anchor="todo" title="To-Do">
+		<t> Explain how this works when the input message is
+		    not already a MIME message.  Probably just canonicalize it
+		    as a multipart/mixed with a single text/plain in it. </t>
+
+		<t> Handle more complex MIME structures from the author,
+		    such as something that's already multipart/mixed with
+		    some non-trivial structure to it.  </t>
 	</section>
 
 	<section anchor="thanks" title="Acknowledgements">
