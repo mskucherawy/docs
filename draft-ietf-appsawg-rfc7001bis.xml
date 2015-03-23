@@ -837,7 +837,7 @@
 				    enumerates some possible results of a
 				    DomainKeys evaluation.  Those results are
 				    not used when generating this header field;
-				    rather, the results retuerned are listed
+				    rather, the results returned are listed
 				    below. </t>
 
                                 <t> A signature is "acceptable to the
@@ -1647,7 +1647,7 @@
 			    with each method is recorded the properties
 			    that accompany the method's result.  </t>
 
-			<t> The "Email Authentication Parameters" registry
+			<t> The "Email Authentication Parameters" 
 			    group, and within it the "Email Authentication
 			    Methods" registry, were created by
 			    <xref target="RFC5451"/> for this purpose.
@@ -1807,7 +1807,7 @@
                 <section anchor="ptype_registry"
                      title="&quot;Email Authentication Property Types&quot; Registry">
 			<t> <xref target="PTYPES-REGISTRY"/> created the
-			    Email Authentication Property Types sub-registry.
+			    Email Authentication Property Types registry.
 			    IANA shall update this registry to show
 			    <xref target="ptypes"/> of this document as the
 			    current definitions for the "body", "header",
@@ -1845,10 +1845,10 @@
                         <t> An entry in this registry contains the following:
 
 			    <list style="hanging">
-				<t hangText="Method:"> an authentication method
-					for which results are being returned
-					using the header field defined in this
-					document; </t>
+				<t hangText="Auth Method:"> an authentication
+					method for which results are being
+					returned using the header field
+					defined in this document; </t>
 
 				<t hangText="Code:"> a result code that can be
 					returned for this authentication
@@ -1870,16 +1870,22 @@
 				<t> The "Defined" field shall be removed. </t>
 
 				<t> The "Meaning" field shall be renamed
-				    to "Specification", as described above. </t>
+				    to "Specification", as described
+				    above. </t>
 
-				<t> The "Method" field shall appear before the
-				    "Code" field. </t>
+				<t> The "Auth Method" field shall appear
+				    before the "Code" field. </t>
+
+				<t> For easier searching, the table shall be
+				    arranged such that it is sorted first by
+				    Auth Method, then by Code within each
+				    Auth Method grouping. </t>
 
 				<t> All entries for the "dkim", "domainkeys",
 				    "spf", "sender-id", "auth", and "iprev"
 				    methods shall have their "Specification"
-				    fields changed to refer to this document, as
-				    follows:
+				    fields changed to refer to this document,
+				    as follows:
 				    <list style="hanging">
 					<t hangText="dkim:"> [this document]
 						<xref target="dkim_dk_results"/> </t>
@@ -1904,10 +1910,6 @@
 						[this document]
 						<xref target="iprev_results"/> </t>
 				    </list> </t>
-
-                        	<t> All existing registry entries that
-				    reference <xref target="RFC7001"/> are to
-				    be updated to reference this document. </t>
 
 				<t> All entries for "dkim-adsp" that are
 				    missing an explicit reference to a
@@ -3542,7 +3544,7 @@
 
 			    <t> Update current definitions for the
 			        Email Authentication Property Types
-			        sub-registry to point to this document. </t>
+			        registry to point to this document. </t>
 
 			    <t> Rework the Email Authentication Result Names
 			        registry. </t>
