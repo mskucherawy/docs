@@ -447,6 +447,39 @@
 		    </list> </t>
 	</section>
 
+	<section anchor="discuss" title="Discussion">
+		<t> Section 3.5 of <xref target="RFC6376"/> defined an optional
+		    DKIM signature tag ("z=") that can be used to reconstruct
+		    the header field set that was signed by the author.  When a
+		    signature fails to verify, this information could
+		    conceivably be used to replay the correct (original) header
+		    fields through canonicalization and possibly yield a
+		    passing result. </t>
+
+		<t> Doing this augmented replay blindly would allow a signature
+		    to pass when it failed because some alteration correctly
+		    rendered the original content invalid or even dangerous.
+		    This is manifestly not an error.  Identifying which
+		    mutations of the original content ought to be permissible
+		    necessarily relies on heuristics and possibly local
+		    knowledge.  However, a mutation universally considered to
+		    be tolerable should become part of the canonicalization
+		    process rather than being identified and handled in this
+		    manner.  Moreover, if two implementations apply different
+		    heuristics, the result of verification is no longer
+		    deterministic.  As a result, <xref target="RFC6376"/>
+		    asserts that use of the "z=" content, if present, can only
+		    be used for diagnostic purposes. </t>
+
+		<t> In contrast, the proposal here enumerates a handful of
+		    specific mutations known to be safe, and in common use,
+		    that are also reversible, which means the Author's
+		    original content can be unambiguously recovered and
+		    subjected to the usual signature verification process
+		    even though the message has been legitimately modified
+		    by a Mediator. </t>
+	</section>
+
 	<section anchor="security" title="Security Considerations">
 		<section anchor="sec_import" title="Imported from DKIM">
 			<t> Section 8 of <xref target="RFC6376"/> discusses
