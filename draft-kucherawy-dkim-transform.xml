@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="us-ascii"?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC2045 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2045.xml">
+  <!ENTITY RFC5226 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+  <!ENTITY RFC5234 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
+  <!ENTITY RFC5598 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5598.xml">
+  <!ENTITY RFC6376 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6376.xml">
+  <!ENTITY RFC6377 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6377.xml">
+  <!ENTITY RFC7489 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7489.xml">
+]>
+
+<rfc ipr="trust200902" category="exp"
+        docName="draft-kucherawy-dkim-transform-00">
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc strict="no" ?>
+<?rfc rfcedstyle="yes"?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="DKIM Transformations">
+		Recognized Transformations of Messages Bearing
+		DomainKeys Identified Mail (DKIM)
+		Signatures
+	</title>
+
+	<author initials="M. S." surname="Kucherawy"
+	        fullname="Murray S. Kucherawy">
+
+		<address>
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<date year="2015"/>
+
+	<area>Applications</area>
+
+	<abstract>
+		<t> DomainKeys Identified Mail (DKIM) introduced a mechanism
+		    whereby a mail operator can affix a signature to a message
+		    that validates at the level of the signer's domain name.
+		    It specified two possible ways of converting the message
+		    body to a canonical form, one intolerant of changes and
+		    the other tolerant of simple changes to whitespace within
+		    the message body. </t>
+
+		<t> The provided canonicalization schemes do not tolerate
+		    changes in a message such as conversion between transfer
+		    encodings or addition of new message content.  It is
+		    useful to have these capabilities to allow for transport
+		    through gateways, and also for transport through handlers
+		    (such as mailing list services) that might add content
+		    that would invalidate a signature generated using the
+		    existing canonicalization schemes. </t>
+
+		<t> This document presents a mechanism for declaring that
+		    a message underwent one of a handful of well-defined
+		    transformations, so that a verifier might rewind such
+		    a modification and thereby confirm that the signature still
+		    verifies against the original content. </t>
+	</abstract>
+</front>
+
+<middle>
+	<section anchor="background" title="Background">
+		<t> DomainKeys Identified Mail (DKIM) <xref target="RFC6376"/>
+		    defines a mechanism whereby a verified domain name can be
+		    attached to a message, or portion of a message, using a
+		    cryptographic signature.  It presents two possible schemes
+		    for converting the header block to a canonical form, and
+		    similarly two schemes for canonicalizing the body.  In
+		    each case, one scheme permits no changes whatsoever,
+		    and the other permits limited changes restricted to
+		    areas such as whitespace munging, case changing, and header
+		    field wrapping. </t>
+
+		<t> Some agents deliberately, but innocently, modify content
+		    in transit.  A prime example of this is mailing lists,
+		    which might add a prefix to the Subject field of a message,
+		    add list-specific information to the header (in the form
+		    of new header fields), or append administrivia to the
+		    body of messages before they are re-mailed to the list
+		    subscribers.  Use of mailing lists with respect to DKIM,
+		    and a discussion of related challenges, can be found in
+		    <xref target="RFC6377"/>.  The urgency to solve this
+		    family of problems increased dramatically with the
+		    large-scale introduction of Domain-based Message
+		    Authentication, Reporting, and Conformance
+		    (DMARC) <xref target="RFC7489"/>. </t>
+
+		<t> There is a desire to have DKIM signatures survive transit
+		    through lists.  One way to do this is to make use of
+		    DKIM's "l=" tag which limits the portion of the body
+		    that is signed.  This exposes an attack vector, however,
+		    since one can simply append any content to a partly-signed
+		    message and the signature will continue to verify.  (See
+		    Section 8.2 of <xref target="RFC6376"/>.) </t>
+
+		<t> This document defines an incremental mechanism to declare
+		    that a signature is being applied to message content after
+		    one of a small set of well-defined, reversible,
+		    content transformations.  The message verifier can then
+		    reverse the effect of the claimed transformation and,
+		    theoretically, recover the original content and confirm
+		    its integrity. </t>
+
+		<t> The utility of this mechanism is predicated on the notion
+		    that agents that modify signed messages will do so in
+		    one of the known (registered) transformations, and that
+		    common transformations will be registered as they are
+		    developed. </t>
+	</section>
+
+	<section anchor="defs" title="Definitions">
+		<t> Numerous terms used here, especially "Author" and
+		    "Mediator", are defined in <xref target="RFC5598"/>. </t>
+	</section>
+
+	<section anchor="tag" title="The 'tf' DKIM Signature Tag">
+		<t> This section defines the 'tf' DKIM signature tag. </t>
+
+		<t> The presence of this tag is an indication to a verifier
+		    that the agent adding this signature transformed the
+		    original message between receipt (and verification of any
+		    previously-applied signature) and retransmission, and
+		    that such transmission was one of a set that are
+		    common, well-defined, and reversible. </t>
+
+		<t> The value of this tag is one of the transformations
+		    registered in the DKIM Message Transformations registry.
+		    See <xref target="iana"/>. </t>
+
+		<t> Using ABNF, as defined in <xref target="RFC5234"/>:
+
+			<figure><artwork>
+  sig-tf-tag       = %x74.66 [FWS] "=" [FWS] sig-tf-tag-trans
+  sig-tf-tag-trans = Token
+                   ; expected to be a transformation name found
+                   ; in the DKIM Message Transformations
+                   ; registry
+			</artwork></figure> </t>
+
+		<t> "Token" is imported from <xref target="RFC2045"/>, and
+		    "FWS" is imported from <xref target="RFC6376"/>. </t>
+
+		<t> A verifier finding a signature with the "tf" tag
+		    present but bearing a value it does not recognize
+		    ignores its presence (other than including it in hash
+		    computation). </t>
+	</section>
+
+	<section anchor="flow" title="DKIM Operational Flow">
+		<t> In all cases, DKIM operations involving this tag
+		    begin with a message author generating content and
+		    submitting it to the appropriate Message Submission
+		    Agent (MSA).  The MSA is presumed to have some kind
+		    of DKIM signature generation capability, and thus the
+		    message will have an author domain signature attached
+		    to it. </t>
+
+		<t> When a message arrives at a Mediator or other intermediary
+		    that wishes to distribute an altered form of the author's
+		    content, such as a Mailing List Manager (MLM) configured
+		    to do so, it generates an additional DKIM signature with
+		    the new form of the content as input.  This second
+		    includes the "tf" tag, announcing which known
+		    transformation was applied to the message prior to
+		    creation of the Mediator's signature.  Importantly, the
+		    original signature is not removed from the message nor is
+		    it altered in any way. </t>
+
+		<t> Since DKIM-compliant verifiers ignore signature tags
+		    of which they are not aware, this is a purely incremental
+		    change as it will not interfere with the deployed DKIM
+		    infrastructure. </t>
+
+		<t> A DKIM verifier aware of this tag will first confirm that
+		    the Mediator's signature is valid.  On doing so, it can
+		    then apply the reverse of the claimed transformation.
+		    This will restore the message to the form and content
+		    originally submitted by the Author, and the Author's
+		    signature will then be valid over the restored
+		    content. </t>
+
+		<t> This might be used to confirm that a message which
+		    passed through a Mediator can still be considered
+		    to have a valid Author signature, satisfying
+		    policy checks such as those described in
+		    <xref target="RFC7489"/>. </t>
+
+		<section anchor="flow_detail" title="Detail">
+			<t> <list style="numbers">
+				<t> Author A generates message M, addressed
+				    to recipient R, which is a Mediator
+				    (a mailing list manager, for example). </t>
+
+				<t> Author submits M to its MSA. </t>
+
+				<t> MSA generates and attaches DKIM signature
+				    S(M), and sends the message toward its
+				    destination, which is the servers
+				    accepting messages for R. </t>
+
+				<t> The message arrives at R.  R might verify
+				    signature S(M) and apply any local policy
+				    if the verification fails. </t>
+
+				<t> R selects one of the registered, reversible
+				    transformations, T, to be applied to
+				    M.  (The reverse operation will be called
+				    T'.)  R thus generates T(M) as the new
+				    content.  The new content necessarily
+				    includes S(M). </t>
+
+				<t> R also generates a signature of T(M),
+				    which is S(T(M)).  This new signature
+				    includes the "tf" tag defined above,
+				    identifying the transformation T that was
+				    used in the previous step.  It then sends
+				    the message toward its final
+				    destination(s).  For a mailing list
+				    manager, this would be all of the current
+				    list subscribers. </t>
+
+				<t> The Mediator version of the message
+				    arrives at ultimate recipient Z.
+				    Assuming no unexpected damage to the
+				    message in transit, Z will be able to
+				    validate S(T(M)). </t>
+
+				<t> If the verifier is not aware of this
+				    tag and its meaning, or if the verifier
+				    is not aware of how to reverse the
+				    identified transformation, normal DKIM
+				    verification continues from here, and this
+				    modified algorithm terminates.  It would be
+				    expected that S(T(M)) would be valid,
+				    but S(M) would not.  </t>
+
+				<t> The compliant verifier applies T' to the
+				    validated message content.  By
+				    definition, T'(T(M)) is M.  Since the
+				    Mediator preserved Author signature
+				    S(M), the verifier can now attempt to
+				    validate the Author signature against
+				    the recovered original content. </t>
+			    </list> </t>
+		</section>
+	</section>
+				    
+	<section anchor="trans_mimeify" title="The 'mimeify' Transformation">
+		<t> The "mimeify" transformation converts a message that is
+		    not formatted according to Multipurpose Internet Mail
+		    Extensions (MIME) <xref target="RFC2045"/>, and
+		    converts it to that form.  This allows a Mediator to
+		    place the original content in one MIME part, and its own
+		    additional content in a second MIME part.  The reverse
+		    transformation is to remove the second MIME part
+		    altogether, and then strip away all MIME structure, leaving
+		    only the original author content. </t>
+
+		<t> More specifically, the transformation follows these
+		    steps:
+
+		    <list style="numbers">
+			<t> A "MIME-Version" header field is added,
+			    as described in <xref target="RFC2045"/>. </t>
+
+			<t> A "Content-Type" header field is added, also
+			    as described in <xref target="RFC2045"/>.  The
+			    media type is "multipart/mixed".  A unique
+			    compliant boundary is also generated. </t>
+
+			<t> Two MIME parts are created.  The first MIME
+			    part is of type "text/plain", and contains the
+			    body of the original message.  The second MIME
+			    part contains whatever content the Mediator
+			    is configured to add, and uses a media type
+			    appropriate to that content. </t>
+
+			<t> The body of the message is replaced with the
+			    following, in a manner compliant with
+			    <xref target="RFC2045"/>, namely:
+
+			    <list style="letters">
+				<t> the boundary; </t>
+
+				<t> an optional "Content-Type" header field
+				    indicating the original content used the
+				    default "text/plain" media type, and
+				    the optional "charset" parameter; </t>
+
+				<t> a line break; </t>
+
+				<t> the body of the original message; </t>
+
+				<t> a line break; </t>
+
+				<t> the boundary; </t>
+
+				<t> any MIME header fields needed
+				    to introduce the content the Mediator
+				    wishes to add; </t>
+
+				<t> a line break; </t>
+
+				<t> the Mediator's content; </t>
+
+				<t> the terminating boundary. </t>
+			    </list> </t>
+		    </list> </t>
+
+		<t> The reverse of this transformation is as follows:
+		    <list style="numbers">
+			<t> Extract the full content of the first MIME
+			    part. </t>
+
+			<t> Discard the entire message body, and replace it
+			    with the extracted content above. </t>
+
+			<t> Remove the "Content-Type" and "MIME-Version"
+			    header fields. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="trans_addpart" title="The 'add-part' Transformation">
+		<t> The "add-part" transformation augments a multipart message
+		    that is already formatted according to MIME by appending
+		    an additonal part that includes the content the Mediator
+		    wishes to add. </t>
+
+		<t> This transformation cannot be used unless the media type
+		    of the message as a whole (the one named in the
+		    Content-Type field in the header of the message itself)
+		    is "multipart/mixed".  Simply put, a new part within the
+		    existing set of parts is added at the end, containing
+		    the Mediator's content. </t>
+
+		<t> More specifically, the transformation follows these
+		    steps:
+
+		    <list style="numbers">
+			<t> Determine the MIME boundary used to separate parts,
+			    found in the top-level Content-Type header
+			    field. </t>
+
+			<t> At the point of the terminating boundary in the
+			    original message, insert a non-terminating instance
+			    of the same boundary. </t>
+
+			<t> After the new boundary, write any MIME fields
+			    needed to introduce the content the Mediator
+			    wishes to add. </t>
+
+			<t> Insert a line break, followed by the Mediator's
+			    content, and an additional line break. </t>
+		    </list> </t>
+
+		<t> The reverse of this transformation is as follows:
+		    <list style="numbers">
+			<t> Locate the last instance of the boundary found in
+			    the Content-Type header field of the message
+			    itself. </t>
+
+			<t> Delete the content from that point in the message
+			    until the terminating instance of the
+			    boundary. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="trans_wrap" title="The 'mime-wrap' Transformation">
+		<t> The "mime-wrap" transformation augments a message
+		    that is already formatted according to MIME by enclosing
+		    the existing MIME structure in a new layer.  This new
+		    layer contains two parts: the original MIME structure in
+		    its first part, and the Mediator content in its second
+		    part. </t>
+
+		<t> More specifically, the transformation follows these
+		    steps:
+
+		    <list style="numbers">
+			<t> Remove the Content-Type header field from the
+			    message. </t>
+
+			<t> Generate a new Content-Type header field,
+			    compliant with <xref target="RFC2045"/>, with
+			    media type "multipart/mixed", and a boundary. </t>
+
+			<t> The body of the message is replaced with the
+			    following, in a manner compliant with
+			    <xref target="RFC2045"/>, namely: 
+
+			    <list style="letters">
+				<t> the new boundary; </t>
+
+				<t> the previously deleted Content-Type
+				    header field; </t>
+
+				<t> a line break; </t>
+
+				<t> the entire original content of the
+				    message; </t>
+
+				<t> a line break; </t>
+
+				<t> the new boundary; </t>
+
+				<t> any MIME header fields needed
+				    to introduce the content the Mediator
+				    wishes to add; </t>
+
+				<t> a line break; </t>
+
+				<t> the Mediator's content; </t>
+
+				<t> the terminating instance of the new
+				    boundary. </t>
+			    </list> </t>
+		    </list> </t>
+
+		<t> This leaves the new message as a MIME message with two
+		    parts at the outermost layer; the original message
+		    appears as the first part, and the Mediator's content
+		    is the second part. </t>
+
+		<t> The reverse of this transformation is as follows:
+		    <list style="numbers">
+			<t> Extract the Content-Type header field from the
+			    first MIME part in the message.  This appears
+			    immediately after the first MIME boundary
+			    in the message. </t>
+
+			<t> Replace the Content-Type header field of the
+			    message with the one extracted above. </t>
+
+			<t> Extract the content of the first MIME part in the
+			    message.  This appears between the first two
+			    instances of the outermost MIME boundary. </t>
+
+			<t> Replace the entire message body with the extracted
+			    MIME part. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+		<section anchor="sec_import" title="Imported from DKIM">
+			<t> Section 8 of <xref target="RFC6376"/> discusses
+			    numerous security considerations relevant to
+			    DKIM.  Of particular interest here is Section
+			    8.2, which discusses concerns regarding signatures
+			    that sill verify in the presence of added
+			    message content. </t>
+		</section>
+	</section>
+
+	<section anchor="iana" title="IANA Considerations">
+		<section anchor="iana_trans_reg"
+		         title="DKIM Transformations Registry">
+			<t> IANA is requested to create a new registry in the
+			    DomainKeys Identified Mail (DKIM) Parameters
+			    group called the "DKIM Transformations
+			    Registry".  This registry will enumerate known
+			    reversible content transformations that might
+			    be made by Mediators to messages bearing DKIM
+			    signatures. </t>
+
+			<t> Entries in this registry include all of the
+			    following:
+
+			    <list style="hanging">
+				<t hangText="Name:"> A simple name for
+					a reversible message
+					transformation; </t>
+
+				<t hangText="Description:"> A terse
+					description for the
+					transformation; </t>
+
+				<t hangText="Specification:"> A reference
+					to a stable specification in which
+					this transformation and its inverse
+					are clearly described; </t>
+
+				<t hangText="Status:"> Must be one of:
+					<list style="symbols">
+						<t> "active", meaning the
+						    transformation is in
+						    current use; </t>
+
+						<t> "deprecated", meaning
+						    the transformation is not
+						    in current use. </t>
+					</list> </t>
+			    </list> </t>
+
+			<t> An entry may be added or updated in this registry
+			    only when it meets the requirements of the
+			    "Specification Required" rules found in
+			    <xref target="RFC5226"/>.  The Designated Expert
+			    will confirm that the referenced specification
+			    is clear and complete, and that the transformation
+			    and its inverse are not ambiguous. </t>
+
+			<t> The initial entries in this registry are as
+			    follows, all with status "active":
+
+			    <list style="hanging">
+				<t hangText="add-part:"> Defined in
+					<xref target="trans_addpart"/> of
+					this document.  The simple description
+					is "append an extra text MIME part
+					to a MIME-formatted message". </t>
+
+				<t hangText="mime-wrap:"> Defined in
+					<xref target="trans_wrap"/> of this
+					document.  The simple description is
+					"wrap a MIME-formatted message in a
+					new multipart layer". </t>
+
+				<t hangText="mimeify:"> Defined in
+					<xref target="trans_mimeify"/> of this
+					document.  The simple description is
+					"convert a non-MIME message to a MIME
+					message". </t>
+			    </list> </t>
+		</section>
+	</section>
+</middle>
+
+<back>
+	<references title="Normative References">
+		&RFC2045;
+		&RFC5226;
+		&RFC5234;
+		&RFC6376;
+	</references>
+
+	<references title="Informative References">
+		&RFC5598;
+		&RFC6377;
+		&RFC7489;
+	</references>
+
+	<section anchor="examples" title="Examples">
+		<t> TODO: Show at least one example. </t>
+	</section>
+
+	<section anchor="thanks" title="Acknowledgements">
+		<t> The original team developing this concept included
+		    Michael Adkins and Wez Furlong. </t>
+
+		<t> The author wishes to acknowledge
+		    (names)
+		    for their comments during the development of this
+		    document. </t>
+	</section>
+
+	<section anchor="todo" title="To-Do List">
+		<t> <list style="symbols">
+			<t> Examples. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="changelog" title="Change Log">
+		<t> <list style="hanging">
+			<t hangText="00:"> Initial revision. </t>
+		    </list> </t>
+	</section>
+</back>
+
+</rfc>
