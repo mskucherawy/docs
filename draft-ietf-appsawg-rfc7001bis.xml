@@ -912,6 +912,10 @@
 				    signature header field, and not a distinct
 				    header field called "d". </t>
 
+				<t> The ability to report different DKIM
+				    results for a multiply-signed message is
+				    described in <xref target="RFC6008"/>. </t>
+
                                 <t> <xref target="DKIM"/> advises that if a
                                     message fails verification, it is to be
                                     treated as an unsigned message.  A report
@@ -1208,11 +1212,6 @@
 					<t> S/MIME
 					    (in <xref target="SMIME-REG"/>,
 					    represented by "smime"). </t>
-
-					<t> The ability to report different
-					    DKIM results for a multiply-signed
-					    message (in
-					    <xref target="RFC6008"/>). </t>
 				    </list> </t>
                         </section>
 
@@ -3603,6 +3602,9 @@
 
 			    <t> RFC7208 uses all-lowercase result strings now,
 				so adjust prose accordingly. </t>
+
+			    <t> Move the RFC6008 reference up to where the
+				DKIM reporting is described. </t>
 			</list> </t>
 		</section>
 	</section>
