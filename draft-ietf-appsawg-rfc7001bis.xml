@@ -1366,7 +1366,7 @@
                     In particular, it recommends that applications avoid using
                     this test as a means of authentication or security.  Its
                     presence in this document is not an endorsement but is
-                    merely acknowledgement that the method remains common and
+                    merely acknowledgment that the method remains common and
                     provides the means to relay the results of that test.  </t>
         </section>
 
@@ -2071,14 +2071,14 @@
                 
                         <t> Mitigation of the forged header field attack can
                             also be accomplished by moving the authentication
-                            results data into metadata associated with
+                            results data into meta-data associated with
                             the message.  In particular, an
                             <xref target="SMTP"/> extension could be
                             established to communicate
                             authentication results from the border MTA to
                             intermediate and delivery MTAs; the latter of
                             these could arrange to store the authentication
-                            results as metadata retrieved and rendered
+                            results as meta-data retrieved and rendered
                             along with the message by an <xref target="IMAP"/>
                             client aware of a similar extension in that
                             protocol.  The delivery MTA would be told to
@@ -2115,7 +2115,7 @@
                             sometimes be reordered en route by
                             intermediate MTAs.  The goal of requiring header
                             field addition only at the top of a message is an
-                            acknowledgement that some MTAs do reorder
+                            acknowledgment that some MTAs do reorder
                             header fields, but most do not.  Thus, in the
                             general case, there will be some indication of
                             which MTAs (if any) handled the message after the
@@ -2596,11 +2596,10 @@
 					<organization />
 				</author>
 
-				<date year='2015' month='February' />
+				<date year='2015' month='March' />
 			</front>
 
-			<seriesInfo name='I-D'
-				value='draft-kucherawy-dmarc-base' />
+			<seriesInfo name='RFC' value='7489' />
 		</reference>
 
                 <reference anchor="DNS">
@@ -2977,7 +2976,7 @@
 		</reference>
         </references>
 
-        <section anchor="thanks" title="Acknowledgements">
+        <section anchor="thanks" title="Acknowledgments">
 		<t> The author wishes to acknowledge the following
 		    individuals for their review and constructive criticism of
 		    this document:
@@ -3359,7 +3358,7 @@
                             the authentications claimed by both signatures are
                             indeed valid. </t>
 
-                        <t> Note that two styles of presenting metadata about
+                        <t> Note that two styles of presenting meta-data about
                             the result are in use here.  In one case, the
                             "reason=" clause is present, which is intended
                             for easy extraction by parsers; in the other
