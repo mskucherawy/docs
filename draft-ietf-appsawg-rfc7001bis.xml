@@ -645,9 +645,9 @@
 					extracted content as a parameter. </t>
 			    </list> </t>
 
-			<t> When a consumer of this header field encounters a
-			    "ptype" that it does not understand, it ignores
-			    the result reported with that "ptype". </t>
+			<t> Results reported using unknown ptypes can be
+			    safely ignored by consumers; their presence is
+			    not considered an error. </t>
 
 			<t> Entries in the "Email Authentication Methods"
 			    registry can define properties that deviate from
@@ -2983,8 +2983,9 @@
 		    Stephane Bortzmeyer,
 		    Scott Kitterman,
 		    John Levine,
+		    Tom Petch,
 		    and
-		    Tom Petch.
+		    Pete Resnick.
 		    </t>
         </section>
 
@@ -3592,6 +3593,9 @@
 		<section title="-04 to -05">
 			<t> <list style="symbols">
 			    <t> Fix typos. </t>
+
+			    <t> Rework some text around ignoring unknown
+				ptypes. </t>
 
 			    <t> Completely describe the ptypes registry. </t>
 
