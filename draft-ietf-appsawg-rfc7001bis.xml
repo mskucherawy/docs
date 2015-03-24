@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-04" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-05" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -978,9 +978,11 @@
                                     evaluation. </t>
 
                                 <t> For SPF, the ptype used is "smtp", and the
-				    property is any of "mailfrom", "helo",
-				    and "ehlo", since those values are the ones
-				    SPF can evaluate. </t>
+				    property is either "mailfrom" or "helo",
+				    since those values are the ones SPF can
+				    evaluate.  (If the SMTP client issued
+				    the EHLO command instead of HELO, the
+				    property used is "helo".) </t>
 
                                 <t> The "sender-id" method is described in
 				    <xref target="SENDERID"/>.  For this
@@ -1606,7 +1608,7 @@
 
         <section anchor="iana" title="IANA Considerations">
                 <t> IANA has registered the defined header field and created
-		    two tables as described below.  These registry actions
+		    tables as described below.  These registry actions
 		    were originally defined by <xref target="RFC5451"/> and
 		    updated by <xref target="RFC6577"/> and
 		    <xref target="RFC7001"/>.  The created registries are
@@ -1805,8 +1807,38 @@
                 <section anchor="ptype_registry"
                      title="&quot;Email Authentication Property Types&quot; Registry">
 			<t> <xref target="PTYPES-REGISTRY"/> created the
-			    Email Authentication Property Types registry.
-			    IANA shall update this registry to show
+			    Email Authentication Property Types registry. </t>
+
+			<t> Entries in this registry are subject to the Expert
+			    Review rules as described in
+			    <xref target="RFC5226"/>.  Each entry in the
+			    registry requires the following values:
+
+			    <list style="hanging">
+				<t hangText="ptype:"> The name of the ptype
+					being registered, which must fit within
+					the ABNF described in 
+					<xref target="format_formal"/>. </t>
+
+				<t hangText="Definition:"> An optional
+					reference to a defining
+					specification. </t>
+
+				<t hangText="Description:"> A brief description
+					of what sort of information this
+					"ptype" is meant to cover. </t>
+			    </list> </t>
+
+			<t> For new entries, the Designated Expert needs to
+			    assure that the description provided for the new
+			    entry adequately describes the intended use.  An
+			    example would be helpful to include in the entry's
+			    defining document, if any, although entries in
+			    the "Email Authentication Methods" registry or
+			    the "Email Authentication Result Names" registry
+			    might also serve as examples of intended use. </t>
+
+			<t> IANA shall update this registry to show
 			    <xref target="ptypes"/> of this document as the
 			    current definitions for the "body", "header",
 			    "policy" and "smtp" entries of that registry. </t>
@@ -3555,6 +3587,19 @@
 
 			    <t> Add references:
 				<xref target="RFC6008"/>. </t>
+			</list> </t>
+		</section>
+
+		<section title="-04 to -05">
+			<t> <list style="symbols">
+			    <t> Fix typos. </t>
+
+			    <t> Completely describe the ptypes registry. </t>
+
+			    <t> EHLO is mapped to HELO for SPF. </t>
+
+			    <t> RFC7208 uses all-lowercase result strings now,
+				so adjust prose accordingly. </t>
 			</list> </t>
 		</section>
 	</section>
