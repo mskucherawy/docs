@@ -592,7 +592,7 @@
 			    general type of property being described by the
 			    result being reported, upon which the reported
 			    result was based.  Coupled with the "property", 
-			    which is more specific, they inidcate from which
+			    which is more specific, they indicate from which
 			    particular part of the message the reported data
 			    were extracted. </t>
 
@@ -996,12 +996,10 @@
                                     <xref target="SENDERID"/>, but for the
 				    purposes of this specification, the SPF
 				    definitions enumerated above are used
-				    instead. </t>
-
-                                <t> Note that both of those documents specify
-                                    result codes that use mixed case, but they
-                                    are typically used all lowercase in this
-                                    context. </t>
+				    instead.  Also, <xref target="SENDERID"/>
+				    specifies result codes that use mixed
+				    case, but they are typically used all
+				    lowercase in this context. </t>
 
                                 <t> For both methods, an additional result of
                                     "policy" is defined, which means the
