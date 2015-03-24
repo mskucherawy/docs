@@ -645,7 +645,7 @@
 					extracted content as a parameter. </t>
 			    </list> </t>
 
-			<t> Results report using unknown ptypes MUST NOT be
+			<t> Results reported using unknown ptypes MUST NOT be
 			    used in making handling decisions. They can be
 			    safely ignored by consumers. </t>
 
