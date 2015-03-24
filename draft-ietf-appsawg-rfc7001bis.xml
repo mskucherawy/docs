@@ -645,9 +645,10 @@
 					extracted content as a parameter. </t>
 			    </list> </t>
 
-			<t> Results reported using unknown ptypes can be
-			    safely ignored by consumers; their presence is
-			    not considered an error. </t>
+			<t> Results reported using unknown ptypes MUST be
+			    ignored by consumers.  Their presence is
+			    not considered an error, but they also are not
+			    to be used in making handling decisions. </t>
 
 			<t> Entries in the "Email Authentication Methods"
 			    registry can define properties that deviate from
