@@ -1810,8 +1810,8 @@
 
 			<t> Entries in this registry are subject to the Expert
 			    Review rules as described in
-			    <xref target="RFC5226"/>.  Each entry in the
-			    registry requires the following values:
+			    <xref target="IANA-CONSIDERATIONS"/>.  Each entry
+			    in the registry requires the following values:
 
 			    <list style="hanging">
 				<t hangText="ptype:"> The name of the ptype
