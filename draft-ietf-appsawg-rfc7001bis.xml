@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-05" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-06" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -92,28 +92,27 @@
 		    appropriate for this document. </t>
 
                 <t> At the time of publication of this document, the following
-                    are published, domain-level email authentication methods in
-                    common use:
+                    are published email authentication methods:
 
                     <list style="symbols">
                         <t> Author Domain Signing Practices
-                            (<xref target="ADSP"/>) </t>
-                            <t> SMTP Service Extension for Authentication
+                            (<xref target="ADSP"/>) (Historic) </t>
+                        <t> SMTP Service Extension for Authentication
                             (<xref target="AUTH"/>) </t>
                         <t> DomainKeys Identified Mail Signatures
                             (<xref target="DKIM"/>) </t>
+                        <t> Domain-based Message Authentication, Reporting and
+			    Conformance (<xref target="DMARC"/>) </t>
                         <t> Sender Policy Framework (<xref target="SPF"/>) </t>
-                        <t> Vouch By Reference (<xref target="VBR"/>) </t>
                         <t> reverse IP address name validation
                             ("iprev", defined in <xref target="iprev"/>) </t>
-                    </list> </t>
-
-                <t> In addition, the following are non-standard methods
-                    recognized by this specification that are no longer common:
-
-                    <list style="symbols">
+                        <t> Require-Recipient-Valid-Since Header Field and SMTP
+			    Service Extension (<xref target="RRVS"/>) </t>
+                        <t> S/MIME Signature Verification
+			    (<xref target="SMIME-REG"/>) </t>
+                        <t> Vouch By Reference (<xref target="VBR"/>) </t>
                         <t> DomainKeys (<xref target="DOMAINKEYS"/>)
-                             (Historic) </t>
+                            (Historic) </t>
                         <t> Sender ID (<xref target="SENDERID"/>)
                             (Experimental) </t>
                     </list> </t>
@@ -3605,6 +3604,13 @@
 
 			    <t> Move the RFC6008 reference up to where the
 				DKIM reporting is described. </t>
+			</list> </t>
+		</section>
+
+		<section title="-04 to -05">
+			<t> <list style="symbols">
+			    <t> Corrections to the list of current methods
+				in the Introduction. </t>
 			</list> </t>
 		</section>
 	</section>
