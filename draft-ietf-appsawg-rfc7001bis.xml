@@ -117,6 +117,13 @@
                             (Experimental) </t>
                     </list> </t>
 
+		<t> There exist registries for tokens used within this header
+		    field that refer to the specifications listed above.
+		    <xref target="iana"/> describes the registries and their
+		    contents, and specifies the process by which entries are
+		    added or updated.  It also updates the existing contents
+		    to match the current states of these specifications. </t>
+
                 <t> This specification is not intended to be restricted to
                     domain-based authentication schemes, but the existing
                     schemes in that family have proven to be a good starting
