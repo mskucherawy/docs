@@ -8,7 +8,7 @@
 ]>
 
 <rfc ipr="trust200902" category="exp"
-        docName="draft-kucherawy-dkim-list-canon-01">
+        docName="draft-kucherawy-dkim-list-canon-02">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -307,10 +307,10 @@
 			    by the Author domain, but only by the domain
 			    of the intermediary.  Operators that might grant
 			    preferential handling based on valid DKIM
-			    signatures from favorable domains; assuming that
-			    appended content in the presence of such signatures
-			    does not mean the appended content is necessarily
-			    safe. </t>
+			    signatures from favorable domains should not
+			    assume that appended content is necessarily safe,
+			    despite the presence of a valid DKIM
+			    signature. </t>
 		</section>
 	</section>
 
@@ -384,7 +384,7 @@
 		    as a tree.  A node with media type "multipart" has
 		    a set of one or more children nodes, each of which starts
 		    with the corresponding boundary.  A node of any other
-		    type contains actual content, and has no descendents, but
+		    type contains actual content, and has no descendants, but
 		    has siblings under the same parent node.  Thus,
 		    as a tree, the example message might be represented thus:
 
@@ -481,8 +481,10 @@
 	<section anchor="thanks" title="Acknowledgements">
 		<t> The original idea was proposed by Ned Freed. </t>
 
-		<t> The authors wish to acknowledge
-		    (names)
+		<t> The author wishes to acknowledge
+		    Michael Jack Assels,
+		    and
+		    (others)
 		    for their comments during the development of this
 		    document. </t>
 	</section>

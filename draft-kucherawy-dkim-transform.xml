@@ -11,7 +11,7 @@
 ]>
 
 <rfc ipr="trust200902" category="exp"
-        docName="draft-kucherawy-dkim-transform-00">
+        docName="draft-kucherawy-dkim-transform-01">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -330,7 +330,7 @@
 	<section anchor="trans_addpart" title="The 'add-part' Transformation">
 		<t> The "add-part" transformation augments a multipart message
 		    that is already formatted according to MIME by appending
-		    an additonal part that includes the content the Mediator
+		    an additional part that includes the content the Mediator
 		    wishes to add. </t>
 
 		<t> This transformation cannot be used unless the media type
