@@ -1959,6 +1959,14 @@
 				    now have Historical status. </t>
 			    </list> </t>
                 </section>
+
+                <section anchor="iana_esc"
+		         title="SMTP Enhanced Stauts Codes">
+			<t> The entry for X.7.25 in the Enumerated Status
+			    Codes sub-registry of the SMTP Enhanced Status
+			    Codes registry is to be updated to refer to
+			    this document. </t>
+		</section>
         </section>
 
         <section anchor="security" title="Security Considerations">
