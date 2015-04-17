@@ -626,7 +626,7 @@
 					"property" is an indication of where
 					within the message body the extracted
 					content was found, and can indicate an
-					offset, identify a MIME part, or </t>
+					offset, identify a MIME part, etc. </t>
 
 				<t hangText="header:"> Indicates information
 					that was extracted from the header of
@@ -947,8 +947,9 @@
 				    extracted from the header is included
 				    with any <xref target="MAIL"/>-style
 				    comments removed; moreover, the local-part
-				    of the address is removed if it has not
-				    been authenticated in some way. </t>
+				    of the address and the "@" character 
+				    are removed if it has not been authenticated
+				    in some way. </t>
                         </section>
 
                         <section anchor="spf_sid_results"
@@ -1034,7 +1035,8 @@
                                     <xref target="MAIL"/>) of an address,
                                     the "pvalue" reported along with results
                                     for these mechanisms SHOULD NOT
-                                    include the local-part. </t>
+                                    include the local-part or the following
+				    "@" character. </t>
                         </section>
 
                         <section anchor="iprev_results"
@@ -1758,10 +1760,9 @@
 
 				<t> The "value" field of the "smime" entry
 				    using property "smime-part" shall be
-				    changed to read "A reference to the MIME
-				    body part that contains the
-				    signature."  The redundant reference is
-				    thus removed. </t>
+				    changed to read "The MIME body part reference
+				    that contains the S/MIME signature."
+				    The redundant reference is thus removed. </t>
 
 				<t> The following entry is to be added:
 				    <list style="hanging">
@@ -1790,15 +1791,15 @@
 						<xref target="MAIL"/> From:
 						header field, after removing
 						comments, and removing the
-						local-part if not
-						authenticated </t>
+						local-part and following "@"
+						if not authenticated </t>
 
 					<t hangText="sender:"> contents of the
 						<xref target="MAIL"/> Sender:
 						header field, after removing
 						comments, and removing the
-						local-part if not
-						authenticated </t>
+						local-part and following
+						"@" if not authenticated </t>
 				    </list> </t>
 
 				<t> All entries for "dkim-adsp" and
@@ -3156,7 +3157,7 @@
      Received: from dialup-1-2-3-4.example.net (8.11.6/8.11.6)
                    (dialup-1-2-3-4.example.net [192.0.2.200])
                by mail-router.example.com (8.11.6/8.11.6)
-                   with ESMTP id g1G0r1kA003489;
+                   with ESMTPA id g1G0r1kA003489;
                Fri, Feb 15 2002 17:19:07 -0800
      Date: Fri, Feb 15 2002 16:54:30 -0800
      To: receiver@example.com
@@ -3224,7 +3225,7 @@
      Received: from dialup-1-2-3-4.example.net
                    (dialup-1-2-3-4.example.net [192.0.2.200])
                by mail-router.example.com (8.11.6/8.11.6)
-                   with ESMTP id g1G0r1kA003489;
+                   with ESMTPA id g1G0r1kA003489;
                Fri, Feb 15 2002 17:19:07 -0800
      From: sender@example.com
      Date: Fri, Feb 15 2002 16:54:30 -0800
