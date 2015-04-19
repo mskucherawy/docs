@@ -1340,6 +1340,14 @@
                     and "AAAA" queries) is L, then this test is successful if
                     I is an element of L. </t>
 
+		<t> Often an MTA receiving a connection that fails this test
+		    will simply reject the connection using the enhanced
+		    status code defined in <xref target="AUTH-ESC"/>.
+		    If an operator instead wishes to make this information
+		    available to downstream agents as a factor in handling
+		    decisions, it records a result in accordance with
+		    <xref target="iprev_results"/>. </t>
+
                 <t> The response to a PTR query could contain multiple names.
                     To prevent heavy DNS loads, agents performing these queries
                     MUST be implemented such that the number of names evaluated
@@ -1347,7 +1355,8 @@
                     so as not to be unduly taxing to the DNS infrastructure,
                     though it MAY be configurable by an administrator.
                     As an example, Section 4.6.4 of <xref target="SPF"/> chose
-		    a limit of 10 for its implementation of this algorithm. </t>
+		    a limit of 10 for its implementation of this
+		    algorithm. </t>
 
                 <t> "DNS Extensions to Support IP Version 6"
                     (<xref target="DNS-IP6"/>) discusses the query formats for
@@ -2561,6 +2570,22 @@
 			<seriesInfo name='RFC' value='4954' />
 			<format type='TXT' octets='43493'
 			        target='http://www.rfc-editor.org/rfc/rfc4954.txt' />
+		</reference>
+
+                <reference anchor="AUTH-ESC">
+			<front>
+				<title> Email Authentication Status Codes
+				</title>
+
+				<author initials='M.' surname='Kucherawy'
+				        fullname='M. Kucherawy'>
+					<organization />
+				</author>
+
+				<date year='2014' month='September' />
+			</front>
+
+			<seriesInfo name='RFC' value='7372' />
 		</reference>
 
 		<reference anchor="DKIM">
