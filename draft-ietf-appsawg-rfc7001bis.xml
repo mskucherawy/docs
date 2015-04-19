@@ -3648,10 +3648,23 @@
 			</list> </t>
 		</section>
 
-		<section title="-04 to -05">
-			<t> <list style="symbols">
-			    <t> Corrections to the list of current methods
-				in the Introduction. </t>
+		<section title="-05 to -06">
+			<t> WGLC feedback:
+			    <list style="symbols">
+				<t> Update list of supported methods, and
+				    mention the registries immediately below
+				    there. </t>
+
+				<t> Mention that when a local-part is removed,
+				    the "@" goes with it. </t>
+
+				<t> Refer to RFC7328 in the "iprev"
+				    definition. </t>
+
+				<t> Correction to "smime-part" prose. </t>
+
+				<t> Examples that use SMTP AUTH now claim
+				    "with ESMTPA" in the Received fields. </t>
 			</list> </t>
 		</section>
 	</section>
