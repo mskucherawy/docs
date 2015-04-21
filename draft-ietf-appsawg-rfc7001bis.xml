@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-06" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-07" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -1109,7 +1109,7 @@
                         <section anchor="auth_results" title="SMTP AUTH">
                                 <t> SMTP AUTH (defined in
                                     <xref target="AUTH"/>) is represented by
-                                    the "auth" method, and its result values
+                                    the "auth" method.  Its result values
                                     are as follows:
 
 				<list style="hanging">
@@ -1126,9 +1126,9 @@
 					attempted to authenticate to the
 					server using the protocol described in
 					<xref target="AUTH"/> but was
-					not successful, yet continued to
-					send the message about which a
-					result is being reported. </t>
+					not successful (such as providing
+					a valid identity but an incorrect
+					password). </t>
 
 				    <t hangText="temperror:"> The SMTP
 					client attempted to authenticate
@@ -1187,12 +1187,11 @@
   ; auth=pass smtp.auth=client@c.example smtp.mailfrom=bob@b.example
 				    </artwork></figure> </t>
 
-				<t> An agent making use of the data
-				    provided by this header field SHOULD
-				    consider "fail" and "temperror"
-				    to be synonymous in terms of message
-				    authentication, i.e., the client did not
-				    authenticate in either case. </t>
+				<t> Note that in all cases other than "pass",
+				    the message was sent by an unauthenticated
+				    client.  All non-"pass" cases SHOULD
+				    thus be treated as equivalent with respect
+				    to this method. </t>
                         </section>
 
                         <section anchor="other_results"
@@ -1769,9 +1768,10 @@
 
 				<t> The "value" field of the "smime" entry
 				    using property "smime-part" shall be
-				    changed to read "The MIME body part reference
-				    that contains the S/MIME signature."
-				    The redundant reference is thus removed. </t>
+				    changed to read: "The MIME body part
+				    reference that contains the S/MIME
+				    signature.  See Section 3.2.1 of RFC7281
+				    for full syntax." </t>
 
 				<t> The following entry is to be added:
 				    <list style="hanging">
@@ -3665,6 +3665,12 @@
 
 				<t> Examples that use SMTP AUTH now claim
 				    "with ESMTPA" in the Received fields. </t>
+			</list> </t>
+		</section>
+
+		<section title="-06 to -07">
+			<list style="symbols">
+				<t> Wording around the S/MIME results. </t>
 			</list> </t>
 		</section>
 	</section>
