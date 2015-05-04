@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-07" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-08" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -1903,6 +1903,17 @@
 					text explaining the meaning of this
 					method-code combination, or a reference
 					to such a definition. </t>
+
+				<t hangText="Status:"> the status of this
+					entry, which is either:
+
+				    <list style="hanging">
+					<t hangText="active:"> The entry is
+						in current use. </t>
+
+					<t hangText="deprecated:"> The entry is
+						no longer in current use. </t>
+				    </list> </t>
 			    </list> </t>
                 </section>
 
