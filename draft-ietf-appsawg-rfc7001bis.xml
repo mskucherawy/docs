@@ -1986,7 +1986,7 @@
 			<t> The entry for X.7.25 in the Enumerated Status
 			    Codes sub-registry of the SMTP Enhanced Status
 			    Codes registry is to be updated to refer to
-			    this document. </t>
+			    this document instead of <xref target="RFC7001"/>. </t>
 		</section>
         </section>
 
