@@ -1646,9 +1646,7 @@
   Status: Standard
   Author/Change controller: IETF
   Specification document(s): [this RFC]
-  Related information:
-    Requesting review of any proposed changes and additions to
-    this field is recommended.
+  Related information: none
                                 </artwork></figure>
                         </t>
                 </section>
@@ -1697,7 +1695,7 @@
 				<t hangText="Method:"> the name of the
 					method; </t>
 
-				<t hangText="Defined:"> a reference to
+				<t hangText="Definition:"> a reference to
 					the document that created this
 					entry, if any (see below); </t>
 
@@ -1729,15 +1727,15 @@
 					starting at "1"). </t>
 			    </list> </t>
 
-			<t> The "Defined" field will typically refer to
+			<t> The "Definition" field will typically refer to
 			    a permanent document, or at least some descriptive
 			    text, where additional information about the
-			    entry being added can be found.  This in turn
-			    would reference the document where the method is
+			    entry being added can be found.  This might in turn
+			    reference the document where the method is
 			    defined so that all of the semantics around
-			    creating or interpreting an
-			    Authentication-Results header field using this
-			    method, ptype, and property can be understood. </t>
+			    creating or interpreting an Authentication-Results
+			    header field using this method, ptype, and property
+			    can be understood. </t>
 		</section>
 				    
                 <section anchor="name_registry_2"
@@ -1746,9 +1744,13 @@
 			    registry upon approval of this document:
 
 			    <list style="numbers">
+				<t> The "Defined" field shall be renamed to
+				    "Definition", to be consistent with the other
+				    registries in this group. </t>
+
 				<t> The current entry for the "auth" method
 				    shall have its "property" field changed to
-				    "mailfrom", and its "Defined" field
+				    "mailfrom", and its "Definition" field
 				    changed to this document. </t>
 
 				<t> The entry for the "dkim" method,
@@ -1759,10 +1761,12 @@
 
 				<t> All other "dkim", "domainkeys", "iprev",
 				    "sender-id", and "spf" method entries
-				    shall have their "Defined" fields changed
-				    to this document. </t>
+				    shall have their "Definition" fields changed
+				    to this document, as this document contains
+				    a complete description of the registry and
+				    these corresponding values. </t>
 
-				<t> All "smime" entries have their "Defined"
+				<t> All "smime" entries have their "Definition"
 				    fields changed to
 				    <xref target="SMIME-REG"/>. </t>
 
@@ -1777,7 +1781,7 @@
 				    <list style="hanging">
 					<t hangText="Method:"> auth </t>
 
-					<t hangText="Defined:">
+					<t hangText="Definition:">
 						[this document] </t>
 
 					<t hangText="ptype:"> smtp </t>
@@ -1815,7 +1819,9 @@
 				    "domainkeys" shall have their Status values
 				    changed to "deprecated", reflecting the
 				    fact that the corresponding specifications
-				    now have Historical status. </t>
+				    now have Historical status.  Their "Definition"
+				    fields shall also be modified to include a
+				    reference to this document. </t>
 			    </list> </t>
                 </section>
 
@@ -1853,10 +1859,12 @@
 			    the "Email Authentication Result Names" registry
 			    might also serve as examples of intended use. </t>
 
-			<t> IANA shall update this registry to show
-			    <xref target="ptypes"/> of this document as the
-			    current definitions for the "body", "header",
-			    "policy" and "smtp" entries of that registry. </t>
+			<t> As this is a complete re-statement of the definition
+			    and rules for this registry, IANA shall update this
+			    registry to show <xref target="ptypes"/> of this document
+			    as the current definitions for the "body", "header",
+			    "policy" and "smtp" entries of that registry.  References
+			    to <xref target="RFC7001"/> shall be removed. </t>
 		</section>
 
                 <section anchor="result_registry"
@@ -1919,7 +1927,9 @@
 
                 <section anchor="result_registry_2"
                         title="&quot;Email Authentication Result Names&quot; Update">
-			<t> The following changes are to be made to this
+			<t> This document includes a complete description of the
+			    registry, obsoleting <xref target="RFC7001"/>.
+			    Accordingly, the following changes are to be made to this
 			    registry on publication of this document:
 
 			    <list style="symbols">
@@ -1977,7 +1987,9 @@
 				    "domainkeys" shall have their Status values
 				    changed to "deprecated", reflecting the
 				    fact that the corresponding specifications
-				    now have Historical status. </t>
+				    now have Historical status.  Their "Specification"
+				    fields shall also be modified to include a
+				    reference to this document. </t>
 			    </list> </t>
                 </section>
 
@@ -3682,6 +3694,12 @@
 		<section title="-06 to -07">
 			<t> <list style="symbols">
 				<t> Wording around the S/MIME results. </t>
+			</list> </t>
+		</section>
+
+		<section title="-07 to -08">
+			<t> <list style="symbols">
+				<t> Clarifications in IANA Considerations. </t>
 			</list> </t>
 		</section>
 	</section>
