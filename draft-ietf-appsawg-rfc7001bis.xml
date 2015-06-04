@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-08" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-10" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -1819,9 +1819,10 @@
 				    "domainkeys" shall have their Status values
 				    changed to "deprecated", reflecting the
 				    fact that the corresponding specifications
-				    now have Historical status.  Their "Definition"
-				    fields shall also be modified to include a
-				    reference to this document. </t>
+				    now have Historical status.  Their
+				    "Definition" fields shall also be modified
+				    to include a reference to this
+				    document. </t>
 			    </list> </t>
                 </section>
 
@@ -1861,10 +1862,11 @@
 
 			<t> As this is a complete re-statement of the definition
 			    and rules for this registry, IANA shall update this
-			    registry to show <xref target="ptypes"/> of this document
-			    as the current definitions for the "body", "header",
-			    "policy" and "smtp" entries of that registry.  References
-			    to <xref target="RFC7001"/> shall be removed. </t>
+			    registry to show <xref target="ptypes"/> of this
+			    document as the current definitions for the "body",
+			    "header", "policy" and "smtp" entries of that
+			    registry.  References to <xref target="RFC7001"/>
+			    shall be removed. </t>
 		</section>
 
                 <section anchor="result_registry"
@@ -1927,10 +1929,10 @@
 
                 <section anchor="result_registry_2"
                         title="&quot;Email Authentication Result Names&quot; Update">
-			<t> This document includes a complete description of the
-			    registry, obsoleting <xref target="RFC7001"/>.
-			    Accordingly, the following changes are to be made to this
-			    registry on publication of this document:
+			<t> This document includes a complete description of
+			    the registry, obsoleting <xref target="RFC7001"/>.
+			    Accordingly, the following changes are to be made
+			    to this registry on publication of this document:
 
 			    <list style="symbols">
 				<t> The "Defined" field shall be removed. </t>
@@ -1981,24 +1983,31 @@
 				    missing an explicit reference to a
 				    defining document shall have
 				    <xref target="ADSP"/> added to their
-				    Specification fields. </t>
+				    "Specification" fields. </t>
+
+				<t> All entries for "dmarc" shall have their
+				    "Specification" fields changed to
+				    reference Secton 11.2 of
+				    <xref target="DMARC"/>. </t>
 
 				<t> All entries for "dkim-adsp" and
 				    "domainkeys" shall have their Status values
 				    changed to "deprecated", reflecting the
 				    fact that the corresponding specifications
-				    now have Historical status.  Their "Specification"
-				    fields shall also be modified to include a
-				    reference to this document. </t>
+				    now have Historical status.  Their
+				    "Specification" fields shall also be
+				    modified to include a reference to this
+				    document. </t>
 			    </list> </t>
                 </section>
 
                 <section anchor="iana_esc"
-		         title="SMTP Enhanced Stauts Codes">
+		         title="SMTP Enhanced Status Codes">
 			<t> The entry for X.7.25 in the Enumerated Status
 			    Codes sub-registry of the SMTP Enhanced Status
 			    Codes registry is to be updated to refer to
-			    this document instead of <xref target="RFC7001"/>. </t>
+			    this document instead of
+			    <xref target="RFC7001"/>. </t>
 		</section>
         </section>
 
@@ -3553,155 +3562,83 @@
                     next stage.  </t>
         </section>
 
-        <section anchor="changes" title="Change History">
-		<section title="RFC7001 to -00">
-			<t> <list style="symbols">
-			    <t> Remove "Changes since RFC5451" section; 
-			        add this "Change History" section. </t>
+        <section anchor="changes" title="Change Since RFC7001">
+		<t> <list style="symbols">
+			<t> Apply RFC7410. </t>
 
-			    <t> Restore XML to previous format.  (No visible
-			        changes). </t>
+			<t> Update all the RFC4408 references to RFC7208. </t>
 
-			    <t> Reset "Acknowledgments". </t>
+			<t> Add section explaining "property" values.
+			    (Errata #4201) </t>
 
-			    <t> Add "To-Do" section. </t>
-			</list> </t>
-		</section>
+			<t> Some minor text reorganization. </t>
 
-		<section title="-00 to -01">
-			<t> <list style="symbols">
-			    <t> Apply RFC7410. </t>
+			<t> Give registry history, enough that this is now
+			    the authoritative registry definition. </t>
 
-			    <t> Update all the RFC4408 references to
-			        RFC7208. </t>
+			<t> Add text explaining each of the
+			    method-ptype-property tuples registered by
+			    this document. </t>
 
-			    <t> Add section explaining "property" values.
-			        (Errata #4201) </t>
+			<t> Change the meaning of the "Defined" column of
+			    the methods registry to be the place where
+			    each entry was created and described; it is
+			    expected that this will then refer to the
+			    method's defining document. Provide
+			    IANA with corresponding update
+			    instructions. </t>
 
-			    <t> Remove "To-Do" section. </t>
-			</list> </t>
-		</section>
+			<t> Clean up registry structure and content, and
+			    replace all RFC7001 references with pointers to
+			    this document. </t>
 
-		<section title="-01 to -02">
-			<t> <list style="symbols">
-			    <t> Consolidate new sections. </t>
-			</list> </t>
-		</section>
-
-		<section title="-02 to -03">
-			<t> <list style="symbols">
-			    <t> Move the DKIM exception text down to where
-				the DKIM results are defined, and add a
-				forward reference to them. </t>
-
-			    <t> More detail about registry creation and
-				previous augmentations. </t>
-
-			    <t> Add text explaining each of the
-			        method-ptype-property tuples registered by
-				this document. </t>
-
-			    <t> Change the meaning of the "Defined" column of
-				the methods registry to be the place where
-				each entry was created and described; it is
-				expected that this will then refer to the
-				method's defining document. Provide
-				IANA with corresponding update
-				instructions. </t>
-
-			    <t> Add references:
+			<t> Add references:
 				<xref target="DMARC"/>,
 				<xref target="PRA"/>,
+				<xref target="RFC6008"/>,
 				<xref target="RFC6577"/>,
 				<xref target="RRVS"/>,
 				<xref target="SMIME-REG"/>. </t>
-			</list> </t>
-		</section>
 
-		<section title="-03 to -04">
-			<t> <list style="symbols">
-			    <t> Add specific update instructions for the
-				"dkim"/"header"/"b" entry in IANA
-				Considerations. </t>
+			<t> Add description of values that can be extracted
+			    from SMTP AUTH sessions and an example. </t>
 
-			    <t> Add description of values that can be extracted
-			        from SMTP AUTH sessions and an example. </t>
+			<t> Much more complete descriptions of reporting
+			    DomainKeys results. </t>
 
-			    <t> Much more complete descriptions of reporting
-			        DomainKeys results. </t>
+			<t> Add more detail about Sender ID. </t>
 
-			    <t> Minor editorial adjustments. </t>
+			<t> Mark all ADSP and DomainKeys entries as
+			    deprecated since their defining documents
+			    are as well. </t>
 
-			    <t> Fix up "smime" entries. </t>
+			<t> Rework some text around ignoring unknown
+			    ptypes. </t>
 
-			    <t> Update current definitions for the
-			        Email Authentication Property Types
-			        registry to point to this document. </t>
+			<t> Completely describe the ptypes registry. </t>
 
-			    <t> Rework the Email Authentication Result Names
-			        registry. </t>
+			<t> EHLO is mapped to HELO for SPF. </t>
 
-			    <t> Add more detail about Sender ID. </t>
+			<t> RFC7208 uses all-lowercase result strings now,
+			    so adjust prose accordingly. </t>
 
-			    <t> Mark all ADSP and DomainKeys entries as
-			        deprecated since their defining documents
-			        are as well. </t>
+			<t> Update list of supported methods, and
+			    mention the registries immediately below
+			    there. </t>
 
-			    <t> Add references:
-				<xref target="RFC6008"/>. </t>
-			</list> </t>
-		</section>
+			<t> Mention that when a local-part is removed,
+			    the "@" goes with it. </t>
 
-		<section title="-04 to -05">
-			<t> <list style="symbols">
-			    <t> Fix typos. </t>
+			<t> Refer to RFC7328 in the "iprev"
+			    definition. </t>
 
-			    <t> Rework some text around ignoring unknown
-				ptypes. </t>
+			<t> Correction to "smime-part" prose. </t>
 
-			    <t> Completely describe the ptypes registry. </t>
+			<t> Examples that use SMTP AUTH now claim
+			    "with ESMTPA" in the Received fields. </t>
 
-			    <t> EHLO is mapped to HELO for SPF. </t>
-
-			    <t> RFC7208 uses all-lowercase result strings now,
-				so adjust prose accordingly. </t>
-
-			    <t> Move the RFC6008 reference up to where the
-				DKIM reporting is described. </t>
-			</list> </t>
-		</section>
-
-		<section title="-05 to -06">
-			<t> WGLC feedback:
-			    <list style="symbols">
-				<t> Update list of supported methods, and
-				    mention the registries immediately below
-				    there. </t>
-
-				<t> Mention that when a local-part is removed,
-				    the "@" goes with it. </t>
-
-				<t> Refer to RFC7328 in the "iprev"
-				    definition. </t>
-
-				<t> Correction to "smime-part" prose. </t>
-
-				<t> Examples that use SMTP AUTH now claim
-				    "with ESMTPA" in the Received fields. </t>
-			</list> </t>
-		</section>
-
-		<section title="-06 to -07">
-			<t> <list style="symbols">
-				<t> Wording around the S/MIME results. </t>
-			</list> </t>
-		</section>
-
-		<section title="-07 to -08">
-			<t> <list style="symbols">
-				<t> Clarifications in IANA Considerations. </t>
-			</list> </t>
-		</section>
+			<t> Minor editorial adjustments. </t>
+		    </list> </t>
 	</section>
 </back>
 
