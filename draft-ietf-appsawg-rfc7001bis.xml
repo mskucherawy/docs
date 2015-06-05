@@ -9,7 +9,7 @@
 <?rfc subcompact="no"?>
 
 <rfc ipr="trust200902" category="std" obsoletes="7001, 7410"
-        docName="draft-ietf-appsawg-rfc7001bis-10" submissionType="IETF">
+        docName="draft-ietf-appsawg-rfc7001bis-11" submissionType="IETF">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -1952,8 +1952,8 @@
 				<t> All entries for the "dkim", "domainkeys",
 				    "spf", "sender-id", "auth", and "iprev"
 				    methods shall have their "Specification"
-				    fields changed to refer to this document,
-				    as follows:
+				    fields replaced as follows:
+
 				    <list style="hanging">
 					<t hangText="dkim:"> [this document]
 						<xref target="dkim_dk_results"/> </t>
@@ -1963,10 +1963,16 @@
 						<xref target="dkim_dk_results"/> </t>
 
 					<t hangText="spf:">
+						for "hardfail",
+						<xref target="RFC5451"/>
+						Section 2.4.2; for all others,
 						[this document]
 						<xref target="spf_sid_results"/> </t>
 
 					<t hangText="sender-id:">
+						for "hardfail",
+						<xref target="RFC5451"/>
+						Section 2.4.2; for all others,
 						[this document]
 						<xref target="spf_sid_results"/> </t>
 
