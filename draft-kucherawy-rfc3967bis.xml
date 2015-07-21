@@ -192,11 +192,20 @@
 
 	<section title="procedure" title="The Procedure to Be Used">
 		<t> For Standards Track or BCP documents requiring normative
-		    reference to documents of lower maturity, the normal IETF Last
-		    Call procedure will be issued, with the need for the downward
-		    reference explicitly documented in the Last Call itself.  Any
-		    community comments on the appropriateness of downward references
-		    will be considered by the IESG as part of its deliberations. </t>
+		    reference to documents of lower maturity, the relevant working
+		    group, the responsible Area Director, and the IESG as a whole
+		    should be aware of the down reference and will exercise
+		    their judgment.  Ideally, the normal IETF Last Call procedure
+		    will be followed, with the need for the down reference
+		    explicitly documented in the Last Call itself.  Any community
+		    comments on the appropriateness of down references will be
+		    considered by the IESG as part of its judgment. </t>
+
+		<t> Document shepherds and responsible Area Directors will typically
+		    ensure that the document itself, or the Document Shepherd writeup
+		    or other supporting information accompanying the document,
+		    includes adequate information explaining why the down reference
+		    is appropriate. </t>
 
 		<t> Once a specific down reference to a particular document has been
 		    accepted by the community (e.g., has been mentioned in several
