@@ -1,0 +1,25 @@
+The Applications and Real Time Area (ART) sometimes receives proposals for
+the development or update of specifications dealing with application-related
+topics that do not have an obvious venue for that work.
+
+The ART Area General Applications Working Group (APPSAWG) serves as a forum
+for consideration of such work in the IETF.  APPSAWG does no protocol development
+and, with few exceptions, also does no document development.  Rather, APPSAWG
+will consider proposals for work of possible interest to ART, and will typically
+do one of the following things with each:
+
+* Direct the work to an existing Working Group (WG).
+* Develop a proposal for a Birds of a Feather (BoF) session at a future IETF
+  meeting.
+* Develop a charter and establish consensus for a new WG or Exploratory Group.
+  This option will primarily be used with fairly mature and well-defined efforts.
+* Reject or defer the proposal.
+
+This is similar to the operating format of the DISPATCH WG, but while that WG
+focuses more on real time applications, APPSAWG focuses on more general
+applications proposals.
+
+At the discretion of the chairs or the ART Area Directors, documents can be
+processed by APPSAWG when they are simple things like IANA registration actions.
+Any such document whose scope grows beyond such a simple action will instead
+be dispatched via one of the options listed above.

@@ -1,0 +1,23 @@
+Until recently, NomCom's operating procedures were defined across five
+RFCs.  One NomCom 2014 member volunteered to take those disparate documents
+and merge them into a single consolidated reference, RFC7437 (BCP10).  That
+consolidation work was constrained to only the merge of those documents,
+and allowed no changes.
+
+A previous working group produced RFC3777, which was the primary of the
+five previous documents.  Since then there have been ten NomComs and
+summaries from the respective NomCom Chairs suggestion what has worked
+and what changes might be helpful.  These, coupled with any feedback from
+today's community, comprise suggestions to modernize and otherwise improve
+RFC7437.
+
+The working group will update RFC7437 using those sources of input.
+RFC7437bis is already in the datatracker (draft-kucherawy-rfc7437bis) and
+is the only intended product of this working group.  Work will be constrained
+to structure and procedures of NomCom itself, and no changes to procedures
+or structure of other bodies will be considered.
+
+No other work is in scope.
+
+Milestones:
+- Jul 2016: RFC7437bis to the IESG for publication
