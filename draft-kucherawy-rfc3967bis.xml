@@ -7,8 +7,8 @@
   <!ENTITY RFC2104 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2104.xml">
 ]>
 
-<rfc ipr="trust200902" category="bcp" obsoletes="3967"
-        docName="draft-kucherawy-rfc3967bis-00">
+<rfc ipr="trust200902" category="bcp" obsoletes="3967" updates="2026"
+        docName="draft-kucherawy-rfc3967bis-01">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
