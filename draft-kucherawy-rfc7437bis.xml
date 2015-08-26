@@ -8,7 +8,7 @@
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="7437"
-        docName="draft-kucherawy-rfc7437bis-03">
+        docName="draft-kucherawy-rfc7437bis-04">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -1668,14 +1668,23 @@
 
 		<section anchor="recall_petition" title="Petition">
 			<t> At any time, at least 20 members of the IETF
-			    community, who are qualified to be voting members
+			    community, who are, with the exception below,
+			    qualified to be voting members
 			    of a nominating committee, may request by signed
 			    petition (email is acceptable) to the Internet
 			    Society President the recall of any sitting IAB,
 			    IAOC, or IESG member. </t>
 
+			<t> For the purposes of this section, sitting members
+			    of the IESG, IAB, IAOC, or Internet Society Board
+			    of Trustees may sign recall petitions.  In other
+			    words, <xref target="sel_disqualify"/> is not
+			    applicable in determining who is permitted to sign
+			    such a petition. </t>
+
 			<t> All individual and collective qualifications of
-			    nominating committee eligibility are applicable,
+			    nominating committee eligibility, excepting the one
+			    described in the previous paragraph, are applicable,
 			    including that no more than two signatories may
 			    have the same primary affiliation. </t>
 
@@ -2064,8 +2073,9 @@
 		    John Klensin,
 		    Allison Mankin,
 		    Michael Richardson,
+		    Michael St. Johns,
 		    and
-		    Michael St. Johns. </t>
+		    Samuel Weiler. </t>
 	</section>
 
 	<section anchor="history" title="Change History">
@@ -2129,8 +2139,14 @@
 				    ways </t>
 			    </list> </t>
 		</section>
-	</section>
 
+		<section title="-03 to -04">
+			<t> <list style="symbols">
+				<t> Amend the Recall Process, per
+				    draft-klensin-recall-rev. </t>
+			    </list> </t>
+		</section>
+	</section>
 </back>
 
 </rfc>
