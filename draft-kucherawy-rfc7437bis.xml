@@ -8,7 +8,7 @@
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="7437"
-        docName="draft-kucherawy-rfc7437bis-04">
+        docName="draft-kucherawy-rfc7437bis-05">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -2144,6 +2144,12 @@
 			<t> <list style="symbols">
 				<t> Amend the Recall Process, per
 				    draft-klensin-recall-rev. </t>
+			    </list> </t>
+		</section>
+
+		<section title="-04 to -05">
+			<t> <list style="symbols">
+				<t> Refresh; no changes. </t>
 			    </list> </t>
 		</section>
 	</section>
