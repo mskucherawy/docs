@@ -15,7 +15,7 @@
 
 <rfc ipr="trust200902" category="std"
         obsoletes="7601"
-        docName="draft-kucherawy-dmarc-rfc7601bis-00">
+        docName="draft-ietf-dmarc-rfc7601bis-00">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -78,11 +78,6 @@
                     filtering decisions and/or provide a recommendation to the
                     user as to the validity of the message's origin and
 		    possibly the safety and integrity of its content. </t>
-
-                <t> This document revises the original definition found in
-                    <xref target="RFC5451"/> based upon various authentication
-                    protocols in current use and incorporates errata logged
-                    since the publication of the original specification. </t>
 
                 <t> End users are not expected to be direct consumers of this
                     header field.  This header field is intended for
@@ -475,9 +470,11 @@
                             (<xref target="ABNF"/>): </t>
 
                         <figure><artwork>
-  authres-header = "Authentication-Results:" [CFWS] authserv-id
-           [ CFWS authres-version ]
-           ( no-result / 1*resinfo ) [CFWS] CRLF
+  authres-header-field = "Authentication-Results:" authres-payload
+
+  authres-payload = [CFWS] authserv-id
+                    [ CFWS authres-version ]
+                    ( no-result / 1*resinfo ) [CFWS] CRLF
 
   authserv-id = value
               ; see below for a description of this element
@@ -1642,19 +1639,18 @@
                 <section anchor="new_header"
 		         title="The Authentication-Results Header Field">
 
-                        <t> <xref target="RFC5451"/> added the
-                            Authentication-Results header field to the
-                            IANA "Permanent Message Header Field Names"
+                        <t> The Authentication-Results header field was added
+			    to the IANA "Permanent Message Header Field Names"
                             registry, per the procedure found in
-                            <xref target="IANA-HEADERS"/>.  That entry has 
-                            been updated to reference this document.
+                            <xref target="IANA-HEADERS"/>.  That entry will be
+                            updated to reference this document.
                             The following is the registration template:
                                 <figure><artwork>
   Header field name: Authentication-Results
   Applicable protocol: mail ([MAIL])
   Status: Standard
   Author/Change controller: IETF
-  Specification document(s): RFC 7601
+  Specification document(s): [this document]
   Related information: none
                                 </artwork></figure>
                         </t>
@@ -1669,17 +1665,7 @@
 			    with each method is recorded the properties
 			    that accompany the method's result.  </t>
 
-			<t> The "Email Authentication Parameters" 
-			    group, and within it the "Email Authentication
-			    Methods" registry, were created by
-			    <xref target="RFC5451"/> for this purpose.
-			    <xref target="RFC6577"/> added
-			    a "status" field for each entry.
-			    <xref target="RFC7001"/> amended
-                            the rules governing that registry and also added
-			    a "version" field to the registry. </t>
-
-			<t> The reference for that registry has been updated
+			<t> The reference for that registry will be updated
 			    to reference this document. </t>
 
                         <t> New entries are assigned only for values
