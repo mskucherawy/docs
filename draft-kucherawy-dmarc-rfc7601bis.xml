@@ -2943,7 +2943,8 @@
 
 	<section anchor="changes" title="Changes Since RFC7601">
 		<t> <list style="symbols">
-			<t> Added IANA registration for DKIM "a" property. </t>
+			<t> Added IANA registration for DKIM "a" and "s"
+			    properties. </t>
 
 			<t> Include EAI guidance. </t>
 		    </list> </t>
