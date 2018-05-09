@@ -1728,7 +1728,7 @@
 				    
                 <section anchor="name_registry_2"
                      title="&quot;Email Authentication Methods&quot; Registry">
-                        <t> The following entry is added:
+                        <t> The following entries are added:
 			    <list style="hanging">
 				<t hangText="Method:"> dkim </t>
 				<t hangText="Definition:">
@@ -1737,6 +1737,18 @@
 				<t hangText="property:"> a </t>
 				<t hangText="Description:">
 					value of signature "a" tag </t>
+				<t hangText="Status:"> active </t>
+				<t hangText="Version:"> 1 </t>
+			    </list> </t>
+
+			    <list style="hanging">
+				<t hangText="Method:"> dkim </t>
+				<t hangText="Definition:">
+					<xref target="RFC7601"/> </t>
+				<t hangText="ptype:"> header </t>
+				<t hangText="property:"> s </t>
+				<t hangText="Description:">
+					value of signature "s" tag </t>
 				<t hangText="Status:"> active </t>
 				<t hangText="Version:"> 1 </t>
 			    </list> </t>
