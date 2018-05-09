@@ -1722,18 +1722,19 @@
                 </section>
 
                 <section anchor="name_registry_1"
-                     title="&quot;Email Authentication Methods&quot; Registry">
-                        <t> No changes are made to this registry. </t>
+                     title="&quot;Email Authentication Methods&quot; Registry Description">
+                        <t> No changes are made to the description of this
+			 registry. </t>
 		</section>
 				    
                 <section anchor="name_registry_2"
-                     title="&quot;Email Authentication Methods&quot; Registry">
+                     title="&quot;Email Authentication Methods&quot; Registry Update">
                         <t> The following entries are added: </t>
 
 			<t> <list style="hanging">
 				<t hangText="Method:"> dkim </t>
 				<t hangText="Definition:">
-					<xref target="RFC7601"/> </t>
+					[this document] </t>
 				<t hangText="ptype:"> header </t>
 				<t hangText="property:"> a </t>
 				<t hangText="Description:">
@@ -1745,7 +1746,7 @@
 			<t> <list style="hanging">
 				<t hangText="Method:"> dkim </t>
 				<t hangText="Definition:">
-					<xref target="RFC7601"/> </t>
+					[this document] </t>
 				<t hangText="ptype:"> header </t>
 				<t hangText="property:"> s </t>
 				<t hangText="Description:">
@@ -1761,23 +1762,25 @@
 			    "Email Authentication Property Types"
 			    registry. </t>
 
-                        <t> No changes are made to this registry.  However,
-			    it should be noted that <xref target="ptypes"/>
-			    contains slightly different language than
-			    prior versions of this document, allowing a
-			    broader space from which to extract meaningful
-			    identifiers and report them through
-			    this mechanism. </t>
+                        <t> No changes are made to the description of this
+			    registry.  However, it should be noted that
+			    <xref target="ptypes"/> contains slightly
+			    different language than prior versions of this
+			    document, allowing a broader space from which
+			    to extract meaningful identifiers and report them
+			    through this mechanism. </t>
 		</section>
 
                 <section anchor="result_registry"
                         title="&quot;Email Authentication Result Names&quot; Description">
-                        <t> No changes are made to this registry. </t>
+                        <t> No changes are made to the description of this
+			registry. </t>
                 </section>
 
                 <section anchor="result_registry_2"
                         title="&quot;Email Authentication Result Names&quot; Update">
-                        <t> No changes are made to this registry. </t>
+                        <t> No changes are made to entries in this
+			registry. </t>
                 </section>
         </section>
 
