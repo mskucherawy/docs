@@ -20,7 +20,7 @@
 
 <rfc ipr="trust200902" category="std"
         obsoletes="7601"
-        docName="draft-ietf-dmarc-rfc7601bis-01">
+        docName="draft-ietf-dmarc-rfc7601bis-02">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
