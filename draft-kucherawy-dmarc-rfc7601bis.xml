@@ -20,7 +20,7 @@
 
 <rfc ipr="trust200902" category="std"
         obsoletes="7601"
-        docName="draft-ietf-dmarc-rfc7601bis-02">
+        docName="draft-ietf-dmarc-rfc7601bis-03">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -575,8 +575,8 @@
 
                         <t> "domain-name" is as defined in Section 3.5 of
                             <xref target="DKIM"/> where the "d=" tag is
-			    defined, with "sob-domain" as modified by
-			    by <xref target="RFC6531"/>. </t>
+			    defined, with "sub-domain" as modified by
+			    <xref target="RFC6531"/>. </t>
 
                         <t> "Keyword" is defined in Section 4.1.2 of
                             <xref target="SMTP"/>.  When used in "result"
