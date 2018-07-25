@@ -510,7 +510,7 @@
             ; message authentication was performed
 
   resinfo = [CFWS] ";" methodspec [ CFWS reasonspec ]
-            *( CFWS propspec )
+            [ CFWS 1*propspec ]
 
   methodspec = [CFWS] method [CFWS] "=" [CFWS] result
              ; indicates which authentication method was evaluated
@@ -1729,8 +1729,9 @@
 				    
                 <section anchor="name_registry_2"
                      title="&quot;Email Authentication Methods&quot; Registry Update">
-                        <t> The following entries are added: </t>
+                        <t> The following two entries are added. </t>
 
+		    <section title="'header.a' for DKIM">
 			<t> <list style="hanging">
 				<t hangText="Method:"> dkim </t>
 				<t hangText="Definition:">
@@ -1742,8 +1743,11 @@
 				<t hangText="Status:"> active </t>
 				<t hangText="Version:"> 1 </t>
 			</list> </t>
+		    </section>
 
-			<t> <list style="hanging">
+		    <section title="'header.s' for DKIM">
+			<t> "header.s" for DKIM:
+			    <list style="hanging">
 				<t hangText="Method:"> dkim </t>
 				<t hangText="Definition:">
 					[this document] </t>
@@ -1754,6 +1758,7 @@
 				<t hangText="Status:"> active </t>
 				<t hangText="Version:"> 1 </t>
 			</list> </t>
+		    </section>
                 </section>
 
                 <section anchor="ptype_registry"
