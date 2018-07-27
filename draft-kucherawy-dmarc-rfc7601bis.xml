@@ -510,7 +510,7 @@
             ; message authentication was performed
 
   resinfo = [CFWS] ";" methodspec [ CFWS reasonspec ]
-            [ CFWS 1*propspec ]
+            *( CFWS propspec )
 
   methodspec = [CFWS] method [CFWS] "=" [CFWS] result
              ; indicates which authentication method was evaluated
