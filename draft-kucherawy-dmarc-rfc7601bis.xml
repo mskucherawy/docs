@@ -131,10 +131,7 @@
 		    added or updated.  It also updates the existing contents
 		    to match the current states of these specifications. </t>
 
-                <t> This specification is not intended to be restricted to
-                    domain-based authentication schemes, but the existing
-                    schemes in that family have proven to be a good starting
-                    point for implementations.  The goal is to give current
+                <t> The goal of this work is to give current
                     and future authentication schemes a common framework within
                     which to deliver their results to downstream agents and
                     discourage the creation of unique header fields for
@@ -331,9 +328,9 @@
                                     combination. </t>
 
                                 <t> Rather than create a separate header field
-                                    for each class of solution, this proposal
-                                    groups them both into a single header
-                                    field. </t>
+                                    for each class of solution, this
+				    specification groups them both into a
+				    single header field. </t>
                         </section>
 
                         <section anchor="defs_email" title="Email Architecture">
@@ -579,10 +576,12 @@
 			    <xref target="RFC6531"/>. </t>
 
                         <t> "Keyword" is defined in Section 4.1.2 of
-                            <xref target="SMTP"/>.  When used in "result"
-                            above, it is further constrained by the necessity
-			    of being enumerated in
-			    <xref target="m_and_r"/>. </t>
+                            <xref target="SMTP"/>.  It is further constrained
+			    by the necessity of being registered in the IANA
+			    registry relevant to the context in which it
+			    is used.  See
+			    <xref target="m_and_r"/>, <xref target="ptypes"/>,
+			    and <xref target="iana"/>. </t>
 
                         <t> "value" is as defined in Section 5.1 of
                             <xref target="MIME"/>. </t>
@@ -2064,7 +2063,7 @@
                         <t> Although <xref target="iprev"/> of this memo
                             includes explicit support for the "iprev" method,
                             its value as an authentication mechanism is
-                            limited.  Implementers of both this proposal
+                            limited.  Implementers of both this specification
                             and agents that use the data it relays are
                             encouraged to become familiar with the issues
                             raised by <xref target="DNSOP-REVERSE"/> when
@@ -2464,8 +2463,8 @@
                     graphical representation of this header field's meaning
                     to end users.  
 
-   Until this capability is added (i.e., while this proposal and its 
-   successors are being adopted), other interim means 
+   Until this capability is added (i.e., while this specification and its 
+   successors continue to be adopted), other interim means 
    of conveying authentication results may be necessary.
 		</t>
         </section>
@@ -2956,6 +2955,9 @@
 			    properties. </t>
 
 			<t> Include EAI guidance. </t>
+
+			<t> Adjust some ABNF tokens and names for easier
+			    inclusion by other documents. </t>
 		    </list> </t>
 	</section>
 
@@ -2965,7 +2967,8 @@
 		    this document:
 		    Seth Blank,
 		    John Levine,
-		    Scott Kitterman
+		    Scott Kitterman,
+		    Alessandro Vesely,
 		    </t>
         </section>
 
