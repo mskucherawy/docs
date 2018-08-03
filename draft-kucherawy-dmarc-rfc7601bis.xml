@@ -601,7 +601,9 @@
                         <t> The "propspec" may be omitted if, for example,
                             the method was unable to extract any properties
                             to do its evaluation yet has a result to
-                            report. </t>
+                            report.  It may also be omitted if the agent
+			    generating this result wishes not to reveal
+			    such properties to downstream agents. </t>
 
                         <t> Where an SMTP command name is being reported as a
                             "property", the agent generating the header field
@@ -722,7 +724,7 @@
 			    Authentication-Result field: </t>
 
 			    <figure><artwork>
-   ... dkim=fail policy.dkim-rules=unsigned-subject ...
+   ... dkim=policy policy.dkim-rules=unsigned-subject ...
                             </artwork></figure>
 
 			<t> In this case, the property is "dkim-rules",
