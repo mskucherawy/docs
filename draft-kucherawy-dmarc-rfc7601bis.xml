@@ -174,12 +174,11 @@
                             field does not mean its contents are valid.
                             Rather, the header field is reporting assertions
                             made by one or more authentication schemes 
-                            (supposedly) applied somewhere upstream.
-                            For an MUA or downstream filter to treat the
-                            assertions as actually valid, there must be an
-                            assessment of the trust relationship among such
-                            agents, the validating MTA, and the mechanism for
-                            conveying the information. </t>
+                            applied somewhere upstream.  For an MUA or downstream
+			    filter to treat the assertions as actually valid,
+			    there must be an assessment of the trust relationship
+			    among such agents, the validating MTA, and the
+			    mechanism for conveying the information. </t>
                 </section>
 
                 <section anchor="trust" title="Trust Boundary">
@@ -269,7 +268,7 @@
 				<xref target="RFC6531"/>, and
 				<xref target="RFC6532"/>.  Generally speaking,
 				these documents allow UTF-8 in most places
-				that free-form text can be found, and
+				that free-form text can be found and
 				U-labels where domain names can be used,
 				and this document extends
 				Authentication-Results accordingly. </t>
@@ -427,10 +426,10 @@
                             integrity or validation mechanism of its own, so
                             its presence must be trusted implicitly.  Hence,
                             valid use of the header field requires removing
-                            any occurrences of it that are present when the
-                            message enters the ADMD.  This ensures that later
-                            occurrences have been added within the trust
-                            boundary of the ADMD. </t>
+                            any occurrences of it that claim to be associated
+			    with the ADMD when the message enters the ADMD.
+			    This ensures that later occurrences have been added
+			    within the trust boundary of the ADMD. </t>
 
                         <t> The authserv-id token defined in
                             <xref target="format_formal"/> can be used to
@@ -445,7 +444,7 @@
         <section anchor="format"
 	         title="Definition and Format of the Header Field">
                 <t> This section gives a general overview of the format
-                    of the header field being defined and then provides more
+                    of the header field being defined and then provides a
                     formal specification. </t>
 
                 <section anchor="format_general" title="General Description">
@@ -600,7 +599,7 @@
 
                         <t> The "propspec" may be omitted if, for example,
                             the method was unable to extract any properties
-                            to do its evaluation yet has a result to
+                            to do its evaluation yet still has a result to
                             report.  It may also be omitted if the agent
 			    generating this result wishes not to reveal
 			    such properties to downstream agents. </t>
@@ -783,7 +782,7 @@
 			    specific hostname of the MTA performing the
 			    authentication check whose result is being
 			    reported.  Moreover, some implementations define
-			    a substructure to the identifier; these are
+			    a substructure to the identifier; such structures are
 			    outside of the scope of this specification. </t>
 
                         <t> Note, however, that using a local, relative
@@ -1357,10 +1356,10 @@
                                 <t> Additional result codes (extension results)
                                     might be defined in the future by later
                                     revisions or extensions to this
-                                    specification.  Result codes MUST be
-                                    registered with the Internet Assigned
-                                    Numbers Authority (IANA) and preferably
-                                    published in an RFC.  See
+                                    specification.  Non-experimental result
+				    codes MUST be registered with the Internet
+				    Assigned Numbers Authority (IANA) and
+				    preferably published in an RFC.  See
                                     <xref target="iana"/> for further
                                     details. </t>
 
@@ -1473,7 +1472,7 @@
                 <t> An MTA compliant with this specification adds this
                     header field (after performing one or more message
                     authentication tests) to indicate which MTA or ADMD
-                    performed the test, which test got applied, and what the
+                    performed the test, which test was applied, and what the
                     result was.  If an MTA applies more than one such test,
                     it adds this header field either once per test or
                     once indicating all of the results.  An MTA MUST NOT add
@@ -1543,10 +1542,11 @@
    that appear to originate within the ADMD but are actually added by
    foreign MTAs will be removed before delivery.
    </t>
+
                         <t> Furthermore, MUAs and downstream filters SHOULD
                             NOT interpret this header field unless the
-                            authentication service identifier it bears appears
-                            to be one used within its own ADMD as configured
+                            authentication service identifier of the header field
+                            is used within the ADMD as configured
                             by the user or administrator. </t>
 
                         <t> MUAs and downstream filters MUST ignore any
@@ -1629,9 +1629,9 @@
         </section>
 
         <section anchor="removing" title="Removing Existing Header Fields">
-                <t> For security reasons, any MTA conforming to this
-                    specification MUST delete any discovered instance of
-                    this header field that claims, by virtue of its
+                <t> To mitigate the impact of forged header fields, any MTA
+		    conforming to this specification MUST delete any discovered
+		    instance of this header field that claims, by virtue of its
                     authentication service identifier, to have been added
                     within its trust boundary but that did not come directly
                     from another trusted MTA.  For example, an MTA for
@@ -2636,7 +2636,7 @@
                             sends mail to a border MTA (example.com)
                             using SMTP authentication to prove identity.
                             The dial-up provider has been explicitly authorized
-                            to relay mail as example.com, producing 
+                            to relay mail as example.net, producing 
                             "pass" results from the SPF and Sender ID checks. </t>
 
 
@@ -2717,13 +2717,16 @@
                             dial-up connection example.net.  The user appears
                             to be legitimate as he/she had a valid password
                             allowing authentication at the border MTA using
-                            SMTP AUTH.  The SPF and Sender ID tests failed
-                            since example.com has not granted example.net
-                            authority to relay mail on its behalf.  However,
-                             the DKIM test passed because
+                            SMTP AUTH.  The SPF test failed since example.com
+			    has not granted example.net's dial-up network
+			    authority to relay mail on its behalf. The Sender ID
+			    test failed since example.com has not granted
+			    mail-router.example.com authority to relay mail on
+			    its behalf.  However, the DKIM test passed because
                             the sending user had a private key matching one
                             of example.com's published public keys and
-                            used it to sign the message. </t>
+			    mail-router.example.com used it to sign the
+			    message. </t>
                 </section>
 
                 <section anchor="example6"
@@ -2968,9 +2971,11 @@
 		    individuals for their review and constructive criticism of
 		    this document:
 		    Seth Blank,
+		    Tim Draegen,
 		    John Levine,
 		    Scott Kitterman,
-		    Alessandro Vesely,
+		    and
+		    Alessandro Vesely.
 		    </t>
         </section>
 
