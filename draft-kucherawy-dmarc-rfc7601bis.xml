@@ -20,7 +20,7 @@
 
 <rfc ipr="trust200902" category="std"
         updates="7601"
-        docName="draft-ietf-dmarc-rfc7601bis-04">
+        docName="draft-ietf-dmarc-rfc7601bis-05">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -43,10 +43,10 @@
                 </address>
         </author>
 
-        <date year="2018"/>
+        <date year="2019"/>
 
         <area>Applications</area>
-        <workgroup>DMARC Working Group</workgroup>
+        <workgroup>Individual submission</workgroup>
 
         <keyword>DKIM</keyword>
         <keyword>DomainKeys</keyword>
@@ -174,11 +174,12 @@
                             field does not mean its contents are valid.
                             Rather, the header field is reporting assertions
                             made by one or more authentication schemes 
-                            applied somewhere upstream.  For an MUA or downstream
-			    filter to treat the assertions as actually valid,
-			    there must be an assessment of the trust relationship
-			    among such agents, the validating MTA, and the
-			    mechanism for conveying the information. </t>
+                            applied somewhere upstream.
+                            For an MUA or downstream filter to treat the
+                            assertions as actually valid, there must be an
+                            assessment of the trust relationship among such
+                            agents, the validating MTA, and the mechanism for
+                            conveying the information. </t>
                 </section>
 
                 <section anchor="trust" title="Trust Boundary">
@@ -258,20 +259,21 @@
                                     <xref target="KEYWORDS"/>. </t>
                         </section>
 
-                        <section anchor="defs_eai"
-				title="Internationalized Email">
-				<t> In this document, there are references
-				to messages formatted to support Email Address
-				Internationalization (EAI).  Reference
-				material for this can be found in
-				<xref target="RFC6530"/>,
-				<xref target="RFC6531"/>, and
-				<xref target="RFC6532"/>.  Generally speaking,
-				these documents allow UTF-8 in most places
-				that free-form text can be found and
-				U-labels where domain names can be used,
-				and this document extends
-				Authentication-Results accordingly. </t>
+			<section anchor="defs_eai"
+			         title="Internationalized Email">
+				<t> In this document, there are references to
+				    messages formatted to support Email Address
+				    Internationalization (EAI).  Reference
+				    material for this can be found in
+				    <xref target="RFC6530"/>,
+				    <xref target="RFC6531"/>, and
+				    <xref target="RFC6532"/>.
+				    Generally speaking, these documents allow
+				    UTF-8 in most places that free-form text
+				    can be found and U-labels where domain
+				    names can be used, and this document
+				    extends Authentication-Results
+				    accordingly. </t>
 			</section>
 
                         <section anchor="defs_security" title="Security">
@@ -427,9 +429,10 @@
                             its presence must be trusted implicitly.  Hence,
                             valid use of the header field requires removing
                             any occurrences of it that claim to be associated
-			    with the ADMD when the message enters the ADMD.
-			    This ensures that later occurrences have been added
-			    within the trust boundary of the ADMD. </t>
+			    with the ADMD when the
+                            message enters the ADMD.  This ensures that later
+                            occurrences have been added within the trust
+                            boundary of the ADMD. </t>
 
                         <t> The authserv-id token defined in
                             <xref target="format_formal"/> can be used to
@@ -487,11 +490,11 @@
                             (<xref target="ABNF"/>): </t>
 
                         <figure><artwork>
-  authres-header-field = "Authentication-Results:" authres-payload
+  authres-header-field  = "Authentication-Results:" authres-payload
 
-  authres-payload = [CFWS] authserv-id
-                    [ CFWS authres-version ]
-                    ( no-result / 1*resinfo ) [CFWS] CRLF
+  authres-payload = "Authentication-Results:" [CFWS] authserv-id
+           [ CFWS authres-version ]
+           ( no-result / 1*resinfo ) [CFWS] CRLF
 
   authserv-id = value
               ; see below for a description of this element
@@ -566,25 +569,29 @@
 			    <xref target="MAIL"/>, as modified by
 			    <xref target="RFC6531"/>. </t>
 
-			<t> "CFWS" is defined in Section 3.2.2 of
-			    <xref target="MAIL"/>. </t>
-
-                        <t> "domain-name" is as defined in Section 3.5 of
-                            <xref target="DKIM"/> where the "d=" tag is
-			    defined, with "sub-domain" as modified by
-			    <xref target="RFC6531"/>. </t>
+			<t> "CFWS" is defined in
+			    Section 3.2.2 of <xref target="MAIL"/>. </t>
 
                         <t> "Keyword" is defined in Section 4.1.2 of
                             <xref target="SMTP"/>.  It is further constrained
-			    by the necessity of being registered in the IANA
+			    by the necesity of being registered in the IANA
 			    registry relevant to the context in which it
-			    is used.  See
-			    <xref target="m_and_r"/>, <xref target="ptypes"/>,
-			    and <xref target="iana"/>. </t>
+			    it is used.  See
+			    <xref target="m_and_r"/>, and
+			    <xref target="ptypes"/>, and
+			    <xref target="iana"/>. </t>
 
-                        <t> "value" is as defined in Section 5.1 of
+                        <t> The "value" is as defined in Section 5.1 of
                             <xref target="MIME"/>, with "quoted-string"
-			    updated as specified in RFC 6532. </t>
+			    updated as specified in
+			    <xref target="RFC6532"/>. </t>
+
+                        <t> The "domain-name" is as defined in Section 3.5 of
+                            <xref target="DKIM"/>. </t>
+
+                        <t> The "Keyword" used in "result" above is further
+                            constrained by the necessity of being enumerated
+                            in <xref target="m_and_r"/>. </t>
 
                         <t> See <xref target="identifier"/> for a description
                             of the authserv-id element. </t>
@@ -615,7 +622,7 @@
                         <t> A "ptype" value of "policy" indicates a policy
                             decision about the message not specific to a
                             property of the message that could be extracted.
-			    See <xref target="policyptype"/> for details. </t>
+			    See <xref target="policyptype"/> for details.  </t>
 
                         <t> Examples of complete messages using this
                             header field can be found in
@@ -629,12 +636,12 @@
 			    result being reported, upon which the reported
 			    result was based.  Coupled with the "property", 
 			    which is more specific, they indicate from where
-			    the reported data were extracted.  This can include
-			    part of the message header or body, some part of
-			    the SMTP session, a secondary output of an
-			    authentication method (apart from its pure result),
-			    or some other aspect of the message's handling.
-			    </t>
+			    particular part of the message the reported data
+			    were extracted.  This can include part of the
+			    message header or body, some part of the SMTP
+			    session, a secondary output of an authentication
+			    method (apart from its pure result), or some other
+			    aspect of the message's handling.</t>
 
 			<t> Combinations of ptypes and properties are
 			    registered and described in the "Email
@@ -645,9 +652,7 @@
 
 			<t> Legal values of "ptype" are as defined in the
 			    IANA "Email Authentication Property Types"
-			    registry, created by
-			    <xref target="RFC7410"/>. 
-
+			    registry, created by <xref target="RFC7410"/>. 
 			    The initial values and what they typically
 			    indicate are as follows, based on
 			    <xref target="RFC7001"/>:
@@ -783,8 +788,8 @@
 			    specific hostname of the MTA performing the
 			    authentication check whose result is being
 			    reported.  Moreover, some implementations define
-			    a substructure to the identifier; such structures are
-			    outside of the scope of this specification. </t>
+			    a substructure to the identifier; such structures
+			    are outside of the scope of this specification. </t>
 
                         <t> Note, however, that using a local, relative
 			    identifier like a flat hostname, rather
@@ -962,20 +967,21 @@
 				    can be expressed in UTF-8. </t>
 
 				<t> In addition to previous registrations,
-				    this document registers the DKIM
-				    tag "a" (cryptographic algorithm used to
-				    sign the message) as a reportable property.
-				    This can be used to aid receivers during
-			            post-verification processing.  In
+				    this document registers the	DKIM tag "a"
+				    (cryptographic algorithm used to sign the
+				    message) as a reportable property.  This
+				    can be used to aid receivers during
+				    post-verification processing.  In
 				    particular, <xref target="RFC8301"/>
 				    obsoleted use of the "rsa-sha1" algorithm
 				    in DKIM, so it is important to be able to	
 				    distinguish such signatures from those
 				    using preferred algorithms. </t>
 
-<t>
-   The ability to report different DKIM results for a message with
-   multiple signatures is described in <xref target="RFC6008"/>. </t>
+				<t> The ability to report different DKIM
+				    results for a message with multiple
+				    signatures is described in
+				    <xref target="RFC6008"/>. </t>
 
                                 <t> <xref target="DKIM"/> advises that if a
                                     message fails verification, it is to be
@@ -1051,8 +1057,8 @@
 				    property used is "helo".) </t>
 
 				<t> Note that in an EAI-formatted message,
-				    the "mailfrom" value can be expressed in
-				    UTF-8. </t>
+				    the "mailfrom" value can be expressed
+				    in UTF-8. </t>
 
                                 <t> The "sender-id" method is described in
 				    <xref target="SENDERID"/>.  For this
@@ -1225,11 +1231,12 @@
 					<t> "mailfrom", in which case the
 					    value is the mailbox identified
 					    by the AUTH parameter used with
-					    the MAIL FROM command.  Note that
-					    in an EAI-formatted message,
-				            these values can be expressed in
-					    UTF-8. </t>
+					    the MAIL FROM command. </t>
                                     </list> </t>
+
+				<t> Note that in an EAI-formatted message,
+				    these values can be expressed
+				    in UTF-8. </t>
 
 				<t> If both identities are available, both
 				    can be reported.  For example, consider
@@ -1283,9 +1290,10 @@
 					    represented by "smime"). </t>
 				    </list> </t>
 
-				<t> Note that "vbr.mv" and "vbr.md", which
-				    are already registered, are permitted to
-				    be UTF-8 in an EAI-formatted message. </t>
+				<t> Note that in an EAI-formatted message,
+				    "vbr.mv" and "vbr.md", which are already
+				    registered, can be expressed
+				    in UTF-8. </t>
                         </section>
 
                         <section anchor="x_methods" title="Extension Methods">
@@ -1358,9 +1366,10 @@
                                     might be defined in the future by later
                                     revisions or extensions to this
                                     specification.  Non-experimental result
-				    codes MUST be registered with the Internet
-				    Assigned Numbers Authority (IANA) and
-				    preferably published in an RFC.  See
+				    codes MUST be
+                                    registered with the Internet Assigned
+                                    Numbers Authority (IANA) and preferably
+                                    published in an RFC.  See
                                     <xref target="iana"/> for further
                                     details. </t>
 
@@ -1543,11 +1552,10 @@
    that appear to originate within the ADMD but are actually added by
    foreign MTAs will be removed before delivery.
    </t>
-
                         <t> Furthermore, MUAs and downstream filters SHOULD
                             NOT interpret this header field unless the
-                            authentication service identifier of the header field
-                            is used within the ADMD as configured
+                            authentication service identifier of the header
+			    field is used within the ADMD as configured
                             by the user or administrator. </t>
 
                         <t> MUAs and downstream filters MUST ignore any
@@ -1631,8 +1639,9 @@
 
         <section anchor="removing" title="Removing Existing Header Fields">
                 <t> To mitigate the impact of forged header fields, any MTA
-		    conforming to this specification MUST delete any discovered
-		    instance of this header field that claims, by virtue of its
+		    conforming to this
+                    specification MUST delete any discovered instance of
+                    this header field that claims, by virtue of its
                     authentication service identifier, to have been added
                     within its trust boundary but that did not come directly
                     from another trusted MTA.  For example, an MTA for
@@ -1644,8 +1653,8 @@
 		    to be equipped with a list of internal MTAs known to be
                     compliant (and hence trustworthy). </t>
 
-		<t> For messages that are EAI-formatted messages, this
-		    test is done after converting A-labels into U-labels. </t>
+		<t> For messages that are EAI-formatted messages, this test
+		    is done after converting A-labels into U-labels. </t>
 
                 <t> For simplicity and maximum security, a border MTA could
                     remove all instances of this header field on mail crossing
@@ -1697,19 +1706,19 @@
 		    were originally defined by <xref target="RFC5451"/> and
 		    updated by <xref target="RFC6577"/> and
 		    <xref target="RFC7001"/>.  The created registries were
-		    further updated in <xref target="RFC7601"/> to make them
-		    more complete. </t>
+		    being further updated in <xref target="RFC7601"/> to make
+		    them more compelte. </t>
 
-		<t> Each is listed below, though generally they are not changed
-		    by this document. </t>
+		<t> They are fully repeated here so that there is one
+		    document for all registration data. </t>
 
                 <section anchor="new_header"
 		         title="The Authentication-Results Header Field">
 
                         <t> The Authentication-Results header field was added
-			    to the IANA "Permanent Message Header Field Names"
+                            to the IANA "Permanent Message Header Field Names"
                             registry, per the procedure found in
-                            <xref target="IANA-HEADERS"/>.  That entry will be
+                            <xref target="IANA-HEADERS"/>.  That entry will be 
                             updated to reference this document.
                             The following is the registration template:
                                 <figure><artwork>
@@ -1725,70 +1734,233 @@
 
                 <section anchor="name_registry_1"
                      title="&quot;Email Authentication Methods&quot; Registry Description">
-                        <t> No changes are made to the description of this
-			 registry. </t>
+                        <t> Names of message authentication methods supported
+                            by this specification have been registered with
+                            IANA, with the exception of experimental names as
+                            described in <xref target="x_methods"/>.  Along
+			    with each method is recorded the properties
+			    that accompany the method's result.  </t>
+
+			<t> The "Email Authentication Parameters" 
+			    group, and within it the "Email Authentication
+			    Methods" registry, were created by
+			    <xref target="RFC5451"/> for this purpose.
+			    <xref target="RFC6577"/> added
+			    a "status" field for each entry.
+			    <xref target="RFC7001"/> amended
+                            the rules governing that registry and also added
+			    a "version" field to the registry. </t>
+
+			<t> The reference for that registry will be updated
+			    to reference this document. </t>
+
+                        <t> New entries are assigned only for values
+                            that have received Expert Review, per
+                            <xref target="IANA-CONSIDERATIONS"/>.  The
+                            designated expert shall be appointed by the
+                            IESG.  The designated expert has discretion to
+                            request that a publication be referenced if a
+                            clear, concise definition of the authentication
+                            method cannot be provided such that
+                            interoperability is assured.  Registrations should
+                            otherwise be permitted.  The designated expert
+                            can also handle requests to mark any current
+                            registration as "deprecated". </t>
+
+			<t> No two entries can have the same combination of
+			    method, ptype, and property. </t>
+
+                        <t> An entry in this registry contains the following:
+
+			    <list style="hanging">
+				<t hangText="Method:"> the name of the
+					method. </t>
+
+				<t hangText="Definition:"> a reference to
+					the document that created this
+					entry, if any (see below). </t>
+
+				<t hangText="ptype:"> a "ptype" value
+					appropriate for use with that
+					method. </t>
+
+				<t hangText="property:"> a "property" value
+					matching that "ptype" also appropriate
+					for use with that method. </t>
+
+				<t hangText="Value:"> a brief description of
+					the value to be supplied with that
+					method/ptype/property tuple. </t>
+
+				<t hangText="Status:"> the status of this
+					entry, which is either:
+
+				    <list style="hanging">
+					<t hangText="active:"> The entry is
+						in current use. </t>
+
+					<t hangText="deprecated:"> The entry is
+						no longer in current use. </t>
+				    </list> </t>
+
+				<t hangText="Version:"> a version number
+					associated with the method (preferably
+					starting at "1"). </t>
+			    </list> </t>
+
+			<t> The "Definition" field will typically refer to
+			    a permanent document, or at least some descriptive
+			    text, where additional information about the
+			    entry being added can be found.  This might in turn
+			    reference the document where the method is
+			    defined so that all of the semantics around
+			    creating or interpreting an Authentication-Results
+			    header field using this method, ptype, and property
+			    can be understood. </t>
 		</section>
 				    
                 <section anchor="name_registry_2"
                      title="&quot;Email Authentication Methods&quot; Registry Update">
-                        <t> The following two entries are added. </t>
+                        <t> Two new entries are added to this registry,
+			    as follows: </t>
 
-		    <section title="'header.a' for DKIM">
-			<t> <list style="hanging">
+			<section anchor="name_registry_2_a"
+			         title="'header.a' for DKIM">
+			    <t> <list style="hanging">
 				<t hangText="Method:"> dkim </t>
-				<t hangText="Definition:">
-					[this document] </t>
+				<t hangText="Definition:"> [this document] </t>
 				<t hangText="ptype:"> header </t>
 				<t hangText="property:"> a </t>
 				<t hangText="Description:">
-					value of signature "a" tag </t>
+					value of signature "a" tag
+				</t>
 				<t hangText="Status:"> active </t>
 				<t hangText="Version:"> 1 </t>
-			</list> </t>
-		    </section>
+			    </list> </t>
+			</section>
 
-		    <section title="'header.s' for DKIM">
-			<t> "header.s" for DKIM:
-			    <list style="hanging">
+			<section anchor="name_registry_2_s"
+			         title="'header.s' for DKIM">
+			    <t> <list style="hanging">
 				<t hangText="Method:"> dkim </t>
-				<t hangText="Definition:">
-					[this document] </t>
+				<t hangText="Definition:"> [this document] </t>
 				<t hangText="ptype:"> header </t>
 				<t hangText="property:"> s </t>
 				<t hangText="Description:">
-					value of signature "s" tag </t>
+					value of signature "s" tag
+				</t>
 				<t hangText="Status:"> active </t>
 				<t hangText="Version:"> 1 </t>
-			</list> </t>
-		    </section>
+			    </list> </t>
+			</section>
                 </section>
 
                 <section anchor="ptype_registry"
                      title="&quot;Email Authentication Property Types&quot; Registry">
 			<t> <xref target="RFC7410"/> created the
-			    "Email Authentication Property Types"
-			    registry. </t>
+			    "Email Authentication Property Types" registry. </t>
 
-                        <t> No changes are made to the description of this
-			    registry.  However, it should be noted that
-			    <xref target="ptypes"/> contains slightly
-			    different language than prior versions of this
-			    document, allowing a broader space from which
-			    to extract meaningful identifiers and report them
-			    through this mechanism. </t>
+			<t> Entries in this registry are subject to the Expert
+			    Review rules as described in
+			    <xref target="IANA-CONSIDERATIONS"/>.  Each entry
+			    in the registry requires the following values:
+
+			    <list style="hanging">
+				<t hangText="ptype:"> The name of the ptype
+					being registered, which must fit within
+					the ABNF described in 
+					<xref target="format_formal"/>. </t>
+
+				<t hangText="Definition:"> An optional
+					reference to a defining
+					specification. </t>
+
+				<t hangText="Description:"> A brief description
+					of what sort of information this
+					"ptype" is meant to cover. </t>
+			    </list> </t>
+
+			<t> For new entries, the Designated Expert needs to
+			    assure that the description provided for the new
+			    entry adequately describes the intended use.  An
+			    example would be helpful to include in the entry's
+			    defining document, if any, although entries in
+			    the "Email Authentication Methods" registry or
+			    the "Email Authentication Result Names" registry
+			    might also serve as examples of intended use. </t>
+
+			<t> As this is a complete restatement of the definition
+			    and rules for this registry, IANA will update this
+			    registry to show <xref target="ptypes"/> of this
+			    document as the current definitions for the "body",
+			    "header", "policy", and "smtp" entries of that
+			    registry.  References to other documents will be
+			    removed. </t>
 		</section>
 
                 <section anchor="result_registry"
                         title="&quot;Email Authentication Result Names&quot; Description">
-                        <t> No changes are made to the description of this
-			registry. </t>
+                        <t> Names of message authentication result codes
+                            supported by this specification must be registered
+                            with IANA, with the exception of experimental
+                            codes as described in <xref target="x_results"/>.
+			    </t>
+
+                        <t> New entries are assigned only for values
+                            that have received Expert Review, per
+                            <xref target="IANA-CONSIDERATIONS"/>.  The
+                            designated expert shall be appointed by the
+                            IESG.  The designated expert has discretion to
+                            request that a publication be referenced if a
+                            clear, concise definition of the authentication
+                            result cannot be provided such that
+                            interoperability is assured.  Registrations should
+                            otherwise be permitted.  The designated expert
+                            can also handle requests to mark any current
+                            registration as "deprecated". </t>
+
+			<t> No two entries can have the same combination of
+			    method and code. </t>
+
+                        <t> An entry in this registry contains the following:
+
+			    <list style="hanging">
+				<t hangText="Auth Method:"> an authentication
+					method for which results are being
+					returned using the header field
+					defined in this document. </t>
+
+				<t hangText="Code:"> a result code that can be
+					returned for this authentication
+					method. </t>
+
+				<t hangText="Specification:"> either free form
+					text explaining the meaning of this
+					method-code combination, or a reference
+					to such a definition. </t>
+
+				<t hangText="Status:"> the status of this
+					entry, which is either:
+
+				    <list style="hanging">
+					<t hangText="active:"> The entry is
+						in current use. </t>
+
+					<t hangText="deprecated:"> The entry is
+						no longer in current use. </t>
+				    </list> </t>
+			    </list> </t>
                 </section>
 
-                <section anchor="result_registry_2"
-                        title="&quot;Email Authentication Result Names&quot; Update">
-                        <t> No changes are made to entries in this
-			registry. </t>
-                </section>
+                <section anchor="iana_esc"
+		         title="SMTP Enhanced Status Codes">
+			<t> The entry for X.7.25 in the "Enumerated Status
+			    Codes" sub-registry of the "Simple Mail Transfer
+			    Protocol (SMTP) Enhanced Status
+			    Codes Registry" is to be updated to refer only to
+			    Section 3.3 of <xref target="AUTH-ESC"/> as that
+			    is where that registration was done. </t>
+		</section>
         </section>
 
         <section anchor="security" title="Security Considerations">
@@ -2007,7 +2179,8 @@
 
                 <section anchor="bugs"
                         title="Intentionally Malformed Header Fields">
-                        <t> It is possible for an attacker to add an
+                        <t> As with any other header field found in the
+			    message, it is possible for an attacker to add an
                             Authentication-Results header field that
                             is extraordinarily large or otherwise malformed
                             in an attempt to discover or exploit weaknesses
@@ -2079,6 +2252,11 @@
 <back>
         <references title="Normative References">
 
+&RFC6530;
+&RFC6531;
+&RFC6532;
+&RFC7601;
+
                 <reference anchor="ABNF" target='http://www.rfc-editor.org/info/rfc5234'>
     <front>
     <title>Augmented BNF for Syntax Specifications: ABNF</title>
@@ -2090,20 +2268,6 @@
     <seriesInfo name='STD' value='68'/>
     <seriesInfo name='RFC' value='5234'/>
     <seriesInfo name='DOI' value='10.17487/RFC5234'/>
-    </reference>
-
-		<reference anchor="DKIM" target='http://www.rfc-editor.org/info/rfc6376'>
-    <front>
-    <title>DomainKeys Identified Mail (DKIM) Signatures</title>
-    <author initials='D.' surname='Crocker' fullname='D. Crocker' role='editor'><organization /></author>
-    <author initials='T.' surname='Hansen' fullname='T. Hansen' role='editor'><organization /></author>
-    <author initials='M.' surname='Kucherawy' fullname='M. Kucherawy' role='editor'><organization /></author>
-    <date year='2011' month='September' />
-    <abstract><t>DomainKeys Identified Mail (DKIM) permits a person, role, or organization that owns the signing domain to claim some responsibility for a message by associating the domain with the message.  This can be an author's organization, an operational relay, or one of their agents.  DKIM separates the question of the identity of the Signer of the message from the purported author of the message.  Assertion of responsibility is validated through a cryptographic signature and by querying the Signer's domain directly to retrieve the appropriate public key.  Message transit from author to recipient is through relays that typically make no substantive change to the message content and thus preserve the DKIM signature.</t><t>This memo obsoletes RFC 4871 and RFC 5672.  [STANDARDS-TRACK]</t></abstract>
-    </front>
-    <seriesInfo name='STD' value='76'/>
-    <seriesInfo name='RFC' value='6376'/>
-    <seriesInfo name='DOI' value='10.17487/RFC6376'/>
     </reference>
 
                 <reference anchor="IANA-HEADERS" target='http://www.rfc-editor.org/info/rfc3864'>
@@ -2155,16 +2319,6 @@
     <seriesInfo name='DOI' value='10.17487/RFC2045'/>
     </reference>
 
-&RFC5451;
-&RFC6008;
-&RFC6530;
-&RFC6531;
-&RFC6532;
-&RFC6577;
-&RFC7001;
-&RFC7601;
-&RFC8301;
-
 		<reference anchor="SMTP" target='http://www.rfc-editor.org/info/rfc5321'>
     <front>
     <title>Simple Mail Transfer Protocol</title>
@@ -2192,6 +2346,12 @@
     <seriesInfo name='RFC' value='5617'/>
     <seriesInfo name='DOI' value='10.17487/RFC5617'/>
     </reference>
+
+&RFC5451;
+&RFC6008;
+&RFC6577;
+&RFC7001;
+&RFC8301;
 
                 <reference anchor="AR-VBR" target='http://www.rfc-editor.org/info/rfc6212'>
     <front>
@@ -2235,6 +2395,19 @@
     </front>
     <seriesInfo name='RFC' value='7372'/>
     <seriesInfo name='DOI' value='10.17487/RFC7372'/>
+    </reference>
+		<reference anchor="DKIM" target='http://www.rfc-editor.org/info/rfc6376'>
+    <front>
+    <title>DomainKeys Identified Mail (DKIM) Signatures</title>
+    <author initials='D.' surname='Crocker' fullname='D. Crocker' role='editor'><organization /></author>
+    <author initials='T.' surname='Hansen' fullname='T. Hansen' role='editor'><organization /></author>
+    <author initials='M.' surname='Kucherawy' fullname='M. Kucherawy' role='editor'><organization /></author>
+    <date year='2011' month='September' />
+    <abstract><t>DomainKeys Identified Mail (DKIM) permits a person, role, or organization that owns the signing domain to claim some responsibility for a message by associating the domain with the message.  This can be an author's organization, an operational relay, or one of their agents.  DKIM separates the question of the identity of the Signer of the message from the purported author of the message.  Assertion of responsibility is validated through a cryptographic signature and by querying the Signer's domain directly to retrieve the appropriate public key.  Message transit from author to recipient is through relays that typically make no substantive change to the message content and thus preserve the DKIM signature.</t><t>This memo obsoletes RFC 4871 and RFC 5672.  [STANDARDS-TRACK]</t></abstract>
+    </front>
+    <seriesInfo name='STD' value='76'/>
+    <seriesInfo name='RFC' value='6376'/>
+    <seriesInfo name='DOI' value='10.17487/RFC6376'/>
     </reference>
                 <reference anchor="DMARC" target='http://www.rfc-editor.org/info/rfc7489'>
     <front>
@@ -2327,6 +2500,19 @@
 
 			<seriesInfo name="Work in Progress," value="draft-ietf-dnsop-reverse-mapping-considerations-06"/>
 		</reference>
+
+                <reference anchor="IANA-CONSIDERATIONS" target='http://www.rfc-editor.org/info/rfc5226'>
+    <front>
+    <title>Guidelines for Writing an IANA Considerations Section in RFCs</title>
+    <author initials='T.' surname='Narten' fullname='T. Narten'><organization /></author>
+    <author initials='H.' surname='Alvestrand' fullname='H. Alvestrand'><organization /></author>
+    <date year='2008' month='May' />
+    <abstract><t>Many protocols make use of identifiers consisting of constants and other well-known values.  Even after a protocol has been defined and deployment has begun, new values may need to be assigned (e.g., for a new option type in DHCP, or a new encryption or authentication transform for IPsec).  To ensure that such quantities have consistent values and interpretations across all implementations, their assignment must be administered by a central authority.  For IETF protocols, that role is provided by the Internet Assigned Numbers Authority (IANA).</t><t>In order for IANA to manage a given namespace prudently, it needs guidelines describing the conditions under which new values can be assigned or when modifications to existing values can be made.  If IANA is expected to play a role in the management of a namespace, IANA must be given clear and concise instructions describing that role.  This document discusses issues that should be considered in formulating a policy for assigning values to a namespace and provides guidelines for authors on the specific text that must be included in documents that place demands on IANA.</t><t>This document obsoletes RFC 2434.  This document specifies an Internet Best  Current Practices for the Internet Community, and requests discussion and  suggestions for improvements.</t></abstract>
+    </front>
+    <seriesInfo name='BCP' value='26'/>
+    <seriesInfo name='RFC' value='5226'/>
+    <seriesInfo name='DOI' value='10.17487/RFC5226'/>
+    </reference>
 
                 <reference anchor="IMAP" target='http://www.rfc-editor.org/info/rfc3501'>
     <front>
@@ -2464,12 +2650,10 @@
                     the content of this header field.  However, there is
                     keen interest in having MUAs make some kind of
                     graphical representation of this header field's meaning
-                    to end users.  
-
-   Until this capability is added (i.e., while this specification and its 
-   successors continue to be adopted), other interim means 
-   of conveying authentication results may be necessary.
-		</t>
+                    to end users.  Until this capability is added (i.e.,
+		    while this specification and its successors continue to
+		    be adopted), other interim means of conveying
+		    authentication results may be necessary.  </t>
         </section>
 
         <section anchor="examples" title="Authentication-Results Examples">
@@ -2638,9 +2822,8 @@
                             using SMTP authentication to prove identity.
                             The dial-up provider has been explicitly authorized
                             to relay mail as example.net, producing 
-                            "pass" results from the SPF and Sender ID checks. </t>
-
-
+                            "pass" results from the SPF and Sender ID
+			    checks. </t>
                 </section>
 
                 <section anchor="example5"
@@ -2718,15 +2901,16 @@
                             dial-up connection example.net.  The user appears
                             to be legitimate as he/she had a valid password
                             allowing authentication at the border MTA using
-                            SMTP AUTH.  The SPF test failed since example.com
-			    has not granted example.net's dial-up network
-			    authority to relay mail on its behalf. The Sender ID
-			    test failed since example.com has not granted
-			    mail-router.example.com authority to relay mail on
-			    its behalf.  However, the DKIM test passed because
+                            SMTP AUTH.  The SPF test failed
+                            since example.com has not granted example.net's
+                            dial-up network authority to relay mail on its
+			    behalf.  The Sender ID test failed since
+			    example.com has not granted mail-router.example.com
+			    authority to relay mail on its behalf.  However,
+                            the DKIM test passed because
                             the sending user had a private key matching one
                             of example.com's published public keys and
-			    mail-router.example.com used it to sign the
+                            mail-router.example.com used it to sign the
 			    message. </t>
                 </section>
 
@@ -2955,26 +3139,29 @@
                     next stage.  </t>
         </section>
 
-	<section anchor="changes" title="Changes Since RFC7601">
-		<t> <list style="symbols">
-			<t> Added IANA registration for DKIM "a" and "s"
+        <section anchor="changes" title="Changes since RFC7601">
+                <t> <list style="symbols">
+                        <t> Added IANA registration for DKIM "a" and "s"
 			    properties. </t>
 
-			<t> Include EAI guidance. </t>
+                        <t> Include EAI guidance. </t>
 
-			<t> Adjust some ABNF tokens and names for easier
+                        <t> Adjust some ABNF tokes and names for easier
 			    inclusion by other documents. </t>
-		    </list> </t>
-	</section>
 
-        <section anchor="thanks" title="Acknowledgments">
+                        <t> Made minor editorial adjustments. </t>
+                      </list> </t>
+        </section>
+
+
+        <section anchor="thanks" title="Acknowledgments" numbered="no">
 		<t> The author wishes to acknowledge the following
 		    individuals for their review and constructive criticism of
 		    this document:
 		    Seth Blank,
 		    Tim Draegen,
-		    John Levine,
 		    Scott Kitterman,
+		    John Levine,
 		    and
 		    Alessandro Vesely.
 		    </t>
