@@ -1727,12 +1727,13 @@
 		    were originally defined by <xref target="RFC5451"/> and
 		    updated by <xref target="RFC6577"/> and
 		    <xref target="RFC7001"/>.  The created registries were
-		    being further updated in <xref target="RFC7601"/> to make
-		    them more compelte. </t>
+		    further updated in <xref target="RFC7601"/> to make
+		    them more complete. </t>
 
 		<t> Each registry has two related sections below.  The first
-		    describes the registry and its update procedures.
-		    The second describes changes to entries that are relevant
+		    describes the registry and its update procedures, which
+		    are unchanged from <xref target="RFC7601"/>.
+		    The second enumerates changes to entries that are relevant
 		    to this document. </t>
 
                 <section anchor="new_header"
