@@ -69,6 +69,8 @@
                     (MUAs), can use this header field to relay that
                     information in a convenient and meaningful way to users
                     or to make sorting and filtering decisions. </t>
+
+		<t> This document obsoletes <xref target="RFC7601"/>. </t>
         </abstract>
 </front>
 
@@ -1033,25 +1035,25 @@
 				    reference: 
 
                                 <figure><artwork>
-  +-----------+--------------------------------+
-  |    Code   | Meaning                        |
-  +-----------+--------------------------------+
-  | none      | [RFC7208], Section 2.6.1       |
-  +-----------+--------------------------------+
-  | pass      | [RFC7208], Section 2.6.3       |
-  +-----------+--------------------------------+
-  | fail      | [RFC7208], Section 2.6.4       |
-  +-----------+--------------------------------+
-  | softfail  | [RFC7208], Section 2.6.5       |
-  +-----------+--------------------------------+
-  | policy    | RFC 7601, Section 2.4          |
-  +-----------+--------------------------------+
-  | neutral   | [RFC7208], Section 2.6.2       |
-  +-----------+--------------------------------+
-  | temperror | [RFC7208], Section 2.6.6       |
-  +-----------+--------------------------------+
-  | permerror | [RFC7208], Section 2.6.7       |
-  +-----------+--------------------------------+
+  +-----------+------------------------------+
+  |    Code   | Meaning                      |
+  +-----------+------------------------------+
+  | none      | [SPF], Section 2.6.1         |
+  +-----------+------------------------------+
+  | pass      | [SPF], Section 2.6.3         |
+  +-----------+------------------------------+
+  | fail      | [SPF], Section 2.6.4         |
+  +-----------+------------------------------+
+  | softfail  | [SPF], Section 2.6.5         |
+  +-----------+------------------------------+
+  | policy    | [this document], Section 2.4 |
+  +-----------+------------------------------+
+  | neutral   | [SPF], Section 2.6.2         |
+  +-----------+------------------------------+
+  | temperror | [SPF], Section 2.6.6         |
+  +-----------+------------------------------+
+  | permerror | [SPF], Section 2.6.7         |
+  +-----------+------------------------------+
                                 </artwork> </figure> </t>
 
                                 <t> These result codes are used in the context
@@ -1086,7 +1088,7 @@
 				    definitions enumerated above are used
 				    instead.  Also, <xref target="SENDERID"/>
 				    specifies result codes that use mixed
-				    case, but they are typically used all
+				    case, but they are used all
 				    lowercase in this context. </t>
 
                                 <t> For both methods, an additional result of
@@ -1360,7 +1362,7 @@
                                     be used within ADMDs that have explicitly
                                     consented to use them.  These method
                                     identifiers and the parameters associated
-                                    with them are not documented in RFCs.
+                                    with them are not documented formally.
                                     Therefore, they are subject to change at
                                     any time and not suitable for production
                                     use.  Any MTA, MUA, or downstream filter
@@ -1576,7 +1578,9 @@
 			    registry for such values as 
                             defined in <xref target="iana"/>.  Moreover, such
                             agents MUST ignore a result indicated for any
-                            "method" they do not specifically support. </t>
+                            "method" they do not specifically support.  The
+			    exception to this is experimental methods as
+			    discussed in <xref target="x_methods"/>.  </t>
 
                         <t> An MUA SHOULD NOT reveal these results to 
                             end users, absent careful human factors design
@@ -1614,7 +1618,11 @@
 
                         <t> MUAs SHOULD ignore instances of this header field
                             discovered within message/rfc822 MIME
-                            attachments. </t>
+                            attachments.  They are likely to contain the
+			    results of authentication checks done in the
+			    past, possibly long ago, and have no contemporary
+			    value.  Due caution to this needs to be taken
+			    when choosing to consume them. </t>
 
                         <t> Further discussion of these topics can be found in
                             <xref target="security"/> below. </t>
@@ -1834,8 +1842,40 @@
 				    
                 <section anchor="name_registry_2"
                      title="&quot;Email Authentication Methods&quot; Registry Update">
-                        <t> Two new entries are added to this registry,
-			    as follows: </t>
+			<t> The following entries in this registry are to be
+			    updated to replace <xref target="RFC7601"/> with
+			    this document:
+
+			    <figure><artwork>
+  +------------+--------+----------------------------------+
+  |   Method   | ptype  | Property                         |
+  +------------+--------+----------------------------------+
+  |    auth    |  smtp  | auth                             |
+  +------------+--------+----------------------------------+
+  |    auth    |  smtp  | mailfrom                         |
+  +------------+--------+----------------------------------+
+  |    dkim    | header | d                                |
+  +------------+--------+----------------------------------+
+  |    dkim    | header | i                                |
+  +------------+--------+----------------------------------+
+  | domainkeys | header | d                                |
+  +------------+--------+----------------------------------+
+  | domainkeys | header | from                             |
+  +------------+--------+----------------------------------+
+  | domainkeys | header | sender                           |
+  +------------+--------+----------------------------------+
+  |   iprev    | policy | iprev                            |
+  +------------+--------+----------------------------------+
+  | sender-id  | header | name of header field used by PRA |
+  +------------+--------+----------------------------------+
+  |    spf     |  smtp  | mailfrom                         |
+  +------------+--------+----------------------------------+
+  |    spf     |  smtp  | helo                             |
+  +------------+--------+----------------------------------+
+			    </artwork></figure> </t>
+
+                        <t> In addition, two new entries are added to this
+			    registry, as follows: </t>
 
 			<section anchor="name_registry_2_a"
 			         title="'header.a' for DKIM">
@@ -1911,8 +1951,15 @@
 			    removed. </t>
 		</section>
 
+                <section anchor="ptype_registry_2"
+                     title="&quot;Email Authentication Property Types&quot; Registry Update">
+			<t> All current entries in this registry are to be
+			    updated to replace <xref target="RFC7601"/> with
+			    this document. </t>
+		</section>
+
                 <section anchor="result_registry"
-                        title="&quot;Email Authentication Result Names&quot; Description">
+                        title="&quot;Email Authentication Result Names&quot; Registry">
                         <t> Names of message authentication result codes
                             supported by this specification must be registered
                             with IANA, with the exception of experimental
@@ -1964,6 +2011,42 @@
 				    </list> </t>
 			    </list> </t>
                 </section>
+
+                <section anchor="result_registryo_2"
+                        title="&quot;Email Authentication Result Names&quot; Registry Update">
+			<t> The following entries in this registry are to be
+			    updated to reflect new Specifications as follows:
+
+			    <list style="symbols">
+				<t> All "auth" method result codes ("fail",
+				    "none", "pass", "permerror", "temperror")
+				    are now specified in
+				    <xref target="auth_results"/>
+				    of this document. </t>
+
+				<t> All "dkim" method result names ("fail",
+				    "neutral", "none", "pass", "permerror",
+				    "policy", "temperror")
+				    are now specified in
+				    <xref target="dkim_dk_results"/>
+				    of this document. </t>
+
+				<t> All "iprev" method result names ("fail",
+				    "pass", "permerror", "temperror")
+				    are now specified in
+				    <xref target="iprev_results"/>
+				    of this document. </t>
+
+				<t> The "sender-id" and "spf" method result
+				    names "fail", "neutral", "none", "pass",
+				    "permerror", "policy", "softfail",
+				    and "temperror" are now specified in
+				    <xref target="spf_sid_results"/>
+				    of this document.  The registrations for
+				    result name "hardfail" are not
+				    updated. </t>
+			    </list> </t>
+		</section>
 
                 <section anchor="iana_esc"
 		         title="SMTP Enhanced Status Codes">
@@ -3063,7 +3146,8 @@
 
                         <t> Border MTAs are more likely to have direct access
                             to external sources of authentication or reputation
-                            information since modern MUAs are more likely to
+                            information since modern MUAs inside of an ADMD
+			    are more likely to
                             be heavily firewalled.  Thus, some MUAs might not
                             even be able to complete the task of performing
                             authentication or reputation evaluations without
