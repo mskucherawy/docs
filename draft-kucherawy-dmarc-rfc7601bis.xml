@@ -518,7 +518,7 @@
                         <figure><artwork>
   authres-header-field  = "Authentication-Results:" authres-payload
 
-  authres-payload = "Authentication-Results:" [CFWS] authserv-id
+  authres-payload = [CFWS] authserv-id
            [ CFWS authres-version ]
            ( no-result / 1*resinfo ) [CFWS] CRLF
 
