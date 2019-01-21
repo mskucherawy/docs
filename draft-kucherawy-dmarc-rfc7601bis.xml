@@ -226,6 +226,14 @@
 			    field cannot be trusted in that case.  Thus, this
 			    field found within one of those media types is
 			    typically ignored. </t>
+
+			<t> Note that an MUA could be configured to retrieve
+			    messages from a Receiver yet not be within the
+			    Receiver's ADMD.  In this case, for the purposes
+			    of this work, that MUA is considered to be within
+			    the Receiver's ADMD if is configured to identify
+			    and ascribe value to authentication results
+			    recorded by that ADMD. </t>
                 </section>
 
                 <section anchor="scope" title="Processing Scope">
@@ -240,7 +248,9 @@
 
                 <section anchor="requirements" title="Requirements">
                         <t> This document establishes no new requirements on
-                            existing protocols or servers. </t>
+                            existing protocols, insofar as a non-participating
+			    service will continue to interoperate with the
+			    deployed messaging infrastructure. </t>
 
                         <t> In particular, this document establishes no
                             requirement on MTAs to reject or filter arriving
@@ -249,6 +259,10 @@
                             contents are for the information of MUAs and
                             filters and are to be used at their
                             discretion. </t>
+
+			<t> A participating ADMD does undertake some filtering
+			    and message modification obligations described
+			    in <xref target="removing"/>. </t>
                 </section>
 
                 <section anchor="definitions" title="Definitions">
@@ -679,7 +693,12 @@
 					"property" is an indication of where
 					within the message body the extracted
 					content was found, and can indicate an
-					offset, identify a MIME part, etc. </t>
+					offset, identify a MIME part, etc. 
+				        (At the time of this revision, no
+					properties matching this ptype have
+					been registered.  Accordingly, this
+					ptype may be deprecated in the
+					future.) </t>
 
 				<t hangText="header:"> Indicates information
 					that was extracted from the header of
@@ -756,12 +775,12 @@
 			    field. </t>
 
 			<t> This ptype existed in the original specification
-			    for this header field, but without a complete
-			    description or example of intended use.  As a
-			    result, it has not seen any practical use to date
-			    that matches its intended purpose.  These added
-			    details are provided to guide implementers toward
-			    proper use. </t>
+			    for this header field (<xref target="RFC5451"/>),
+			    but without a complete description or example of
+			    intended use.  As a result, it has not seen any
+			    practical use to date that matches its intended
+			    purpose.  These added details are provided to
+			    guide implementers toward proper use. </t>
 		</section>
 
                 <section anchor="identifier"
@@ -2311,26 +2330,36 @@
                 </section>
 
                 <section anchor="encapsulated" title="Encapsulated Instances">
-                        <t> MIME messages can contain
-                            attachments of type "message/rfc822", which
-                            contain other messages.
+                        <t> MIME messages can contain attachments of type
+			    "message/rfc822", which contain other messages.
                             Such an encapsulated message can also contain an
                             Authentication-Results header field.  Although
                             the processing of these is outside of the intended
                             scope of this document (see
-                            <xref target="scope"/>), some early guidance to
+                            <xref target="scope"/>), some simple guidance to
                             MUA developers is appropriate here. </t>
 
-                        <t> Since MTAs are unlikely to strip
-                            Authentication-Results header fields after
-                            mailbox delivery, MUAs are warned in
-                            <xref target="position"/> to ignore such instances
-                            within MIME attachments.
+                        <t> Since MTAs are generally unlikely to strip
+                            Authentication-Results header fields during
+                            mailbox delivery, normative language exists in
+                            <xref target="position"/> cautioning MUAs to ignore
+			    such instances within MIME attachments, as might
+			    be included when a message is forwarded.
                             Moreover, when extracting a message digest to
                             separate mail store messages or other media, such
                             header fields should be removed so that they will
                             never be interpreted improperly by MUAs that might
                             later consume them. </t>
+
+			<t> There can be cases where these header fields
+			    included as part of encapsulated messages might
+			    actually be of value, such as when they are
+			    taken from messages within the same ADMD where
+			    they will be consumed.  Caution must be taken
+			    that the consumer fully understands the semantics
+			    of what the header field is indicating and the
+			    message's handling history before ascribing any
+			    value, positive or negative, to such data. </t>
                 </section>
 
                 <section anchor="iprev_weak" title="Reverse Mapping">
