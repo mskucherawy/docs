@@ -51,7 +51,6 @@
         <workgroup>Individual submission</workgroup>
 
         <keyword>DKIM</keyword>
-        <keyword>DomainKeys</keyword>
         <keyword>SenderID</keyword>
         <keyword>SPF</keyword>
         <keyword>ADSP</keyword>
@@ -122,6 +121,13 @@
                         <t> S/MIME Signature Verification
 			    (<xref target="SMIME-REG"/>) </t>
                         <t> Vouch By Reference (<xref target="VBR"/>) </t>
+                    </list> </t>
+
+		<t> The following historic specifications were previously
+		    supported by this framework, but have since become
+		    obsolete:
+
+                    <list style="symbols">
                         <t> DomainKeys (<xref target="DOMAINKEYS"/>)
                             (Historic) </t>
                         <t> Sender ID (<xref target="SENDERID"/>)
@@ -516,7 +522,7 @@
 			    <xref target="examples"/>. </t>
 
                         <figure><artwork>
-  authres-header-field  = "Authentication-Results:" authres-payload
+  authres-header-field = "Authentication-Results:" authres-payload
 
   authres-payload = [CFWS] authserv-id
            [ CFWS authres-version ]
@@ -732,7 +738,7 @@
 			    these definitions when appropriate.  Such
 			    deviations need to be clear in the registry and/or
 			    in the defining document.  See
-			    <xref target="dkim_dk_results"/> for an
+			    <xref target="dkim_results"/> for an
 			    example. </t>
 		</section>
 
@@ -905,21 +911,10 @@
 			    either in their defining documents or in
 			    supplementary ones.  </t>
 
-                        <section anchor="dkim_dk_results"
-                                 title="DKIM and DomainKeys">
+                        <section anchor="dkim_results" title="DKIM">
                                 <t> DKIM is represented by the "dkim"
                                     method and is defined in
-                                    <xref target="DKIM"/>.  DomainKeys is
-                                    defined in <xref target="DOMAINKEYS"/>
-                                    and is represented by the "domainkeys"
-                                    method. </t>
-
-				<t> Section 3.8 of <xref target="DOMAINKEYS"/>
-				    enumerates some possible results of a
-				    DomainKeys evaluation.  Those results are
-				    not used when generating this header field;
-				    rather, the results returned are listed
-				    below. </t>
+                                    <xref target="DKIM"/>. </t>
 
                                 <t> A signature is "acceptable to the
                                     ADMD" if it passes local policy
@@ -932,9 +927,7 @@
 				    signatures unacceptable even if they
 				    verify. </t>
 
-				<t> Both DKIM and DomainKeys use the same
-				    result set, as follows:
-
+				<t> The DKIM result set is as follows:
                                     <list style="hanging">
                                         <t hangText="none:"> The message was
                                             not signed. </t>
@@ -998,12 +991,13 @@
 				    can be expressed in UTF-8. </t>
 
 				<t> In addition to previous registrations,
-				    this document registers the	DKIM tag "a"
+				    this document registers the	DKIM tags "a"
 				    (cryptographic algorithm used to sign the
-				    message) as a reportable property.  This
-				    can be used to aid receivers during
-				    post-verification processing.  In
-				    particular, <xref target="RFC8301"/>
+				    message) and "s" (selector) as reportable
+				    properties.  This can be used to aid
+				    receivers during post-verification
+				    processing.  In particular,
+				    <xref target="RFC8301"/>
 				    obsoleted use of the "rsa-sha1" algorithm
 				    in DKIM, so it is important to be able to	
 				    distinguish such signatures from those
@@ -1023,25 +1017,6 @@
                                     that choice, ensuring the message will
                                     be treated as if it had not been
                                     signed. </t>
-
-				<t> Section 3.1 of <xref target="DOMAINKEYS"/>
-				    describes a process by which the sending
-				    address of the message is determined.
-				    DomainKeys results are thus reported along
-				    with the signing domain name, the
-				    sending address of the message, and the
-				    name of the header field from which the
-				    latter was extracted.  This means that
-				    a DomainKeys result includes a
-				    ptype-property combination of "header.d",
-				    plus one of "header.from" and
-				    "header.sender".  The sending address
-				    extracted from the header is included
-				    with any <xref target="MAIL"/>-style
-				    comments removed; moreover, the local-part
-				    of the address and the "@" character 
-				    are removed if it has not been authenticated
-				    in some way. </t>
                         </section>
 
                         <section anchor="spf_sid_results"
@@ -1882,12 +1857,6 @@
   +------------+--------+----------------------------------+
   |    dkim    | header | i                                |
   +------------+--------+----------------------------------+
-  | domainkeys | header | d                                |
-  +------------+--------+----------------------------------+
-  | domainkeys | header | from                             |
-  +------------+--------+----------------------------------+
-  | domainkeys | header | sender                           |
-  +------------+--------+----------------------------------+
   |   iprev    | policy | iprev                            |
   +------------+--------+----------------------------------+
   | sender-id  | header | name of header field used by PRA |
@@ -1897,6 +1866,10 @@
   |    spf     |  smtp  | helo                             |
   +------------+--------+----------------------------------+
 			    </artwork></figure> </t>
+
+			<t> Notably, the DomainKeys entries are not updated
+			    to refer to this revised specification, as
+			    DomainKeys is obsolete. </t>
 
                         <t> In addition, two new entries are added to this
 			    registry, as follows: </t>
@@ -2052,7 +2025,7 @@
 				    "neutral", "none", "pass", "permerror",
 				    "policy", "temperror")
 				    are now specified in
-				    <xref target="dkim_dk_results"/>
+				    <xref target="dkim_results"/>
 				    of this document. </t>
 
 				<t> All "iprev" method result names ("fail",
