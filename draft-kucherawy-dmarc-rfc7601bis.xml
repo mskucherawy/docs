@@ -51,7 +51,6 @@
         <workgroup>Individual submission</workgroup>
 
         <keyword>DKIM</keyword>
-        <keyword>SenderID</keyword>
         <keyword>SPF</keyword>
         <keyword>ADSP</keyword>
         <keyword>ATPS</keyword>
@@ -334,9 +333,9 @@
                                             in its entirety. </t>
                                     </list> </t>
 
-                                <t> As examples: SPF and Sender ID
-                                    are authorization mechanisms in that they
-                                    express a result that shows whether
+                                <t> As examples: SPF is an
+                                    authorization mechanism in that it
+                                    expresses a result that shows whether
 				    the ADMD that apparently sent the message
 				    has explicitly authorized the connecting
 				    Simple Mail Transfer Protocol
@@ -1019,10 +1018,8 @@
                                     signed. </t>
                         </section>
 
-                        <section anchor="spf_sid_results"
-                                 title="SPF and Sender ID">
-                                <t> SPF and Sender ID use the "spf" and
-                                    "sender-id" method names, respectively.
+                        <section anchor="spf_results" title="SPF">
+                                <t> SPF uses the "spf" and method name.
                                     The result values for SPF are defined in
                                     Section 2.6 of <xref target="SPF"/>, and
 				    those definitions are included here by
@@ -1067,26 +1064,7 @@
 				    expressed in UTF-8 and the domain part
 				    can be expressed as a U-label. </t>
 
-                                <t> The "sender-id" method is described in
-				    <xref target="SENDERID"/>.  For this
-				    method, the ptype used is "header" and the
-				    property will be the name of the header
-				    field from which the Purported Responsible
-				    Address (see <xref target="PRA"/>) was
-				    extracted -- namely, one of "Resent-Sender",
-				    "Resent-From", "Sender", or "From". </t>
-
-                                <t> The results for Sender ID
-                                    are listed and described in Section 4.2 of
-                                    <xref target="SENDERID"/>, but for the
-				    purposes of this specification, the SPF
-				    definitions enumerated above are used
-				    instead.  Also, <xref target="SENDERID"/>
-				    specifies result codes that use mixed
-				    case, but they are used all
-				    lowercase in this context. </t>
-
-                                <t> For both methods, an additional result of
+                                <t> For this method, an additional result of
                                     "policy" is defined, which means the
                                     client was authorized to inject or relay
                                     mail on behalf of the sender's
@@ -1101,12 +1079,12 @@
                                     DNS domains (e.g., spammers). </t>
 
                                 <t> If the retrieved sender policies used to
-                                    evaluate SPF and Sender ID do not contain
-                                    explicit provisions for authenticating the
+                                    evaluate SPF do not contain explicit
+				    provisions for authenticating the
                                     local-part (see Section 3.4.1 of
                                     <xref target="MAIL"/>) of an address,
                                     the "pvalue" reported along with results
-                                    for these mechanisms SHOULD NOT
+                                    for this mechanism SHOULD NOT
                                     include the local-part or the following
 				    "@" character. </t>
                         </section>
@@ -1513,15 +1491,13 @@
                     environment has its own facilities and limitations. </t>
 
                 <t> Most known message authentication methods focus on a
-                    particular identifier to evaluate.  SPF and Sender ID
-                    differ in that they can yield a result based on more
+                    particular identifier to evaluate.  SPF differs in that
+		    it can yield a result based on more
                     than one identifier; specifically, SPF can evaluate
                     the RFC5321.HELO parameter or the RFC5321.MailFrom
-                    parameter, and Sender ID can evaluate the
-                    RFC5321.MailFrom parameter or the Purported Responsible
-                    Address (PRA) identity.  When
-                    generating this field to report those results, only the
-                    parameter that yielded the result is included. </t>
+                    parameter.  When generating this field to report those
+		    results, only the parameter that yielded the result is
+		    included. </t>
 
                 <t> For MTAs that add this header field, adding header
                     fields in order (at the top), per Section 3.6 of
@@ -1859,19 +1835,20 @@
   +------------+--------+----------------------------------+
   |   iprev    | policy | iprev                            |
   +------------+--------+----------------------------------+
-  | sender-id  | header | name of header field used by PRA |
-  +------------+--------+----------------------------------+
   |    spf     |  smtp  | mailfrom                         |
   +------------+--------+----------------------------------+
   |    spf     |  smtp  | helo                             |
   +------------+--------+----------------------------------+
 			    </artwork></figure> </t>
 
-			<t> Notably, the DomainKeys entries are not updated
-			    to refer to this revised specification, as
-			    DomainKeys is obsolete. </t>
+			<t> Notably, the DomainKeys and Sender ID entries are
+			    not updated to refer to this revised specification,
+			    as they are considered obsolete.  IANA is
+			    accordingly asked to change the Status of the
+			    "sender-id" entry in this table to
+			    "deprecated".  </t>
 
-                        <t> In addition, two new entries are added to this
+                        <t> Finally, two new entries are added to this
 			    registry, as follows: </t>
 
 			<section anchor="name_registry_2_a"
@@ -2012,7 +1989,8 @@
                 <section anchor="result_registry_2"
                         title="&quot;Email Authentication Result Names&quot; Registry Update">
 			<t> The following entries in this registry are to be
-			    updated to reflect new Specifications as follows:
+			    updated to reflect this new Specification as
+			    follows:
 
 			    <list style="symbols">
 				<t> All "auth" method result codes ("fail",
@@ -2034,14 +2012,31 @@
 				    <xref target="iprev_results"/>
 				    of this document. </t>
 
-				<t> The "sender-id" and "spf" method result
+				<t> The "spf" method result
 				    names "fail", "neutral", "none", "pass",
 				    "permerror", "policy", "softfail",
 				    and "temperror" are now specified in
-				    <xref target="spf_sid_results"/>
-				    of this document.  The registrations for
-				    result name "hardfail" are not
+				    <xref target="spf_results"/>
+				    of this document.  The registration for
+				    result name "hardfail" is not
 				    updated. </t>
+			    </list> </t>
+
+			<t> The following entries in this registry are to be
+			    updated with a new Status of "deprecated", with no
+			    change to the Specification as they reference
+			    historic protocols:
+
+			    <list style="symbols">
+				<t> All "domainkeys" method result names
+				    ("fail", "neutral", "none", "pass",
+				    "permerror", "policy", and
+				    "temperror"). </t>
+
+				<t> All "sender-id" method result names ("fail",
+				    "neutral", "none", "pass", "permerror",
+				    "policy", "softfail", and
+				    "temperror"). </t>
 			    </list> </t>
 		</section>
 
@@ -2630,18 +2625,6 @@
     <seriesInfo name='RFC' value='1939'/>
     <seriesInfo name='DOI' value='10.17487/RFC1939'/>
     </reference>
-
-                <reference anchor="PRA" target='http://www.rfc-editor.org/info/rfc4407'>
-    <front>
-    <title>Purported Responsible Address in E-Mail Messages</title>
-    <author initials='J.' surname='Lyon' fullname='J. Lyon'><organization /></author>
-    <date year='2006' month='April' />
-    <abstract><t>This document defines an algorithm by which, given an e-mail message, one can extract the identity of the party that appears to have most proximately caused that message to be delivered.  This identity is called the Purported Responsible Address (PRA).This memo defines an Experimental Protocol for the Internet community.</t></abstract>
-    </front>
-    <seriesInfo name='RFC' value='4407'/>
-    <seriesInfo name='DOI' value='10.17487/RFC4407'/>
-    </reference>
-
 
 <reference  anchor='RFC7410' target='http://www.rfc-editor.org/info/rfc7410'>
 <front>
