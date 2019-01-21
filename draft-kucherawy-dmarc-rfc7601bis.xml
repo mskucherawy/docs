@@ -1088,8 +1088,9 @@
 				    property used is "helo".) </t>
 
 				<t> Note that in an EAI-formatted message,
-				    the "mailfrom" value can be expressed
-				    in UTF-8. </t>
+				    the local-part of the "mailfrom" can be
+				    expressed in UTF-8 and the domain part
+				    can be expressed as a U-label. </t>
 
                                 <t> The "sender-id" method is described in
 				    <xref target="SENDERID"/>.  For this
@@ -1266,8 +1267,9 @@
                                     </list> </t>
 
 				<t> Note that in an EAI-formatted message,
-				    these values can be expressed
-				    in UTF-8. </t>
+				    the local-part can be expressed
+				    in UTF-8, and the domain can be expressed
+				    as a U-label. </t>
 
 				<t> If both identities are available, both
 				    can be reported.  For example, consider
@@ -1323,8 +1325,8 @@
 
 				<t> Note that in an EAI-formatted message,
 				    "vbr.mv" and "vbr.md", which are already
-				    registered, can be expressed
-				    in UTF-8. </t>
+				    registered, can be expressed as
+				    U-labels. </t>
                         </section>
 
                         <section anchor="x_methods" title="Extension Methods">
