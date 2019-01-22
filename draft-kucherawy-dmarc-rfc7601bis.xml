@@ -1019,7 +1019,7 @@
                         </section>
 
                         <section anchor="spf_results" title="SPF">
-                                <t> SPF uses the "spf" and method name.
+                                <t> SPF uses the "spf" method name.
                                     The result values for SPF are defined in
                                     Section 2.6 of <xref target="SPF"/>, and
 				    those definitions are included here by
@@ -2856,8 +2856,8 @@
      Authentication-Results: example.com;
                auth=pass (cram-md5) smtp.auth=sender@example.net;
                spf=pass smtp.mailfrom=example.net
-     Authentication-Results: example.com;
-               sender-id=pass header.from=example.net
+     Authentication-Results: example.com; iprev=pass
+               policy.iprev=192.0.2.200
      Received: from dialup-1-2-3-4.example.net (8.11.6/8.11.6)
                    (dialup-1-2-3-4.example.net [192.0.2.200])
                by mail-router.example.com (8.11.6/8.11.6)
@@ -2882,7 +2882,7 @@
                             authserv-id.  Furthermore, the sender
                             authenticated herself/himself to the MTA
                             via a method specified in <xref target="AUTH"/>,
-                            and both SPF and Sender ID checks were done and
+                            and both SPF and "iprev" checks were done and
                             passed.  The MUA could extract and relay this
                             extra information if desired. </t>
 
@@ -2897,9 +2897,8 @@
                             sends mail to a border MTA (example.com)
                             using SMTP authentication to prove identity.
                             The dial-up provider has been explicitly authorized
-                            to relay mail as example.net, producing 
-                            "pass" results from the SPF and Sender ID
-			    checks. </t>
+                            to relay mail as example.net, producing a
+                            "pass" result from the SPF check. </t>
                 </section>
 
                 <section anchor="example5"
@@ -2912,7 +2911,6 @@
                                            authentication checks: </preamble>
                                 <artwork>
      Authentication-Results: example.com;
-               sender-id=fail header.from=example.com;
                dkim=pass (good signature) header.d=example.com
      Received: from mail-router.example.com
                    (mail-router.example.com [192.0.2.1])
@@ -2958,9 +2956,8 @@
                             provided in the comment field, which the MUA can
                             choose to render if desired. </t>
 
-                        <t> The second MTA, auth-checker.example.com,
-                            reports that it did a Sender ID test (which
-                            failed) and a DKIM test (which passed).  Again,
+                        <t> The second MTA, auth-checker.example.com, reports
+			    that it did a DKIM test (which passed).  Again,
 			    additional data about one of the tests is provided
 			    as a comment, which the MUA may choose to render.
 			    Also noteworthy here is the fact that there is
@@ -2973,17 +2970,14 @@
                             consolidated in this example. </t>
 
                         <t> This example illustrates more typical transmission
-                            of mail into example.com from a user on a
+                            of a message into example.com from a user on a
                             dial-up connection example.net.  The user appears
                             to be legitimate as he/she had a valid password
                             allowing authentication at the border MTA using
                             SMTP AUTH.  The SPF test failed
                             since example.com has not granted example.net's
                             dial-up network authority to relay mail on its
-			    behalf.  The Sender ID test failed since
-			    example.com has not granted mail-router.example.com
-			    authority to relay mail on its behalf.  However,
-                            the DKIM test passed because
+			    behalf.  The DKIM test passed because
                             the sending user had a private key matching one
                             of example.com's published public keys and
                             mail-router.example.com used it to sign the
