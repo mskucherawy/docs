@@ -52,7 +52,6 @@
 
         <keyword>DKIM</keyword>
         <keyword>SPF</keyword>
-        <keyword>ADSP</keyword>
         <keyword>ATPS</keyword>
         <keyword>VBR</keyword>
         <keyword>Authentication</keyword>
@@ -104,8 +103,6 @@
                     are published email authentication methods:
 
                     <list style="symbols">
-                        <t> Author Domain Signing Practices
-                            (<xref target="ADSP"/>) (Historic) </t>
                         <t> SMTP Service Extension for Authentication
                             (<xref target="AUTH"/>) </t>
                         <t> DomainKeys Identified Mail Signatures
@@ -127,10 +124,12 @@
 		    obsolete:
 
                     <list style="symbols">
+                        <t> Author Domain Signing Practices
+                            (<xref target="ADSP"/>) (Historic) </t>
                         <t> DomainKeys (<xref target="DOMAINKEYS"/>)
                             (Historic) </t>
                         <t> Sender ID (<xref target="SENDERID"/>)
-                            (Experimental) </t>
+                            (Historic) </t>
                     </list> </t>
 
 		<t> There exist registries for tokens used within this header
