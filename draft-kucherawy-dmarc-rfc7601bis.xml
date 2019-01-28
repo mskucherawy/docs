@@ -22,7 +22,7 @@
 
 <rfc ipr="trust200902" category="std"
         obsoletes="7601"
-        docName="draft-ietf-dmarc-rfc7601bis-05">
+        docName="draft-ietf-dmarc-rfc7601bis-06">
 
 <front>
         <title abbrev="Authentication-Results Header Field">
@@ -3219,6 +3219,9 @@
 			    inclusion by other documents. </t>
 
                         <t> Made minor editorial adjustments. </t>
+
+                        <t> Deprecate entries from RFCs that are now
+			    Historic. </t>
                       </list> </t>
         </section>
 
