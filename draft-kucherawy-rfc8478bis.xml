@@ -5,7 +5,7 @@
 ]>
 
 <rfc ipr="trust200902" category="info"
-        number="8478" submissionType="IETF" consensus="yes">
+        docName="draft-kucherawy-rfc8478bis-00">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -62,7 +62,7 @@
 		</address>
 	</author>
 
-	<date month="October" year="2018"/>
+	<date year="2019"/>
 
 	<area>General</area>
 
@@ -832,15 +832,12 @@ Each block contains arbitrary content, which is described by its header, and has
 							<t> 128 KB </t>
 						</list> </t>
 
-						<t> A Compressed_Block has the
-						extra restriction that
-						Block_Size is always strictly
-						less than the decompressed
-						size. If this condition cannot
-						be respected, the block must
-						be sent uncompressed instead
-						(i.e., treated as a Raw_Block).
-						</t>
+						<t> If this condition cannot
+						be respected when generating a
+						Compressed_Block, the block
+						must be sent uncompressed
+						instead (i.e., treated as a
+						Raw_Block). </t>
 					    </section>
 				</section>
 				<section anchor="comp_blocks"
@@ -3117,6 +3114,17 @@ The first state (State1)
 			    </list> </t>
 		</section>
 
+	<section anchor="dict_future" title="Use of Dictionaries">
+		<t> Provisioning for use of dictionaries with zstd is planned
+		    for future work.  To ensure compatibility with the
+		    future specification of use of dictionaries with zstd
+		    payloads, especially with MIME, content encoded with the
+		    media type registered here SHOULD NOT use a dictionary.
+		    The exception to this requirement might be a private
+		    dictionary negotiaton that is not part of this
+		    specification. </t>
+	</section>
+
 	<section anchor="iana" title="IANA Considerations">
 		<t>IANA has made two registrations, as described below. </t>
 
@@ -3317,7 +3325,6 @@ It has been proven to run safely on multiple architectures (e.g., x86, x64,
 </middle>
 
 <back>
-
 	<references title="Normative References">
 		<reference anchor="ZSTD" target="http://www.zstd.net">
 			<front>
@@ -3770,18 +3777,24 @@ It has been proven to run safely on multiple architectures (e.g., x86, x64,
 		</section>
 	      </section>
 
+	<section anchor="changes" title="Changes Since RFC8478">
+		<t> The following are the changes in this document relative
+		    to RFC 8478:
+
+		    <list style="symbols">
+			<t> Apply erratum #5786. </t>
+
+			<t> Clarify forward compatibility regarding
+			    dictionaries. </t>
+		    </list> </t>
+	</section>
+
 	<section anchor="ack" title="Acknowledgments" numbered='no'>
 		<t> zstd was developed by Yann Collet. </t>
 
-		<t> Bobo Bose-Kolanu,
-		    Felix Handte,
-		    Kyle Nekritz,
-		    Nick Terrell, and
-		    David Schleimer
-		    provided helpful feedback during the development of this
-		    document. </t>
+		<t> Felix Handte and Nick Terrell provided feedback that went
+		    into this revision. </t>
 	</section>
-
 
 </back>
 
