@@ -3789,7 +3789,7 @@ It has been proven to run safely on multiple architectures (e.g., x86, x64,
 		    </list> </t>
 	</section>
 
-	<section anchor="ack" title="Acknowledgments" numbered='no'>
+	<section anchor="ack" title="Acknowledgments">
 		<t> zstd was developed by Yann Collet. </t>
 
 		<t> Felix Handte and Nick Terrell provided feedback that went
