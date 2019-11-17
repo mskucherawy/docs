@@ -820,24 +820,54 @@ Each block contains arbitrary content, which is described by its header, and has
 					    <section title="Block_Size">
 						<t> The upper 21 bits of
 						Block_Header represent the
-						Block_Size.  Block_Size is
-						the size of the block excluding
-						the header.  A block can
-						contain any number of bytes
-						(even zero), up to
-						Block_Maximum_Decompressed_Size,
-						which is the smallest of:
+						Block_Size. </t>
+
+						<t> When Block_Type is
+						Compressed_Block or Raw_Block,
+						Block_Size is the size of
+						Block_Content (hence excluding
+						Block_Header).  </t>
+
+						<t> When Block_Type is
+						RLE_Block, since Block_Content's
+						size is always 1, Block_Size
+						represents the number of times
+						this byte must be repeated. </t>
+
+						<t> Block_Size is limited by
+						Block_Maximum_Size (see below).
+						</t>
+					    </section>
+
+					    <section
+						title="Block_Content and Block_Maximum_Size">
+						<t> The size of Block_Content
+						is limited by
+						Block_Maximum_Size, which is
+						the smallest of:
+
 						<list style="symbols">
 							<t> Window_Size </t>
 							<t> 128 KB </t>
 						</list> </t>
 
-						<t> If this condition cannot
-						be respected when generating a
-						Compressed_Block, the block
-						must be sent uncompressed
-						instead (i.e., treated as a
-						Raw_Block). </t>
+						<t> Block_Maximum_Size is
+						constant for a given frame.
+						This maximum is applicable to
+						both the decompressed size
+						and the compressed size of any
+						block in the frame. </t>
+
+						<t> The reasoning for this
+						limit is that a decoder can
+						read this information at the
+						beginning of a frame and use
+						it to allocate buffers.
+						The guarantees on the size of
+						blocks ensure that the buffers
+						will be large enough for any
+						following block of the valid
+						frame. </t>
 					    </section>
 				</section>
 				<section anchor="comp_blocks"
@@ -3126,7 +3156,7 @@ The first state (State1)
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
-		<t>IANA has made two registrations, as described below. </t>
+		<t>IANA has made three registrations, as described below. </t>
 
 		<section anchor="iana_media_type"
 			title="The 'application/zstd' Media Type">
@@ -3152,7 +3182,7 @@ The first state (State1)
 
 				<t hangText="Security considerations:">
 					See <xref target="security"/> of
-					RFC 8478
+					[this document]
 				</t>
 
 				<t hangText="Interoperability considerations:">
@@ -3160,7 +3190,7 @@ The first state (State1)
 				</t>
 
 				<t hangText="Published specification:">
-					RFC 8478
+					[this document]
 				</t>
 
 				<t hangText="Applications that use this media type:">
@@ -3223,7 +3253,43 @@ The first state (State1)
 					protocol </t>
 
 				<t hangText="Pointer to specification text:">
-					RFC 8478</t>
+					[this document]</t>
+			    </list> </t>
+		</section>
+
+		<section anchor="iana_suffix"
+			title="Structured Syntax Suffix">
+			<t> IANA is requested to register the following
+			    into the Structured Syntax Suffix registry:
+
+			    <list style="hanging">
+				<t hangText="Name:"> Zstandard </t>
+
+				<t hangText="+suffix:"> +zstd </t>
+
+				<t hangText="Encoding Considerations:">
+					binary </t>
+
+				<t hangText="Interoperability Considerations:">
+					N/A </t>
+
+				<t hangText="Fragment Identifier Considerations:">
+					The syntax and semantics of fragment
+					identifiers specified for +zstd SHOULD
+					be as specified for "application/zstd".
+					</t>
+
+				<t hangText="Security Considerations:">
+					See <xref target="iana"/> of
+					[this document]. </t>
+
+				<t hangText="Contact:">
+					See <xref target="iana"/> of
+					[this document]. </t>
+
+				<t hangText="Author/Change Controller:">
+					See <xref target="iana"/> of
+					[this document]. </t>
 			    </list> </t>
 		</section>
 
@@ -3786,6 +3852,10 @@ It has been proven to run safely on multiple architectures (e.g., x86, x64,
 
 			<t> Clarify forward compatibility regarding
 			    dictionaries. </t>
+
+			<t> Clarify application of Block_Maximum_Size. </t>
+
+			<t> Add structured media type suffix registration. </t>
 		    </list> </t>
 	</section>
 
