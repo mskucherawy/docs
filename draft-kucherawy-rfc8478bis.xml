@@ -4,8 +4,8 @@
   <!ENTITY RFC1952 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1952.xml">
 ]>
 
-<rfc ipr="trust200902" category="info"
-        docName="draft-kucherawy-rfc8478bis-00">
+<rfc ipr="trust200902" category="info" obsoletes="8478"
+        docName="draft-kucherawy-rfc8478bis-02">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -80,6 +80,8 @@
 		    readers are advised that this document is not an
 		    Internet Standards Track specification; it is being
 		    published for informational purposes only. </t>
+
+		<t> This document replaces and obsoletes RFC 8478. </t>
 	</abstract>
 
 </front>
