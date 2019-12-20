@@ -5,7 +5,7 @@
 ]>
 
 <rfc ipr="trust200902" category="info" obsoletes="8478"
-        docName="draft-kucherawy-rfc8478bis-02">
+        docName="draft-kucherawy-rfc8478bis-03">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -3151,7 +3151,7 @@ The first state (State1)
 		    for future work.  To ensure compatibility with the
 		    future specification of use of dictionaries with zstd
 		    payloads, especially with MIME, content encoded with the
-		    media type registered here SHOULD NOT use a dictionary.
+		    media type registered here should not use a dictionary.
 		    The exception to this requirement might be a private
 		    dictionary negotiaton that is not part of this
 		    specification. </t>
@@ -3277,7 +3277,7 @@ The first state (State1)
 
 				<t hangText="Fragment Identifier Considerations:">
 					The syntax and semantics of fragment
-					identifiers specified for +zstd SHOULD
+					identifiers specified for +zstd should
 					be as specified for "application/zstd".
 					</t>
 
