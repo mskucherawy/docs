@@ -74,7 +74,8 @@
 		    mechanism and registers a media type and content
 		    encoding to be used when transporting zstd-compressed
 		    content via Multipurpose Internet Mail Extensions
-		    (MIME). </t>
+		    (MIME).  It also registers a corresponding media
+		    type, content encoding, and structured syntax suffix. </t>
 
 		<t> Despite use of the word "standard" as part of its name,
 		    readers are advised that this document is not an
@@ -876,6 +877,12 @@
 						will be large enough for any
 						following block of the valid
 						frame. </t>
+
+						<t> If the compressed block
+						is larger than the uncompressed
+						sending the uncompressed
+						block (i.e., a Raw_Block) is
+						recommended instead. </t>
 					    </section>
 				</section>
 				<section anchor="comp_blocks"
@@ -3164,18 +3171,25 @@ The first state (State1)
 		</section>
 
 	<section anchor="dict_future" title="Use of Dictionaries">
-		<t> Provisioning for use of dictionaries with zstd is planned
-		    for future work.  To ensure compatibility with the
+		<t> Provisioning for use of dictionaries with zstd is being
+		    explored.  See, for example, <xref target="DICT-SEC"/>.
+		    The likely outcome will be a registry of well-tested
+		    dictionaries optimized for different use cases and
+		    identifiers for each, possibly with a private negotiation
+		    mechanism for use of unregistered dictionaries. </t>
+
+		<t> To ensure compatibility with the
 		    future specification of use of dictionaries with zstd
 		    payloads, especially with MIME, content encoded with the
 		    media type registered here should not use a dictionary.
 		    The exception to this requirement might be a private
-		    dictionary negotiaton that is not part of this
-		    specification. </t>
+		    dictionary negotiaton, suggested above, which is not part
+		    of this specification. </t>
 	</section>
 
 	<section anchor="iana" title="IANA Considerations">
-		<t>IANA has made three registrations, as described below. </t>
+		<t> IANA has updated two previously existing registrations and
+                    made one new registration as described below. </t>
 
 		<section anchor="iana_media_type"
 			title="The 'application/zstd' Media Type">
@@ -3398,18 +3412,21 @@ The first state (State1)
 		    <xref target="ZSTD-GITHUB"/>.  This implementation is
 		    considered to be the reference implementation and is
 		    production ready; it implements the full range of the
-		    specification.  
-
-It is routinely tested against security hazards 
-		    and widely deployed within Facebook infrastructure. </t>
+		    specification.  It is routinely tested against security
+		    hazards and widely deployed within Facebook
+		    infrastructure. </t>
 
 		<t> The reference version is optimized for speed and is highly
-		    portable.  
-It has been proven to run safely on multiple architectures (e.g., x86, x64, 
-   ARM, MIPS, PowerPC, IA64) featuring 32- or 64-bit addressing schemes,
-   a little- or big-endian storage scheme, a number of different
-   operating systems (e.g., UNIX (including Linux, BSD, OS-X, and Solaris) and
-   Windows), and a number of compilers (e.g., gcc, clang, visual, and icc). </t>
+		    portable.  It has been proven to run safely on multiple
+		    architectures (e.g., x86, x64, ARM, MIPS, PowerPC, IA64)
+		    featuring 32- or 64-bit addressing schemes, a little- or
+		    big-endian storage scheme, a number of different operating
+		    systems (e.g., UNIX (including Linux, BSD, OS-X, and
+		    Solaris) and Windows), and a number of compilers (e.g.,
+		    gcc, clang, visual, and icc). </t>
+
+		<t> A comprehensive and current list of known implementations
+		    can be found at <xref target="ZSTD"/>. </t>
 	</section>
 </middle>
 
@@ -3430,7 +3447,6 @@ It has been proven to run safely on multiple architectures (e.g., x86, x64,
 	</references>
 
 	<references title="Informative References">
-
 		<reference anchor="ANS"
 			target="https://arxiv.org/pdf/1311.2540">
 			<front>
@@ -3442,6 +3458,16 @@ It has been proven to run safely on multiple architectures (e.g., x86, x64,
                                 <author initials='J' surname='Duda' fullname='Jarek Duda'/>
 				<date month="January" year="2014"/>
 			</front>
+		</reference>
+
+		<reference anchor="DICT-SEC">
+			<front>
+				<title> Security Considerations Regarding
+					Compression Dictionaries </title>
+                                <author initials='W' surname='Handte' fullname='W. Handte'/>
+			</front>
+			<seriesInfo name="(work in progress)"
+				value="draft-handte-httpbis-dict-sec"/>
 		</reference>
 
 		<reference anchor="LZ4"
@@ -3895,7 +3921,9 @@ It has been proven to run safely on multiple architectures (e.g., x86, x64,
 		<t> zstd was developed by Yann Collet. </t>
 
 		<t> Felix Handte and Nick Terrell provided feedback that went
-		    into this revision. </t>
+		    into this revision and RFC 8478.  RFC 8478 also received
+		    contributions from Bobo Bose-Kolanu, Kyle Nekritz, and
+		    David Schleimer. </t>
 	</section>
 
 </back>
