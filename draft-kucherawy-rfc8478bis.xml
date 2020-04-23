@@ -5,7 +5,7 @@
 ]>
 
 <rfc ipr="trust200902" category="info" obsoletes="8478"
-        docName="draft-kucherawy-rfc8478bis-03">
+        docName="draft-kucherawy-rfc8478bis-04">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -62,7 +62,7 @@
 		</address>
 	</author>
 
-	<date year="2019"/>
+	<date year="2020"/>
 
 	<area>General</area>
 
@@ -150,8 +150,10 @@
 			decoder how to decompress it. </t>
 
 		    <t hangText="block:"> A frame encapsulates one or multiple
-			blocks. 
-Each block contains arbitrary content, which is described by its header, and has a guaranteed maximum content size that depends upon frame parameters.  Unlike frames, each block depends
+			blocks. Each block contains arbitrary content, which
+			is described by its header, and has a guaranteed
+			maximum content size that depends upon frame
+			parameters.  Unlike frames, each block depends
 			on previous blocks for proper decoding.  However, each
 			block can be decompressed without waiting for its
 			successor, allowing streaming operations. </t>
@@ -174,9 +176,9 @@ Each block contains arbitrary content, which is described by its header, and has
 		<t> This section describes the Zstandard algorithm. </t>
 
 		<t> The purpose of this document is to define a lossless
-		    compressed data format that is a) independent of the CPU type,
-		    operating system, file system, and character set and b) is
-		    suitable for file compression and pipe and streaming
+		    compressed data format that is a) independent of the CPU
+		    type, operating system, file system, and character set and
+		    b) is suitable for file compression and pipe and streaming
 		    compression, using the Zstandard algorithm. The text of
 		    the specification assumes a basic background in
 		    programming at the level of bits and other primitive data
@@ -187,8 +189,9 @@ Each block contains arbitrary content, which is described by its header, and has
 		    using only an a priori bounded amount of intermediate
 		    storage, and hence can be used in data communications.
 		    The format uses the Zstandard compression method, and
-		    an optional xxHash-64 checksum method <xref target="XXHASH"/>,
-		    for detection of data corruption. </t>
+		    an optional xxHash-64 checksum method
+		    <xref target="XXHASH"/>, for detection of data
+		    corruption. </t>
 
 		<t> The data format defined by this specification does not
 		    attempt to allow random access to compressed data. </t>
@@ -242,7 +245,7 @@ Each block contains arbitrary content, which is described by its header, and has
   +--------------------+------------+
   | [More Data_Blocks] |            |
   +--------------------+------------+
-  | [Content_Checksum] | 0-4 bytes  |
+  | [Content_Checksum] | 4 bytes    |
   +--------------------+------------+
                                     </artwork></figure> </t>
 
@@ -351,8 +354,8 @@ Each block contains arbitrary content, which is described by its header, and has
 							(the decompressed
 							data size) is provided
 							within the header.
-							Flag_Value provides
-							FCS_Field_Size,
+							Frame_Content_Size_Flag
+							provides FCS_Field_Size,
 							which is the
 							number of bytes
 							used by
@@ -360,16 +363,17 @@ Each block contains arbitrary content, which is described by its header, and has
 							according to
 							the following table:
 					                        <figure><artwork>
-  +----------------+--------+---+---+---+
-  | Flag_Value     |   0    | 1 | 2 | 3 |
-  +----------------+--------+---+---+---+
-  | FCS_Field_Size | 0 or 1 | 2 | 4 | 8 |
-  +----------------+--------+---+---+---+
+  +-------------------------+--------+---+---+---+
+  | Frame_Content_Size_Flag |   0    | 1 | 2 | 3 |
+  +-------------------------+--------+---+---+---+
+  | FCS_Field_Size          | 0 or 1 | 2 | 4 | 8 |
+  +-------------------------+--------+---+---+---+
                                                                 </artwork></figure></t>
 
 							<t>
-							When Flag_Value is 0,
-							FCS_Field_Size
+							When
+							Frame_Content_Size_Flag
+							is 0, FCS_Field_Size
 							depends on
 							Single_Segment_Flag:
 							If Single_Segment_Flag
@@ -498,11 +502,11 @@ Each block contains arbitrary content, which is described by its header, and has
 							DID_Field_Size:
 
 							        <figure><artwork>
-  +----------------+---+---+---+---+
-  | Flag_Value     | 0 | 1 | 2 | 3 |
-  +----------------+---+---+---+---+
-  | DID_Field_Size | 0 | 1 | 2 | 4 |
-  +----------------+---+---+---+---+
+  +--------------------+---+---+---+---+
+  | Dictionary_ID_Flag | 0 | 1 | 2 | 3 |
+  +--------------------+---+---+---+---+
+  | DID_Field_Size     | 0 | 1 | 2 | 4 |
+  +--------------------+---+---+---+---+
                                                                 </artwork></figure></t>
 						</section>
 					</section>
@@ -815,7 +819,9 @@ Each block contains arbitrary content, which is described by its header, and has
 							specification. If such
 							a value is present,
  							it is considered to be
-							corrupt data. </t>
+              corrupt data, and a
+              compliant decoder must
+              reject it. </t>
 						    </list> </t>
 					    </section>
 
@@ -1967,9 +1973,9 @@ Each block contains arbitrary content, which is described by its header, and has
 							    information, the
 							    compressor writes a
 							    single 1 bit and
-							    then fills the byte
-							    with 0-7 zero bits
-							    of padding. The
+                  then fills the rest
+                  of the byte with 
+                  zero bits. The
 							    last byte of the
 							    compressed
 							    bitstream cannot be
@@ -1982,10 +1988,11 @@ Each block contains arbitrary content, which is described by its header, and has
 							    padding is the
 							    first byte to read.
 							    The decompressor
-							    needs to skip 0-7
-							    initial zero bits
-							    until the first 1
-							    bit occurs.
+                  needs to skip the
+                  up to 7 bits of
+                  0-padding as well
+                  as the the first 1
+                  bit that occurs.
 							    Afterwards, the
 							    useful part of the
 							    bitstream
@@ -2524,6 +2531,15 @@ Each block contains arbitrary content, which is described by its header, and has
 						bit within the last byte is
 						simply unused. </t>
 
+              <t> The context in which the table
+            is to be used specifies an expected
+            number of symbols. That expected
+            number of symbols never exceeds 256.
+            If the number of symbols decoded
+            is not equal to the expected, the
+            header should be considered
+            corrupt. </t>
+
 					    <t> The distribution of normalized
 						probabilities is enough to
 						create a unique decoding
@@ -2649,17 +2665,18 @@ Each block contains arbitrary content, which is described by its header, and has
 
 				<t> After writing the last bit containing
 				    information, the compressor writes a
-				    single 1 bit and then fills the byte with
-				    0-7 0 bits of padding. The last byte of
+            single 1 bit and then fills the rest of
+            the byte with 0 bits. The last byte of
 				    the compressed bitstream cannot be 0 for
 				    that reason. </t>
 
 				<t> When decompressing, the last byte
 				    containing the padding is the first byte
 				    to read. The decompressor needs to skip
-				    0-7 initial 0 bits and the first 1 bit that
-				    occurs. Afterwards, the useful part of the
-				    bitstream begins. </t>
+            the up to 7 bits of 0-padding as well as
+            the first 1 bit that occurs. Afterwards,
+            the useful part of the bitstream
+            begins. </t>
 
 				<t> The bitstream contains Huffman-coded
 				    symbols in little-endian order, with the
@@ -3199,6 +3216,11 @@ The first state (State1)
 					anywhere data size is an issue
 				</t>
 
+        			<t hangText="Fragment identifier considerations:">
+					No fragment identifiers are defined
+					for this type.
+				</t>
+
 				<t hangText="Additional information:">
 					<list style="hanging">
 						<t hangText="Magic number(s):">
@@ -3282,16 +3304,15 @@ The first state (State1)
 					</t>
 
 				<t hangText="Security Considerations:">
-					See <xref target="iana"/> of
+          See <xref target="security"/> of
 					[this document]. </t>
 
 				<t hangText="Contact:">
-					See <xref target="iana"/> of
-					[this document]. </t>
+          Refer to the author for the
+          application/zstd media type. </t>
 
 				<t hangText="Author/Change Controller:">
-					See <xref target="iana"/> of
-					[this document]. </t>
+          IETF </t>
 			    </list> </t>
 		</section>
 
@@ -3858,6 +3879,15 @@ It has been proven to run safely on multiple architectures (e.g., x86, x64,
 			<t> Clarify application of Block_Maximum_Size. </t>
 
 			<t> Add structured media type suffix registration. </t>
+
+                        <t> Clarify that the content checksum is always
+                            4 bytes. </t>
+
+                        <t> Clarify handling of reserved and corrupt
+			    inputs. </t>
+
+			<t> Add fragment identifier considerations to the
+			    media type registration. </t>
 		    </list> </t>
 	</section>
 
