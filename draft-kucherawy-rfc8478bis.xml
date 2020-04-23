@@ -3465,6 +3465,7 @@ The first state (State1)
 				<title> Security Considerations Regarding
 					Compression Dictionaries </title>
                                 <author initials='W' surname='Handte' fullname='W. Handte'/>
+				<date month="October" year="2019"/>
 			</front>
 			<seriesInfo name="(work in progress)"
 				value="draft-handte-httpbis-dict-sec"/>
