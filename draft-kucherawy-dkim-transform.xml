@@ -11,7 +11,7 @@
 ]>
 
 <rfc ipr="trust200902" category="exp"
-        docName="draft-kucherawy-dkim-transform-02">
+        docName="draft-kucherawy-dkim-transform-03">
 
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
@@ -785,15 +785,15 @@
 		    participating in this experiment.  Were it to attempt
 		    to validate the "example.com" signature, it would fail
 		    because the Subject field fed to the signing algorithm
-		    is not the same as that fed to the verifying
-		    algorithm.  </t>
+		    at "example.com" is not the same as that fed to the
+		    verifying algorithm at Bob's verifier.  </t>
 
 		<t> However, the "ietf.example.org" tag does verify.  It
 		    furthermore contains the "tf" tag indicating a Subject
 		    field mutation occurred.  The verifier thus re-attempts
 		    the "example.com" signature verification after having
-		    applied the reverse of the Subject field mutation.
-		    In so doing, the hash algorithm at the verifier now
+		    applied the reverse of the Subject field transformation.
+		    In so doing, the hash algorithm at Bob's verifier now
 		    receives the same content that was originally passed to
 		    the signing algorithm at "example.com", which means the
 		    Author signature validation succeeds.  This fact can
@@ -820,7 +820,13 @@
 	</section>
 
 	<section anchor="changelog" title="Change Log">
+		<t> [RFC Editor: Please remove this section before
+		    publication.] </t>
+
 		<t> <list style="hanging">
+			<t hangText="03:"> Tweak example text.  Tag this
+				appendix as "delete-before-publishing". </t>
+
 			<t hangText="02:"> Add a simple example.  Mention
 				verifier handling discretion.  Some language
 				tidying. </t>
