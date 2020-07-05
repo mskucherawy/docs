@@ -141,7 +141,7 @@
 		    that the agent adding this signature transformed the
 		    original message between receipt (and verification of any
 		    previously-applied signature) and retransmission, and
-		    that such transmission was one of a set that are
+		    that such transformation was one of a set that are
 		    common, well-defined, and reversible. </t>
 
 		<t> The value of this tag is one of the transformations
