@@ -119,6 +119,19 @@
 	<section anchor="defs" title="Definitions">
 		<t> Numerous terms used here, especially "Author" and
 		    "Mediator", are defined in <xref target="RFC5598"/>. </t>
+
+		<t> For the purposes of this experiment, a transformation is 
+		    "reversible" if at the time the message is received,
+		    the verifier has enough information to recover the
+		    pre-transformation content.  For example, a transformation
+		    that removes a MIME part with an undesired media type
+		    or filename extension cannot be undone by the receiver
+		    because it cannot restore content it doesn't have;
+		    such a transformation is not reversible and thus not
+		    a candidate for consideration here.  However,
+		    a transformation that adds a specific header field
+		    to a message is reversible because the verifier can
+		    simply remove the header field. </t>
 	</section>
 
 	<section anchor="tag" title="The 'tf' DKIM Signature Tag">
@@ -140,9 +153,9 @@
 			<figure><artwork>
   sig-tf-tag       = %x74.66 [FWS] "=" [FWS] sig-tf-tag-trans
   sig-tf-tag-trans = Token *("," Token)
-                   ; expected to be a list of one or more transformation
-                   ; names found in the DKIM Message Transformations
-                   ; registry
+                   ; expected to be a list of one or more
+                   ; transformation names found in the DKIM
+                   ; Message Transformations registry
 			</artwork></figure> </t>
 
 		<t> "Token" is imported from <xref target="RFC2045"/>, and
