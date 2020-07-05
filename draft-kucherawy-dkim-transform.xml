@@ -35,7 +35,7 @@
 		</address>
 	</author>
 
-	<date year="2015"/>
+	<date year="2020"/>
 
 	<area>Applications</area>
 
@@ -59,9 +59,10 @@
 
 		<t> This document presents a mechanism for declaring that
 		    a message underwent one of a handful of well-defined
-		    transformations, so that a verifier might rewind such
-		    a modification and thereby confirm that the signature still
-		    verifies against the original content. </t>
+		    transformations prior to being re-signed by a mediator,
+		    so that a verifier might rewind such a modification and
+		    thereby confirm that the original signature still verifies
+		    against the original content. </t>
 	</abstract>
 </front>
 
@@ -102,15 +103,15 @@
 
 		<t> This document defines an incremental mechanism to declare
 		    that a signature is being applied to message content after
-		    one of a small set of well-defined, reversible,
+		    some number of a small set of well-defined, reversible
 		    content transformations.  The message verifier can then
 		    reverse the effect of the claimed transformation and,
 		    theoretically, recover the original content and confirm
-		    its integrity. </t>
+		    its integrity relative to an original signature. </t>
 
 		<t> The utility of this mechanism is predicated on the notion
-		    that agents that modify signed messages will do so in
-		    one of the known (registered) transformations, and that
+		    that agents that modify signed messages will do using only
+		    the known (registered) transformations, and that
 		    common transformations will be registered as they are
 		    developed. </t>
 	</section>
@@ -138,9 +139,9 @@
 
 			<figure><artwork>
   sig-tf-tag       = %x74.66 [FWS] "=" [FWS] sig-tf-tag-trans
-  sig-tf-tag-trans = Token
-                   ; expected to be a transformation name found
-                   ; in the DKIM Message Transformations
+  sig-tf-tag-trans = Token *("," Token)
+                   ; expected to be a list of one or more transformation
+                   ; names found in the DKIM Message Transformations
                    ; registry
 			</artwork></figure> </t>
 
@@ -168,7 +169,7 @@
 		    to do so, it generates an additional DKIM signature with
 		    the new form of the content as input.  This second
 		    includes the "tf" tag, announcing which known
-		    transformation was applied to the message prior to
+		    transformation(s) was applied to the message prior to
 		    creation of the Mediator's signature.  Importantly, the
 		    original signature is not removed from the message nor is
 		    it altered in any way. </t>
@@ -209,17 +210,23 @@
 				    signature S(M) and apply any local policy
 				    if the verification fails. </t>
 
-				<t> R selects one of the registered, reversible
-				    transformations, T, to be applied to
-				    M.  (The reverse operation will be called
-				    T'.)  R thus generates T(M) as the new
-				    content.  The new content necessarily
-				    includes S(M). </t>
+				<t> R selects an ordered list of one or more
+				    of the registered, reversible
+				    transformations, T1, T2, etc., to be
+				    applied to M.  The complete list is
+				    referred to as T.  (The reverse operations
+				    will be called T' as an ordered list, whose
+				    order is the reverse of T, and the
+				    individual inverse transformations are
+				    called T1', T2', etc.)  R thus generates
+				    T(M) as the new content.  The new content
+				    necessarily includes S(M). </t>
 
 				<t> R also generates a signature of T(M),
 				    which is S(T(M)).  This new signature
 				    includes the "tf" tag defined above,
-				    identifying the transformation T that was
+				    identifying the ordered sequence of
+				    transformations T that was
 				    used in the previous step.  It then sends
 				    the message toward its final
 				    destination(s).  For a mailing list
@@ -243,15 +250,70 @@
 
 				<t> The compliant verifier applies T' to the
 				    validated message content.  By
-				    definition, T'(T(M)) is M.  Since the
-				    Mediator preserved Author signature
-				    S(M), the verifier can now attempt to
-				    validate the Author signature against
-				    the recovered original content. </t>
+				    definition, T'(T(M)) is M.  (If this is
+				    not true, then at least one of the original
+				    transformations was not reversible.)
+				    Since the Mediator preserved Author
+				    signature S(M), the verifier can now
+				    attempt to validate the Author signature
+				    against the recovered original
+				    content. </t>
 			    </list> </t>
 		</section>
 	</section>
 				    
+	<section anchor="trans_subject" title="The 'subject' Transformation">
+		<t> Mailing list services commonly apply a "tag" to the
+		    Subject field of a message identifying the message as
+		    having been distributed as part of a list.  By far
+		    the most common tag method is to prefix the Subject
+		    field with the name of the list in square brackets
+		    (ASCII 0x5b and 0x5d), possibly followed by a space and
+		    a sequence number.  Accordingly,
+		    this transformation describes exactly such a mutation.
+		    Specifically, the mutation is the addition of a string
+		    to the beginning of the Subject field comprised of
+		    alphanumeric characters, a limited set of punctation,
+		    or digits, surrounded by square brackets, possibly
+		    including and followed by whitespace.  In ABNF terms,
+		    the string is described by:
+
+			<figure><artwork>
+  s-punct = 0x45 / 0x5f / 0x2f / 0x20 / 0x2e
+  s-tag   = 0x5b 1*( ALPHA / DIGIT / s-punct ) 0x5d 1*FWS
+			</artwork></figure> </t>
+
+		<t> Thus, the reverse operation is simply the removal of
+		    any such substring at the front of the Subject field. </t>
+
+		<t> If there is no Subject field prefix matching the above
+		    ABNF, then the transformation reversal cannot be computed
+		    and an error is returned. </t>
+	</section>
+
+	<section anchor="trans_footer" title="The 'footer' Transformation">
+		<t> Mailing lists sometimes add a "footer" to a message,
+		    typically consisting of a small number of lines of text
+		    identifying the name of the list and some other
+		    administrivia, and usually including a URL where
+		    subscriptions can be managed or list archives can be
+		    found.  Such trivial text edits are reversible, so
+		    these too are a candidate for this mechanism. </t>
+
+		<t> A "footer" for the purposes of this capability is all
+		    text below a trivial boundary marker.  A boundary
+		    comprises a line of text made up solely of two or more
+		    hyphen or underscore (0x2d or 0x5f) characters.
+		    Therefore, reversing this transformation is accomplished
+		    by searching backwards, a line at a time, from the end
+		    of the message, until such a line is found.  When found,
+		    the message is truncated such that the line and all lines
+		    after it are removed. </t>
+		
+		<t> If no such line is found, then the transformation reversal
+		    cannot be computed and an error is returned. </t>
+	</section>
+
 	<section anchor="trans_mimeify" title="The 'mimeify' Transformation">
 		<t> The "mimeify" transformation converts a message that is
 		    not formatted according to Multipurpose Internet Mail
@@ -325,6 +387,10 @@
 			<t> Remove the "Content-Type" and "MIME-Version"
 			    header fields. </t>
 		    </list> </t>
+
+		<t> If any setp cannot be completed because the stated
+		    header field or content cannot be located, an error
+		    is returned. </t>
 	</section>
 
 	<section anchor="trans_addpart" title="The 'add-part' Transformation">
@@ -370,6 +436,9 @@
 			    until the terminating instance of the
 			    boundary. </t>
 		    </list> </t>
+
+		<t> If any setp cannot be completed because the stated
+		    MIME part cannot be located, an error is returned. </t>
 	</section>
 
 	<section anchor="trans_wrap" title="The 'mime-wrap' Transformation">
@@ -445,6 +514,9 @@
 			<t> Replace the entire message body with the extracted
 			    MIME part. </t>
 		    </list> </t>
+
+		<t> If any setp cannot be completed because the stated
+		    MIME part cannot be located, an error is returned. </t>
 	</section>
 
 	<section anchor="discuss" title="Discussion">
@@ -478,6 +550,24 @@
 		    subjected to the usual signature verification process
 		    even though the message has been legitimately modified
 		    by a Mediator. </t>
+
+		<t> It does not take much imagination to conceive of a
+		    legitimate message using the capability described here
+		    that fails some part of the process.  For example, the
+		    "footer" transformation does not account for a footer
+		    block that itself contains a boundary marker, and so
+		    reversing that transformation as described would produce
+		    a wrong result.  This is harmless, however, as the
+		    verifier then is no worse off than it was before in that
+		    it still doesn't have the original content, and thus
+		    operates as if none of this proposal was applied (i.e.,
+		    the original signature still fails).  The proposal is
+		    only incremental to what DKIM can provide when it
+		    actually does work to recover original content. </t>
+
+		<t> It is expected that the definitions of the known
+		    transformations will evolve over time as we gain
+		    community experience with what works. </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
@@ -488,6 +578,30 @@
 			    8.2, which discusses concerns regarding signatures
 			    that sill verify in the presence of added
 			    message content. </t>
+		</section>
+
+		<section anchor="sec_false" title="False Transformation Claims">
+			<t> Conceivably, some of these transformations
+			    or those registered in the future could be
+			    computationally expensive or require non-trivial
+			    ephemeral resource allocation (e.g., storage),
+			    especially for large or complex messages.  An
+			    attacker could send signatures in claiming some
+			    or all of the known transformations on a message
+			    which a participating verifier would then attempt
+			    to execute, presumably in an attempt to recover
+			    original content, as a denial of service
+			    attack. </t>
+
+			<t> There is little reason to believe that any given
+			    transformation might be applied more than once,
+			    or that certain combinations have any practical
+			    application (e.g., "footer" is unlikely to be
+			    useful when combined with any of the MIME
+			    transformations).  This experimental document
+			    does not explicitly proscribe these, but
+			    implementers may choose to detect such
+			    strange requests and disregard them. </t>
 		</section>
 	</section>
 
@@ -549,6 +663,12 @@
 					is "append an extra text MIME part
 					to a MIME-formatted message". </t>
 
+				<t hangText="footer:"> Defined in
+					<xref target="trans_footer"/> of this
+					document.  The simple description is
+					"append a plain text footer to an
+					unformatted message". </t>
+
 				<t hangText="mime-wrap:"> Defined in
 					<xref target="trans_wrap"/> of this
 					document.  The simple description is
@@ -560,6 +680,12 @@
 					document.  The simple description is
 					"convert a non-MIME message to a MIME
 					message". </t>
+
+				<t hangText="subject:"> Defined in
+					<xref target="trans_subject"/> of this
+					document.  The simple description is
+					"prepend a tag to the Subject
+					field". </t>
 			    </list> </t>
 		</section>
 	</section>
@@ -601,6 +727,8 @@
 
 	<section anchor="changelog" title="Change Log">
 		<t> <list style="hanging">
+			<t hangText="01:"> Ressurection; add "subject" and
+				"footer", and generally more prose. </t>
 			<t hangText="00:"> Initial revision. </t>
 		    </list> </t>
 	</section>
