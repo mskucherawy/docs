@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC1321 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1321.xml">
+  <!ENTITY RFC1818 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1818.xml">
+  <!ENTITY RFC2026 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2026.xml">
+  <!ENTITY RFC2104 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2104.xml">
+]>
+
+<rfc ipr="trust200902" category="bcp" obsoletes="3967, 4897, 8067"
+        docName="draft-kucherawy-bcp97bis-00">
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<?rfc toc="yes" ?>
+<?rfc tocdepth="4" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no"?>
+
+<front>
+	<title abbrev="downref">
+		Clarifying when Standards Track Documents may Refer
+		Normatively to Documents at a Lower Level
+	</title>
+
+	<author initials="M." surname="Kucherawy"
+	        fullname="Murray Kucherawy"
+		role="editor">
+
+		<address>
+			<email>superuser@gmail.com</email>
+		</address>
+	</author>
+
+	<date year="2021"/>
+
+	<area>General</area>
+
+	<keyword>internet-drafts</keyword>
+
+	<abstract>
+		<t> IETF procedures generally require that a standards track
+		    RFC may not have a normative reference to another
+		    standards track document at a lower maturity level or to
+		    a non standards track specification (other than
+		    specifications from other standards bodies).  For example,
+		    a standards track document may not have a normative
+		    reference to an informational RFC.  Exceptions to this
+		    rule are sometimes needed as the IETF uses informational
+		    RFCs to describe non-IETF standards or IETF-specific modes
+		    of use of such standards.  This document clarifies and
+		    updates the procedure used in these circumstances. </t>
+
+		<t> This document merges and updates, and thus obsoletes,
+		    RFC 3967, RFC 4897, and RFC 8067. </t>
+	</abstract>
+</front>
+
+<middle>
+	<section anchor="intro" title="Introduction">
+		<t> The Internet Standards Process <xref target="RFC2026"/>
+		    Section 4.2.4 specifies the following:
+
+			<figure><artwork>
+Standards track specifications normally must not depend on other
+standards track specifications which are at a lower maturity level
+or on non standards track specifications other than referenced
+specifications from other standards bodies.
+			</artwork></figure></t>
+
+		<t> One intent is to avoid creating a perception that a
+		    standard is more mature than it actually is. </t>
+
+		<t> It should also be noted that Best Current Practice
+		    documents <xref target="RFC1818"/> have generally been
+		    considered similar to Standards Track documents in terms
+		    of what they can reference.  For example, a normative
+		    reference to an Experimental RFC has been considered an
+		    improper reference per <xref target="RFC2026"/>. </t>
+
+		<section anchor="normative" title="Normative References">
+			<t> Within an RFC, references to other documents fall
+			    into two general categories: "normative" and
+			    "informative".  Broadly speaking, a normative
+			    reference specifies a document that must be read
+			    to fully understand or implement the subject
+			    matter in the new RFC, or whose contents are
+			    effectively part of the new RFC, as its omission
+			    would leave the new RFC incompletely specified.
+			    An informative reference is not normative; rather,
+			    it provides only additional background
+			    information. </t>
+
+			<t> An exact and precise definition of what is (and is
+			    not) a normative reference has proven challenging
+			    in practice, as the details and implications can
+			    be subtle.  Moreover, whether a reference needs to
+			    be normative can depend on the context in which a
+			    particular RFC is being published in the first
+			    place.  For example, in the context of an IETF
+			    Standard, it is important that all dependent
+			    pieces be clearly specified and available in an
+			    archival form so that there is no disagreement
+			    over what constitutes a standard.  This is not
+			    always the case for other documents. </t>
+
+			<t> The rest of this section provides guidance on what
+			    might (and might not) be considered normative in
+			    the context of the IETF standards process. </t>
+
+			<t> In the IETF, it is a basic assumption that
+			    implementors must have a clear understanding of
+			    what they need to implement in order to be fully
+			    compliant with a standard and to be able to
+			    interoperate with other implementations of that
+			    standard.  For documents that are referenced, any
+			    document that includes key information an
+			    implementer needs would be normative.  For
+			    example, if one needs to understand a packet
+			    format defined in another document in order to
+			    fully implement a specification, the reference to
+			    that format would be normative.  Likewise, if a
+			    reference to a required algorithm is made, the
+			    reference would be normative. </t>
+
+			<t> Some specific examples:
+			    <list style="symbols">
+				<t> If a protocol relies on IPsec to provide
+				    security, one cannot fully implement the
+				    protocol unless the specification for
+				    IPsec is available; hence, the reference
+				    would be normative.  The referenced
+				    specification would likely include details
+				    about specific key management
+				    requirements, which transforms are
+				    required and which are optional, etc. </t>
+
+				<t> In MIB documents, an IMPORTS clause by
+				    definition is a normative reference. </t>
+
+				<t> When a reference to an example is made,
+				    such a reference need not be normative.
+				    For example, text such as "an algorithm
+				    such as the one specified in [RFCxxxx]
+				    would be acceptable" indicates an
+				    informative reference, since that cited
+				    algorithm is just one of several possible
+				    algorithms that could be used. </t>
+			    </list> </t>
+		</section>
+	</section>
+
+	<section anchor="need" title="The Need for Downward References">
+		<t> There are a number of circumstances in which an
+		    IETF document may need to make a normative
+		    reference to a document at a lower maturity level,
+		    but such a reference conflicts with Section 4.2.4
+		    of <xref target="RFC2026"/>.  For example:
+
+		    <list style="symbols">
+			<t> A standards track document may need to
+			    refer to a protocol or algorithm developed
+			    by an external body but modified, adapted,
+			    or profiled by an IETF informational RFC,
+			    for example, MD5 <xref target="RFC1321"/>
+			    and HMAC <xref target="RFC2104"/>.  Note
+			    that this does not override the IETF's
+			    duty to see that the specification is
+			    indeed sufficiently clear to enable
+			    creation of interoperable
+			    implementations. </t>
+
+			<t> A standards document may need to refer
+			    to a proprietary protocol, and the IETF
+			    normally documents proprietary protocols
+			    using informational RFCs. </t>
+
+			<t> A migration or co-existence document may
+			    need to define a standards track mechanism
+			    for migration from, and/or co-existence
+			    with, an historic protocol, a proprietary
+			    protocol, or possibly a non-standards
+			    track protocol. </t>
+
+			<t> There are exceptional procedural or legal
+			    reasons that force the target of the
+			    normative reference to be an informational
+			    or historical RFC or to be at a lower
+			    standards level than the referring
+			    document. </t>
+
+			<t> A BCP document may want to describe best
+			    current practices for experimental or
+			    informational specifications. </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="procedure" title="The Procedure To Be Used">
+		<t> For Standards Track or BCP documents requiring normative
+		    reference to documents of lower maturity, the normal IETF
+		    Last Call procedure will be issued, with the need for the
+		    downward reference explicitly documented in the Last Call
+		    itself.  Any community comments on the appropriateness of
+		    downward references will be considered by the IESG as part
+		    of its deliberations. </t>
+
+		<t> Once a specific down reference to a particular document
+		    has been accepted by the community (e.g., has been
+		    mentioned in several Last Calls), an Area Director may
+		    waive subsequent notices in the Last Call of down
+		    references to it.  This should only occur when the same
+		    document (and version) are being referenced and when the
+		    AD believes that the document's use is an accepted part
+		    of the community's understanding of the relevant technical
+		    area.  For example, the use of MD5 <xref target="RFC1321"/>
+		    and HMAC <xref target="RFC2104"/> is well known among
+		    cryptographers. </t>
+
+		<t> This procedure should not be used if the proper step is to
+		    move the document to which the reference is being made
+		    into the appropriate category.  It is not intended as an
+		    easy way out of normal process.  Rather, the procedure is
+		    intended for dealing with specific cases where putting
+		    particular documents into the required category is
+		    problematic and unlikely ever to happen. </t>
+	</section>
+
+	<section anchor="security" title="Security Considerations">
+		<t> This document is not known to create any new
+		    vulnerabilities for the Internet.  On the other hand,
+		    inappropriate or excessive use of the process might be
+		    considered a downgrade attack on the quality of IETF
+		    standards or, worse, on the rigorous review of security
+		    aspects of standards. </t>
+	</section>
+</middle>
+
+<back>
+	<references title="Normative References">
+		&RFC2026;
+	</references>
+
+	<references title="Informative References">
+		&RFC1321;
+		&RFC1818;
+		&RFC2104;
+	</references>
+
+	<section anchor="changes" title="Changes Since RFC8067">
+		<t> The following are the changes in this document relative
+		    to RFC 8067:
+
+		    <list style="symbols">
+			<t> TBD </t>
+		    </list> </t>
+	</section>
+
+	<section anchor="ack" title="Acknowledgments">
+		<t> This editor offers a salute to the authors of and
+		    contributors to RFC 3967, RFC 4897, and RFC 8067. </t>
+	</section>
+</back>
+
+</rfc>
