@@ -218,9 +218,9 @@
 		    respectively. </t>
 
 		<t> The term "Standards-Track document", as used in this
-		    specification, is assumed to include BCPs but not
-		    Informational, Experimental, or Historic documents of any
-		    variety or origin. </t>
+		    specification, is assumed to include only Standards-Track
+		    documents at any maturity level, plus BCPs, but not
+		    documents with any other status. </t>
 	</section>
 
 	<section anchor="procedure" title="Procedure">
@@ -424,6 +424,9 @@
 		    contributors to RFC 3967, RFC 4897, and RFC 8067: Randy
 		    Bush, Thomas Narten, John Klensin, Sam Hartman, and
 		    Barry Leiba. </t>
+
+		<t> This revision received contributions from Brian
+		    Campbell. </t>
 	</section>
 </back>
 
