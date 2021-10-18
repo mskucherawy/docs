@@ -151,8 +151,9 @@
 				    requirements, which transforms are
 				    required and which are optional, etc. </t>
 
-				<t> In MIB documents, an IMPORTS clause by
-				    definition is a normative reference. </t>
+				<t> In YANG documents, any "import" or
+				    "include" statement by definition is a
+				    normative reference. </t>
 
 				<t> When a reference to an example is made,
 				    such a reference need not be normative.
@@ -459,6 +460,8 @@
 			<t> Stronger language against using this process when
 			    advancing the target document is The Right Thing
 			    To Do. </t>
+
+			<t> Replace MIB guidance with YANG guidance. </t>
 		    </list> </t>
 	</section>
 
@@ -469,6 +472,7 @@
 		    Barry Leiba. </t>
 
 		<t> This revision benefited from contributions by
+		    Mohamed Boucadair,
 		    Scott Bradner,
 		    Brian Campbell,
 		    Russ Housley,
