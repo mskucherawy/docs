@@ -429,13 +429,13 @@
 		&RFC2026;
 		&RFC3967;
 		&RFC4897;
+		&RFC8067;
 	</references>
 
 	<references title="Informative References">
 		&RFC1321;
 		&RFC2104;
 		&RFC4858;
-		&RFC8067;
 	</references>
 
 	<section anchor="changes" title="Changes">
