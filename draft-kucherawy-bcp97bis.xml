@@ -2,16 +2,16 @@
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!ENTITY RFC1321 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1321.xml">
-  <!ENTITY RFC1818 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1818.xml">
   <!ENTITY RFC2026 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2026.xml">
   <!ENTITY RFC2104 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2104.xml">
   <!ENTITY RFC3967 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3967.xml">
+  <!ENTITY RFC4858 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4858.xml">
   <!ENTITY RFC4897 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4897.xml">
   <!ENTITY RFC8067 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8067.xml">
 ]>
 
 <rfc ipr="trust200902" category="bcp" obsoletes="3967, 4897, 8067"
-        docName="draft-kucherawy-bcp97bis-00">
+        docName="draft-kucherawy-bcp97bis-01">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -64,7 +64,7 @@
 <middle>
 	<section anchor="intro" title="Introduction">
 		<t> The Internet Standards Process <xref target="RFC2026"/>
-		    Section 4.2.4 specifies the following:
+		    (BCP 9) Section 4.2.4 specifies the following:
 
 			<figure><artwork>
   Standards track specifications normally must not depend on other
@@ -77,11 +77,12 @@
 		    standard is more mature than it actually is. </t>
 
 		<t> It should also be noted that Best Current Practice
-		    documents <xref target="RFC1818"/> have generally been
-		    considered similar to Standards Track documents in terms
-		    of what they can reference.  For example, a normative
-		    reference to an Experimental RFC has been considered an
-		    improper reference per <xref target="RFC2026"/>. </t>
+		    documents (BCPs; see <xref target="RFC2026"/>) have
+		    generally been considered similar to Standards Track
+		    documents in terms of what they can reference.  For
+		    example, a normative reference from a BCP to an
+		    Experimental RFC has been considered an
+		    improper reference. </t>
 
 		<t> This document describes a process for allowing
 		    normative references to documents at lower maturity
@@ -99,9 +100,9 @@
 			    "informative".  Broadly speaking, a normative
 			    reference specifies a document that must be read
 			    to fully understand or implement the subject
-			    matter in the new RFC, or whose contents are
-			    effectively part of the new RFC, as its omission
-			    would leave the new RFC incompletely specified.
+			    matter in the RFC, or whose contents are
+			    effectively part of the RFC, as its omission
+			    would leave the RFC incompletely specified.
 			    An informative reference is not normative; rather,
 			    it provides only additional background
 			    information. </t>
@@ -124,7 +125,7 @@
 			    the context of the IETF standards process. </t>
 
 			<t> In the IETF, it is a basic assumption that
-			    implementors must have a clear understanding of
+			    implementers must have a clear understanding of
 			    what they need to implement in order to be fully
 			    compliant with a standard and to be able to
 			    interoperate with other implementations of that
@@ -262,7 +263,14 @@
 			    raised at any time during the document life cycle,
 			    just as with any other text in the document.
 			    There is no separate review of these
-			    references. </t>
+			    references.  For example, when the downref
+			    is to a document of a lower maturity level that
+			    is understood to be stable, the annotation can
+			    be omitted.  Such decisions should be noted in
+			    the document shepherd writeup
+			    <xref target="RFC4858"/> so the IESG is aware
+			    at the time of its review why the annotation
+			    is absent. </t>
 
 			<t> At the option of the author/editor, similar notes
 			    may be attached to non-normative references. </t>
@@ -320,7 +328,7 @@
 			    consideration of Last Call input, concludes it is
 			    inappropriate. </t>
 
-			<t> This procedure should not be used if the proper
+			<t> This procedure is not to be used if the proper
 			    step is to move the document to which the
 			    reference is being made into the appropriate
 			    category.  It is not intended as an easy way out
@@ -341,9 +349,9 @@
 		    relevant source document at IETF Last Call and subject to
 		    comments from the community. </t>
 
-		<t> Advancing documents, when appropriate, is still considered
-		    preferable to the use of either this procedure or the one
-		    specified in <xref target="RFC3967"/>.  This specification
+		<t> Advancing documents, when appropriate, is still strongly
+		    preferred to the use of either this procedure or the one
+		    specified in <xref target="iesg"/>.  This specification
 		    does not impose a specific test or requirement to
 		    determine appropriateness.  This is partially because it
 		    would be impossible to do so for the general case, but
@@ -352,11 +360,11 @@
 		    source document published against the time and difficulty
 		    associated with upgrading a target document.  That
 		    requirement is intended to be less stringent than the one
-		    of <xref target="RFC3967"/>. </t>
+		    of <xref target="iesg"/>. </t>
 	</section>
 
 	<section anchor="external_targets" title="Non-IETF Target Documents">
-		<t> A references to a non-IETF document provides a few
+		<t> A reference to a non-IETF document provides a few
 		    challenges relative to the RFC series:
 		    <list style="symbols">
 			<t> its development may not have been as rigorous as
@@ -366,7 +374,7 @@
 			    have dubious stability; </t>
 
 			<t> it may be subject to unexpected revision in
-			    situ; </t>
+			    situ; or </t>
 
 			<t> it may not be freely available. </t>
 		    </list> </t>
@@ -383,7 +391,27 @@
 		    document's life cycle, which includes working group
 		    participants, any member of the community that chooses to
 		    participate in Last Call discussions, area review teams, 
-		    IANA expert reviewers, and members of the IESG. </t>
+		    IANA expert reviewers, and members of the IESG.  The
+		    mechanism for acquiring access to those documents is to be
+		    be specified in the shepherd writeup. </t>
+	</section>
+
+	<section anchor="registry" title="Downref Registry">
+		<t> The IETF has previously established a registry of downrefs
+		    to RFCs that have been previously waived by the IESG in the
+		    manner described in <xref target="iesg"/>.  The registry
+		    includes the name of the referenced RFC and the
+		    Internet-Draft whose publication resulted it its addition
+		    to the registry.  The IESG is responsible for the
+		    maintenance of this registry, adding new entries to it
+		    as appropriate. </t>
+
+		<t> Going forward, new registry entries should also record
+		    the reason the registry addition was made, and the name
+		    of the Area Director making the new entry. </t>
+
+		<t> Note that there is currently no registry of downrefs to
+		    non-IETF documents. </t>
 	</section>
 
 	<section anchor="security" title="Security Considerations">
@@ -405,17 +433,32 @@
 
 	<references title="Informative References">
 		&RFC1321;
-		&RFC1818;
 		&RFC2104;
+		&RFC4858;
 		&RFC8067;
 	</references>
 
-	<section anchor="changes" title="Changes Since RFC8067">
+	<section anchor="changes" title="Changes">
 		<t> The following are the changes in this document relative
-		    to the prior state of BCP 97:
+		    to the current state of BCP 97:
 
 		    <list style="symbols">
-			<t> o Apply erratum #2793. </t>
+			<t> Apply erratum #2793. </t>
+
+			<t> Remove references to RFC 1818, which is
+			    historic. </t>
+
+			<t> Describe the downref registry's format and
+			    ownership. </t>
+
+			<t> Discuss restricted-access documents. </t>
+
+			<t> Allow for skipping downref annotations when the
+			    target document is understood to be stable. </t>
+
+			<t> Stronger language against using this process when
+			    advancing the target document is The Right Thing
+			    To Do. </t>
 		    </list> </t>
 	</section>
 
@@ -425,8 +468,14 @@
 		    Bush, Thomas Narten, John Klensin, Sam Hartman, and
 		    Barry Leiba. </t>
 
-		<t> This revision received contributions from Brian
-		    Campbell. </t>
+		<t> This revision benefited from contributions by
+		    Scott Bradner,
+		    Brian Campbell,
+		    Russ Housley,
+		    John Klensin,
+		    Michael Richardson,
+		    and
+		    Rich Salz. </t>
 	</section>
 </back>
 
